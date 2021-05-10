@@ -221,7 +221,7 @@ class Cards extends React.Component {
                     borderRadius: 40
                   }}
                   onPress={() => {
-                    if(this.props.navigation.state?.params?.messenger_group_id.status === 'ADMIN') {
+                    if(this.props.navigation.state?.params?.messenger_group_id?.status === 'ADMIN') {
                       this.addToReservation()
                     } else {
                       Alert.alert(
