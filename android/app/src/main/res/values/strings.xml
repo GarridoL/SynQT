@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SynQT</string>
+    <string name="fb_app_id">ID</string>
+    <string name="fb_app_name">APP_NAME</string>
 </resources>
