@@ -1,112 +1,92 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
-import type {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {View} from 'react-native';
+import {Provider, connect} from 'react-redux';
+import {createStore} from 'redux';
+import rootReducer from '@redux';
+import AppNavigation from 'navigation';
+import {createAppContainer} from 'react-navigation';
+import AsyncStorage from '@react-native-community/async-storage';
+import {Helper} from 'common';
+import {Tutorial} from 'components';
+// import Footer from 'src/modules/generic/Footer'
+const AppContainer = createAppContainer(AppNavigation);
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+// function ReduxNavigation(props) {
+//   return <AppContainer />;
+// }
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
+function ReduxNavigation(props) {
+  const { layer } = props.state;
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: '#ffffff',
+        }}>
+        <AppContainer />
+      </View>
+    )
+}
 
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
+const mapStateToProps = (state) => ({state: state});
+let AppReduxNavigation = connect(mapStateToProps)(ReduxNavigation);
+const store = createStore(rootReducer);
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      tutorial: false,
+    };
+  }
+
+  componentDidMount() {
+    this.checkTutorial();
+  }
+
+  checkTutorial = async () => {
+    try {
+      const flag = await AsyncStorage.getItem(Helper.APP_NAME + 'tutorial');
+      console.log('flag', flag);
+      if (flag != null) {
+        this.setState({tutorial: true});
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
+  storeData = async (key, value) => {
+    try {
+      await AsyncStorage.setItem(`${Helper.APP_NAME}${key}`, value);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  onFinish = () => {
+    this.storeData('tutorial', 'done');
+    this.setState({tutorial: true});
+  };
+
+  onSkip = () => {
+    console.log('onSkip');
+  };
+
+  render() {
+    const {tutorial} = this.state;
+    console.ignoredYellowBox = ['Warning: Each'];
+    return (
+      <Provider store={store}>
         <View
           style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
+            flex: 1,
+            backgroundColor: '#ffffff',
           }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+          <AppReduxNavigation />
         </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-};
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
-
-export default App;
+      </Provider>
+    );
+  }
+}
