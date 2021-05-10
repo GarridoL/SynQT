@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "961931208022",
+    "project_id": "synqt-8e87c",
+    "storage_bucket": "synqt-8e87c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:961931208022:android:5c7242e3136f95bd7c22f7",
+        "android_client_info": {
+          "package_name": "com.synqt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "961931208022-i05qbn3spsc9jtm3tf0p8h3pf9o5talu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDy6KFPbyIJpQ9q7eXFsk1fcpUnAZ4LjfE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "961931208022-i05qbn3spsc9jtm3tf0p8h3pf9o5talu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "961931208022-pm78s6d0gm4viev7og6c72m0juptd3fc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.synqt"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
