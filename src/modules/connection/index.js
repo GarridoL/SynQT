@@ -237,7 +237,6 @@ class Connections extends Component {
                       </View>
                     </View>
                     {this.state.connections.length == 0 && (<Empty refresh={true} onRefresh={() => this.refresh()} />)}
-                  )
               </View>
             )
           }
