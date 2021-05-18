@@ -5,11 +5,11 @@ import { faComment, faShareSquare } from '@fortawesome/free-regular-svg-icons';
 
 export default {
   company: 'Increment Technologies',
-  APP_NAME: '@SIML_',
+  APP_NAME: '@SYNQT_',
   APP_NAME_BASIC: 'SYNQT',
   APP_EMAIL: 'support@wearesynqt.com',
   APP_WEBSITE: 'support@wearesynqt.com',
-  APP_HOST: 'com.siml',
+  APP_HOST: 'com.synqt',
   pusher: {
     broadcast_type: 'pusher',
     channel: 'runway',

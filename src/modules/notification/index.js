@@ -117,7 +117,7 @@ class Notifications extends Component {
               paddingTop: 10,
               paddingBottom: 20
             }}>
-              You have invites from your connection!  Swipe right the photo to  proceed to SIML or left to ignore invites.
+              You have invites from your connection!  Swipe right the photo to  proceed to SYNQT or left to ignore invites.
             </Text>
             {
               this.state.data.length > 0 && this.state.data.map((item, index) => (
