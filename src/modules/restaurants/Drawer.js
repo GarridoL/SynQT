@@ -14,7 +14,9 @@ class HeaderOptions extends Component {
     super(props);
   }
   back = () => {
+    const { setSelected } = this.props
     this.props.navigationProps.pop()
+    setSelected([])
   };
   render() {
     const { theme } = this.props.state;
@@ -37,7 +39,9 @@ const mapStateToProps = (state) => ({state: state});
 
 const mapDispatchToProps = (dispatch) => {
   const {actions} = require('@redux');
-  return {};
+  return {
+    setSelected: (selects) => dispatch(actions.setSelected(selects)),
+  };
 };
 let HeaderOptionsConnect  = connect(mapStateToProps, mapDispatchToProps)(HeaderOptions);
 

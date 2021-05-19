@@ -66,6 +66,17 @@ class Profile extends Component {
 
   updateAccount = () => {
     const { user } = this.props.state;
+    if(this.state.password && this.state.password.length < 6) {
+      Alert.alert(
+        "Opps",
+        "Passwords should be atleast 6 characters.",
+        [
+          { text: "OK" }
+        ],
+        { cancelable: false }
+      );
+      return
+    }
     if((this.state.password !== null || this.state.confirmPassword !== null
       || this.state.password !== '' || this.state.confirmPassword !== '') && this.state.password !== this.state.confirmPassword) {
       Alert.alert(
@@ -77,7 +88,8 @@ class Profile extends Component {
         { cancelable: false }
       );
       return
-    } else if(this.state.password === null || this.state.confirmPassword === null
+    }
+    if(this.state.password === null || this.state.confirmPassword === null
       || this.state.password === '' || this.state.confirmPassword === '') {
         return
     }
@@ -277,6 +289,7 @@ class Profile extends Component {
                 onChangeText={text => this.firstNameHandler(text)}
                 value={this.state.firstName}
                 placeholder='   Enter First Name'
+                placeholderTextColor={'#d1d1d1'}
               />
               <Text style={Style.TextStyle}>Last Name</Text>
               <TextInput
@@ -284,6 +297,7 @@ class Profile extends Component {
                 onChangeText={text => this.lastNameHandler(text)}
                 value={this.state.lastName}
                 placeholder='   Enter Last Name'
+                placeholderTextColor={'#d1d1d1'}
               />
               <Text style={Style.TextStyle}>Password</Text>
               <TextInput
@@ -292,6 +306,7 @@ class Profile extends Component {
                 value={this.state.password}
                 secureTextEntry={true}
                 placeholder='   ********'
+                placeholderTextColor={'#d1d1d1'}
               />
               <Text style={Style.TextStyle}>Confirm Password</Text>
               <TextInput
@@ -300,6 +315,7 @@ class Profile extends Component {
                 value={this.state.confirmPassword}
                 secureTextEntry={true}
                 placeholder='   ********'
+                placeholderTextColor={'#d1d1d1'}
               />
             </View>
           </View>

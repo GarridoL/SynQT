@@ -56,7 +56,7 @@ class Header extends Component {
           >
           <FontAwesomeIcon
             icon={faShare}
-            size={35}
+            size={BasicStyles.iconSize}
             style={[
               BasicStyles.iconStyle,
               {

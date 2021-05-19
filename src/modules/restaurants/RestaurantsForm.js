@@ -46,17 +46,17 @@ class Restaurants extends Component {
   }
 
   createSynqt = () => {
-    const { setDefaultAddress, setLocation } = this.props;
-    const { user, location } = this.props.state;
-    if(user == null){
+    const { setDefaultAddress, setLocation, setSelected } = this.props;
+    const { user, location, selects } = this.props.state;
+    if (user == null) {
       return
     }
-    if(location == null){
+    if (location == null) {
       Alert.alert(
         'Oopps',
         'Please select your location.',
         [
-          {text: 'Ok'}
+          { text: 'Ok' }
         ],
         { cancelable: false }
       )
@@ -81,13 +81,11 @@ class Restaurants extends Component {
       val: this.state.val,
       value: this.state.value?.amount != null ? this.state.value?.amount : this.state.value,
       category: this.state.cuisines?.categories?.length >= 1 ? this.state.cuisines.categories : ["Filipino", "Chinese", "Japanese", "Indian", "Italian", "Thai", "Spanish", "French", "Korean", "Turkish"]
-   }
+    }
     this.setState({ isLoading: true })
     Api.request(Routes.locationCreate, param, response => {
-      this.setState({ isLoading: false })
-      if (response.data === null) {
-        return
-      }
+      console.log(response, 'create location');
+      setSelected([])
       let parameter = {
         account_id: user.id,
         location_id: response.data,
@@ -95,11 +93,12 @@ class Restaurants extends Component {
         status: 'pending',
         details: JSON.stringify(detail)
       }
+      console.log(parameter, 'parameter');
       this.setState({ isLoading: true })
       Api.request(Routes.synqtCreate, parameter, res => {
         this.setState({ isLoading: false })
         if (res.data !== null) {
-          
+
           setDefaultAddress(null);
           setLocation(null);
           this.createMessengerGroup(res.data, parameter.date)
@@ -109,68 +108,79 @@ class Restaurants extends Component {
     });
   }
 
-  validate(){
-    if(this.state.Date == null){
+  validate() {
+    if (this.state.Date == null) {
       Alert.alert(
         'Oopps',
         'Please specify the date.',
         [
-          {text: 'Ok'}
+          { text: 'Ok' }
         ],
         { cancelable: false }
       )
       return
     }
-    if(this.state.value == null){
+    if (this.state.value == null) {
       Alert.alert(
         'Oopps',
         'Please range the price.',
         [
-          {text: 'Ok'}
+          { text: 'Ok' }
         ],
         { cancelable: false }
       )
       return
     }
-    if(this.state.value <= 0){
+    if (this.state.value <= 0) {
       Alert.alert(
         'Oopps',
         'Price must be greater than 0',
         [
-          {text: 'Ok'}
+          { text: 'Ok' }
         ],
         { cancelable: false }
       )
       return
     }
-    if(this.state.range <= 0){
+    if (this.state.range <= 0) {
       Alert.alert(
         'Oopps',
         'Range must be greater than 0',
         [
-          {text: 'Ok'}
+          { text: 'Ok' }
         ],
         { cancelable: false }
       )
       return
     }
-    if( this.state.Date == null || this.state.size == null || this.state.value == null || this.state.val == null){
+    if (this.state.size <= 0) {
+      Alert.alert(
+        'Oopps',
+        'Size must be greater than 0',
+        [
+          { text: 'Ok' }
+        ],
+        { cancelable: false }
+      )
+      return
+    }
+    if (this.state.Date == null || this.state.size == null || this.state.value == null || this.state.val == null) {
       Alert.alert(
         'Oopps',
         'Please fill up all of the fields',
         [
-          {text: 'Ok'}
+          { text: 'Ok' }
         ],
         { cancelable: false }
       )
       return
     }
-    if(this.props.state.tempMembers.length === 0) {
+    if (this.props.state.tempMembers.length === 0) {
       Alert.alert(
         'Oopps',
         'Please invite atleast 1 person to your SYNQT. Thank you.',
         [
-          {text: 'Ok'}
+          { text: 'Ok' }
         ],
         { cancelable: false }
       )
@@ -182,9 +192,9 @@ class Restaurants extends Component {
     const { tempMembers } = this.props.state;
     let members = [];
     tempMembers.length > 0 && tempMembers.map((item, index) => {
-      members.push({account_id: item.account?.id})
+      members.push({ account_id: item.account?.id })
     })
-    members.push({account_id: this.props.state?.user?.id});
+    members.push({ account_id: this.props.state?.user?.id });
     let parameter = {
       account_id: this.props.state.user.id,
       title: date,
@@ -213,7 +223,7 @@ class Restaurants extends Component {
       this.setState({ isLoading: true });
       Api.request(Routes.notificationCreate, parameter, response => {
         this.setState({ isLoading: false })
-        if(response.data !== null) {
+        if (response.data !== null) {
           this.props.navigation.navigate('menuStack', { synqt_id: id })
         }
       });
@@ -287,25 +297,26 @@ class Restaurants extends Component {
                 title={'Party Size'} />
             </View>
             <View style={{ marginBottom: '23%' }}>
-              <Range 
-              onFinish={(amount) => {
+              <Range
+                onFinish={(amount) => {
                   this.setState({
                     value: amount
                   })
                 }} title={'Price Range'} />
             </View>
             <View>
-              <InputSelect 
+              <InputSelect
                 onFinish={(categories) => {
                   this.setState({
                     cuisines: categories
                   })
                 }}
                 titles={'cuisines'}
-                placeholder={(this.state.cuisines?.categories == null|| this.state.cuisines?.categories?.length == 10 || this.state.cuisines?.categories?.length < 1 ) ? ' ' : this.state.cuisines.categories.join(',') }
+                placeholder={(this.state.cuisines?.categories == null || this.state.cuisines?.categories?.length == 10 || this.state.cuisines?.categories?.length < 1) ? ' ' : this.state.cuisines?.categories?.join(',')}
                 title={'Cuisines'} />
             </View>
             <Text style={{ color: 'black', marginBottom: 15, marginLeft: 20 }}>Radius</Text>
+            <Text style={{ color: 'black', marginTop: -35, marginBottom: 5, marginLeft: '90%' }}>{this.state.val}</Text>
             <SliderPicker
               callback={position => {
                 this.setState({ val: position })
@@ -375,6 +386,7 @@ const mapDispatchToProps = dispatch => {
     setDefaultAddress: (defaultAddress) => dispatch(actions.setDefaultAddress(defaultAddress)),
     setTempMembers: (tempMembers) => dispatch(actions.setTempMembers(tempMembers)),
     setLocation: (location) => dispatch(actions.setLocation(location)),
+    setSelected: (selects) => dispatch(actions.setSelected(selects)),
   };
 };
 

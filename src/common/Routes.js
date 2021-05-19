@@ -103,7 +103,7 @@ export default {
   commentsRetrieve: apiUrl + 'comments/retrieve',
   commentsCreate: apiUrl + 'comments/create',
   commentRepliesCreate: apiUrl + 'comment_replies/create',
-  merchantsRetrieve: apiUrl + 'merchants/retrieve',
+  merchantsRetrieve: apiUrl + 'merchants/retrieve_merchants',
   productsRetrieve: apiUrl + 'products/retrieve',
   topChoiceRetrieve: apiUrl + 'top_choices/retrieve',
   topChoiceCreate: apiUrl + 'top_choices/create',

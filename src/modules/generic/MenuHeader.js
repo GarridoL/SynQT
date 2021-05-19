@@ -54,7 +54,7 @@ class Header extends Component {
                 >
                 <FontAwesomeIcon
                   icon={faUsers}
-                  size={35}
+                  size={BasicStyles.iconSize}
                   style={[
                     BasicStyles.iconStyle,
                     {
@@ -78,7 +78,7 @@ class Header extends Component {
                >
                <FontAwesomeIcon
                  icon={faReply}
-                 size={35}
+                 size={BasicStyles.iconSize}
                  style={[
                    BasicStyles.iconStyle,
                    {
@@ -107,7 +107,7 @@ class Header extends Component {
                 >
                 <FontAwesomeIcon
                   icon={faUsers}
-                  size={35}
+                  size={BasicStyles.iconSize}
                   style={[
                     BasicStyles.iconStyle,
                     {
@@ -133,7 +133,7 @@ class Header extends Component {
               >
               <FontAwesomeIcon
                 icon={faComments}
-                size={35}
+                size={BasicStyles.iconSize}
                 style={[
                   BasicStyles.iconStyle,
                   {

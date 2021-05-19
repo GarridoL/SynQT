@@ -33,7 +33,7 @@ import { ColorPropType } from "react-native";
    componentDidMount = () => {
      const selected = this.props.selected
      if(typeof selected === "object"){
-       selected.map(select => {
+       selected?.map(select => {
          this._onSelect(select)
        })
      } else {

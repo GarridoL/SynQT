@@ -27,7 +27,7 @@ class Connections extends Component {
       search: null,
       isShow: false,
       data: [],
-      limit: 6,
+      limit: 7,
       offset: 0,
       isLoading: false,
       pending: [],
@@ -50,7 +50,7 @@ class Connections extends Component {
   }
 
   loading = (loading) => {
-    this.setState({isLoading: loading})
+    this.setState({ isLoading: loading })
   }
 
   retrieveConnections(flag) {
@@ -105,23 +105,14 @@ class Connections extends Component {
         column: "status",
         value: 'pending'
       }],
-      offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
+      offset: 0,
       limit: this.state.limit
     }
     this.setState({ isLoading: true })
     Api.request(Routes.circleRetrieve, parameter, response => {
-      console.log(response.data[2], 'response');
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
-        this.setState({
-          pending: flag == false ? response.data : _.uniqBy([...this.state.connections, ...response.data], 'id'),
-          offset: flag == false ? 1 : (this.state.offset + 1)
-        })
-      } else {
-        this.setState({
-          pending: flag == false ? [] : this.state.connections,
-          offset: flag == false ? 0 : this.state.offset
-        })
+        this.setState({pending: response.data})
       }
     });
   }
@@ -157,7 +148,7 @@ class Connections extends Component {
       navs[idx].flag = true
       await this.setState({ prevActive: idx })
     }
-    if(idx === 0) {
+    if (idx === 0) {
       this.refresh();
     }
     // this.setState({connections: []})
@@ -210,33 +201,38 @@ class Connections extends Component {
           {
             this.state.currActive == 0 ? (
               <View>
-                <CardList loading={() => {this.loading}} level={2} retrieve={() => { this.refresh() }} status={'pending'} navigation={this.props.navigation} data={this.state.pending.length > 0 && this.state.pending} hasAction={true} actionType={'text'}></CardList>
+                <CardList loading={this.loading} level={2} retrieve={() => { this.refresh() }} status={'pending'} navigation={this.props.navigation} data={this.state.pending.length > 0 && this.state.pending} hasAction={true} actionType={'text'}></CardList>
+                {this.state.pending.length === this.state.limit &&
+                  <TouchableOpacity onPress={() => {this.retrieveSuggestions(true)}}>
+                    <Text style={{ color: 'gray', paddingTop: 5, paddingLeft: 15 }}>See All</Text>
+                  </TouchableOpacity>
+                }
                 <View style={{ paddingLeft: 30, borderBottomWidth: this.state.pending.length > 0 ? 0.3 : 0, padding: this.state.pending.length === 0 ? 10 : 20, borderColor: Color.gray }}>
                   <Text style={{ fontWeight: 'bold' }}>Connections you may know</Text>
                 </View>
 
                 <View>
-                  <CardList loading={() => {this.loading}} level={2} invite={false} retrieve={() => { this.refresh() }} navigation={this.props.navigation} data={this.state.suggestions.length > 0 && this.state.suggestions} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
+                  <CardList loading={this.loading} level={2} invite={false} retrieve={() => { this.refresh() }} navigation={this.props.navigation} data={this.state.suggestions.length > 0 && this.state.suggestions} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
                   {this.state.suggestions.length == 0 && (<Empty refresh={true} onRefresh={() => this.refresh()} />)}
                 </View>
 
               </View>
             ) : (
+              <View>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: '5%' }}>
+                  <View style={Style.TextContainer}>
+                    <TextInput
+                      style={[BasicStyles.formControl, { backgroundColor: '#e8e8e8' }]}
+                      onChangeText={(search) => this.setState({ search: search })}
+                      value={this.state.search}
+                      placeholder={'Search'}
+                    />
+                  </View>
                   <View>
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: '5%' }}>
-                      <View style={Style.TextContainer}>
-                        <TextInput
-                          style={[BasicStyles.formControl, { backgroundColor: '#e8e8e8' }]}
-                          onChangeText={(search) => this.setState({ search: search })}
-                          value={this.state.search}
-                          placeholder={'Search'}
-                        />
-                      </View>
-                      <View>
-                        <CardList loading={() => {this.loading}} level={1} search={this.state.search} retrieve={() => { this.refresh() }} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
-                      </View>
-                    </View>
-                    {this.state.connections.length == 0 && (<Empty refresh={true} onRefresh={() => this.refresh()} />)}
+                    <CardList loading={this.loading} level={1} search={this.state.search} retrieve={() => { this.refresh() }} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
+                  </View>
+                </View>
+                {this.state.connections.length == 0 && (<Empty refresh={true} onRefresh={() => this.refresh()} />)}
               </View>
             )
           }

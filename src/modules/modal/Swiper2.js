@@ -24,6 +24,7 @@ import Api from 'services/api/index.js';
 import { Spinner } from 'components';
 import styles from './Swiper2Style';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 const height = Math.round(Dimensions.get('window').height);
 const width = Math.round(Dimensions.get('window').width);
@@ -53,7 +54,9 @@ class Cards extends React.Component {
 
   retrieve = () => {
     this.setState({ isLoading: true })
-    Api.request(Routes.merchantsRetrieve, {}, response => {
+    Api.request(Routes.merchantsRetrieve, {sort: {
+      name: 'ascl                                                                                                     '
+    }}, response => {
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
         this.setState({ data: response.data });
@@ -77,16 +80,17 @@ class Cards extends React.Component {
       account_id: menu.account_id,
       sort: { title: 'asc' },
       limit: this.state.limit,
-      offset: this.state.offset,
+      offset: this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
       inventory_type: 'all'
     }
     this.setState({ isLoading: true })
     Api.request(Routes.productsRetrieve, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
-        this.setState({ products: response.data });
-      } else {
-        this.setState({ products: [] })
+        this.setState({
+          offset: this.state.offset + 1,
+          products:  _.uniqBy([...this.state.products, ...response.data], 'id')
+        })
       }
     },
       error => {
@@ -135,10 +139,12 @@ class Cards extends React.Component {
   }
 
   renderCard = () => {
+    console.log(this.state.data[this.state.index]?.rating, 'ratings');
     return (
       <View style={{ flex: 1, marginTop: '91%' }}>
         <CardStack
           style={styles.content}
+          loop={true}
           renderNoMoreCards={() => <View><Text>{this.state.isLoading ? <Spinner mode="overlay" /> : 'No more cards.'}</Text></View>}
           ref={swiper => {
             this.swiper = swiper
@@ -149,14 +155,12 @@ class Cards extends React.Component {
           disableTopSwipe={true}
         >
           {
-            this.state.data && this.state.data.map((el, idx) => {
+            this.state.data.length > 0 && this.state.data.map((el, idx) => {
               return (
                 <Card style={[styles.card]}>
-                  <ImageBackground style={{ resizeMode: 'contain', flex: 1, flexDirection: 'row', height: height - 150, width: null, marginTop: this.props.bottomFloatButton === true ? 50 : height * 0.25 }}
+                  <ImageBackground style={{ resizeMode: 'cover', flex: 1, flexDirection: 'row', height: height - 140, width: null, marginTop: this.props.bottomFloatButton === true ? 50 : height * 0.25 }}
                     imageStyle={{
                       flex: 1,
-                      height: null,
-                      width: null,
                       resizeMode: 'cover',
                       borderRadius: BasicStyles.standardBorderRadius,
                       backgroundColor: 'white'
@@ -168,7 +172,7 @@ class Cards extends React.Component {
                       ...BasicStyles.standardWidth
                     }}>
                       <Text style={{
-                        color: el.logo ? Color.white : 'black',
+                        color: Color.white,
                         fontSize: BasicStyles.standardTitleFontSize,
                         textShadowColor: 'black',
                         textShadowOffset: { width: 1, height: 1 },
@@ -176,38 +180,39 @@ class Cards extends React.Component {
                         fontWeight: 'bold',
                       }}>{el.name || 'No data'}</Text>
                       <Text style={{
-                        color: el.logo ? Color.white : 'black',
+                        color: Color.white,
                         textShadowColor: 'black',
                         textShadowOffset: { width: 1, height: 1 },
                         textShadowRadius: 1,
                         fontWeight: 'bold',
+                        width: '70%'
                       }}>{el.address || 'No address'}</Text>
                     </View>
                     <View style={{ position: 'absolute', bottom: 15, right: 20, flexDirection: 'row' }}>
                       <FontAwesomeIcon
                         icon={faStar}
                         size={30}
-                        color={'#FFCC00'}
+                        color={this.state.data[this.state.index]?.rating?.stars >= 1 ? '#FFCC00' : '#ededed'}
                       />
                       <FontAwesomeIcon
                         icon={faStar}
                         size={30}
-                        color={'#FFCC00'}
+                        color={this.state.data[this.state.index]?.rating?.stars >= 2 ? '#FFCC00' : '#ededed'}
                       />
                       <FontAwesomeIcon
                         icon={faStar}
                         size={30}
-                        color={'#FFCC00'}
+                        color={this.state.data[this.state.index]?.rating?.stars >= 3 ? '#FFCC00' : '#ededed'}
                       />
                       <FontAwesomeIcon
                         icon={faStar}
                         size={30}
-                        color={'white'}
+                        color={this.state.data[this.state.index]?.rating?.stars >= 4 ? '#FFCC00' : '#ededed'}
                       />
                       <FontAwesomeIcon
                         icon={faStar}
                         size={30}
-                        color={'white'}
+                        color={this.state.data[this.state.index]?.rating?.stars >= 5 ? '#FFCC00' : '#ededed'}
                       />
                     </View>
                     {this.props.topFloatButton === true && (<View style={{
@@ -295,7 +300,7 @@ class Cards extends React.Component {
               <Information
                 name={this.state.data[this.state.index]?.name || 'No data'}
                 hours={this.state.data[this.state.index]?.schedule || 'No schedule yet.'}
-                description={' is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s. It is simply dummy text of the printing and typesetting industry.'}
+                description={this.state.data[this.state.index]?.addition_information || 'No business information.'}
               />}
           </View>
           {this.state.isLoading ? <Spinner mode="overlay" /> : null}

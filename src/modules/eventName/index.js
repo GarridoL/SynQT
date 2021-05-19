@@ -160,21 +160,27 @@ class EventName extends Component {
             {this.state.isLoading ? <Spinner mode="overlay" /> : null}
             <FontAwesomeIcon icon={faUser} size={20} color={Color.gray} style={{ marginRight: 10 }} />
             <Text style={{ color: Color.gray }}>{this.state.members.length} people</Text>
-            <View style={style.Date}>
-              <Text style={{ color: Color.primary, fontSize: 10 }}>{data.synqt[0].date}</Text>
-            </View>
-            <View style={style.Distance}>
-              <Text numberOfLines={1} style={{ fontSize: 10, color: 'white' }}>0.64 km</Text>
-            </View>
-            <View style={style.Rate}>
-              <FontAwesomeIcon icon={faStar} color={Color.warning} style={{ marginRight: 2 }} size={8} />
-              <Text numberOfLines={1} style={{ fontSize: 10, color: Color.primary }}>43</Text>
-            </View>
-            <View style={style.StarContainer}>
-              <TouchableOpacity style={style.Star}>
-                <FontAwesomeIcon icon={faStar} color={Color.white} size={8} />
-              </TouchableOpacity>
-              <Text numberOfLines={1} style={{ color: Color.warning }}>1</Text>
+            <View style={{
+              flexDirection: 'row',
+              position: 'absolute',
+              right: 10
+            }}>
+              <View style={style.Date}>
+                <Text style={{ color: Color.primary, fontSize: 10 }}>{data.synqt[0].date}</Text>
+              </View>
+              <View style={style.Distance}>
+                <Text numberOfLines={1} style={{ fontSize: 10, color: 'white' }}>0.64 km</Text>
+              </View>
+              <View style={style.Rate}>
+                <FontAwesomeIcon icon={faStar} color={Color.warning} style={{ marginRight: 2 }} size={8} />
+                <Text numberOfLines={1} style={{ fontSize: 10, color: Color.primary }}>43</Text>
+              </View>
+              <View style={style.StarContainer}>
+                <TouchableOpacity style={style.Star}>
+                  <FontAwesomeIcon icon={faStar} color={Color.white} size={8} />
+                </TouchableOpacity>
+                <Text numberOfLines={1} style={{ color: Color.warning }}>1</Text>
+              </View>
             </View>
           </View>
           <View style={{
@@ -185,7 +191,7 @@ class EventName extends Component {
           }}>
             <Group navigation={this.props.navigation} size={45} data={this.state.members.length > 0 ? this.state.members : []} />
           </View>
-          <CustomizedButton style={{marginLeft:-20, marginBottom: 10}} onClick={this.onClick} title={this.props.navigation.state && this.props.navigation.state.params && this.props.navigation.state.params.buttonTitle && this.props.navigation.state.params.buttonTitle}></CustomizedButton>
+          <CustomizedButton style={{ marginLeft: -20, marginBottom: 10 }} onClick={this.onClick} title={this.props.navigation.state && this.props.navigation.state.params && this.props.navigation.state.params.buttonTitle && this.props.navigation.state.params.buttonTitle}></CustomizedButton>
         </View>
       </ScrollView>
     );
