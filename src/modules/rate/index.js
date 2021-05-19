@@ -229,7 +229,6 @@ class Rate extends Component {
               return (
                 <TouchableOpacity onPress={() => {
                   let temp = this.state.star;
-                  console.log(index, 'yo');
                   for (let i = 0; i <= 4; i++) {
                     temp[i].clicked = i <= index;
                   }
@@ -265,7 +264,7 @@ class Rate extends Component {
   }
 
   render() {
-    const { data } = this.props.navigation.state.params;
+    const { data, status } = this.props.navigation.state.params;
     return (
       <View style={{
         justifyContent: 'center',
@@ -273,8 +272,8 @@ class Rate extends Component {
       }}>
         {this.state.isLoading ? <Spinner mode="overlay" /> : null}
         <ScrollView style={{ height: height - 50 }}>
-          {this.state.data && this.renderRateView()}
-          {this.state.data === null && this.state.isLoading === false && <Text>Book for a reservation first to rate the merchant.</Text>}
+          {this.props.navigation?.state.params?.status === 'completed' && this.renderRateView()}
+          {this.props.navigation?.state.params?.status !== 'completed' && this.state.isLoading === false && <Text>Complete reservation first to rate the merchant.</Text>}
         </ScrollView>
         <View style={{
           justifyContent: 'center',
@@ -282,7 +281,7 @@ class Rate extends Component {
           marginLeft: -50,
           marginBottom: 20
         }}>
-          {this.state.data && <CustomizedButton onClick={() => { this.state.data ? this.update() : this.onClick }} title={this.state.data ? 'Update' : 'Submit'}></CustomizedButton>}
+          {this.props.navigation?.state.params?.status === 'completed' && <CustomizedButton onClick={() => { this.state.id ? this.update() : this.onClick() }} title={this.state.id ? 'Update' : 'Submit'}></CustomizedButton>}
         </View>
       </View>
     );

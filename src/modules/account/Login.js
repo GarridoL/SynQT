@@ -11,7 +11,7 @@ import Api from 'services/api/index.js';
 import CommonRequest from 'services/CommonRequest.js';
 import { Routes, Color, Helper, BasicStyles } from 'common';
 import Header from './Header';
-import config from 'src/config'
+import config from 'src/config';
 import Pusher from 'services/Pusher.js';
 import SystemVersion from 'services/System.js';
 import { Player } from '@react-native-community/audio-toolkit';
@@ -25,6 +25,9 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faComments, faArrowRight, faUser} from '@fortawesome/free-solid-svg-icons';
 import Button from '../generic/Button.js'
 import { Dimensions } from 'react-native';
+import { fcmService } from 'services/broadcasting/FCMService';
+import { localNotificationService } from 'services/broadcasting/LocalNotificationService';
+
 const width = Math.round(Dimensions.get('window').width);
 class Login extends Component {
   //Screen1 Component
@@ -277,6 +280,99 @@ class Login extends Component {
     }
   }
 
+  onRegister = (token) => {
+    console.log("[App] onRegister", token)
+  }
+
+  onOpenNotification = (notify) => {
+  }
+
+  onNotification = (notify) => {
+    const { user } = this.props.state;
+    let data = null
+    if(user == null || !notify.data){
+      return
+    }
+    data = notify.data
+    let topic = data.topic.split('-')
+    switch(topic[0].toLowerCase()){
+      case 'message': {
+          const { messengerGroup } = this.props.state;
+          let members = JSON.parse(data.members)
+          console.log('members', members)
+          if(messengerGroup == null && members.indexOf(user.id) > -1){
+            console.log('[messengerGroup] on empty', data)
+            const { setUnReadMessages } = this.props;
+            setUnReadMessages(data)
+            return
+          }
+          if(parseInt(data.messenger_group_id) === messengerGroup.id && members.indexOf(user.id) > -1){
+            if(parseInt(data.account_id) != user.id){
+              const { updateMessagesOnGroup } = this.props;
+              updateMessagesOnGroup(data); 
+            }
+            return
+          }
+        }
+        break
+      case 'comments': {
+        const { setComments } = this.props;
+        let topicId = topic.length > 1 ? topic[1] : null
+        console.log('[comments]', data)
+        if(topicId && parseInt(topicId) == user.id){
+          setComments(data)
+        }else{
+
+        }
+        
+      }
+      break
+    }
+  }
+
+  firebaseNotification(){
+    const { user } = this.props.state;
+    if(user == null){
+      return
+    }
+    fcmService.registerAppWithFCM()
+    fcmService.register(this.onRegister, this.onNotification, this.onOpenNotification)
+    localNotificationService.configure(this.onOpenNotification, Helper.APP_NAME)
+    fcmService.subscribeTopic('Message-' + user.id)
+    // fcmService.subscribeTopic('Notifications-' + user.id)
+    // fcmService.subscribeTopic('Requests')
+    // fcmService.subscribeTopic('Payments-' + user.id)
+    fcmService.subscribeTopic('Comments-' + user.id)
+    this.retrieveNotification()
+    return () => {
+      console.log("[App] unRegister")
+      fcmService.unRegister()
+      localNotificationService.unRegister()
+    }
+  }
+
+  retrieveNotification = () => {
+    const { setNotifications } = this.props;
+    const { user } = this.props.state;
+    if(user == null){
+      return
+    }
+    let parameter = {
+      condition: [{
+        value: user.id,
+        clause: '=',
+        column: 'to'
+      }],
+      limit: 10,
+      offset: 0
+    }
+    Api.request(Routes.notificationsRetrieve, parameter, notifications => {
+      console.log("[RESTRIEVE]", notifications.data)
+      setNotifications(notifications.size, notifications.data)
+    }, error => {
+    })
+  }
+
   login = () => {
     this.test();
     const { login } = this.props;
@@ -296,6 +392,7 @@ class Login extends Component {
           if(userInfo.data.length > 0){
             login(userInfo.data[0], this.state.token);
             this.retrieveUserData(userInfo.data[0].id)
+            this.firebaseNotification()
           }else{
             this.setState({isLoading: false});
             login(null, null)
@@ -428,7 +525,7 @@ class Login extends Component {
                 onTyping={(username) => this.setState({username})}
                 value={this.state.email}
                 placeholder={'Username'}
-                style={{width: '90%', borderColor: 'white'}}
+                style={{width: '90%', borderColor: 'white', color: 'black'}}
                 icon={faUser}
               />
 
@@ -436,7 +533,7 @@ class Login extends Component {
                 onTyping={(input) => this.setState({
                   password: input
                 })}
-                style={{width: '80%', borderColor: 'white'}}
+                style={{width: '80%', borderColor: 'white', color: 'black'}}
                 placeholder={'Password'}
                 />
 
@@ -534,6 +631,7 @@ const mapDispatchToProps = dispatch => {
     updateMessagesOnGroupByPayload: (messages) => dispatch(actions.updateMessagesOnGroupByPayload(messages)),
     setSearchParameter: (searchParameter) => dispatch(actions.setSearchParameter(searchParameter)),
     setSystemNotification: (systemNotification) => dispatch(actions.setSystemNotification(systemNotification)),
+    setComments: (comments) => dispatch(actions.setComments(comments)),
   };
 };
 

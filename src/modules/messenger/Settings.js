@@ -135,9 +135,9 @@ class Settings extends Component {
       <View style={{
         position: 'absolute',
         zIndex: 1000,
-        bottom: 0,
+        bottom: 10,
         right: 0,
-        height: height * 0.45,
+        height: height * 0.5,
         width: width,
         backgroundColor: Color.white,
         borderTopLeftRadius: BasicStyles.standardBorderRadius,
@@ -146,7 +146,7 @@ class Settings extends Component {
         borderColor: Color.lightGray
       }}
       >
-        <ScrollView>
+        <ScrollView style={{marginBottom: 100}}>
           <View style={{ alignItems: 'center', marginBottom: 50, marginTop: 10 }}>
             <View style={{ borderBottomWidth: 2, marginBottom: 10, borderBottomColor: 'gray', width: 70 }}></View>
             <Text style={{ fontWeight: 'bold' }}>More settings</Text>
@@ -165,7 +165,7 @@ class Settings extends Component {
                 }}
                   onPress={() => {
                     if (item.title === 'Rate Now') {
-                      this.props.navigation.navigate('rateStack', { data: [], synqtId: this.props.synqtId })
+                      this.props.navigation.navigate('rateStack', { data: [], synqtId: this.props.synqtId, status: this.props.status })
                     } else if (item.title === 'Close') {
                       this.props.setShowSettings(!this.props.state.showSettings);
                     }

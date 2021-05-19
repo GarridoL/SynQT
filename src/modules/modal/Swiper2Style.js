@@ -16,15 +16,9 @@ export default {
   card: {
     width: width,
     borderRadius: 5,
-    // marginTop: '20%',
     paddingLeft: 15,
     paddingRight: 15,
-    shadowColor: 'rgba(0,0,0,0.5)',
-    shadowOffset: {
-      width: 0,
-      height: 1
-    },
-    shadowOpacity: 0.5,
+    height: height * 0.9
   },
   label: {
     lineHeight: 400,

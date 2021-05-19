@@ -123,7 +123,8 @@ class History extends Component {
                   date: item.synqt.length > 0 && item.synqt[0]?.date_at_human,
                   superlike: true,
                   users: item.members && item.members.length > 0 ? item.members : [],
-                  details: true
+                  details: true,
+                  ratings: item.rating
                 }}
                 style={{
                   marginBottom: 10
@@ -190,7 +191,7 @@ class History extends Component {
               alignItems: 'center',
             }}>
               <TouchableOpacity
-                onPress={() => this.redirect('restaurantStack')}
+                // onPress={() => this.redirect('restaurantStack')}
                 style={{
                   height: 120,
                   width: 120,

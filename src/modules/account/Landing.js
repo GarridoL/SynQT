@@ -78,12 +78,13 @@ class Landing extends Component{
             }}>
               <Text style={{
                 color: 'white',
-                fontSize: BasicStyles.standardFontSize
+                fontSize: BasicStyles.standardFontSize + 2
               }}>Already have an account?
                 <Text
                   style={{
                     textDecorationLine:'underline',
-                    fontWeight:'bold'
+                    fontWeight:'bold',
+                    fontSize: BasicStyles.standardFontSize + 2
                   }}
                   onPress={()=> this.props.navigation.navigate('loginStack')}>
                     Sign In

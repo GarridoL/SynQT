@@ -18,29 +18,22 @@ class CardList extends Component {
   }
 
   sendRequest = (el) => {
-    Alert.alert(
-      'Confirmation',
-      'Are you sure you want to add this person?',
-      [
-        {text: 'Cancel'},
-        {text: 'Add', onPress: () => {
-          let parameter = {
-            account_id: this.props.state.user.id,
-            to_email: el.email,
-            content: "This is an invitation for you to join my connections."
-          }
-          this.props.loading(true);
-          Api.request(Routes.circleCreate, parameter, response => {
-            console.log(response, 'response');
-            this.props.loading(false);
-            if(response.data !== null) {
-              el.is_added = true
-            }
-          });
-        }, style: 'cancel'}
-      ],
-      { cancelable: false }
-    )
+    let parameter = {
+      account_id: this.props.state.user.id,
+      to_email: el.email,
+      content: "This is an invitation for you to join my connections."
+    }
+    this.props.loading(true)
+    Api.request(Routes.circleCreate, parameter, response => {
+      this.props.loading(false);
+      if (response.data !== null) {
+        this.props.retrieve();
+      }
+    }, error => {
+      console.log('error', error)
+      this.props.loading(false);
+      this.props.retrieve();
+    });
   }
 
   storePeople = (item) => {
@@ -59,11 +52,14 @@ class CardList extends Component {
     this.props.loading(true);
     Api.request(Routes.messengerMembersCreate, parameter, response => {
       this.props.loading(false);
-      if(response.data !== null) {
+      if (response.data !== null) {
         this.props.navigation.navigate('messagesStack', {
           data: this.props.navigation?.state?.params?.data
         });
       }
+    }, error => {
+      console.log('error', error)
+      this.props.loading(false);
     });
   }
 
@@ -76,17 +72,33 @@ class CardList extends Component {
     Api.request(Routes.circleUpdate, parameter, response => {
       this.props.loading(false);
       this.props.retrieve();
+    }, error => {
+      console.log('error', error)
+      this.props.loading(false);
+      this.props.retrieve();
     });
   }
 
-  deleteConnection = (id) => {
+  deleteConnection = (el) => {
     let parameter = {
-      id: id
+      id: el.id
     }
     this.props.loading(true);
     Api.request(Routes.circleDelete, parameter, response => {
-      this.props.loading(false);
       this.props.retrieve();
+      this.props.data.length > 0 && this.props.data.map((item, index) => {
+        if (el.account?.id === item.account?.id) {
+          this.props.data.splice(index, 1)
+        }
+      })
+    }, error => {
+      this.props.retrieve();
+      console.log(error);
+      this.props.data.length > 0 && this.props.data.map((item, index) => {
+        if (el.account?.id === item.account?.id) {
+          this.props.data.splice(index, 1)
+        }
+      })
     });
   }
 
@@ -165,17 +177,17 @@ class CardList extends Component {
                                   </View>
                                 )
                               }
-                              { this.props.hasAction === true && this.props.state.user.id == el.account_id &&
+                              {this.props.hasAction === true && this.props.state.user.id == el.account_id &&
                                 (
                                   <TouchableOpacity
-                                      onPress={() => this.deleteConnection(el.account?.id)}
-                                      style={{
-                                        ...Style.actionBtn,
-                                        backgroundColor: 'gray'
-                                      }}
-                                    >
-                                      <Text style={{ color: 'white' }}>Cancel</Text>
-                                    </TouchableOpacity>
+                                    onPress={() => this.deleteConnection(el)}
+                                    style={{
+                                      ...Style.actionBtn,
+                                      backgroundColor: 'gray'
+                                    }}
+                                  >
+                                    <Text style={{ color: 'white' }}>Cancel</Text>
+                                  </TouchableOpacity>
                                 )
                               }
                             </View>
@@ -199,7 +211,7 @@ class CardList extends Component {
                                     <Text style={{ marginLeft: 10 }}>{el.lastLogin}</Text>
                                   ) : (
                                     <TouchableOpacity
-                                      onPress={() => this.props.invite ? this.storePeople(el) : this.props.actionContent == 'icon' || el.is_added === true ? this.deleteConnection(el.id) : this.sendRequest(el)}
+                                      onPress={() => this.props.invite ? this.storePeople(el) : this.props.actionContent == 'icon' || el.is_added === true ? this.deleteConnection(el) : this.sendRequest(el)}
                                       style={[Style.button, { backgroundColor: this.props.actionContent == 'icon' || el.is_added === true ? 'gray' : Color.primary }]}
                                     >
                                       {
@@ -271,19 +283,19 @@ class CardList extends Component {
                                 </View>
                               )
                             }
-                            { this.props.hasAction === true && this.props.state.user.id == el.account_id &&
-                                (
-                                  <TouchableOpacity
-                                      onPress={() => this.deleteConnection(el.account?.id)}
-                                      style={{
-                                        ...Style.actionBtn,
-                                        backgroundColor: 'gray'
-                                      }}
-                                    >
-                                      <Text style={{ color: 'white' }}>Cancel</Text>
-                                    </TouchableOpacity>
-                                )
-                              }
+                            {this.props.hasAction === true && this.props.state.user.id == el.account_id &&
+                              (
+                                <TouchableOpacity
+                                  onPress={() => this.deleteConnection(el)}
+                                  style={{
+                                    ...Style.actionBtn,
+                                    backgroundColor: 'gray'
+                                  }}
+                                >
+                                  <Text style={{ color: 'white' }}>Cancel</Text>
+                                </TouchableOpacity>
+                              )
+                            }
                           </View>
                           {el.added && el.added === true || this.props.data.length === this.props.state.tempMembers.length ?
                             <View style={{
@@ -303,27 +315,27 @@ class CardList extends Component {
                               {
                                 this.props.actionType == 'text' ? (
                                   <Text style={{ marginLeft: 10 }}>{el.lastLogin}</Text>
-                                ) : 
-                                <View>
-                                  {el.is_added === false && this.props.actionContent !== 'icon' && <TouchableOpacity
-                                    onPress={() => this.props.invite ? this.storePeople(el) : this.props.actionContent == 'icon' || el.is_added === true ? this.deleteConnection(el.id) : this.sendRequest(el)}
-                                    style={[Style.button, { backgroundColor: this.props.actionContent == 'icon' || el.is_added === true ? 'gray' : Color.primary }]}
-                                  >
-                                    <Text style={{ color: 'white' }}>{el.is_added ? 'Cancel' : 'Add'}</Text>
-                                  </TouchableOpacity>}
-                                  {this.props.actionContent === 'icon' && <TouchableOpacity
-                                    onPress={() => this.deleteConnection(el.id)}
-                                    style={[Style.button, { backgroundColor: this.props.actionContent == 'icon' || el.is_added === true ? 'gray' : Color.primary }]}
-                                  >
-                                    <Text style={{ color: 'white' }}>Remove</Text>
-                                  </TouchableOpacity>}
-                                  {this.props.invite === true && <TouchableOpacity
-                                    onPress={() => this.storePeople(el)}
-                                    style={[Style.button, { backgroundColor: this.props.actionContent == 'icon' || el.is_added === true ? 'gray' : Color.primary }]}
-                                  >
-                                    <Text style={{ color: 'white' }}>Add</Text>
-                                  </TouchableOpacity>}
-                                </View>
+                                ) :
+                                  <View>
+                                    {el.is_added === false && this.props.actionContent !== 'icon' && <TouchableOpacity
+                                      onPress={() => this.props.invite ? this.storePeople(el) : this.props.actionContent == 'icon' || el.is_added === true ? this.deleteConnection(el) : this.sendRequest(el)}
+                                      style={[Style.button, { backgroundColor: this.props.actionContent == 'icon' || el.is_added === true ? 'gray' : Color.primary }]}
+                                    >
+                                      <Text style={{ color: 'white' }}>{el.is_added ? 'Cancel' : 'Add'}</Text>
+                                    </TouchableOpacity>}
+                                    {this.props.actionContent === 'icon' && <TouchableOpacity
+                                      onPress={() => this.deleteConnection(el)}
+                                      style={[Style.button, { backgroundColor: this.props.actionContent == 'icon' || el.is_added === true ? 'gray' : Color.primary }]}
+                                    >
+                                      <Text style={{ color: 'white' }}>Remove</Text>
+                                    </TouchableOpacity>}
+                                    {this.props.invite === true && <TouchableOpacity
+                                      onPress={() => this.storePeople(el)}
+                                      style={[Style.button, { backgroundColor: this.props.actionContent == 'icon' || el.is_added === true ? 'gray' : Color.primary }]}
+                                    >
+                                      <Text style={{ color: 'white' }}>Add</Text>
+                                    </TouchableOpacity>}
+                                  </View>
                               }
                             </View>
                           }

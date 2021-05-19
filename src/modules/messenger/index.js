@@ -72,6 +72,7 @@ class Groups extends Component {
     }
     this.setState({ isLoading: true });
     CommonRequest.retrieveMessengerGroups(user, response => {
+      console.log(response, 'yo');
       this.setState({ isLoading: false, data: response.data });
       const { setMessenger } = this.props;
       const { messenger } = this.props.state;
@@ -134,6 +135,7 @@ class Groups extends Component {
   }
 
   _card = (item) => {
+    console.log(item?.members, 'members');
     const { user } = this.props.state;
     return (
       <View>
@@ -153,14 +155,35 @@ class Groups extends Component {
               left: 20
             }}>
               {
-                user.account_profile && user.account_profile.url ? (
-                  <Image
-                    source={user && user.account_profile && user.account_profile.url ? { uri: Config.BACKEND_URL + user.account_profile.url } : require('assets/logo.png')}
-                    style={[BasicStyles.profileImageSize, {
-                      height: 50,
-                      width: 50,
-                      borderRadius: 100
-                    }]} />
+                item?.members && item.members.length > 0 ? (
+                  <View>
+                    <Image
+                      source={item.members.length > 0 && item.members[1]?.profile?.url ? { uri: Config.BACKEND_URL + item.members[0]?.profile?.url } : require('assets/test.jpg')}
+                      style={[BasicStyles.profileImageSize, {
+                        height: 30,
+                        width: 30,
+                        borderRadius: 100,
+                        marginBottom: -10,
+                        marginLeft: 13
+                      }]} />
+                    <View style={{
+                      height: 35,
+                      width: 35,
+                      borderRadius: 100,
+                      marginBottom: 10,
+                      backgroundColor: 'white',
+                      justifyContent: 'center',
+                      alignItems: 'center'
+                    }}>
+                      <Image
+                        source={item.members.length > 0 && item.members[0]?.profile?.url ? { uri: Config.BACKEND_URL + item.members[0]?.profile?.url } : user?.account_profile?.url ? { uri: Config.BACKEND_URL + user.account_profile.url } : require('assets/logo_white.png')}
+                        style={[BasicStyles.profileImageSize, {
+                          height: 30,
+                          width: 30,
+                          borderRadius: 100
+                        }]} />
+                    </View>
+                  </View>
                 ) :
                   <View style={{
                     borderColor: Color.primary,
@@ -230,7 +253,7 @@ class Groups extends Component {
               paddingLeft: '25%',
               width: '100%',
               fontStyle: 'italic'
-            }}>Message: Last message here</Text>
+            }}>{item.last_message?.title || ''} :{item.last_message?.description || ''}</Text>
           </View>
         </TouchableHighlight>
       </View>
@@ -257,7 +280,7 @@ class Groups extends Component {
               extraData={selected}
               ItemSeparatorComponent={this.FlatListItemSeparator}
               style={{
-                marginBottom: 50
+                marginBottom: 10
               }}
               renderItem={({ item, index }) => (
                 <View>

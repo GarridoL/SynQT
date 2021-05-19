@@ -19,7 +19,6 @@ class Status extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
       isLoading: false,
       search: null,
       isVisible: false,
@@ -47,6 +46,7 @@ class Status extends Component {
   }
 
   retrieve = (flag) => {
+    const {setComments} = this.props;
     let parameter = {
       limit: this.state.limit,
       offset: flag === true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
@@ -58,34 +58,27 @@ class Status extends Component {
     Api.request(Routes.commentsRetrieve, parameter, response => {
       this.setState({ isLoading: false });
       if (response.data.length > 0) {
-        this.setState({
-          data: flag === false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
-          offset: flag === false ? 1 : (this.state.offset + 1)
-        })
+        this.setState({offset: flag === false ? 1 : (this.state.offset + 1)})
+        setComments(flag === false ? response.data : _.uniqBy([...this.props.state.comments, ...response.data], 'id'));
       } else {
-        this.setState({
-          data: flag == false ? [] : this.state.data,
-          offset: flag == false ? 0 : this.state.offset,
-        })
+        this.setState({offset: flag == false ? 0 : this.state.offset,})
+        setComments([]);
       }
     })
   }
 
   onChangeDataHandler = (item) => {
-    const { data } = this.state;
-    if (data == null) {
+    const { comments } = this.props.state;
+    if (comments == null) {
       return
     }
-    let temp = data.map((iItem, iIndex) => {
+    let temp = comments.map((iItem, iIndex) => {
       if (iItem.id == item.id) {
         return item
       }
       return iItem
     })
-
-    this.setState({
-      data: temp
-    })
+    this.props.setComments(temp);
   }
 
   post = () => {
@@ -95,27 +88,26 @@ class Status extends Component {
       payload_value: "1",
       text: this.state.status
     }
-    console.log(this.props.state.user);
+    let data = {
+      account: {
+        email: this.props.state.user.email,
+        id: this.props.state.user.id,
+        profile: {
+          account_id: this.props.state.user.id,
+          url: this.props.state.user.account_profile?.url || null
+        },
+        username: this.props.state.user.username
+      },
+      account_id: this.props.state.user.id,
+      comment_replies: [],
+      text: this.state.status,
+      created_at_human: moment(new Date()).format('MMMM DD, YYYY hh:mm a')
+    }
+    this.props.setComments([data, ...this.props.state.comments])
     this.setState({ isLoading: true });
     Api.request(Routes.commentsCreate, parameter, response => {
       this.setState({ isLoading: false });
       if (response.data !== null) {
-        let data = {
-          account: {
-            email: this.props.state.user.email,
-            id: this.props.state.user.id,
-            profile: {
-              account_id: this.props.state.user.id,
-              url: this.props.state.user.account_profile?.url || null
-            },
-            username: this.props.state.user.username
-          },
-          account_id: this.props.state.user.id,
-          comment_replies: [],
-          text: this.state.text,
-          created_at_human: moment(new Date()).format('MMMM DD, YYYY hh:mm a')
-        }
-        this.setState({data: [data, ...this.state.data]})
         this.props.setCreateStatus(false)
         this.setState({ status: null })
       }
@@ -128,7 +120,6 @@ class Status extends Component {
       comment_id: comment.id,
       text: this.state.reply
     }
-    console.log(parameter);
     this.setState({ isLoading: true });
     Api.request(Routes.commentRepliesCreate, parameter, response => {
       this.setState({ isLoading: false });
@@ -144,7 +135,8 @@ class Status extends Component {
   }
 
   render() {
-    const { data, isLoading } = this.state;
+    const { isLoading } = this.state;
+    const { comments } = this.props.state;
     return (
       <SafeAreaView>
         <ScrollView style={{
@@ -173,7 +165,7 @@ class Status extends Component {
             paddingBottom: 40
           }}>
             {
-              data && data.map((item, index) => (
+              comments && comments.length > 0 && comments.map((item, index) => (
                 <View>
                   {(this.props.state.statusSearch === null || this.props.state.statusSearch === '') ?
                     <PostCard
@@ -231,9 +223,10 @@ class Status extends Component {
                     borderRadius: 15,
                     width: '90%',
                     marginTop: 10,
+                    height: 100
                   }}
                   multiline={true}
-                  numberOfLines={5}
+                  // numberOfLines={5}
                   onChangeText={text => this.statusHandler(text)}
                   value={this.state.status}
                   placeholder="Express what's on your mind!"
@@ -285,7 +278,8 @@ const mapStateToProps = state => ({ state: state });
 const mapDispatchToProps = (dispatch) => {
   const { actions } = require('@redux');
   return {
-    setCreateStatus: (createStatus) => dispatch(actions.setCreateStatus(createStatus))
+    setCreateStatus: (createStatus) => dispatch(actions.setCreateStatus(createStatus)),
+    setComments: (comments) => dispatch(actions.setComments(comments))
   };
 };
 

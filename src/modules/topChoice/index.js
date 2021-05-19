@@ -119,7 +119,8 @@ class TopChoice extends Component {
                     date: item.synqt[0].date_at_human,
                     superlike: true,
                     users: item.members && item.members.length > 0 ? item.members : [],
-                    details: true
+                    details: true,
+                    ratings: item.rating
                   }}
                   style={{
                     marginBottom: 20

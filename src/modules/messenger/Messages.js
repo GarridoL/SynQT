@@ -785,7 +785,14 @@ class MessagesV3 extends Component {
 					<Text>Test</Text>
 					</View>
 				</Modal> */}
-        {this.props.state.showSettings && <Settings groupId={this.props.navigation?.state?.params.data?.messenger_group_id} synqtId={this.props.navigation.state?.params?.data?.payload} title={this.props.navigation?.state?.params.data?.title} navigation={this.props.navigation}></Settings>}
+        {this.props.state.showSettings &&
+        <Settings
+          groupId={this.props.navigation?.state?.params.data?.messenger_group_id}
+          synqtId={this.props.navigation.state?.params?.data?.payload}
+          title={this.props.navigation?.state?.params.data?.title}
+          navigation={this.props.navigation}
+          status={this.props.navigation?.state.params?.status}
+        ></Settings>}
       </SafeAreaView>
     );
   }

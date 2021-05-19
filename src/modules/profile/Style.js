@@ -13,7 +13,8 @@ export default {
     borderRightWidth: 1,
     borderLeftWidth: 1,
     borderRadius: 50,
-    padding: 10
+    padding: 10,
+    color: 'black'
   },
   TopView: {
     justifyContent: 'center',

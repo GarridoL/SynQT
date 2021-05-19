@@ -22,7 +22,9 @@ const types = {
   SET_DEFAULT_ADDRESS: 'SET_DEFAULT_ADDRESS',
   SET_TEMP_MEMBERS: 'SET_TEMP_MEMBERS',
   SET_SHOW_SETTINGS: 'SET_SHOW_SETTINGS',
-  SET_CURRENT_TITLE: 'SET_CURRENT_TITLE'
+  SET_CURRENT_TITLE: 'SET_CURRENT_TITLE',
+  SET_SELECTED: 'SET_SELECTED',
+  SET_COMMENTS: 'SET_COMMENTS'
 };
 
 export const actions = {
@@ -88,6 +90,12 @@ export const actions = {
   },
   setCurrentTitle(currentTitle) {
     return {type: types.SET_CURRENT_TITLE, currentTitle}
+  },
+  setSelected(selects) {
+    return {type: types.SET_SELECTED, selects}
+  },
+  setComments(comments) {
+    return {type: types.SET_COMMENTS, comments}
   }
 };
 
@@ -111,7 +119,9 @@ const initialState = {
   defaultAddress: null,
   tempMembers: [],
   showSettings: false,
-  currentTitle: null
+  currentTitle: null,
+  selects: null,
+  comments: []
 };
 
 storeData = async (key, value) => {
@@ -135,6 +145,8 @@ const reducer = (state = initialState, action) => {
   const {tempMembers} = action;
   const {showSettings} = action;
   const {currentTitle} = action;
+  const {selects} = action;
+  const {comments} = action;
   switch (type) {
     case types.LOGOUT:
       AsyncStorage.clear();
@@ -295,6 +307,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         currentTitle
+      }
+    case types.SET_SELECTED: 
+      return {
+        ...state,
+        selects
+      }
+    case types.SET_COMMENTS: 
+      return {
+        ...state,
+        comments
       }
     default:
       return {...state, nav: state.nav};
