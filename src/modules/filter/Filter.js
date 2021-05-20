@@ -58,7 +58,7 @@ class Filter extends Component {
         alignItems: 'center',
         marginLeft: '2%'
       }}>
-        <Text>{this.state.value}</Text>
+        <Text>{this.state.value < 100 ? this.setState({value: 100}) : this.state.value}</Text>
         <SliderPicker 
           callback={position => {
             this.setState({ value: position })
