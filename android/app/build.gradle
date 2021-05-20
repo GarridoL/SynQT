@@ -132,8 +132,8 @@ android {
         applicationId "com.synqt"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 6
-        versionName "1.1"
+        versionCode 1
+        versionName "1"
         missingDimensionStrategy 'react-native-camera', 'general'
         multiDexEnabled true
     }
@@ -231,4 +231,3 @@ task copyDownloadableDepsToLibs(type: Copy) {
 }
 apply plugin: 'com.google.gms.google-services'
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
-

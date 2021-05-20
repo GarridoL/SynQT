@@ -253,7 +253,7 @@ class Groups extends Component {
               paddingLeft: '25%',
               width: '100%',
               fontStyle: 'italic'
-            }}>{item.last_message?.title || ''} :{item.last_message?.description || ''}</Text>
+            }}>{item.last_message?.description ? item.last_message?.title + ': ' + item.last_message?.description : 'No message yet.'}</Text>
           </View>
         </TouchableHighlight>
       </View>

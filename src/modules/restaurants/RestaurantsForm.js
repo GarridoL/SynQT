@@ -316,7 +316,7 @@ class Restaurants extends Component {
                 title={'Cuisines'} />
             </View>
             <Text style={{ color: 'black', marginBottom: 15, marginLeft: 20 }}>Radius</Text>
-            <Text style={{ color: 'black', marginTop: -35, marginBottom: 5, marginLeft: '90%' }}>{this.state.val}</Text>
+            <Text style={{ color: 'black', marginTop: -35, marginBottom: 5, marginLeft: '90%' }}>{this.state.val < 1 ? this.setState({val: 1}) : this.state.val}</Text>
             <SliderPicker
               callback={position => {
                 this.setState({ val: position })
