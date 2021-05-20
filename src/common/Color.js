@@ -37,6 +37,7 @@ export default {
     fourth = color
   },
   setGradient(colors){
-    gradient = colors
+    this.gradient = colors
+    console.log("[GRADIENT]", gradient);
   }
 }
