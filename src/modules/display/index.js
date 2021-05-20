@@ -50,13 +50,13 @@ class Display extends Component {
     const {setTheme} = this.props;
     let temGrad = []
     if(_theme[0] === '#4CCBA6'){
-      temGrad =['#987BE7', '#b1f2e0', '#4CCBA6']
+      temGrad =['#b1f2e0', '#b1f2e0', '#4CCBA6']
     }else if (_theme[0] === '#FFCC00'){
-      temGrad =['#987BE7', '#ffeb96', '#FFCC00']
+      temGrad =['#ffeb96', '#ffeb96', '#FFCC00']
     }else if(_theme[0] === '#F88BFF'){
-      temGrad =['#987BE7', '#eb97f0', '#f22bff']
+      temGrad =['#eb97f0', '#eb97f0', '#f22bff']
     }else{
-      temGrad =['#987BE7', '#9276E6', '#5741D7']
+      temGrad =['#9276E6', '#9276E6', '#5741D7']
     }
     setTheme({
       primary: _theme[0],

@@ -22,7 +22,7 @@ class Landing extends Component{
           flex: 1
         }}>
           <LinearGradient
-              colors = {theme && theme.gradient !== undefined  && theme.gradient !== null ? theme.gradient : Color.gradient}
+              colors = {Color.gradient}
               // colors={[theme ? theme.primary : Color.primary, theme ? theme.primary : Color.secondary, Color.primary]}
               locations={[0,0.5,1]} start={{ x: 2, y: 0 }} end={{ x: 1, y: 1 }}
               style={{
