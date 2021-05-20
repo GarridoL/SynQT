@@ -142,7 +142,7 @@ class Register extends Component {
                 onTyping={(username) => this.setState({username})}
                 value={this.state.email}
                 placeholder={'Username'}
-                style={{width: '90%', borderColor: 'white', color: 'white'}}
+                style={{width: '90%', borderColor: 'white', color: 'black'}}
                 icon={faUser}
               />
               
@@ -150,7 +150,7 @@ class Register extends Component {
                 onTyping={(email) => this.setState({email})}
                 value={this.state.email}
                 placeholder={'Email Address'}
-                style={{width: '90%', borderColor: 'white', color: 'white'}}
+                style={{width: '90%', borderColor: 'white', color: 'black'}}
                 icon={faUser}
               />
 
@@ -158,7 +158,7 @@ class Register extends Component {
                 onTyping={(input) => this.setState({
                   password: input
                 })}
-                style={{width: '80%', borderColor: 'white', color: 'white'}}
+                style={{width: '80%', borderColor: 'white', color: 'black'}}
                 placeholder={'Password'}/>
 
               <View style={{
@@ -169,7 +169,7 @@ class Register extends Component {
                   onTyping={(input) => this.setState({
                     confirmPassword: input
                   })}
-                  style={{width: '80%', borderColor: 'white', color: 'white'}}
+                  style={{width: '80%', borderColor: 'white', color: 'black'}}
                   placeholder={'Confirm Password'}
                   />
               </View>

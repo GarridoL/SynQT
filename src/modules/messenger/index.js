@@ -24,14 +24,16 @@ class Groups extends Component {
       isLoading: false,
       selected: null,
       data: [],
-      connections: []
+      connections: [],
+      limit: 10,
+      offset: 0
     }
   }
 
   componentDidMount() {
     const { user } = this.props.state;
     if (user != null) {
-      this.retrieve();
+      this.retrieve(false);
     }
   }
 
@@ -63,20 +65,29 @@ class Groups extends Component {
       }
     });
   }
-
-  retrieve = () => {
+  
+  retrieve = (flag) => {
     this.retrieveConnections();
     const { user } = this.props.state;
     if (user == null) {
       return
     }
+    let parameter = {
+      code: null,
+      account_id: user.id,
+      limit: this.state.limit,
+      offset: flag === true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset
+    }
     this.setState({ isLoading: true });
-    CommonRequest.retrieveMessengerGroups(user, response => {
-      console.log(response, 'yo');
-      this.setState({ isLoading: false, data: response.data });
+    Api.request(Routes.messengerGroupRetrieve, parameter, response => {
       const { setMessenger } = this.props;
       const { messenger } = this.props.state;
       if (response.data.length !== 0) {
+        this.setState({
+          offset: flag === false ? 1 : (this.state.offset + 1),
+          isLoading: false,
+          data: flag === false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id')
+        })
         var counter = 0
         for (var i = 0; i < response.data.length; i++) {
           let item = response.data[i]
@@ -135,7 +146,6 @@ class Groups extends Component {
   }
 
   _card = (item) => {
-    console.log(item?.members, 'members');
     const { user } = this.props.state;
     return (
       <View>
@@ -253,7 +263,7 @@ class Groups extends Component {
               paddingLeft: '25%',
               width: '100%',
               fontStyle: 'italic'
-            }}>{item.last_message?.description ? item.last_message?.title + ': ' + item.last_message?.description : 'No message yet.'}</Text>
+            }}>{item.last_messege ? item.last_messege?.title + ': ' + item.last_messege?.description : 'No message yet.'}</Text>
           </View>
         </TouchableHighlight>
       </View>
@@ -316,9 +326,16 @@ class Groups extends Component {
         <ScrollView
           style={{ marginBottom: 50 }}
           onScroll={(event) => {
+            let scrollingHeight = event.nativeEvent.layoutMeasurement.height + event.nativeEvent.contentOffset.y
+            let totalHeight = event.nativeEvent.contentSize.height
             if (event.nativeEvent.contentOffset.y <= 0) {
-              if (this.state.isLoading == false) {
-                this.retrieve()
+              if (isLoading == false) {
+                // this.retrieve(false)
+              }
+            }
+            if (Math.round(scrollingHeight) >= Math.round(totalHeight)) {
+              if (isLoading == false) {
+                this.retrieve(true)
               }
             }
           }}
@@ -330,7 +347,7 @@ class Groups extends Component {
           }}>
             {this._flatList()}
           </View>
-          {data.length === 0 && (<Empty refresh={true} onRefresh={() => this.retrieve()} />)}
+          {data.length === 0 && (<Empty refresh={true} onRefresh={() => this.retrieve(false)} />)}
         </ScrollView>
         {isLoading ? <Spinner mode="overlay" /> : null}
         <Footer layer={1} {...this.props} />
