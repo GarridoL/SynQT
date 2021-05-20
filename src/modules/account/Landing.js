@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Style from './Style.js';
 import { connect } from 'react-redux';
+import AsyncStorage from '@react-native-community/async-storage';
 import { View, Image, Text, TouchableHighlight, ScrollView} from 'react-native';
 import { Routes, Color, Helper, BasicStyles } from 'common';
 import LinearGradient from 'react-native-linear-gradient'
@@ -12,6 +13,33 @@ class Landing extends Component{
   constructor(props){
     super(props);
   }
+
+  componentDidMount(){
+    this.getTheme()
+  }
+
+  getTheme = async () => {
+    try {
+      const primary = await AsyncStorage.getItem(Helper.APP_NAME + 'primary');
+      const secondary = await AsyncStorage.getItem(Helper.APP_NAME + 'secondary');
+      const tertiary = await AsyncStorage.getItem(Helper.APP_NAME + 'tertiary');
+      const fourth = await AsyncStorage.getItem(Helper.APP_NAME + 'fourth');
+      const gradient = await AsyncStorage.getItem(Helper.APP_NAME + 'gradient');
+      if(primary != null && secondary != null && tertiary != null) {
+        const { setTheme } = this.props;
+        setTheme({
+          primary: primary,
+          secondary: secondary,
+          tertiary: tertiary,
+          fourth: fourth,
+          gradient: JSON.parse(gradient)
+        })
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   render() {
     const { theme } = this.props.state;
     return (
@@ -22,7 +50,7 @@ class Landing extends Component{
           flex: 1
         }}>
           <LinearGradient
-              colors = {Color.gradient}
+              colors = {theme && theme.gradient !== undefined  && theme.gradient !== null ? theme.gradient : Color.gradient}
               // colors={[theme ? theme.primary : Color.primary, theme ? theme.primary : Color.secondary, Color.primary]}
               locations={[0,0.5,1]} start={{ x: 2, y: 0 }} end={{ x: 1, y: 1 }}
               style={{

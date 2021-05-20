@@ -174,9 +174,9 @@ const reducer = (state = initialState, action) => {
       Color.setFourth(theme.fourth);
       console.log('[THEME::]', theme.primary);
       if(theme.primary === '#4CCBA6'){
-        Color.setGradient(['#b1f2e0', '#b1f2e0', '#4CCBA6'])
+        Color.setGradient(['#8ae6cc', '#2bb58d', '#0ead7f'])
       }else if (theme.primary === '#FFCC00'){
-        Color.setGradient(['#ffeb96', '#ffeb96', '#FFCC00'])
+        Color.setGradient(['#ffeb96', '#FFCC00', '#ffbb00'])
       }else if(theme.primary === '#F88BFF'){
         Color.setGradient(['#eb97f0', '#eb97f0', '#f22bff'])
       }else{
