@@ -129,7 +129,8 @@ class Notifications extends Component {
                     date: item.synqt.length > 0 && item.synqt[0]?.date_at_human,
                     superlike: false,
                     users: item.members && item.members.length > 0 ? item.members : [],
-                    details: false
+                    details: false,
+                    ratings: []
                   }}
                   style={{
                     marginBottom: 10
