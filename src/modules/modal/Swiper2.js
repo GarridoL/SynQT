@@ -55,11 +55,11 @@ class Cards extends React.Component {
   retrieve = () => {
     this.setState({ isLoading: true })
     Api.request(Routes.merchantsRetrieve, {sort: {
-      name: 'ascl                                                                                                     '
+      name: 'asc'
     }}, response => {
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
-        this.setState({ data: response.data });
+        this.setState({ data: response.data, index: response.data.length - 1 });
       }
     },
       error => {
@@ -83,6 +83,8 @@ class Cards extends React.Component {
       offset: this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
       inventory_type: 'all'
     }
+    console.log(menu);
+    console.log(parameter);
     this.setState({ isLoading: true })
     Api.request(Routes.productsRetrieve, parameter, response => {
       this.setState({ isLoading: false })
@@ -102,7 +104,7 @@ class Cards extends React.Component {
 
   swipeHandler = () => {
     this.props.header(this.state.index >= this.state.data.length - 2 ? true : false);
-    this.setState({ index: this.state.index + 1 === this.state.data.length ? 0 : this.state.index + 1, products: [] })
+    this.setState({ index: this.state.index + 1 === this.state.data.length ? 0 : this.state.index + 1, products: [], offset: 0 })
   }
 
   addToTopChoice = () => {
@@ -139,7 +141,7 @@ class Cards extends React.Component {
   }
 
   renderCard = () => {
-    console.log(this.state.data[this.state.index]?.rating, 'ratings');
+    console.log(this.state.index, this.state.data.length, 'test');
     return (
       <View style={{ flex: 1, marginTop: '91%' }}>
         <CardStack

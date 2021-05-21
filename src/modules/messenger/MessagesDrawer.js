@@ -94,14 +94,8 @@ class HeaderOptions extends Component {
                       style={BasicStyles.iconStyle}/>
                   </View>
                 </TouchableOpacity>
-                <TouchableOpacity disabled={!this.state.finishLoad} onPress={() => this.state.status === true && status !== 'completed' ? Alert.alert(
-                    '',
-                    'Your choice has been submitted.',
-                    [
-                      { text: 'CLOSE', onPress: () => { return }, style: 'cancel' }
-                    ],
-                    { cancelable: false }
-                  ) : this.redirect('menuStack')}>
+                <TouchableOpacity disabled={!this.state.finishLoad} onPress={() => this.state.status === true ?
+                    this.redirect('menuStack') : console.log('loading')}>
                   <View style={{borderWidth: 2, borderRadius: 20, height: 30, width: 30, borderColor: Color.primary, justifyContent: 'center', alignItems: 'center', marginLeft: 5}}>
                       <Image source={require('assets/logo.png')} style={{
                         height: 20,

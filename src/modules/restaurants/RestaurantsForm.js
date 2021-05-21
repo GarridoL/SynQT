@@ -66,7 +66,7 @@ class Restaurants extends Component {
     let param = {
       account_id: user.id,
       address_type: 'NULL',
-      merchant_id: this.props.state.user.sub_account?.merchant?.id || null,
+      merchant_id: this.props.state.user.sub_account?.merchant?.id || 'NULL',
       latitude: this.props.state.location.latitude || 'NULL',
       longitude: this.props.state.location.longitude || 'NULL',
       route: this.props.state.location.address || 'NULL',
