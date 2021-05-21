@@ -44,20 +44,21 @@ class ViewProfile extends Component {
   retrieveActivity = (flag) => {
     let parameter = {
       condition: [{
-        value: this.props.navigation.state?.params?.user?.account?.id,
+        value: this.props.navigation.state?.params?.user?.account?.profile?.account_id,
         column: 'account_id',
         clause: '='
       }, {
-        value: 'completed',
-        column: 'status',
+        value: this.props.navigation.state?.params?.synqt_id,
+        column: 'synqt_id',
         clause: '='
       }],
       limit: this.state.limit,
       offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset
     }
     this.setState({ isLoading: true })
-    Api.request(Routes.reservationRetrieve, parameter, response => {
+    Api.request(Routes.topChoiceRetrieveActivities, parameter, response => {
       this.setState({ isLoading: false })
+      console.log(response, 'response');
       if (response.data.length > 0) {
         this.setState({
           data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),

@@ -242,7 +242,8 @@ class HomePage extends Component {
             width: '50%',
             marginLeft: '25%',
             marginRight: '25%',
-            marginTop: 50
+            marginTop: 50,
+            marginBottom: 100
           }}>
             <TouchableOpacity
               onPress={() => this.redirect('historyStack')}

@@ -229,7 +229,7 @@ class Connections extends Component {
                     />
                   </View>
                   <View>
-                    <CardList loading={this.loading} level={1} search={this.state.search} retrieve={() => { this.refresh() }} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
+                    <CardList loading={this.loading} level={2} search={this.state.search} retrieve={() => { this.refresh() }} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
                   </View>
                 </View>
                 {this.state.connections.length == 0 && (<Empty refresh={true} onRefresh={() => this.refresh()} />)}

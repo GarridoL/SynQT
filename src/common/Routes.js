@@ -100,12 +100,15 @@ export default {
 
   // spray mix products
   sprayMixProductsRetrieve: apiUrl + 'spray_mix_products/retrieve_by_params',
-  commentsRetrieve: apiUrl + 'comments/retrieve',
+  commentsRetrieve: apiUrl + 'comments/retrieve_comments',
   commentsCreate: apiUrl + 'comments/create',
+  commentsDelete: apiUrl + 'comments/delete',
+  commentMembersCreate: apiUrl + 'comment_members/create',
   commentRepliesCreate: apiUrl + 'comment_replies/create',
   merchantsRetrieve: apiUrl + 'merchants/retrieve_merchants',
   productsRetrieve: apiUrl + 'products/retrieve',
   topChoiceRetrieve: apiUrl + 'top_choices/retrieve',
+  topChoiceRetrieveActivities: apiUrl + 'top_choices/retrieve_activities',
   topChoiceCreate: apiUrl + 'top_choices/create',
   topChoiceDelete: apiUrl + 'top_choices/delete',
   circleRetrieve: apiUrl + 'my_circles/retrieve',

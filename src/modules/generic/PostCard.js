@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { View, TouchableOpacity, Image, Dimensions, Text, TextInput } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCheck, faTimes, faStar, faUserCircle, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
-import { BasicStyles, Color } from 'common';
+import { BasicStyles, Color, Routes } from 'common';
 import { connect } from 'react-redux';
 import Config from 'src/config.js';
+import Api from 'services/api';
 import UserImage from 'components/User/Image';
 
 const height = Math.round(Dimensions.get('window').height);
@@ -13,8 +14,29 @@ class PostCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      reply: null
+      reply: null,
+      options: false
     }
+  }
+
+  remove = (data) => {
+    let posts = this.props.state.comments;
+    let parameter = {
+      id: data.id
+    }
+    this.props.loader(true);
+    Api.request(Routes.commentsDelete, parameter, response => {
+      this.props.loader(false);
+      if (response.data !== null) {
+        posts && posts.length > 0 && posts.map((item, index) => {
+          if(item.id == data.id) {
+            this.setState({options: false})
+            posts.splice(index, 1)
+            this.props.setComments(posts)
+          }
+        })
+      }
+    });
   }
 
   replyHandler = (value) => {
@@ -22,7 +44,7 @@ class PostCard extends Component {
     this.props.reply(value);
   }
 
-  renderHeader = (data) => {
+  renderHeader = (data, show) => {
     return (
       <View style={{
         ...BasicStyles.standardWidth,
@@ -49,9 +71,26 @@ class PostCard extends Component {
               {data.date}
             </Text>
           </View>
-          <TouchableOpacity>
+          {data.user.id === this.props.state.user.id && show === true && <TouchableOpacity onPress={() => {this.setState({options: !this.state.options})}}>
             <FontAwesomeIcon icon={faEllipsisH} />
-          </TouchableOpacity>
+          </TouchableOpacity>}
+          {this.state.options === true && show === true && (<TouchableOpacity style={{
+            position: 'absolute',
+            right: -5,
+            backgroundColor: 'white',
+            top: 40,
+            height: 40,
+            width: 105,
+            borderWidth: 1,
+            borderRadius: 10,
+            borderColor: Color.gray,
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 10
+          }}
+            onPress={() => { this.remove(data) }}>
+            <Text>Delete Post</Text>
+          </TouchableOpacity>)}
         </View>
       </View>
     )
@@ -75,6 +114,7 @@ class PostCard extends Component {
   }
 
   renderActions = (data) => {
+    const { theme } = this.props.state
     return (
       <View style={{
         ...BasicStyles.standardWidth,
@@ -84,48 +124,68 @@ class PostCard extends Component {
         flexDirection: 'row'
       }}>
         <TouchableOpacity style={{
-          width: 70,
+          width: '23%',
           alignItems: 'center',
           justifyContent: 'center',
           borderRadius: 20,
           borderColor: data.like_status == true ? Color.primary : Color.lightGray,
           borderWidth: 1,
-          height: 40,
+          height: 35,
           marginRight: 5,
           backgroundColor: data.like_status == true ? Color.primary : Color.white
         }}
-          onPress={() => this.props.onLike({
-            ...data,
-            like_status: !data.like_status
-          })}
+          // onPress={() => this.props.onLike({
+          //   ...data,
+          //   like_status: !data.like_status
+          // })}
         >
           <Text style={{
-            color: data.like_status == true ? Color.white : Color.black
+            color: data.like_status == true ? Color.white : Color.black,
+            fontSize: 11
           }}>{data.like_status == true ? 'Liked' : 'Like'}</Text>
         </TouchableOpacity>
 
 
         <TouchableOpacity style={{
-          width: 70,
+          width: '23%',
           alignItems: 'center',
           justifyContent: 'center',
           borderRadius: 20,
-          borderColor: data.joined_status == true ? Color.primary : Color.lightGray,
+          borderColor: data.joined == true ? Color.primary : Color.lightGray,
           borderWidth: 1,
-          height: 40,
+          height: 35,
           marginRight: 5,
-          backgroundColor: data.joined_status == true ? Color.primary : Color.white
+          backgroundColor: data.joined == true ? Color.primary : Color.white
         }}
-          onPress={() => this.props.onJoin({
-            ...data,
-            joined_status: !data.joined_status
-          })}>
+          onPress={() => {
+            if(data.joined == false) {
+              this.props.onJoin(data.id)
+            }}}
+          >
           <Text style={{
-            color: data.joined_status == true ? Color.white : Color.black
-          }}>{data.joined_status == true ? 'Joined' : 'Join'}</Text>
+            color: data.joined == true ? Color.white : Color.black,
+            fontSize: 11
+          }}>{data.joined == true ? 'Joined' : 'Join'}</Text>
         </TouchableOpacity>
-
-        <Text>24 joined</Text>
+        <Text style={{ color: 'gray', fontSize: 11 }}>{data.count} joined</Text>
+        {data.user?.id === this.props.state.user.id && <TouchableOpacity style={{
+          position: 'absolute',
+          right: 0,
+          bottom: 20,
+          width: '25%',
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: 20,
+          height: 35,
+          padding: 5,
+          backgroundColor: theme ? theme.primary : Color.primary
+        }}
+        onPress={() => this.props.navigation.navigate('restaurantStack')}>
+          <Text style={{
+            color: Color.white,
+            fontSize: 10
+          }}>Create SYNQT</Text>
+        </TouchableOpacity>}
       </View>
     )
   }
@@ -147,7 +207,7 @@ class PostCard extends Component {
               style={{
                 ...BasicStyles.standardWidth
               }}>
-              {this.renderHeader({ user: item.account, date: item.created_at_human })}
+              {this.renderHeader({ user: item.account, date: item.created_at_human }, false)}
               {this.renderBody({ message: item.text })}
             </View>
           ))
@@ -206,7 +266,7 @@ class PostCard extends Component {
         borderWidth: 1,
         marginBottom: 20
       }}>
-        {this.renderHeader(data)}
+        {this.renderHeader(data, true)}
         {this.renderBody(data)}
         {this.renderActions(data)}
         {this.renderComments(data.comments)}
@@ -219,7 +279,9 @@ const mapStateToProps = state => ({ state: state });
 
 const mapDispatchToProps = dispatch => {
   const { actions } = require('@redux');
-  return {};
+  return {
+    setComments: (comments) => dispatch(actions.setComments(comments))
+  };
 };
 
 export default connect(

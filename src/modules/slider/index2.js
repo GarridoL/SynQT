@@ -90,6 +90,7 @@ class Slider2 extends Component {
     console.log('[COLOR]', theme)
     return (
       <SafeAreaView>
+        <ScrollView showsVerticalScrollIndicator={false}>
       <LinearGradient
         colors={theme && theme.gradient !== undefined && theme.gradient !== null ? theme.gradient : Color.gradient}
         locations={[0, 0.5, 1]}
@@ -97,7 +98,6 @@ class Slider2 extends Component {
         end={{ x: 1, y: 1 }}
         style={{ height: height, paddingRight: 10, marginTop: '-1%', width: width }}
       >
-        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={{ flex: 1, flexDirection: 'row' }}>
             <View style={{ backgroundColor: Color.white, height: height, width: '25%', borderTopRightRadius: 50, borderBottomRightRadius: 50, zIndex: 999, elevation: 50 }}>
               <View style={{ marginTop: '40%', marginLeft: 10 }}>
@@ -183,8 +183,8 @@ class Slider2 extends Component {
               </View>
             </View>
           </View>
-        </ScrollView>
       </LinearGradient>
+        </ScrollView>
       </SafeAreaView>
     );
   }
