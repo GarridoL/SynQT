@@ -117,6 +117,7 @@ class CardList extends Component {
   }
 
   render() {
+    const { theme } = this.props.state;
     return (
       <View>
         {
@@ -132,11 +133,10 @@ class CardList extends Component {
                           source={{ uri: Config.BACKEND_URL + el.account?.profile?.url }}
                         /> :
                           <View style={{
-                            borderColor: Color.primary,
                             width: 75,
                             height: 75,
                             borderRadius: 50,
-                            borderColor: Color.primary,
+                            borderColor: theme ? theme.primary : Color.primary,
                             borderWidth: 3,
                             overflow: "hidden",
                             justifyContent: 'center',
@@ -238,11 +238,10 @@ class CardList extends Component {
                         source={{ uri: Config.BACKEND_URL + el.account?.profile?.url }}
                       /> :
                         <View style={{
-                          borderColor: Color.primary,
                           width: 75,
                           height: 75,
                           borderRadius: 50,
-                          borderColor: Color.primary,
+                          borderColor: theme ? theme.primary : Color.primary,
                           borderWidth: 3,
                           overflow: "hidden",
                           justifyContent: 'center',

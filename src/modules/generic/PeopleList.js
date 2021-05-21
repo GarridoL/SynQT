@@ -57,7 +57,8 @@ class PeopleList extends Component {
                       information: item.account?.information
                     }
                   },
-                  level: 1 }) }}>
+                  synqt_id: this.props.navigation?.state.params?.data?.payload || null,
+                  level: this.props.add === false ? 2 : 1 }) }}>
                 <UserImage
                   key={index}
                   user={

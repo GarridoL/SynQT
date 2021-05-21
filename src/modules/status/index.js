@@ -45,6 +45,10 @@ class Status extends Component {
     this.setState({ reply: value })
   }
 
+  loader = (value) => {
+    this.setState({isLoading: value})
+  }
+
   retrieve = (flag) => {
     const {setComments} = this.props;
     let parameter = {
@@ -56,9 +60,20 @@ class Status extends Component {
     }
     this.setState({ isLoading: true });
     Api.request(Routes.commentsRetrieve, parameter, response => {
+      console.log(response.data[0]?.members, 'response');
       this.setState({ isLoading: false });
       if (response.data.length > 0) {
         this.setState({offset: flag === false ? 1 : (this.state.offset + 1)})
+        let joined = 0
+        response.data.map((item, index) => {
+          item.members?.length > 0 && item.members.map((i, index) => {
+            item['joined'] = i.account_id == this.props.state.user.id ? true : false
+            if(i.joined == 'true') {
+              joined += 1;
+            }
+          })
+          item['count'] = joined;
+        })
         setComments(flag === false ? response.data : _.uniqBy([...this.props.state.comments, ...response.data], 'id'));
       } else {
         this.setState({offset: flag == false ? 0 : this.state.offset,})
@@ -79,6 +94,23 @@ class Status extends Component {
       return iItem
     })
     this.props.setComments(temp);
+  }
+
+  join = (id) => {
+    let parameter = {
+      account_id: this.props.state.user.id,
+      comment_id: id,
+      liked: 'false',
+      joined: 'true'
+    }
+    this.setState({ isLoading: true });
+    Api.request(Routes.commentMembersCreate, parameter, response => {
+      console.log(response, 'heeey');
+      this.setState({ isLoading: false });
+      if (response.data !== null) {
+        this.retrieve(false);
+      }
+    })
   }
 
   post = () => {
@@ -103,11 +135,11 @@ class Status extends Component {
       text: this.state.status,
       created_at_human: moment(new Date()).format('MMMM DD, YYYY hh:mm a')
     }
-    this.props.setComments([data, ...this.props.state.comments])
     this.setState({ isLoading: true });
     Api.request(Routes.commentsCreate, parameter, response => {
       this.setState({ isLoading: false });
       if (response.data !== null) {
+        this.props.setComments([data, ...this.props.state.comments])
         this.props.setCreateStatus(false)
         this.setState({ status: null })
       }
@@ -169,25 +201,35 @@ class Status extends Component {
                 <View>
                   {(this.props.state.statusSearch === null || this.props.state.statusSearch === '') ?
                     <PostCard
+                      navigation={this.props.navigation}
+                      loader={this.loader}
                       data={{
                         user: item.account,
                         comments: item.comment_replies,
                         message: item.text,
-                        date: item.created_at_human
+                        date: item.created_at_human,
+                        id: item.id,
+                        joined: item.joined,
+                        count: item.count
                       }}
                       postReply={() => { this.reply(item) }}
                       reply={(value) => this.replyHandler(value)}
                       onLike={(params) => this.onChangeDataHandler(params)}
-                      onJoin={(params) => this.onChangeDataHandler(params)}
+                      onJoin={(params) => this.join(params)}
                     />
                     : <View>
                       {item.account && item.account.username && item.account.username.toLowerCase().includes(this.props.state.statusSearch && this.props.state.statusSearch.toLowerCase()) === true && (
                         <PostCard
+                          navigation={this.props.navigation}
+                          loader={this.loader}
                           data={{
                             user: item.account,
                             comments: item.comment_replies,
                             message: item.text,
-                            date: item.created_at_human
+                            date: item.created_at_human,
+                            id: item.id,
+                            joined: item.joined,
+                            count: item.count
                           }}
                           postReply={() => { this.reply(item) }}
                           reply={(value) => this.replyHandler(value)}

@@ -94,8 +94,8 @@ class HeaderOptions extends Component {
                       style={BasicStyles.iconStyle}/>
                   </View>
                 </TouchableOpacity>
-                <TouchableOpacity disabled={!this.state.finishLoad} onPress={() => this.state.status === true ?
-                    this.redirect('menuStack') : console.log('loading')}>
+                <TouchableOpacity disabled={!this.state.finishLoad} onPress={() => status !== 'completed' ?
+                    this.redirect('menuStack') : console.log(status)}>
                   <View style={{borderWidth: 2, borderRadius: 20, height: 30, width: 30, borderColor: Color.primary, justifyContent: 'center', alignItems: 'center', marginLeft: 5}}>
                       <Image source={require('assets/logo.png')} style={{
                         height: 20,
