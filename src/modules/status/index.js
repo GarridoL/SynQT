@@ -64,15 +64,11 @@ class Status extends Component {
       this.setState({ isLoading: false });
       if (response.data.length > 0) {
         this.setState({offset: flag === false ? 1 : (this.state.offset + 1)})
-        let joined = 0
         response.data.map((item, index) => {
           item.members?.length > 0 && item.members.map((i, index) => {
-            item['joined'] = i.account_id == this.props.state.user.id ? true : false
-            if(i.joined == 'true') {
-              joined += 1;
-            }
+            item['joined'] = i.account_id == this.props.state.user.id && i.joined === 'true' ? 'true' : 'false'
+            item['liked'] = i.account_id == this.props.state.user.id && i.liked === 'true' ? 'true' : 'false'
           })
-          item['count'] = joined;
         })
         setComments(flag === false ? response.data : _.uniqBy([...this.props.state.comments, ...response.data], 'id'));
       } else {
@@ -96,20 +92,38 @@ class Status extends Component {
     this.props.setComments(temp);
   }
 
-  join = (id) => {
+  join = (data) => {
     let parameter = {
       account_id: this.props.state.user.id,
-      comment_id: id,
-      liked: 'false',
-      joined: 'true'
+      comment_id: data.id,
+      liked: data.liked || 'false',
+      joined: data.joined === 'true' ? 'false' : 'true'
     }
     this.setState({ isLoading: true });
     Api.request(Routes.commentMembersCreate, parameter, response => {
-      console.log(response, 'heeey');
       this.setState({ isLoading: false });
-      if (response.data !== null) {
-        this.retrieve(false);
-      }
+      let temp = this.props.state.comments
+      temp[data.index].joined = data.joined === 'true' ? 'false' : 'true';
+      temp[data.index].count = data.joined === 'true' ? temp[data.index].count - 1 : temp[data.index].count + 1;
+      this.props.setComments(temp);
+    })
+  }
+
+
+  like = (data) => {
+    let parameter = {
+      account_id: this.props.state.user.id,
+      comment_id: data.id,
+      liked: data.liked === 'false' ? 'true' : 'false',
+      joined: data.joined || 'false'
+    }
+    this.setState({ isLoading: true });
+    console.log(parameter);
+    Api.request(Routes.commentMembersCreate, parameter, response => {
+      this.setState({ isLoading: false });
+      let temp = this.props.state.comments
+      temp[data.index].liked = data.liked === 'true' ? 'false' : 'true';
+      this.props.setComments(temp);
     })
   }
 
@@ -209,12 +223,21 @@ class Status extends Component {
                         message: item.text,
                         date: item.created_at_human,
                         id: item.id,
+                        liked: item.liked,
                         joined: item.joined,
-                        count: item.count
+                        count: item.members && item.members.length && item.members.map((item, index) => {
+                          let count = 0;
+                          if(item.joined === 'true') {
+                            count += 1;
+                          }
+                          return count;
+                        }),
+                        members: item.members,
+                        index: index
                       }}
                       postReply={() => { this.reply(item) }}
                       reply={(value) => this.replyHandler(value)}
-                      onLike={(params) => this.onChangeDataHandler(params)}
+                      onLike={(params) => this.like(params)}
                       onJoin={(params) => this.join(params)}
                     />
                     : <View>
@@ -228,13 +251,22 @@ class Status extends Component {
                             message: item.text,
                             date: item.created_at_human,
                             id: item.id,
+                            liked: item.liked,
                             joined: item.joined,
-                            count: item.count
+                            count: item.members && item.members.length && item.members.map((item, index) => {
+                              let count = 0;
+                              if(item.joined === 'true') {
+                                count += 1;
+                              }
+                              return count;
+                            }),
+                            members: item.members,
+                            index: index
                           }}
                           postReply={() => { this.reply(item) }}
                           reply={(value) => this.replyHandler(value)}
-                          onLike={(params) => this.onChangeDataHandler(params)}
-                          onJoin={(params) => this.onChangeDataHandler(params)}
+                          onLike={(params) => this.like(params)}
+                          onJoin={(params) => this.join(params)}
                         />
                       )}
                     </View>

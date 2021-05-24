@@ -26,7 +26,11 @@ class Connections extends Component {
   }
 
   componentDidMount() {
-    this.retrieve(false);
+    if(this.props.navigation?.state?.params?.fromComments) {
+      this.setState({data: this.props.navigation?.state?.params?.fromComments})
+    } else {
+      this.retrieve(false);
+    }
   }
 
   loading = (loading) => {
