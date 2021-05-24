@@ -63,7 +63,7 @@ class Connections extends Component {
       }, {
         value: user.id,
         column: 'account',
-        clause: 'or'
+        clause: '='
       }, {
         clause: "=",
         column: "status",

@@ -39,6 +39,12 @@ class PostCard extends Component {
     });
   }
 
+  createSynqt = (data) => {
+    if(data.members && data.members.length > 0) {
+      this.props.navigation.navigate('restaurantStack', {members: data.members})
+    }
+  }
+
   replyHandler = (value) => {
     this.setState({ reply: value });
     this.props.reply(value);
@@ -128,21 +134,20 @@ class PostCard extends Component {
           alignItems: 'center',
           justifyContent: 'center',
           borderRadius: 20,
-          borderColor: data.like_status == true ? Color.primary : Color.lightGray,
+          borderColor: data.liked === 'true' ? Color.primary : Color.lightGray,
           borderWidth: 1,
           height: 35,
           marginRight: 5,
-          backgroundColor: data.like_status == true ? Color.primary : Color.white
+          backgroundColor: data.liked === 'true' ? Color.primary : Color.white
         }}
-          // onPress={() => this.props.onLike({
-          //   ...data,
-          //   like_status: !data.like_status
-          // })}
+        onPress={() => {
+            this.props.onLike(data)
+        }}
         >
           <Text style={{
-            color: data.like_status == true ? Color.white : Color.black,
+            color: data.liked === 'true' ? Color.white : Color.black,
             fontSize: 11
-          }}>{data.like_status == true ? 'Liked' : 'Like'}</Text>
+          }}>{data.liked === 'true' ? 'Liked' : 'Like'}</Text>
         </TouchableOpacity>
 
 
@@ -151,21 +156,20 @@ class PostCard extends Component {
           alignItems: 'center',
           justifyContent: 'center',
           borderRadius: 20,
-          borderColor: data.joined == true ? Color.primary : Color.lightGray,
+          borderColor: data.joined === 'true' ? Color.primary : Color.lightGray,
           borderWidth: 1,
           height: 35,
           marginRight: 5,
-          backgroundColor: data.joined == true ? Color.primary : Color.white
+          backgroundColor: data.joined === 'true' ? Color.primary : Color.white
         }}
           onPress={() => {
-            if(data.joined == false) {
-              this.props.onJoin(data.id)
-            }}}
+              this.props.onJoin(data)
+            }}
           >
           <Text style={{
-            color: data.joined == true ? Color.white : Color.black,
+            color: data.joined === 'true' ? Color.white : Color.black,
             fontSize: 11
-          }}>{data.joined == true ? 'Joined' : 'Join'}</Text>
+          }}>{data.joined === 'true' ? 'Joined' : 'Join'}</Text>
         </TouchableOpacity>
         <Text style={{ color: 'gray', fontSize: 11 }}>{data.count} joined</Text>
         {data.user?.id === this.props.state.user.id && <TouchableOpacity style={{
@@ -180,7 +184,7 @@ class PostCard extends Component {
           padding: 5,
           backgroundColor: theme ? theme.primary : Color.primary
         }}
-        onPress={() => this.props.navigation.navigate('restaurantStack')}>
+        onPress={() => this.createSynqt(data)}>
           <Text style={{
             color: Color.white,
             fontSize: 10
@@ -280,7 +284,8 @@ const mapStateToProps = state => ({ state: state });
 const mapDispatchToProps = dispatch => {
   const { actions } = require('@redux');
   return {
-    setComments: (comments) => dispatch(actions.setComments(comments))
+    setComments: (comments) => dispatch(actions.setComments(comments)),
+    setTempMembers: (tempMembers) => dispatch(actions.setTempMembers(tempMembers))
   };
 };
 

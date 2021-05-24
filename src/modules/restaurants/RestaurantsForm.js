@@ -30,7 +30,7 @@ class Restaurants extends Component {
     const { setDefaultAddress, setTempMembers, setLocation } = this.props;
     setDefaultAddress(null);
     setLocation(null);
-    setTempMembers([]);
+    setTempMembers(this.props.navigation?.state?.params?.members ? this.props.navigation?.state?.params?.members : []);
     let date = new Date()
     this.setState({
       currentDate: date.setDate(date.getDate())
@@ -38,7 +38,7 @@ class Restaurants extends Component {
   }
 
   redirect(route) {
-    this.props.navigation.navigate(route)
+    this.props.navigation.navigate(route, {fromComments: this.props.navigation?.state?.params?.members})
   }
 
   goesTo = () => {

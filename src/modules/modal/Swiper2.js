@@ -7,7 +7,8 @@ import {
   Image,
   StatusBar,
   Dimensions,
-  ImageBackground
+  ImageBackground,
+  Alert
 } from 'react-native';
 import CardStack, { Card } from 'react-native-card-stack-swiper';
 import Tab from 'modules/generic/TabOptions';
@@ -136,12 +137,19 @@ class Cards extends React.Component {
     this.setState({ isLoading: true });
     Api.request(Routes.notificationDelete, parameter, response => {
       this.setState({ isLoading: false })
-      this.props.navigation.navigate('topChoiceStack', { synqt_id: this.props.navigation.state.params?.synqt_id });
+      // this.props.navigation.navigate('topChoiceStack', { synqt_id: this.props.navigation.state.params?.synqt_id });
+      Alert.alert(
+        "",
+        "Choice successfully submitted.",
+        [
+          { text: "OK"}
+        ],
+        { cancelable: false }
+      );
     });
   }
 
   renderCard = () => {
-    console.log(this.state.index, this.state.data.length, 'test');
     return (
       <View style={{ flex: 1, marginTop: '91%' }}>
         <CardStack
