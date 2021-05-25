@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Image, Dimensions, Text, TextInput } from 'react-native'
+import { View, TouchableOpacity, Image, Dimensions, Text, TextInput, Alert } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCheck, faTimes, faStar, faUserCircle, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import { BasicStyles, Color, Routes } from 'common';
@@ -20,28 +20,40 @@ class PostCard extends Component {
   }
 
   remove = (data) => {
-    let posts = this.props.state.comments;
-    let parameter = {
-      id: data.id
-    }
-    this.props.loader(true);
-    Api.request(Routes.commentsDelete, parameter, response => {
-      this.props.loader(false);
-      if (response.data !== null) {
-        posts && posts.length > 0 && posts.map((item, index) => {
-          if(item.id == data.id) {
-            this.setState({options: false})
-            posts.splice(index, 1)
-            this.props.setComments(posts)
-          }
-        })
-      }
-    });
+    Alert.alert(
+      '',
+      'Are you sure you want to delete this post?',
+      [
+        { text: 'Cancel', onPress: () => console.log('Ok'), style: 'cancel' },
+        {
+          text: 'Delete', onPress: () => {
+            let posts = this.props.state.comments;
+            let parameter = {
+              id: data.id
+            }
+            this.props.loader(true);
+            Api.request(Routes.commentsDelete, parameter, response => {
+              this.props.loader(false);
+              if (response.data !== null) {
+                posts && posts.length > 0 && posts.map((item, index) => {
+                  if (item.id == data.id) {
+                    this.setState({ options: false })
+                    posts.splice(index, 1)
+                    this.props.setComments(posts)
+                  }
+                })
+              }
+            });
+          }, style: 'cancel'
+        }
+      ],
+      { cancelable: false }
+    )
   }
 
   createSynqt = (data) => {
-    if(data.members && data.members.length > 0) {
-      this.props.navigation.navigate('restaurantStack', {members: data.members})
+    if (data.members && data.members.length > 0) {
+      this.props.navigation.navigate('restaurantStack', { members: data.members })
     }
   }
 
@@ -77,7 +89,7 @@ class PostCard extends Component {
               {data.date}
             </Text>
           </View>
-          {data.user.id === this.props.state.user.id && show === true && <TouchableOpacity onPress={() => {this.setState({options: !this.state.options})}}>
+          {data.user.id === this.props.state.user.id && show === true && <TouchableOpacity onPress={() => { this.setState({ options: !this.state.options }) }}>
             <FontAwesomeIcon icon={faEllipsisH} />
           </TouchableOpacity>}
           {this.state.options === true && show === true && (<TouchableOpacity style={{
@@ -140,9 +152,9 @@ class PostCard extends Component {
           marginRight: 5,
           backgroundColor: data.liked === 'true' ? Color.primary : Color.white
         }}
-        onPress={() => {
+          onPress={() => {
             this.props.onLike(data)
-        }}
+          }}
         >
           <Text style={{
             color: data.liked === 'true' ? Color.white : Color.black,
@@ -163,9 +175,9 @@ class PostCard extends Component {
           backgroundColor: data.joined === 'true' ? Color.primary : Color.white
         }}
           onPress={() => {
-              this.props.onJoin(data)
-            }}
-          >
+            this.props.onJoin(data)
+          }}
+        >
           <Text style={{
             color: data.joined === 'true' ? Color.white : Color.black,
             fontSize: 11
@@ -182,9 +194,11 @@ class PostCard extends Component {
           borderRadius: 20,
           height: 35,
           padding: 5,
-          backgroundColor: theme ? theme.primary : Color.primary
+          backgroundColor: theme ? theme.primary : Color.primary,
+          justifyContent: 'center',
+          alignItems: 'center'
         }}
-        onPress={() => this.createSynqt(data)}>
+          onPress={() => this.createSynqt(data)}>
           <Text style={{
             color: Color.white,
             fontSize: 10

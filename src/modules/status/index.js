@@ -60,7 +60,7 @@ class Status extends Component {
     }
     this.setState({ isLoading: true });
     Api.request(Routes.commentsRetrieve, parameter, response => {
-      console.log(response.data[0]?.members, 'response');
+      console.log(response.data[2]?.members, 'response');
       this.setState({ isLoading: false });
       if (response.data.length > 0) {
         this.setState({offset: flag === false ? 1 : (this.state.offset + 1)})
@@ -101,10 +101,11 @@ class Status extends Component {
     }
     this.setState({ isLoading: true });
     Api.request(Routes.commentMembersCreate, parameter, response => {
+      console.log(response, ['RESPONSE']);
       this.setState({ isLoading: false });
       let temp = this.props.state.comments
       temp[data.index].joined = data.joined === 'true' ? 'false' : 'true';
-      temp[data.index].count = data.joined === 'true' ? temp[data.index].count - 1 : temp[data.index].count + 1;
+      temp[data.index].count = temp[data.index].count + 1
       this.props.setComments(temp);
     })
   }
@@ -227,7 +228,7 @@ class Status extends Component {
                         joined: item.joined,
                         count: item.members && item.members.length && item.members.map((item, index) => {
                           let count = 0;
-                          if(item.joined === 'true') {
+                          if(item.joined == 'true') {
                             count += 1;
                           }
                           return count;
@@ -254,11 +255,11 @@ class Status extends Component {
                             liked: item.liked,
                             joined: item.joined,
                             count: item.members && item.members.length && item.members.map((item, index) => {
-                              let count = 0;
+                              let count = [];
                               if(item.joined === 'true') {
-                                count += 1;
+                                count.push(item)
                               }
-                              return count;
+                              return count.length;
                             }),
                             members: item.members,
                             index: index

@@ -159,8 +159,13 @@ class CardList extends Component {
                                     <TouchableOpacity
                                       onPress={() => this.updateStatus(el, 'accepted')}
                                       style={{
-                                        ...Style.actionBtn,
-                                        backgroundColor: Color.primary
+                                        height: 30,
+                                        backgroundColor: Color.primary,
+                                        width: '37%',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        borderRadius: 25,
+                                        marginLeft: 3,
                                       }}
                                     >
                                       <Text style={{ color: 'white' }}>Confirm</Text>
@@ -168,8 +173,13 @@ class CardList extends Component {
                                     <TouchableOpacity
                                       onPress={() => this.updateStatus(el, 'declined')}
                                       style={{
-                                        ...Style.actionBtn,
-                                        backgroundColor: 'gray'
+                                        height: 30,
+                                        backgroundColor: 'gray',
+                                        width: '37%',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        borderRadius: 25,
+                                        marginLeft: 3,
                                       }}
                                     >
                                       <Text style={{ color: 'white' }}>Delete</Text>
@@ -264,8 +274,13 @@ class CardList extends Component {
                                   <TouchableOpacity
                                     onPress={() => this.updateStatus(el, 'accepted')}
                                     style={{
-                                      ...Style.actionBtn,
-                                      backgroundColor: Color.primary
+                                      height: 30,
+                                      backgroundColor: Color.primary,
+                                      width: '37%',
+                                      alignItems: 'center',
+                                      justifyContent: 'center',
+                                      borderRadius: 25,
+                                      marginLeft: 3,
                                     }}
                                   >
                                     <Text style={{ color: 'white' }}>Confirm</Text>
@@ -273,8 +288,13 @@ class CardList extends Component {
                                   <TouchableOpacity
                                     onPress={() => this.updateStatus(el, 'declined')}
                                     style={{
-                                      ...Style.actionBtn,
-                                      backgroundColor: 'gray'
+                                      height: 30,
+                                      backgroundColor: 'gray',
+                                      width: '37%',
+                                      alignItems: 'center',
+                                      justifyContent: 'center',
+                                      borderRadius: 25,
+                                      marginLeft: 3,
                                     }}
                                   >
                                     <Text style={{ color: 'white' }}>Delete</Text>
