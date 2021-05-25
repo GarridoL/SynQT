@@ -199,6 +199,9 @@ class MessagesV3 extends Component {
   sendNewMessage = () => {
     const { messengerGroup, user, messagesOnGroup } = this.props.state;
     const { updateMessagesOnGroup, updateMessageByCode } = this.props;
+    if(this.state.newMessage === '' || this.state.newMessage === null) {
+      return
+    }
     let parameter = {
       messenger_group_id: this.props.navigation.state.params.data.messenger_group_id,
       message: this.state.newMessage,

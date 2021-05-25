@@ -66,7 +66,6 @@ class Restaurants extends Component {
     let param = {
       account_id: user.id,
       address_type: 'NULL',
-      merchant_id: this.props.state.user.sub_account?.merchant?.id || 'NULL',
       latitude: this.props.state.location.latitude || 'NULL',
       longitude: this.props.state.location.longitude || 'NULL',
       route: this.props.state.location.address || 'NULL',
@@ -83,6 +82,7 @@ class Restaurants extends Component {
       category: this.state.cuisines?.categories?.length >= 1 ? this.state.cuisines.categories : ["Filipino", "Chinese", "Japanese", "Indian", "Italian", "Thai", "Spanish", "French", "Korean", "Turkish"]
     }
     this.setState({ isLoading: true })
+    console.log(parameter);
     Api.request(Routes.locationCreate, param, response => {
       console.log(response, 'create location');
       setSelected([])
