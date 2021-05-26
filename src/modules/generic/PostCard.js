@@ -202,7 +202,7 @@ class PostCard extends Component {
           <Text style={{
             color: Color.white,
             fontSize: 10
-          }}>Create SYNQT</Text>
+          }} numberOfLines={1} adjustsFontSizeToFit>Create SYNQT</Text>
         </TouchableOpacity>}
       </View>
     )

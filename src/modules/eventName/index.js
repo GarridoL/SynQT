@@ -127,6 +127,7 @@ class EventName extends Component {
 
   render() {
     const { data } = this.props.navigation.state.params;
+    console.log(data.rating || 'y0', '--------------');
     return (
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={style.Container}>
@@ -173,7 +174,7 @@ class EventName extends Component {
               </View>
               <View style={style.Rate}>
                 <FontAwesomeIcon icon={faStar} color={Color.warning} style={{ marginRight: 2 }} size={8} />
-                <Text numberOfLines={1} style={{ fontSize: 10, color: Color.primary }}>43</Text>
+                <Text numberOfLines={1} style={{ fontSize: 10, color: Color.primary }}>{data.rating ? data.rating.avg : 0}</Text>
               </View>
               <View style={style.StarContainer}>
                 <TouchableOpacity style={style.Star}>

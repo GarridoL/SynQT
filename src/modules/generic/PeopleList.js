@@ -58,7 +58,7 @@ class PeopleList extends Component {
                     }
                   },
                   synqt_id: this.props.navigation?.state.params?.data?.payload || null,
-                  level: this.props.add === false ? 2 : 1 }) }}>
+                  level: this.props.inviteToSynqt === true ? 2 : 1 }) }}>
                 <UserImage
                   key={index}
                   user={
