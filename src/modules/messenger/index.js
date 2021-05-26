@@ -135,6 +135,7 @@ class Groups extends Component {
         setCurrentTitle(item.title);
         this.updateLastMessageStatus(item)
         setMessengerGroup(item);
+        console.log(response.data[0].status, parameter);
         setTimeout(() => {
           this.props.navigation.navigate('messagesStack', {
             data: item,

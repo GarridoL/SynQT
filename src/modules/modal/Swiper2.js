@@ -55,9 +55,11 @@ class Cards extends React.Component {
 
   retrieve = () => {
     this.setState({ isLoading: true })
-    Api.request(Routes.merchantsRetrieve, {sort: {
-      name: 'asc'
-    }}, response => {
+    Api.request(Routes.merchantsRetrieve, {
+      sort: {
+        name: 'asc'
+      }
+    }, response => {
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
         this.setState({ data: response.data, index: response.data.length - 1 });
@@ -92,7 +94,7 @@ class Cards extends React.Component {
       if (response.data.length > 0) {
         this.setState({
           offset: this.state.offset + 1,
-          products:  _.uniqBy([...this.state.products, ...response.data], 'id')
+          products: _.uniqBy([...this.state.products, ...response.data], 'id')
         })
       }
     },
@@ -104,7 +106,8 @@ class Cards extends React.Component {
   }
 
   swipeHandler = () => {
-    this.props.header(this.state.index >= this.state.data.length - 2 ? true : false);
+    console.log(this.state.index + 1, this.state.data.length - 2);
+    this.props.header(this.state.index + 1 === this.state.data.length - 2 ? true : false);
     this.setState({ index: this.state.index + 1 === this.state.data.length ? 0 : this.state.index + 1, products: [], offset: 0 })
   }
 
@@ -142,7 +145,7 @@ class Cards extends React.Component {
         "",
         "Choice successfully submitted.",
         [
-          { text: "OK"}
+          { text: "OK" }
         ],
         { cancelable: false }
       );
@@ -198,7 +201,7 @@ class Cards extends React.Component {
                         width: '70%'
                       }}>{el.address || 'No address'}</Text>
                     </View>
-                    <View style={{ position: 'absolute', bottom: 15, right: 20, flexDirection: 'row' }}>
+                    <View style={{ position: 'absolute', bottom: 25, right: 20, flexDirection: 'row' }}>
                       <FontAwesomeIcon
                         icon={faStar}
                         size={30}
@@ -286,9 +289,9 @@ class Cards extends React.Component {
     const { data } = this.state;
     return (
       <View
-        style={{ padding: 20, marginTop: '90%' }}
+        style={{ marginTop: '90%' }}
       >
-        <View>
+        <View style={{ padding: 20 }}>
           <View style={this.props.topFloatButton === true ? { marginTop: 30 } : { marginTop: 0 }}>
             <Tab level={1} choice={['Menu', 'Information']} onClick={this.choiceHandler}></Tab>
           </View>
@@ -310,12 +313,15 @@ class Cards extends React.Component {
               <Information
                 name={this.state.data[this.state.index]?.name || 'No data'}
                 hours={this.state.data[this.state.index]?.schedule || 'No schedule yet.'}
-                description={this.state.data[this.state.index]?.addition_information || 'No business information.'}
+                description={this.state.data[this.state.index]?.addition_informations || 'No business information.'}
               />}
           </View>
           {this.state.isLoading ? <Spinner mode="overlay" /> : null}
-          {this.props.bottomFloatButton === true > 0 && (<FLoatingButton onClick={() => { this.addToTopChoice() }}></FLoatingButton>)}
         </View>
+        {this.props.bottomFloatButton === true > 0 && (
+          <View style={{ alignItems: 'center', justifyContent: 'center', width: '90%' }}>
+            <FLoatingButton onClick={() => { this.addToTopChoice() }}></FLoatingButton>
+          </View>)}
       </View>
     )
   }
