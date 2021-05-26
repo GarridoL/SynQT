@@ -11,8 +11,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCopy, faSignOutAlt, faTimes, faUserCircle, faShieldAlt } from '@fortawesome/free-solid-svg-icons';
 import LinearGradient from 'react-native-linear-gradient'
 import { Dimensions } from 'react-native';
-import { color } from 'react-native-reanimated';
-import AsyncStorage from '@react-native-community/async-storage';
 const width = Math.round(Dimensions.get('window').width);
 const height = Math.round(Dimensions.get('window').height);
 
@@ -87,7 +85,7 @@ class Slider2 extends Component {
   render() {
     const { user, theme } = this.props.state;
     const { colors } = this.state
-    console.log('[COLOR]', theme)
+    // console.log('[COLOR]', theme)
     return (
       <SafeAreaView>
         <ScrollView showsVerticalScrollIndicator={false}>

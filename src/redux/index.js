@@ -24,7 +24,8 @@ const types = {
   SET_SHOW_SETTINGS: 'SET_SHOW_SETTINGS',
   SET_CURRENT_TITLE: 'SET_CURRENT_TITLE',
   SET_SELECTED: 'SET_SELECTED',
-  SET_COMMENTS: 'SET_COMMENTS'
+  SET_COMMENTS: 'SET_COMMENTS',
+  SET_RANGE: 'SET_RANGE'
 };
 
 export const actions = {
@@ -96,6 +97,9 @@ export const actions = {
   },
   setComments(comments) {
     return {type: types.SET_COMMENTS, comments}
+  },
+  setRange(range) {
+    return {type: types.SET_RANGE, range}
   }
 };
 
@@ -117,6 +121,7 @@ const initialState = {
   location: null,
   deviceLocation: null,
   defaultAddress: null,
+  range: null,
   tempMembers: [],
   showSettings: false,
   currentTitle: null,
@@ -142,7 +147,7 @@ const reducer = (state = initialState, action) => {
   const { createStatus } = action;
   const {location, size} = action;
   const {deviceLocation} = action;
-  const {tempMembers} = action;
+  const {tempMembers, range} = action;
   const {showSettings} = action;
   const {currentTitle} = action;
   const {selects} = action;
@@ -274,6 +279,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         createStatus,
+      };
+    case types.SET_RANGE:
+      return {
+        ...state,
+        range,
       };
     case types.SET_LOCATION:
       return {

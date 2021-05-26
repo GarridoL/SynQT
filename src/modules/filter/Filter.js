@@ -1,15 +1,12 @@
-import React, {Component} from 'react';
+import React, {Component, useCallback} from 'react';
 import { View, TouchableOpacity, FlatList, Text, Dimensions, ScrollView} from 'react-native';
 import Modal from "react-native-modal";
 import { Color , BasicStyles, Helper} from 'common';
 import {connect} from 'react-redux';
-import { SliderPicker } from 'react-native-slider-picker';
 import Button from 'components/Form/Button';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCheck, faCross, faEdit } from '@fortawesome/free-solid-svg-icons';
 import CustomMultiPicker from "./multipleSelect";
-import { set } from 'react-native-reanimated';
-// import PropTypes from 'prop-types';
+import FilterSlider from './sliderFilter.js'
 const height = Math.round(Dimensions.get('window').height);
 
 class Filter extends Component {
@@ -23,6 +20,7 @@ class Filter extends Component {
       check: false
     }
   }
+  
   action = () => {  
     this.props.action()
   }
@@ -33,8 +31,9 @@ class Filter extends Component {
 
   apply() {
     const { setSelected } = this.props
-    const { selects } = this.props.state
+    const { range } = this.props.state
     if(this.props.from == 'restaurant'){
+      console.log('amount', this.state.value, 'sdf', range)
       this.props.onFinish({
         amount : this.state.value
       })
@@ -49,41 +48,18 @@ class Filter extends Component {
   }
 
   amount() {
-    const { theme } = this.props.state;
     return(
-      <View style={{
+      <View
+      style={{
         width: '100%',
         marginTop: '10%',
-        justifyContent: 'center',
-        alignItems: 'center',
         marginLeft: '2%'
       }}>
-        <Text>{this.state.value < 100 ? this.setState({value: 100}) : this.state.value}</Text>
-        <SliderPicker 
-          callback={position => {
-            this.setState({ value: position })
-          }}
-          defaultValue={this.state.value}
-          labelFontColor={Color.black}
-          labelFontWeight={'600'}
-          showFill={false}
-          fillColor={'red'}
-          labelFontWeight={'bold'}
-          showNumberScale={true}
-          showSeparatorScale={true}
-          buttonBackgroundColor={'#fff'}
-          buttonBorderColor={theme ? theme.primary : Color.primary}
-          buttonBorderWidth={2}
-          scaleNumberFontWeight={'300'}
-          buttonDimensionsPercentage={6}
-          labelFontSize={BasicStyles.standardFontSize}
-          heightPercentage={.5}
-          widthPercentage={70}
-          sliderInnerBackgroundColor={theme ? theme.primary : Color.primary}
-          minLabel={'$100'}
-          maxLabel={'$9000'}
-          maxValue={9000}
-        />
+        <View style={{flexDirection: "row", marginBottom: '5%'}}>
+          <Text style={{display: 'flex', alignItems: 'flex-start'}}>$100</Text>
+          <Text style={{display: 'flex', alignItems: 'flex-end', marginLeft: '75%'}}>$900</Text>
+        </View>
+        <FilterSlider></FilterSlider>
       </View>
     )
   }
