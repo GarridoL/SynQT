@@ -66,15 +66,12 @@ class Status extends Component {
         this.setState({offset: flag === false ? 1 : (this.state.offset + 1)})
         response.data.map((item, index) => {
           item.members?.length > 0 && item.members.map((i, inde) => {
-            item['joined'] = i.account_id == this.props.state.user.id && i.joined === 'true' ? 'true' : 'false'
-            item['liked'] = i.account_id == this.props.state.user.id && i.liked === 'true' ? 'true' : 'false'
-            let counts = [];
-            if(i.joined === 'true') {
-              counts.push(item)
-            } else {
+            console.log(i.account_id, this.props.state.user.id, 'test------------');
+            item['joined'] = i.account_id === this.props.state.user.id && i.joined === 'true' ? 'true' : 'false'
+            item['liked'] = i.account_id === this.props.state.user.id && i.liked === 'true' ? 'true' : 'false'
+            if(i.joined !== 'true') {
               item.members.splice(inde, 1);
             }
-            item['count'] = counts.length;
           })
         })
         setComments(flag === false ? response.data : _.uniqBy([...this.props.state.comments, ...response.data], 'id'));
@@ -112,7 +109,16 @@ class Status extends Component {
       this.setState({ isLoading: false });
       let temp = this.props.state.comments
       temp[data.index].joined = data.joined === 'true' ? 'false' : 'true';
-      temp[data.index].count = data.joined === 'true' ? temp[data.index].count - 1 : temp[data.index].count + 1
+      let myAccount = {
+        account: {
+          profile: {
+            url: this.props.state.user.account_profile.url
+          }
+        },
+        joined: data.liked || false,
+        joined: data.joined === 'true' ? 'false' : 'true'
+      }
+      temp[data.index].members.push(myAccount)
       this.props.setComments(temp);
     })
   }
@@ -233,7 +239,6 @@ class Status extends Component {
                         id: item.id,
                         liked: item.liked,
                         joined: item.joined,
-                        count: item.count,
                         members: item.members,
                         index: index
                       }}
@@ -255,7 +260,6 @@ class Status extends Component {
                             id: item.id,
                             liked: item.liked,
                             joined: item.joined,
-                            count: item.count,
                             members: item.members,
                             index: index
                           }}

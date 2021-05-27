@@ -58,7 +58,6 @@ class ViewProfile extends Component {
     this.setState({ isLoading: true })
     Api.request(Routes.topChoiceRetrieveActivities, parameter, response => {
       this.setState({ isLoading: false })
-      console.log(response, 'response');
       if (response.data.length > 0) {
         this.setState({
           data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
@@ -98,10 +97,40 @@ class ViewProfile extends Component {
     Api.request(Routes.circleRetrieve, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
-        this.setState({
-          connections: flag == false ? response.data : _.uniqBy([...this.state.connections, ...response.data], 'id'),
-          offset: flag == false ? 1 : (this.state.offset + 1)
-        })
+        const { user } = this.props.state
+        let par = {
+          condition: [{
+            value: user.id,
+            column: 'account_id',
+            clause: '='
+          }, {
+            value: user.id,
+            column: 'account',
+            clause: '='
+          }, {
+            clause: "=",
+            column: "status",
+            value: 'accepted'
+          }],
+          offset: this.state.offset
+        }
+        this.setState({ isLoading: true })
+        Api.request(Routes.circleRetrieve, par, res => {
+          this.setState({ isLoading: false })
+          if (res.data.length > 0) {
+            let ids = []
+            res.data.forEach(el => {
+              ids.push(el.account_id)
+            });
+            response.data.forEach(element => {
+              element['connected'] = ids.includes(element.account.id)
+            });
+          }
+          this.setState({
+            connections: flag == false ? response.data : _.uniqBy([...this.state.connections, ...response.data], 'id'),
+            offset: flag == false ? 1 : (this.state.offset + 1)
+          })
+        });
       } else {
         this.setState({
           connections: flag == false ? [] : this.state.connections,
@@ -149,12 +178,11 @@ class ViewProfile extends Component {
   }
 
   renderConnections() {
-    console.log(this.props.navigation.state?.params?.actionContent);
     return (
       <View>
         {this.state.connections.length === 0 && (<Empty refresh={true} onRefresh={() => this.retrieveConnections(false)} />)}
         {
-          this.props.navigation.state?.params?.actionContent === null && this.state.connections.length > 0 && this.state.connections.map((el, idx) => {
+          this.state.connections.length > 0 && this.state.connections.map((el, idx) => {
             return (
               <TouchableOpacity onPress={() => { this.props.navigation.navigate('viewProfileStack', { user: el, level: 1 }) }}>
                 {/* <Card containerStyle={{padding:-5, borderRadius: 20}}> */}
@@ -181,63 +209,13 @@ class ViewProfile extends Component {
                       /></View>}
                   <View>
                     <View style={{ flexDirection: 'row', width: '100%' }}>
-                      <View style={{ width: '50%' }}>
+                      <View style={{ width: '65%' }}>
                         <Text style={{ fontWeight: 'bold', width: '110%' }} numberOfLines={1}>{el?.account?.information?.first_name ? el?.account?.information?.first_name + ' ' + el?.account?.information?.last_name : el?.account?.username}</Text>
                         <Text style={{ fontStyle: 'italic' }} numberOfLines={1}>{el?.account?.information?.address || 'No address provided'}</Text>
                         <Text style={{ color: 'gray', fontSize: 10 }} numberOfLines={1}>{el.numberOfConnection} similar connections</Text>
                       </View>
-                      {el.account?.id !== this.props.state.user.id && <TouchableOpacity
-                        onPress={() => this.sendRequest(el)}
-                        style={{
-                          ...Style.actionBtn,
-                          backgroundColor: '#4DD965'
-                        }}
-                      >
-                        <Text style={{ color: 'white' }}>Add</Text>
-                      </TouchableOpacity>}
-                    </View>
-                  </View>
-                </ListItem>
-                {/* </Card> */}
-              </TouchableOpacity>
-            )
-          })
-        }
-        {
-          this.props.navigation.state?.params?.actionContent?.length > 0 && this.state.connections.length > 0 && this.state.connections.map((el, idx) => {
-            this.props.navigation.state?.params?.actionContent.map((item, index) => {
-              return (
-                <TouchableOpacity onPress={() => { this.props.navigation.navigate('viewProfileStack', { user: el, level: 1 }) }}>
-                  {/* <Card containerStyle={{padding:-5, borderRadius: 20}}> */}
-                  <ListItem key={idx}>
-                    {el.account?.profile?.url ? <Image
-                      style={Style.circleImage}
-                      source={{ uri: Config.BACKEND_URL + el.account?.profile?.url }}
-                    /> :
-                      <View style={{
-                        borderColor: Color.primary,
-                        width: 75,
-                        height: 75,
-                        borderRadius: 50,
-                        borderColor: Color.primary,
-                        borderWidth: 3,
-                        overflow: "hidden",
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        paddingBottom: 8
-                      }}><FontAwesomeIcon
-                          icon={faUser}
-                          size={53}
-                          color={Color.primary}
-                        /></View>}
-                    <View>
-                      <View style={{ flexDirection: 'row', width: '100%' }}>
-                        <View style={{ width: '50%' }}>
-                          <Text style={{ fontWeight: 'bold', width: '110%' }} numberOfLines={1}>{el?.account?.information?.first_name ? el?.account?.information?.first_name + ' ' + el?.account?.information?.last_name : el?.account?.username}</Text>
-                          <Text style={{ fontStyle: 'italic' }} numberOfLines={1}>{el?.account?.information?.address || 'No address provided'}</Text>
-                          <Text style={{ color: 'gray', fontSize: 10 }} numberOfLines={1}>{el.numberOfConnection} similar connections</Text>
-                        </View>
-                        {(el.account?.id !== this.props.state.user.id) || (el.account?.id !== item.account?.id) && <TouchableOpacity
+                      {el.connected === false &&
+                        <TouchableOpacity
                           onPress={() => this.sendRequest(el)}
                           style={{
                             ...Style.actionBtn,
@@ -245,14 +223,14 @@ class ViewProfile extends Component {
                           }}
                         >
                           <Text style={{ color: 'white' }}>Add</Text>
-                        </TouchableOpacity>}
-                      </View>
+                        </TouchableOpacity>
+                      }
                     </View>
-                  </ListItem>
-                  {/* </Card> */}
-                </TouchableOpacity>
-              )
-            })
+                  </View>
+                </ListItem>
+                {/* </Card> */}
+              </TouchableOpacity>
+            )
           })
         }
       </View>

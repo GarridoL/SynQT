@@ -51,6 +51,7 @@ class Cards extends React.Component {
 
   componentDidMount() {
     this.retrieve();
+    this.retrieveTopChoices()
   }
 
   retrieve = () => {
@@ -70,6 +71,35 @@ class Cards extends React.Component {
         console.log({ error });
       },
     );
+  }
+
+  retrieveTopChoices = () => {
+    let parameter = {
+      condition: [{
+        value: this.props.navigation.state.params?.synqt_id,
+        column: 'synqt_id',
+        clause: '='
+      }],
+      limit: 5,
+      offset: 0
+    }
+    Api.request(Routes.topChoiceRetrieve, parameter, response => {
+      this.setState({finishLoad: true})
+      let temp = []
+      response.data.length > 0 && response.data.map(item => {
+        item.members.length > 0 && item.members.map(i => {
+          if(i.account_id == this.props.state.user.id) {
+            temp.push(item.merchant.id)
+          }
+        })
+      })
+      this.props.setTopChoices(temp);
+    });
+  }
+
+  goBack = () => {
+    console.log('test');
+    this.swipe.swipeRight();
   }
 
   retrieveProducts = () => {
@@ -112,6 +142,18 @@ class Cards extends React.Component {
   }
 
   addToTopChoice = () => {
+    const { topChoices } = this.props.state;
+    if(topChoices.includes(this.state.data[this.state.index].id)) {
+      Alert.alert(
+        "",
+        "Cannot choose the same restaurant twice.",
+        [
+          { text: "OK" }
+        ],
+        { cancelable: false }
+      );
+      return
+    }
     let parameter = {
       account_id: this.props.state.user.id,
       payload: 'merchant_id',
@@ -123,6 +165,7 @@ class Cards extends React.Component {
     Api.request(Routes.topChoiceCreate, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data !== null) {
+        topChoices.push(this.state.data[this.state.index].id)
         this.deleteFromNotification(this.props.id);
       }
     },
@@ -298,7 +341,7 @@ class Cards extends React.Component {
           <View style={this.props.bottomFloatButton === true ? { marginBottom: 200 } : { marginBottom: 0 }}>
             {this.state.choice == 'Menu' ? (
               <View>
-                <MenuCards data={this.state.products.length > 0 && this.state.products} />
+                <MenuCards data={this.state.products.length > 0 && this.state.products}/>
                 {this.state.products.length === 0 && (
                   <View style={{
                     alignItems: 'center',
@@ -320,7 +363,7 @@ class Cards extends React.Component {
         </View>
         {this.props.bottomFloatButton === true > 0 && (
           <View style={{ alignItems: 'center', justifyContent: 'center', width: '90%' }}>
-            <FLoatingButton onClick={() => { this.addToTopChoice() }}></FLoatingButton>
+            <FLoatingButton onClose={() => {this.swiper.swipeRight()}} onClick={() => { this.addToTopChoice() }}></FLoatingButton>
           </View>)}
       </View>
     )
@@ -353,4 +396,14 @@ class Cards extends React.Component {
 
 const mapStateToProps = state => ({ state: state });
 
-export default connect(mapStateToProps)(Cards);
+const mapDispatchToProps = dispatch => {
+  const { actions } = require('@redux');
+  return {
+    setTopChoices: (topChoices) => dispatch(actions.setTopChoices(topChoices))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Cards);

@@ -104,9 +104,7 @@ class HeaderOptions extends Component {
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity disabled={!this.state.finishLoad} onPress={() => {
-                  if(status !== 'completed') {
-                    setShowSettings(!this.props.state.showSettings)
-                  }
+                  setShowSettings(!this.props.state.showSettings)
                 }}>
                   <View>
                     <FontAwesomeIcon

@@ -22,7 +22,8 @@ class Profile extends Component {
       id: null,
       isImageUpload: false,
       password: null,
-      confirmPassword: null
+      confirmPassword: null,
+      email: null
     }
   }
 
@@ -36,6 +37,10 @@ class Profile extends Component {
 
   lastNameHandler = (value) => {
     this.setState({ lastName: value })
+  }
+
+  emailHandler = (value) => {
+    this.setState({ email: value })
   }
 
   retrieve = () => {
@@ -58,7 +63,8 @@ class Profile extends Component {
         this.setState({
           id: data.id,
           firstName: data.first_name,
-          lastName: data.last_name
+          lastName: data.last_name,
+          email: user.email
         })
       }
     });
@@ -66,6 +72,17 @@ class Profile extends Component {
 
   updateAccount = () => {
     const { user } = this.props.state;
+    if(this.state.email !== user.email && (this.state.password === '' || this.state.password === null)) {
+      Alert.alert(
+        "Opps",
+        "Email not updated. Password needs to be changed too if you change your email.",
+        [
+          { text: "OK" }
+        ],
+        { cancelable: false }
+      );
+      return
+    }
     if(this.state.password && this.state.password.length < 6) {
       Alert.alert(
         "Opps",
@@ -97,10 +114,13 @@ class Profile extends Component {
       id: user.id,
       code: user.code,
       username: user.username,
+      email: this.state.email,
       password: this.state.password
     }
+    console.log(parameter, Routes.accountUpdate);
     this.setState({ isLoading: true })
     Api.request(Routes.accountUpdate, parameter, response => {
+      console.log(response, 'response');
       this.setState({ isLoading: false })
       this.reloadProfile();
     }, error => {
@@ -297,6 +317,14 @@ class Profile extends Component {
                 onChangeText={text => this.lastNameHandler(text)}
                 value={this.state.lastName}
                 placeholder='   Enter Last Name'
+                placeholderTextColor={'#d1d1d1'}
+              />
+              <Text style={Style.TextStyle}>Email</Text>
+              <TextInput
+                style={Style.TextInput}
+                onChangeText={text => this.emailHandler(text)}
+                value={this.state.email}
+                placeholder='   Enter Email'
                 placeholderTextColor={'#d1d1d1'}
               />
               <Text style={Style.TextStyle}>Password</Text>
