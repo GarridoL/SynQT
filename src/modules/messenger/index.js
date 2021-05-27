@@ -147,7 +147,7 @@ class Groups extends Component {
   }
 
   _card = (item) => {
-    const { user } = this.props.state;
+    const { user, theme } = this.props.state;
     return (
       <View>
         <TouchableHighlight
@@ -168,16 +168,32 @@ class Groups extends Component {
               {
                 item?.members && item.members.length > 0 ? (
                   <View>
-                    <Image
-                      source={item.members.length > 0 && item.members[1]?.profile?.url ? { uri: Config.BACKEND_URL + item.members[0]?.profile?.url } : require('assets/test.jpg')}
+                    {item.members.length > 1 && item.members[1]?.profile?.url ? <Image
+                      source={{ uri: Config.BACKEND_URL + item.members[1]?.profile?.url }}
                       style={[BasicStyles.profileImageSize, {
                         height: 30,
                         width: 30,
                         borderRadius: 100,
                         marginBottom: -10,
                         marginLeft: 13
-                      }]} />
-                    <View style={{
+                      }]} /> :
+                      <View style={{
+                        height: 35,
+                        width: 35,
+                        marginBottom: -10,
+                        borderRadius: 50,
+                        borderColor: theme ? theme.primary : Color.primary,
+                        borderWidth: 1,
+                        marginLeft: 13,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}><FontAwesomeIcon
+                          icon={faUser}
+                          size={20}
+                          color={Color.primary}
+                        /></View>
+                      }
+                    {item.members.length > 0 && item.members[0]?.profile?.url ? <View style={{
                       height: 35,
                       width: 35,
                       borderRadius: 100,
@@ -193,7 +209,25 @@ class Groups extends Component {
                           width: 30,
                           borderRadius: 100
                         }]} />
-                    </View>
+                    </View> :
+                    <View style={{
+                      height: 35,
+                      width: 35,
+                      borderRadius: 100,
+                      marginBottom: 10,
+                      backgroundColor: 'white',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderColor: theme ? theme.primary : Color.primary,
+                      borderWidth: 1,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}><FontAwesomeIcon
+                        icon={faUser}
+                        size={20}
+                        color={Color.primary}
+                      /></View>
+                    }
                   </View>
                 ) :
                   <View style={{

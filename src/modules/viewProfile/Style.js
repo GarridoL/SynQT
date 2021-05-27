@@ -46,6 +46,8 @@ export default {
     width: '35%',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 25
+    borderRadius: 25,
+    position: 'absolute',
+    left: width - 220
   },
 }

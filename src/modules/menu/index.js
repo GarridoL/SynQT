@@ -13,6 +13,7 @@ import Swipe from 'modules/modal/Swiper2';
 class Menu extends Component{
   constructor(props){
 		super(props);
+    this.child = React.createRef();
 		this.state = {
 			choice: 'Menu',
       header: false
@@ -23,16 +24,20 @@ class Menu extends Component{
     this.setState({header: value})
   }
 
+  goBack = () => {
+    this.child.goBack()
+  }
+
   render() {
     const { data } = this.state;
     return (
       <View style={{flex: 1}}>
         <View>
-          <Header status={this.state.header} {...this.props}></Header>
+          <Header status={this.state.header} {...this.props} goBack={() => {this.goBack()}}></Header>
         </View>
         {/* <ScrollView> */}
         <View>
-          <Swipe id={this.props.navigation.state?.params?.id} navigation={this.props.navigation} header={(value) => {this.headerHandler(value)}} topFloatButton={false} bottomFloatButton={true}></Swipe>
+          <Swipe onRef={ref => (this.child = ref)} id={this.props.navigation.state?.params?.id} navigation={this.props.navigation} header={(value) => {this.headerHandler(value)}} topFloatButton={false} bottomFloatButton={true}></Swipe>
         </View>
       {/* </ScrollView> */}
       <Footer layer={1} {...this.props}/>
