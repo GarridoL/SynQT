@@ -121,6 +121,7 @@ class Cards extends React.Component {
   }
 
   renderCard = (data) => {
+    console.log(data.rating, 'heeee');
     return (
       <View style={{ flex: 1}}>
           <Card style={[styles.card]}>
@@ -156,31 +157,31 @@ class Cards extends React.Component {
                   }}>{data && data.address && data.address && data.address || 'No address'}</Text>
               </View>
               <View style={{ position: 'absolute', bottom: 70, right: 15, flexDirection: 'row' }}>
-                <FontAwesomeIcon
-                  icon={faStar}
-                  size={30}
-                  color={'#FFCC00'}
-                />
-                <FontAwesomeIcon
-                  icon={faStar}
-                  size={30}
-                  color={'#FFCC00'}
-                />
-                <FontAwesomeIcon
-                  icon={faStar}
-                  size={30}
-                  color={'#FFCC00'}
-                />
-                <FontAwesomeIcon
-                  icon={faStar}
-                  size={30}
-                  color={Color.gray}
-                />
-                <FontAwesomeIcon
-                  icon={faStar}
-                  size={30}
-                  color={Color.gray}
-                />
+              <FontAwesomeIcon
+                        icon={faStar}
+                        size={30}
+                        color={data.rating?.stars >= 1 ? '#FFCC00' : '#ededed'}
+                      />
+                      <FontAwesomeIcon
+                        icon={faStar}
+                        size={30}
+                        color={data?.rating?.stars >= 2 ? '#FFCC00' : '#ededed'}
+                      />
+                      <FontAwesomeIcon
+                        icon={faStar}
+                        size={30}
+                        color={data?.rating?.stars >= 3 ? '#FFCC00' : '#ededed'}
+                      />
+                      <FontAwesomeIcon
+                        icon={faStar}
+                        size={30}
+                        color={data?.rating?.stars >= 4 ? '#FFCC00' : '#ededed'}
+                      />
+                      <FontAwesomeIcon
+                        icon={faStar}
+                        size={30}
+                        color={data?.rating?.stars >= 5 ? '#FFCC00' : '#ededed'}
+                      />
               </View>
               {this.props.topFloatButton === true && (<View style={{
                 ...BasicStyles.standardWidth,
@@ -277,7 +278,7 @@ class Cards extends React.Component {
               <Information
                 name={this.state.data?.name || 'No data'}
                 hours={this.state.data?.schedule || 'No schedule yet.'}
-                description={' is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s. It is simply dummy text of the printing and typesetting industry.'}
+                description={this.state.data?.addition_informations || 'No business information.'}
               />}
           </View>
         </View>

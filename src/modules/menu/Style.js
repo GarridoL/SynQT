@@ -12,12 +12,14 @@ export default {
   Image: {
     width: '45%',
     height: '100%',
-    borderRadius: 15
+    borderRadius: 15,
+    float: 'left'
   },
   Text: {
-    marginLeft: 20,
-    width: 200,
-    height: 100
+    marginLeft: 15,
+    width: '50%',
+    height: 100,
+    float: 'right'
   },
   Title: {
     fontWeight: 'bold',

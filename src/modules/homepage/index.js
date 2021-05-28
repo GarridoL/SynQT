@@ -43,18 +43,18 @@ class HomePage extends Component {
               style={{ borderRadius: 20, width: '90%', marginLeft: 'auto', marginRight: 'auto', marginTop: '15%', paddingRight: 250, paddingLeft: 10 }}
             >
               <View style={{ flex: 1, flexDirection: 'row' }}>
-                <View style={{ marginTop: 50 }}>
+                <View style={{ marginTop: 50, marginRight: 10 }}>
                   <Text style={{
                     textAlign: 'center',
                     color: Color.white
                   }}>{user?.account_information?.first_name ? user?.account_information?.first_name + '  ' + user?.account_information?.last_name : user?.username}</Text>
-                  <Text style={{
+                  <Text adjustsFontSizeToFit style={{
                     textAlign: 'center',
                     fontWeight: 'bold',
                     color: Color.white,
                     fontSize: 25,
-                    width: 200
-                  }}>What's the Consensus.</Text>
+                    width: 190
+                  }}>HI GUYS! WHERE SHALL WE GO?</Text>
                 </View>
                 <View style={{
                   justifyContent: 'center',

@@ -74,7 +74,7 @@ class Header extends Component {
                  right: 10,
                  marginLeft: 12,
                }}
-                onPress={() => this.props.navigation.navigate('menuStack')}
+                onPress={() => this.props.goBack()}
                >
                <FontAwesomeIcon
                  icon={faReply}

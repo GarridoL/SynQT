@@ -43,9 +43,14 @@ class History extends Component {
         value: status,
         column: 'status',
         clause: '='
+      }, {
+        value: '%%',
+        column: 'details',
+        clause: 'like'
       }],
       limit: this.state.limit,
-      offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset
+      offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
+      sort: { datetime: 'asc'}
     }
     this.setState({ isLoading: true })
     Api.request(Routes.reservationRetrieve, parameter, response => {

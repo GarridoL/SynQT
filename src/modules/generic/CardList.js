@@ -126,7 +126,7 @@ class CardList extends Component {
               <View>
                 {this.props.search ?
                   <View>
-                    {this.props.search && (this.props.search !== null || this.props.search !== '') && (((el.account?.information?.first_name + ' ' + el.account?.information?.last_name).toLowerCase()).includes(this.props.search.toLowerCase()) || (el.account?.username).toLowerCase().includes(this.props.search.toLowerCase())) && <TouchableOpacity onPress={() => { this.props.navigation.navigate('viewProfileStack', { user: el, level: this.props.level }) }}>
+                    {this.props.search && (this.props.search !== null || this.props.search !== '') && (((el.account?.information?.first_name + ' ' + el.account?.information?.last_name).toLowerCase()).includes(this.props.search.toLowerCase()) || (el.account?.username).toLowerCase().includes(this.props.search.toLowerCase())) && <TouchableOpacity onPress={() => { this.props.navigation.navigate('viewProfileStack', { user: el, level: this.props.level}) }}>
                       <ListItem key={idx} style={{ width: width }}>
                         {el.account?.profile?.url ? <Image
                           style={Style.circleImage}

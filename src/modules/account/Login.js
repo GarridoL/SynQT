@@ -535,8 +535,17 @@ class Login extends Component {
                 })}
                 style={{width: '80%', borderColor: 'white', color: 'black'}}
                 placeholder={'Password'}
-                />
+              />
 
+              <Text
+                onPress={() => this.redirect('forgotPasswordStack')}
+                style={{
+                  color: 'white',
+                  width: '50%',
+                  marginLeft: '60%',
+                  textDecorationLine:'underline',
+                }}
+              >Forgot Password?</Text>
 
               <Button content={
                 <View style={{flex: 1, flexDirection: 'row', marginTop: 5}}>

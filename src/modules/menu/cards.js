@@ -31,9 +31,9 @@ class Cards extends Component {
                 </View>
               )}
             <View style={Style.Text}>
-              <Text style={Style.Title}>{u.title}</Text>
-              <Text style={Style.Price}>USD {u.price}</Text>
-              <Text style={Style.Description} numberOfLines={4}>{u.description}</Text>
+              <Text style={Style.Title} adjustsFontSizeToFit numberOfLines={1}>{u.title}</Text>
+              <Text style={Style.Price} numberOfLines={1} adjustsFontSizeToFit>{u.price?.length > 0 ? u.price[0].currency + ' ' + u.price[0].price : 'No specific price.'}</Text>
+              <Text style={Style.Description} numberOfLines={3} adjustsFontSizeToFit>{u.description}</Text>
             </View>
           </View>
         );

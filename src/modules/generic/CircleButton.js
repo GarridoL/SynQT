@@ -24,6 +24,9 @@ class FloatingButton extends Component{
             backgroundColor:'#F7B567',
             borderRadius:40,
           }}
+          onPress={() => {
+            this.props.onClose();
+          }}
         >
           <FontAwesomeIcon
             icon={faTimes}

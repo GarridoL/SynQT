@@ -82,7 +82,6 @@ class Restaurants extends Component {
       category: this.state.cuisines?.categories?.length >= 1 ? this.state.cuisines.categories : ["Filipino", "Chinese", "Japanese", "Indian", "Italian", "Thai", "Spanish", "French", "Korean", "Turkish"]
     }
     this.setState({ isLoading: true })
-    console.log(parameter);
     Api.request(Routes.locationCreate, param, response => {
       console.log(response, 'create location');
       setSelected([])
@@ -344,7 +343,7 @@ class Restaurants extends Component {
               maxValue={50}
             />
             <Text style={{ marginLeft: 20, marginBottom: 5 }}>People in this SYNQT</Text>
-            <Group navigation={this.props.navigation} add={true} style={{ marginLeft: 50, marginTop: -30 }} redirectTo={() => this.goesTo()} data={this.props.state.tempMembers} />
+            <Group navigation={this.props.navigation} add={true} inviteToSynqt={true} style={{ marginLeft: 50, marginTop: -30 }} redirectTo={() => this.goesTo()} data={this.props.state.tempMembers} />
           </View>
 
           <View style={{

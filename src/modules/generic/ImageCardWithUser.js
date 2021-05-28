@@ -88,10 +88,9 @@ class ImageCardWithUser extends Component {
                 </View>
                 {data.details === true && <View style={{
                   flexDirection: 'row',
-                  width: '50%',
                   position: 'absolute',
                   bottom: 10,
-                  right: width - (width + 40),
+                  right: 10,
                 }}><View style={{
                   backgroundColor: 'white',
                   borderRadius: 6,
