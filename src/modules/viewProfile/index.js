@@ -120,9 +120,12 @@ class ViewProfile extends Component {
           if (res.data.length > 0) {
             let ids = []
             res.data.forEach(el => {
-              ids.push(el.account_id)
+              ids.push(el.account?.id)
+              console.log(el.account);
             });
+            console.log(ids, 'ids-----');
             response.data.forEach(element => {
+              console.log(element.account.id);
               element['connected'] = ids.includes(element.account.id)
             });
           }
@@ -273,7 +276,8 @@ class ViewProfile extends Component {
                     address: item.merchant.address || 'No address provided',
                     name: item.merchant.name,
                     date: item.synqt[0].date,
-                    superlike: true,
+                    superlike: item.total_super_likes || 0,
+                    distance: item.distance || '0km',
                     users: item.members && item.members.length > 0 ? item.members : [],
                     details: true,
                     ratings: item.rating

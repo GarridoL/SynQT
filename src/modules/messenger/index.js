@@ -352,7 +352,7 @@ class Groups extends Component {
             borderBottomWidth: 1,
             paddingBottom: 10,
           }}>
-            <Group add={false} style={{
+            <Group inviteToSynqt={true} add={false} style={{
               borderColor: Color.primary,
               borderWidth: 2
             }} navigation={this.props.navigation} size={50} data={this.state.connections} />

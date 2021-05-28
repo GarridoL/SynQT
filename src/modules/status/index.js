@@ -103,10 +103,8 @@ class Status extends Component {
       liked: data.liked || 'false',
       joined: data.joined === 'true' ? 'false' : 'true'
     }
-    this.setState({ isLoading: true });
     Api.request(Routes.commentMembersCreate, parameter, response => {
       console.log(response, ['RESPONSE']);
-      this.setState({ isLoading: false });
       let temp = this.props.state.comments
       temp[data.index].joined = data.joined === 'true' ? 'false' : 'true';
       let myAccount = {
@@ -131,10 +129,8 @@ class Status extends Component {
       liked: data.liked === 'false' ? 'true' : 'false',
       joined: data.joined || 'false'
     }
-    this.setState({ isLoading: true });
     console.log(parameter);
     Api.request(Routes.commentMembersCreate, parameter, response => {
-      this.setState({ isLoading: false });
       let temp = this.props.state.comments
       temp[data.index].liked = data.liked === 'true' ? 'false' : 'true';
       this.props.setComments(temp);

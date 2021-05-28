@@ -117,40 +117,36 @@ class ImageCardWithUser extends Component {
                     alignItems: 'center',
                     flexDirection: 'row'
                   }}>
-                    <Text numberOfLines={1} style={{ fontSize: 10, color: 'white' }}>0.64 km</Text>
+                    <Text numberOfLines={1} style={{ fontSize: 10, color: 'white' }}>{data.distance || '0km'}</Text>
                   </View></View>}
               </View>
-              {
-                data.superlike == true && (
-                  <View style={{
-                    backgroundColor: 'white',
-                    borderRadius: 6,
-                    height: 21,
-                    position: 'absolute',
-                    top: 10,
-                    right: 10,
-                    width: 50,
-                    borderWidth: .5,
-                    borderColor: Color.primary,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexDirection: 'row'
-                  }}>
-                    <TouchableOpacity style={{
-                      height: 15,
-                      width: 15,
-                      borderRadius: 8,
-                      backgroundColor: '#30F2F2',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      marginRight: 5
-                    }}>
-                      <FontAwesomeIcon icon={faStar} color={Color.white} size={8} />
-                    </TouchableOpacity>
-                    <Text numberOfLines={1} style={{ color: Color.warning }}>1</Text>
-                  </View>
-                )
-              }
+              <View style={{
+                backgroundColor: 'white',
+                borderRadius: 6,
+                height: 21,
+                position: 'absolute',
+                top: 10,
+                right: 10,
+                width: 50,
+                borderWidth: .5,
+                borderColor: Color.primary,
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'row'
+              }}>
+                <TouchableOpacity style={{
+                  height: 15,
+                  width: 15,
+                  borderRadius: 8,
+                  backgroundColor: '#30F2F2',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginRight: 5
+                }}>
+                  <FontAwesomeIcon icon={faStar} color={Color.white} size={8} />
+                </TouchableOpacity>
+                <Text numberOfLines={1} style={{ color: Color.warning }}>{data.superlike || 0}</Text>
+              </View>
             </TouchableOpacity>
           )
         }

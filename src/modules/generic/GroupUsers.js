@@ -24,7 +24,7 @@ class GroupUsers extends Component{
           data.length > 0 && data.map((item, index) => {
             if(index < 5) {
               return (
-                <TouchableOpacity onPress={() => {this.props.navigation.navigate('viewProfileStack', { user: item, level: 1 }) }}>
+                <TouchableOpacity onPress={() => {this.props.navigation.navigate('viewProfileStack', { user: item, level: 2 }) }}>
                   <UserImage
                     user={{profile: item.account?.profile ? item.account.profile : item?.profile}}
                     color={this.props.color ? this.props.color : Color.secondary}
