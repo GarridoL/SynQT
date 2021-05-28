@@ -43,7 +43,7 @@ class HomePage extends Component {
               style={{ borderRadius: 20, width: '90%', marginLeft: 'auto', marginRight: 'auto', marginTop: '15%', paddingRight: 250, paddingLeft: 10 }}
             >
               <View style={{ flex: 1, flexDirection: 'row' }}>
-                <View style={{ marginTop: 50, marginRight: 10 }}>
+                <View style={{ marginTop: 50, marginRight: 20 }}>
                   <Text style={{
                     textAlign: 'center',
                     color: Color.white

@@ -668,9 +668,9 @@ class MessagesV3 extends Component {
   }
 
   render() {
-    console.log(this.props.navigation.state.params.data, 'id');
     const { isLoading, isImageModal, imageModalUrl, photo, keyRefresh, isPullingMessages, isLock } = this.state;
     const { data } = this.props.navigation.state.params;
+    console.log(data.status, '-------------------');
     const { messengerGroup, user, isViewing } = this.props.state;
     return (
       <SafeAreaView>
@@ -699,7 +699,7 @@ class MessagesV3 extends Component {
             margin: '2%',
             flexDirection: 'row'
           }}>
-            <Group add={true} navigation={this.props.navigation} style={{ marginLeft: 9 }} redirectTo={() => this.props.navigation.navigate('peopleListStack', { data: this.props.navigation.state?.params?.data, addMember: this.props.navigation.state.params.data.messenger_group_id })} color={Color.primary} size={55} data={this.state.members} />
+            <Group add={data?.status === 'ADMIN' ? true : false} navigation={this.props.navigation} style={{ marginLeft: 9 }} redirectTo={() => this.props.navigation.navigate('peopleListStack', { data: this.props.navigation.state?.params?.data, addMember: this.props.navigation.state.params.data.messenger_group_id })} color={Color.primary} size={55} data={this.state.members} />
           </View>
         )}
         <KeyboardAvoidingView

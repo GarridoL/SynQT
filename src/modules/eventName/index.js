@@ -127,7 +127,6 @@ class EventName extends Component {
 
   render() {
     const { data } = this.props.navigation.state.params;
-    console.log(data.rating || 'y0', '--------------');
     return (
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={style.Container}>
@@ -170,7 +169,7 @@ class EventName extends Component {
                 <Text style={{ color: Color.primary, fontSize: 10 }}>{data.synqt[0].date}</Text>
               </View>
               <View style={style.Distance}>
-                <Text numberOfLines={1} style={{ fontSize: 10, color: 'white' }}>0.64 km</Text>
+                <Text numberOfLines={1} style={{ fontSize: 10, color: 'white' }}>{data.distance || '0km'}</Text>
               </View>
               <View style={style.Rate}>
                 <FontAwesomeIcon icon={faStar} color={Color.warning} style={{ marginRight: 2 }} size={8} />
@@ -180,7 +179,7 @@ class EventName extends Component {
                 <TouchableOpacity style={style.Star}>
                   <FontAwesomeIcon icon={faStar} color={Color.white} size={8} />
                 </TouchableOpacity>
-                <Text numberOfLines={1} style={{ color: Color.warning }}>1</Text>
+                <Text numberOfLines={1} style={{ color: Color.warning }}>{data.total_super_likes || 0}</Text>
               </View>
             </View>
           </View>

@@ -83,6 +83,7 @@ class Header extends Component {
               width: '70%',
               marginRight: '2%',
               marginLeft: '-13%',
+              justifyContent: 'center'
             }}>
               <TextInput
                 style={{
