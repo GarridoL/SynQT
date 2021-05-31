@@ -94,6 +94,9 @@ class MessagesV3 extends Component {
     Api.request(Routes.messengerMembersRetrieve, parameter, response => {
       this.setState({ isLoading: false });
       if (response.data.length > 0) {
+        response.data.map((item, index) => {
+          item.account['information'] = item.information ? item.information : []
+        })
         this.setState({ members: response.data })
       }
     })
@@ -699,7 +702,7 @@ class MessagesV3 extends Component {
             margin: '2%',
             flexDirection: 'row'
           }}>
-            <Group add={data?.status === 'ADMIN' ? true : false} navigation={this.props.navigation} style={{ marginLeft: 9 }} redirectTo={() => this.props.navigation.navigate('peopleListStack', { data: this.props.navigation.state?.params?.data, addMember: this.props.navigation.state.params.data.messenger_group_id })} color={Color.primary} size={55} data={this.state.members} />
+            <Group add={data?.status === 'ADMIN' && this.props.navigation?.state.params?.status !== 'completed' ? true : false} navigation={this.props.navigation} style={{ marginLeft: 9 }} redirectTo={() => this.props.navigation.navigate('peopleListStack', { data: this.props.navigation.state?.params?.data, addMember: this.props.navigation.state.params.data.messenger_group_id })} color={Color.primary} size={55} data={this.state.members} />
           </View>
         )}
         <KeyboardAvoidingView

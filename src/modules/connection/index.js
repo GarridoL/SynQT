@@ -50,6 +50,16 @@ class Connections extends Component {
     this.retrieveSuggestions(false);
   }
 
+  removeConnection = (id) => {
+    let temp = this.state.connections
+    temp?.length > 0 && temp.map((item, index) => {
+      if(item.id === id) {
+        temp.splice(index, 1);
+      }
+    })
+    this.setState({connections: temp});
+  }
+
   loading = (loading) => {
     this.setState({ isLoading: loading })
   }
@@ -202,7 +212,7 @@ class Connections extends Component {
           {
             this.state.currActive == 0 ? (
               <View>
-                <CardList loading={this.loading} level={2} retrieve={() => { this.refresh() }} status={'pending'} navigation={this.props.navigation} data={this.state.pending.length > 0 && this.state.pending} hasAction={true} actionType={'text'}></CardList>
+                <CardList delete={(id) => {this.removeConnection(id)}} loading={this.loading} level={2} retrieve={() => { this.refresh() }} status={'pending'} navigation={this.props.navigation} data={this.state.pending.length > 0 && this.state.pending} hasAction={true} actionType={'text'}></CardList>
                 {this.state.pending.length === this.state.limit &&
                   <TouchableOpacity onPress={() => {this.retrieveSuggestions(true)}}>
                     <Text style={{ color: 'gray', paddingTop: 5, paddingLeft: 15 }}>See All</Text>
@@ -213,7 +223,7 @@ class Connections extends Component {
                 </View>
 
                 <View>
-                  <CardList loading={this.loading} level={2} invite={false} retrieve={() => { this.refresh() }} navigation={this.props.navigation} data={this.state.suggestions.length > 0 && this.state.suggestions} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
+                  <CardList delete={(id) => {this.removeConnection(id)}} loading={this.loading} level={2} invite={false} retrieve={() => { this.refresh() }} navigation={this.props.navigation} data={this.state.suggestions.length > 0 && this.state.suggestions} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
                   {this.state.suggestions.length == 0 && (<Empty refresh={true} onRefresh={() => this.refresh()} />)}
                 </View>
 
@@ -230,7 +240,7 @@ class Connections extends Component {
                     />
                   </View>
                   <View>
-                    <CardList loading={this.loading} level={2} search={this.state.search} retrieve={() => { this.refresh() }} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
+                    <CardList delete={(id) => {this.removeConnection(id)}} loading={this.loading} level={2} search={this.state.search} retrieve={() => { this.refresh() }} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
                   </View>
                 </View>
                 {this.state.connections.length == 0 && (<Empty refresh={true} onRefresh={() => this.refresh()} />)}

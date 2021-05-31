@@ -52,7 +52,7 @@ class PostCard extends Component {
   }
 
   createSynqt = (data) => {
-    if (data.members && data.members.length > 0) {
+    if (data.members && data.members?.length > 0) {
       this.props.navigation.navigate('restaurantStack', { members: data.members })
     }
   }

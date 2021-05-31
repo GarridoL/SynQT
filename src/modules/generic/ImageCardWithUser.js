@@ -24,7 +24,7 @@ class ImageCardWithUser extends Component {
 
   render() {
     const { data } = this.props;
-    console.log(Math.round(Math.random()) * 1, 'random');
+    console.log(data.ratings, '-----------');
     return (
       <View style={{
         width: '100%',
@@ -104,7 +104,7 @@ class ImageCardWithUser extends Component {
                   marginRight: 5
                 }}>
                     <FontAwesomeIcon icon={faStar} color={Color.warning} style={{ marginRight: 2 }} size={8} />
-                    <Text numberOfLines={1} style={{ fontSize: 10, color: Color.primary }}>{data.ratings?.length > 0 ? data.ratings?.average : 0}</Text>
+                    <Text numberOfLines={1} style={{ fontSize: 10, color: Color.primary }}>{data.ratings || data.ratings?.length > 0 ? data.ratings?.avg : 0}</Text>
                   </View>
                   <View style={{
                     backgroundColor: Color.primary,
