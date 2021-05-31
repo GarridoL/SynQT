@@ -26,16 +26,16 @@ class PeopleList extends Component {
           horizontal={true}
           showsHorizontalScrollIndicator={false}
           style={{ margin: '1%' }}>
-          {this.props.add === true && <FontAwesomeIcon
+          {this.props.add === true && <View style={{justifyContent: 'center'}}><FontAwesomeIcon
             icon={faPlusCircle}
-            size={this.props.size ? this.props.size : 45}
+            size={this.props.size ? this.props.size - 15 : 45 - 20}
             style={{
               color: Color.primary,
               marginLeft: 20,
               fontSize: 1
             }}
             onPress={() => this.props.redirectTo()}
-          />}
+          /></View>}
           {
             data && data.length > 0 && data.map((item, index) => (
               <TouchableOpacity style={{

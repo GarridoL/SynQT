@@ -88,14 +88,7 @@ class CardList extends Component {
       this.props.retrieve();
       this.props.data.length > 0 && this.props.data.map((item, index) => {
         if (el.account?.id === item.account?.id) {
-          this.props.data.splice(index, 1)
-        }
-      })
-    }, error => {
-      this.props.retrieve();
-      console.log(error);
-      this.props.data.length > 0 && this.props.data.map((item, index) => {
-        if (el.account?.id === item.account?.id) {
+          console.log(el, item, 'test');
           this.props.data.splice(index, 1)
         }
       })

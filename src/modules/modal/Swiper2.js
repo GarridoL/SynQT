@@ -84,11 +84,11 @@ class Cards extends React.Component {
       offset: 0
     }
     Api.request(Routes.topChoiceRetrieve, parameter, response => {
-      this.setState({finishLoad: true})
+      this.setState({ finishLoad: true })
       let temp = []
       response.data.length > 0 && response.data.map(item => {
         item.members.length > 0 && item.members.map(i => {
-          if(i.account_id == this.props.state.user.id) {
+          if (i.account_id == this.props.state.user.id) {
             temp.push(item.merchant.id)
           }
         })
@@ -141,9 +141,9 @@ class Cards extends React.Component {
     this.setState({ index: this.state.index + 1 === this.state.data.length ? 0 : this.state.index + 1, products: [], offset: 0 })
   }
 
-  addToTopChoice = () => {
+  addToTopChoice = (status) => {
     const { topChoices } = this.props.state;
-    if(topChoices.includes(this.state.data[this.state.index].id)) {
+    if (topChoices.includes(this.state.data[this.state.index].id)) {
       Alert.alert(
         "",
         "Cannot choose the same restaurant twice.",
@@ -159,6 +159,7 @@ class Cards extends React.Component {
       payload: 'merchant_id',
       payload_value: this.state.data[this.state.index].id,
       category: 'restaurant',
+      status: status,
       synqt_id: this.props.navigation.state.params?.synqt_id && this.props.navigation.state.params?.synqt_id
     }
     this.setState({ isLoading: true })
@@ -244,6 +245,7 @@ class Cards extends React.Component {
                         width: '70%'
                       }}>{el.address || 'No address'}</Text>
                     </View>
+
                     <View style={{ position: 'absolute', bottom: 25, right: 20, flexDirection: 'row' }}>
                       <FontAwesomeIcon
                         icon={faStar}
@@ -271,6 +273,26 @@ class Cards extends React.Component {
                         color={this.state.data[this.state.index]?.rating?.stars >= 5 ? '#FFCC00' : '#ededed'}
                       />
                     </View>
+                    <TouchableOpacity style={{
+                      position: 'absolute',
+                      bottom: 140,
+                      right: 20,
+                      backgroundColor: '#30F2F2',
+                      height: 100,
+                      width: 100,
+                      borderRadius: 50,
+                      justifyContent: 'center',
+                      alignItems: 'center'
+                    }}
+                    onPress={() => {
+                      this.addToTopChoice('super-like')
+                    }}>
+                      <FontAwesomeIcon
+                        icon={faStar}
+                        size={60}
+                        color={'white'}
+                      />
+                    </TouchableOpacity>
                     {this.props.topFloatButton === true && (<View style={{
                       ...BasicStyles.standardWidth,
                       position: 'absolute',
@@ -341,7 +363,7 @@ class Cards extends React.Component {
           <View style={this.props.bottomFloatButton === true ? { marginBottom: 200 } : { marginBottom: 0 }}>
             {this.state.choice == 'Menu' ? (
               <View>
-                <MenuCards data={this.state.products.length > 0 && this.state.products}/>
+                <MenuCards data={this.state.products.length > 0 && this.state.products} />
                 {this.state.products.length === 0 && (
                   <View style={{
                     alignItems: 'center',
@@ -363,7 +385,7 @@ class Cards extends React.Component {
         </View>
         {this.props.bottomFloatButton === true > 0 && (
           <View style={{ alignItems: 'center', justifyContent: 'center', width: '90%' }}>
-            <FLoatingButton onClose={() => {this.swiper.swipeRight()}} onClick={() => { this.addToTopChoice() }}></FLoatingButton>
+            <FLoatingButton onClose={() => { this.swiper.swipeRight() }} onClick={() => { this.addToTopChoice('like') }}></FLoatingButton>
           </View>)}
       </View>
     )

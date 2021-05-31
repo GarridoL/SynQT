@@ -127,7 +127,8 @@ class Notifications extends Component {
                     address: item.location[0]?.route || 'No address provided',
                     name: item.synqt.length > 0 && item.synqt[0]?.date_at_human,
                     date: item.synqt.length > 0 && item.synqt[0]?.date_at_human,
-                    superlike: false,
+                    superlike: item.total_super_likes || 0,
+                    distance: item.distance || '0km',
                     users: item.members && item.members.length > 0 ? item.members : [],
                     details: false,
                     ratings: []

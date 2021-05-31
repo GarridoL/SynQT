@@ -84,6 +84,7 @@ class Register extends Component {
     if(username.length >= 6 &&
       email !== '' &&
       password !== '' &&
+      /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/.test(password) &&
       password.length >= 6 &
       password.localeCompare(confirmPassword) === 0 &&
       Helper.validateEmail(email) === true){
@@ -97,6 +98,9 @@ class Register extends Component {
     }else if(password !== '' && password.length < 6){
        this.setState({errorMessage: 'Password must be atleast 6 characters.'})
        return false
+    }else if(password !== '' && /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/.test(password) === false){
+      this.setState({errorMessage: 'Password must be alphanumeric characters. It should contain 1 number, 1 special character and 1 capital letter.'})
+      return false
     }else if(password !== '' && password.localeCompare(confirmPassword) !== 0){
        this.setState({errorMessage: 'Password did not match.'})
        return false
@@ -122,11 +126,10 @@ class Register extends Component {
           <View style={Style.MainContainer}>
             <Header params={"Sign Up"}></Header>
             {
-              errorMessage != null && (
+              errorMessage !== null && (
                 <View style={{
                   flexDirection: 'row',
-                    paddingTop: 10,
-                    paddingBottom: 10,
+                    padding: 30
                 }}>
                   <Text style={[Style.messageText, {
                     fontWeight: 'bold'

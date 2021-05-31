@@ -41,6 +41,7 @@ class Connections extends Component {
     this.retrieveRandomUsers(false);
     this.retrieveConnections(false);
     this.retrieveSuggestions(false);
+    this.props.setTempMembers([]);
   }
 
   refresh = () => {
@@ -248,7 +249,8 @@ const mapStateToProps = state => ({ state: state });
 const mapDispatchToProps = dispatch => {
   const { actions } = require('@redux');
   return {
-    viewMenu: (isViewing) => dispatch(actions.viewMenu(isViewing))
+    viewMenu: (isViewing) => dispatch(actions.viewMenu(isViewing)),
+    setTempMembers: (tempMembers) => dispatch(actions.setTempMembers(tempMembers))
   };
 };
 export default connect(

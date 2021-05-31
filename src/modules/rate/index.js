@@ -53,8 +53,9 @@ class Rate extends Component {
       this.setState({ isLoading: false })
       if (response.data !== null) {
         let count = 0;
+        console.log(response.data[0], '-----------------');
+        this.setState({data: response.data[0]})
         if (response.data[0].rating?.length > 0) {
-          this.setState({data: response.data[0]})
           response.data[0].rating.map(item => {
             if (item.account_id === this.props.state.user.id) {
               this.setState({
@@ -164,7 +165,7 @@ class Rate extends Component {
               height: '80%',
               borderRadius: 10
             }}
-            source={data?.logo ? { uri: Config.BACKEND_URL + data?.logo } : require('assets/test.jpg')}>
+            source={data?.logo ? { uri: Config.BACKEND_URL + data?.logo } : require('assets/default.png')}>
           </Image>
           <View style={{ padding: 10 }}>
             <Text style={{
@@ -272,17 +273,19 @@ class Rate extends Component {
       }}>
         {this.state.isLoading ? <Spinner mode="overlay" /> : null}
         <ScrollView style={{ height: height - 50 }}>
-          {this.props.navigation?.state.params?.status === 'completed' && this.renderRateView()}
+        <View>
+          {this.props.navigation?.state.params?.status === 'completed' && this.state.data !== null && this.renderRateView()}
           {this.props.navigation?.state.params?.status !== 'completed' && this.state.isLoading === false && <Text>Complete reservation first to rate the merchant.</Text>}
+          </View>
         </ScrollView>
-        <View style={{
+        {this.state.data !== null &&<View style={{
           justifyContent: 'center',
           alignItems: 'center',
           marginLeft: -50,
           marginBottom: 20
         }}>
           {this.props.navigation?.state.params?.status === 'completed' && <CustomizedButton onClick={() => { this.state.id ? this.update() : this.onClick() }} title={this.state.id ? 'Update' : 'Submit'}></CustomizedButton>}
-        </View>
+        </View>}
       </View>
     );
   }

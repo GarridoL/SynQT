@@ -127,9 +127,11 @@ class History extends Component {
                   name: item.merchant?.name,
                   date: item.synqt.length > 0 && item.synqt[0]?.date_at_human,
                   superlike: true,
+                  distance: item.distance,
                   users: item.members && item.members.length > 0 ? item.members : [],
                   details: true,
-                  ratings: item.rating
+                  ratings: item.rating,
+                  superlike: item.total_super_likes
                 }}
                 style={{
                   marginBottom: 10
