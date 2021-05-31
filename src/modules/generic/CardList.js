@@ -85,18 +85,14 @@ class CardList extends Component {
     }
     this.props.loading(true);
     Api.request(Routes.circleDelete, parameter, response => {
-      this.props.retrieve();
-      this.props.data.length > 0 && this.props.data.map((item, index) => {
-        if (el.account?.id === item.account?.id) {
-          console.log(el, item, 'test');
-          this.props.data.splice(index, 1)
-        }
-      })
+      this.props.loading(false);
+      if(response.data !== null) {
+        this.props.delete(el.id)
+      }
     });
   }
 
   remove = (id) => {
-    console.log(id);
     const { setTempMembers } = this.props;
     let temp = this.props.state.tempMembers;
     temp.map((item, index) => {
@@ -138,7 +134,7 @@ class CardList extends Component {
                           }}><FontAwesomeIcon
                               icon={faUser}
                               size={53}
-                              color={Color.primary}
+                              color={theme ? theme.primary : Color.primary}
                             /></View>}
                         <View>
                           <View style={{ flexDirection: 'row' }}>
@@ -253,7 +249,7 @@ class CardList extends Component {
                         }}><FontAwesomeIcon
                             icon={faUser}
                             size={53}
-                            color={Color.primary}
+                            color={theme ? theme.primary : Color.primary}
                           /></View>}
                       <View>
                         <View style={{ flexDirection: 'row' }}>
@@ -268,7 +264,7 @@ class CardList extends Component {
                                     onPress={() => this.updateStatus(el, 'accepted')}
                                     style={{
                                       height: 30,
-                                      backgroundColor: Color.primary,
+                                      backgroundColor: theme ? theme.primary : Color.primary,
                                       width: '37%',
                                       alignItems: 'center',
                                       justifyContent: 'center',
@@ -331,19 +327,19 @@ class CardList extends Component {
                                   <View>
                                     {el.is_added === false && this.props.actionContent !== 'icon' && <TouchableOpacity
                                       onPress={() => this.props.invite ? this.storePeople(el) : this.props.actionContent == 'icon' || el.is_added === true ? this.deleteConnection(el) : this.sendRequest(el)}
-                                      style={[Style.button, { backgroundColor: this.props.actionContent == 'icon' || el.is_added === true ? 'gray' : Color.primary }]}
+                                      style={[Style.button, { backgroundColor: this.props.actionContent == 'icon' || el.is_added === true ? 'gray' : theme ? theme.primary : Color.primary }]}
                                     >
                                       <Text style={{ color: 'white' }}>{el.is_added ? 'Cancel' : 'Add'}</Text>
                                     </TouchableOpacity>}
                                     {this.props.actionContent === 'icon' && <TouchableOpacity
                                       onPress={() => this.deleteConnection(el)}
-                                      style={[Style.button, { backgroundColor: this.props.actionContent == 'icon' || el.is_added === true ? 'gray' : Color.primary }]}
+                                      style={[Style.button, { backgroundColor: this.props.actionContent == 'icon' || el.is_added === true ? 'gray' : theme ? theme.primary : Color.primary }]}
                                     >
                                       <Text style={{ color: 'white' }}>Remove</Text>
                                     </TouchableOpacity>}
                                     {this.props.invite === true && <TouchableOpacity
                                       onPress={() => this.storePeople(el)}
-                                      style={[Style.button, { backgroundColor: this.props.actionContent == 'icon' || el.is_added === true ? 'gray' : Color.primary }]}
+                                      style={[Style.button, { backgroundColor: this.props.actionContent == 'icon' || el.is_added === true ? 'gray' : theme ? theme.primary : Color.primary }]}
                                     >
                                       <Text style={{ color: 'white' }}>Add</Text>
                                     </TouchableOpacity>}

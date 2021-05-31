@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, Text, TouchableOpacity, TextInput, ScrollView, SafeAreaView, Dimensions } from 'react-native';
+import { View, Image, Text, TouchableOpacity, TextInput, ScrollView, SafeAreaView, Dimensions, Alert } from 'react-native';
 import { ListItem } from 'react-native-elements'
 import { Routes, Color, Helper, BasicStyles } from 'common';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -123,9 +123,8 @@ class ViewProfile extends Component {
               ids.push(el.account?.id)
               console.log(el.account);
             });
-            console.log(ids, 'ids-----');
             response.data.forEach(element => {
-              console.log(element.account.id);
+              console.log(element);
               element['connected'] = ids.includes(element.account.id)
             });
           }
@@ -162,7 +161,9 @@ class ViewProfile extends Component {
     console.log(parameter);
     Api.request(Routes.circleCreate, parameter, response => {
       this.setState({ isLoading: false })
-      console.log(response, 'response');
+      if(response.error !== null) {
+        Alert.alert('Error', response.error);
+      }
     }, error => {
       console.log('error', error)
     });
@@ -181,6 +182,7 @@ class ViewProfile extends Component {
   }
 
   renderConnections() {
+    const {theme} = this.props.state;
     return (
       <View>
         {this.state.connections.length === 0 && (<Empty refresh={true} onRefresh={() => this.retrieveConnections(false)} />)}
@@ -215,14 +217,14 @@ class ViewProfile extends Component {
                       <View style={{ width: '65%' }}>
                         <Text style={{ fontWeight: 'bold', width: '110%' }} numberOfLines={1}>{el?.account?.information?.first_name ? el?.account?.information?.first_name + ' ' + el?.account?.information?.last_name : el?.account?.username}</Text>
                         <Text style={{ fontStyle: 'italic' }} numberOfLines={1}>{el?.account?.information?.address || 'No address provided'}</Text>
-                        <Text style={{ color: 'gray', fontSize: 10 }} numberOfLines={1}>{el.numberOfConnection} similar connections</Text>
+                        <Text style={{ color: 'gray', fontSize: 10 }} numberOfLines={1}> similar connections</Text>
                       </View>
-                      {el.connected === false &&
+                      {el.connected === false && el.account.id !== this.props.state.user.id &&
                         <TouchableOpacity
                           onPress={() => this.sendRequest(el)}
                           style={{
                             ...Style.actionBtn,
-                            backgroundColor: '#4DD965'
+                            backgroundColor: theme ? them.primary : Color.primary
                           }}
                         >
                           <Text style={{ color: 'white' }}>Add</Text>
@@ -301,6 +303,7 @@ class ViewProfile extends Component {
 
   render() {
     let user = this.props.navigation.state?.params?.user
+    console.log(user, 'user');
     return (
       <View style={{
         backgroundColor: Color.containerBackground
