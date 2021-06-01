@@ -86,7 +86,7 @@ class CardList extends Component {
     this.props.loading(true);
     Api.request(Routes.circleDelete, parameter, response => {
       this.props.loading(false);
-      if(response.data !== null) {
+      if (response.data !== null) {
         this.props.delete(el.id)
       }
     });
@@ -115,10 +115,17 @@ class CardList extends Component {
               <View>
                 {this.props.search ?
                   <View>
-                    {this.props.search && (this.props.search !== null || this.props.search !== '') && (((el.account?.information?.first_name + ' ' + el.account?.information?.last_name).toLowerCase()).includes(this.props.search.toLowerCase()) || (el.account?.username).toLowerCase().includes(this.props.search.toLowerCase())) && <TouchableOpacity onPress={() => { this.props.navigation.navigate('viewProfileStack', { user: el, level: this.props.level}) }}>
+                    {this.props.search && (this.props.search !== null || this.props.search !== '') && (((el.account?.information?.first_name + ' ' + el.account?.information?.last_name).toLowerCase()).includes(this.props.search.toLowerCase()) || (el.account?.username).toLowerCase().includes(this.props.search.toLowerCase())) && <TouchableOpacity onPress={() => { this.props.navigation.navigate('viewProfileStack', { user: el, level: this.props.level }) }}>
                       <ListItem key={idx} style={{ width: width }}>
                         {el.account?.profile?.url ? <Image
-                          style={Style.circleImage}
+                          style={{
+                            width: 75,
+                            height: 75,
+                            borderRadius: 50,
+                            borderColor: theme ? theme.primary : Color.primary,
+                            borderWidth: 3,
+                            overflow: "hidden",
+                          }}
                           source={{ uri: Config.BACKEND_URL + el.account?.profile?.url }}
                         /> :
                           <View style={{
@@ -149,7 +156,7 @@ class CardList extends Component {
                                       onPress={() => this.updateStatus(el, 'accepted')}
                                       style={{
                                         height: 30,
-                                        backgroundColor: Color.primary,
+                                        backgroundColor: theme ? theme.primary : Color.primary,
                                         width: '37%',
                                         alignItems: 'center',
                                         justifyContent: 'center',
@@ -233,7 +240,14 @@ class CardList extends Component {
                   <TouchableOpacity onPress={() => { this.props.navigation.navigate('viewProfileStack', { user: el, level: this.props.level }) }}>
                     <ListItem key={idx} style={{ width: width }}>
                       {el.account?.profile?.url ? <Image
-                        style={Style.circleImage}
+                        style={{
+                          width: 75,
+                          height: 75,
+                          borderRadius: 50,
+                          borderColor: theme ? theme.primary : Color.primary,
+                          borderWidth: 3,
+                          overflow: "hidden",
+                        }}
                         source={{ uri: Config.BACKEND_URL + el.account?.profile?.url }}
                       /> :
                         <View style={{
