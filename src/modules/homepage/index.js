@@ -40,27 +40,31 @@ class HomePage extends Component {
               locations={[0, 0.5, 1]}
               start={{ x: 1, y: 0 }}
               end={{ x: 1, y: 1 }}
-              style={{ borderRadius: 20, width: '90%', marginLeft: 'auto', marginRight: 'auto', marginTop: '15%', paddingRight: 250, paddingLeft: 10 }}
+              style={{ borderRadius: 20, width: '90%', marginLeft: 'auto', marginRight: 'auto', marginTop: '15%', padding: 10 }}
             >
-              <View style={{ flex: 1, flexDirection: 'row' }}>
-                <View style={{ marginTop: 50, marginRight: 20 }}>
-                  <Text style={{
-                    textAlign: 'center',
-                    color: Color.white
+              <View style={{
+                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}>
+                <View style={{ width: '50%', padding: 5 }}>
+                  <Text adjustsFontSizeToFit style={{
+                    color: Color.white,
+                    textAlign: 'center'
                   }}>{user?.account_information?.first_name ? user?.account_information?.first_name + '  ' + user?.account_information?.last_name : user?.username}</Text>
                   <Text adjustsFontSizeToFit style={{
-                    textAlign: 'center',
                     fontWeight: 'bold',
                     color: Color.white,
-                    fontSize: 25,
-                    width: 190
+                    textAlign: 'center',
+                    fontSize: 25
                   }}>HI GUYS! WHERE SHALL WE GO?</Text>
                 </View>
                 <View style={{
                   justifyContent: 'center',
                   alignItems: 'center',
                   height: 200,
-                  width: '100%'
+                  width: '50%'
                 }}
                 >
                   <TouchableOpacity

@@ -104,7 +104,6 @@ class Status extends Component {
       joined: data.joined === 'true' ? 'false' : 'true'
     }
     Api.request(Routes.commentMembersCreate, parameter, response => {
-      console.log(response, ['RESPONSE']);
       let temp = this.props.state.comments
       temp[data.index].joined = data.joined === 'true' ? 'false' : 'true';
       let myAccount = {
@@ -116,7 +115,11 @@ class Status extends Component {
         joined: data.liked || false,
         joined: data.joined === 'true' ? 'false' : 'true'
       }
-      temp[data.index].members.push(myAccount)
+      if(temp[data.index].joined === 'true') {
+        temp[data.index].members.push(myAccount);
+      } else {
+        temp[data.index]?.members?.splice(data.index, 1);
+      }
       this.props.setComments(temp);
     })
   }
