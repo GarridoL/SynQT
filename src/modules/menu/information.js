@@ -8,19 +8,19 @@ class Information extends Component {
   }
 
   render() {
-    // let schedule = this.props.hours?.schedule ? JSON.parse(this.props.hours?.schedule) : null
+    let schedule = this.props.hours? JSON.parse(this.props.hours) : null
     return (
       <View style={{ paddingTop: 22 }}>
         <Text style={{ fontWeight: 'bold' }}>{this.props.name}</Text>
         <Text>{this.props.description}</Text>
         <Text style={{ fontWeight: 'bold', marginTop: 20 }}>RESTAURANT HOURS</Text>
-        {/* { schedule?.schedule?.length > 0 && schedule?.schedule?.map((item, index) => {
+        { schedule?.schedule?.length > 0 && schedule?.schedule?.map((item, index) => {
           return (
             <View>
-              <Text>{item.value}</Text>
+              <Text>{item.value} {item.startTime ? item.startTime?.HH + ':' + item.startTime?.mm : ''} {item.startTime ? '-' : ''} {item.endTime ? item.endTime?.HH + ':' + item.endTime?.mm : ''}</Text>
             </View>
           )
-        })} */}
+        })}
       </View >
     )
   }

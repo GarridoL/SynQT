@@ -7,7 +7,6 @@ import FLoatingButton from 'modules/generic/CircleButton';
 import Main from './main';
 import Information from './information';
 import Footer from 'modules/generic/Footer';
-import Header from '../generic/MenuHeader';
 import Swipe from 'modules/modal/Swiper2';
 
 class Menu extends Component{
@@ -15,31 +14,17 @@ class Menu extends Component{
 		super(props);
     this.child = React.createRef();
 		this.state = {
-			choice: 'Menu',
-      header: false
+			choice: 'Menu'
 		}
 	}
-
-  headerHandler = (value) => {
-    this.setState({header: value})
-  }
-
-  goBack = () => {
-    this.child.goBack()
-  }
 
   render() {
     const { data } = this.state;
     return (
       <View style={{flex: 1}}>
         <View>
-          <Header status={this.state.header} {...this.props} goBack={() => {this.goBack()}}></Header>
+          <Swipe id={this.props.navigation.state?.params?.id} navigation={this.props.navigation} topFloatButton={false} bottomFloatButton={true}></Swipe>
         </View>
-        {/* <ScrollView> */}
-        <View>
-          <Swipe onRef={ref => (this.child = ref)} id={this.props.navigation.state?.params?.id} navigation={this.props.navigation} header={(value) => {this.headerHandler(value)}} topFloatButton={false} bottomFloatButton={true}></Swipe>
-        </View>
-      {/* </ScrollView> */}
       <Footer layer={1} {...this.props}/>
       </View>
     )

@@ -84,6 +84,7 @@ class TopChoice extends Component {
   }
 
   renderData() {
+    console.log(this.state.data.length > 0 && this.state.data[0]);
     return (
       <SafeAreaView>
         <ScrollView

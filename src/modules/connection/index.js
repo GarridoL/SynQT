@@ -46,7 +46,6 @@ class Connections extends Component {
 
   refresh = () => {
     this.retrieveRandomUsers(false);
-    this.retrieveConnections(false);
     this.retrieveSuggestions(false);
   }
 
@@ -86,11 +85,13 @@ class Connections extends Component {
     this.setState({ isLoading: true })
     Api.request(Routes.circleRetrieve, parameter, response => {
       this.setState({ isLoading: false })
+      console.log(response.data, '---------');
       if (response.data.length > 0) {
         this.setState({
           connections: flag == false ? response.data : _.uniqBy([...this.state.connections, ...response.data], 'id'),
           offset: flag == false ? 1 : (this.state.offset + 1)
         })
+        console.log(_.uniqBy([...this.state.connections, ...response.data], 'id'), 'response------------');
       } else {
         this.setState({
           connections: flag == false ? [] : this.state.connections,
@@ -160,7 +161,7 @@ class Connections extends Component {
       await this.setState({ prevActive: idx })
     }
     if (idx === 0) {
-      this.refresh();
+      // this.refresh();
     }
     // this.setState({connections: []})
     // this.retrieve(false)
@@ -243,7 +244,7 @@ class Connections extends Component {
                     <CardList delete={(id) => {this.removeConnection(id)}} loading={this.loading} level={2} search={this.state.search} retrieve={() => { this.refresh() }} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
                   </View>
                 </View>
-                {this.state.connections.length == 0 && (<Empty refresh={true} onRefresh={() => this.refresh()} />)}
+                {this.state.connections.length == 0 && (<Empty refresh={true} onRefresh={() => this.retrieveConnections(false)} />)}
               </View>
             )
           }
