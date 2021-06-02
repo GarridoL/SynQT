@@ -377,7 +377,7 @@ class Cards extends React.Component {
             ) :
               <Information
                 name={this.state.data[this.state.index]?.name || 'No data'}
-                hours={this.state.data[this.state.index]?.schedule || 'No schedule yet.'}
+                hours={this.state.data[this.state.index]?.schedule}
                 description={this.state.data[this.state.index]?.addition_informations || 'No business information.'}
               />}
           </View>
