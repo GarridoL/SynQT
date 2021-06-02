@@ -18,12 +18,14 @@ class Restaurants extends Component {
     this.state = {
       location: null,
       value: 100,
+      valueHigh: 9000,
       val: 1,
       Date: null,
       isLoading: false,
       size: 1,
       cuisines: null,
-      currentDate: null
+      currentDate: null,
+      noneSelected: ['Filipino', 'Chinese', 'Japanese', 'Indian', 'Italian', 'Thai', 'Spanish', 'French', 'Korean', 'Turkish']
     }
   }
   componentDidMount() {
@@ -77,13 +79,12 @@ class Restaurants extends Component {
     let detail = {
       type: 'restaurant',
       size: this.state.size?.count != null ? this.state.size?.count : this.state.size,
-      val: this.state.val,
-      value: this.state.value?.amount != null ? this.state.value?.amount : this.state.value,
-      category: this.state.cuisines?.categories?.length >= 1 ? this.state.cuisines.categories : ["Filipino", "Chinese", "Japanese", "Indian", "Italian", "Thai", "Spanish", "French", "Korean", "Turkish"]
+      price_range: {max: (this.state.value?.amount != null ? this.state.value.amount.high : this.state.valueHigh), min: (this.state.value?.amount != null ? this.state.value.amount.low : this.state.value)},
+      radius: this.state.val,
+      cuisine: this.state.cuisines?.categories?.length >= 1 ? this.state.cuisines.categories : this.state.noneSelected
     }
     this.setState({ isLoading: true })
     Api.request(Routes.locationCreate, param, response => {
-      console.log(response, 'create location');
       setSelected([])
       let parameter = {
         account_id: user.id,
@@ -311,7 +312,7 @@ class Restaurants extends Component {
                   })
                 }}
                 titles={'cuisines'}
-                placeholder={(this.state.cuisines?.categories == null || this.state.cuisines?.categories?.length == 10 || this.state.cuisines?.categories?.length < 1) ? ' ' : this.state.cuisines?.categories?.join(',')}
+                placeholder={(this.state.cuisines?.categories == null || this.state.cuisines?.categories?.length == 10 || this.state.cuisines?.categories?.length < 1) ? ' ' : this.state.cuisines.categories.join(',')}
                 title={'Cuisines'} />
             </View>
             <Text style={{ color: 'black', marginBottom: 15, marginLeft: 20 }}>Radius</Text>

@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 import { View, StyleSheet } from 'react-native';
+import { Color } from 'common';
 
 const Notch = props => {
   return (
@@ -15,7 +16,7 @@ const styles = StyleSheet.create({
     height: 8,
     borderLeftColor: 'transparent',
     borderRightColor: 'transparent',
-    borderTopColor: '#4499ff',
+    borderTopColor: Color.primary,
     borderLeftWidth: 4,
     borderRightWidth: 4,
     borderTopWidth: 8,

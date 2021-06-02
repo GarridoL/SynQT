@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { Color } from 'common';
 
 const Label = ({ text, ...restProps }) => {
   return (
@@ -13,7 +14,7 @@ const styles = StyleSheet.create({
   root: {
     alignItems: 'center',
     padding: 8,
-    backgroundColor: '#4499ff',
+    backgroundColor: Color.primary,
     borderRadius: 4,
   },
   text: {

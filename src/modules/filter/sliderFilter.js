@@ -1,27 +1,31 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
 import Slider from 'rn-range-slider';
 import Thumb from 'modules/sliders/Thumb';
 import Rail from 'modules/sliders/Rail';
 import RailSelected from 'modules/sliders/RailSelected';
-import Notch from 'modules/sliders/Notch';
+import Not from 'modules/sliders/Notch';
 import Label from 'modules/sliders/Label';
 import { connect } from 'react-redux';
 
-const SliderScreen = () => {
+const SliderScreen = (props) => {
 
   const [low, setLow] = useState(100);
-  const [high, setHigh] = useState(900);
+  const [high, setHigh] = useState(9000);
   const [min, setMin] = useState(100);
-  const [max, setMax] = useState(900);
-
+  const [max, setMax] = useState(9000);
   const renderThumb = useCallback(() => <Thumb/>, []);
   const renderRail = useCallback(() => <Rail/>, []);
   const renderRailSelected = useCallback(() => <RailSelected/>, []);
   const renderLabel = useCallback(value => <Label text={value}/>, []);
-  const renderNotch = useCallback(() => <Notch/>, []);
+  const renderNotch = useCallback(() => <Not/>, []);
 
-  return <View>
+  useEffect(() => {
+    props.setRange({low, high})
+  }, [low, high, props.setRange])
+
+  return (
+  <View>
     <Slider
       min={min}
       max={max}
@@ -36,13 +40,16 @@ const SliderScreen = () => {
       renderNotch={renderNotch}
       onValueChanged={(low, high) => {setLow(low), setHigh(high)}}
     />
-  </View>;
-};
+  </View>
+  )
+}
+
+
 const mapStateToProps = state => ({state: state});
 const mapDispatchToProps = dispatch => {
   const {actions} = require('@redux');
   return {
-    setRange: (range) => dispatch(actions.setRange(range)),
+    setRange: (range) => dispatch(actions.setRange(range))
   };
 };
 

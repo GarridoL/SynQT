@@ -8,7 +8,6 @@ import { faCheck, faCross, faEdit } from '@fortawesome/free-solid-svg-icons';
 import CustomMultiPicker from "./multipleSelect";
 import FilterSlider from './sliderFilter.js'
 const height = Math.round(Dimensions.get('window').height);
-
 class Filter extends Component {
   constructor(props){
     super(props);
@@ -33,9 +32,8 @@ class Filter extends Component {
     const { setSelected } = this.props
     const { range } = this.props.state
     if(this.props.from == 'restaurant'){
-      console.log('amount', this.state.value, 'sdf', range)
       this.props.onFinish({
-        amount : this.state.value
+        amount : range
       })
       this.props.close()
     }else if(this.props.from == 'categories'){
@@ -57,7 +55,7 @@ class Filter extends Component {
       }}>
         <View style={{flexDirection: "row", marginBottom: '5%'}}>
           <Text style={{display: 'flex', alignItems: 'flex-start'}}>$100</Text>
-          <Text style={{display: 'flex', alignItems: 'flex-end', marginLeft: '75%'}}>$900</Text>
+          <Text style={{display: 'flex', alignItems: 'flex-end', marginLeft: '75%'}}>$9000</Text>
         </View>
         <FilterSlider></FilterSlider>
       </View>

@@ -1,6 +1,6 @@
 import React from 'react';
 import Color from './Color.js';
-import { faHome, faEnvelope, faUsers, faPalette, faShieldAlt, faHandshake, faShare, faCopy, faShareAltSquare, faCog } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faEnvelope, faUsers, faPalette, faShieldAlt, faCopy, faShareAltSquare, faCog } from '@fortawesome/free-solid-svg-icons';
 import { faComment, faShareSquare } from '@fortawesome/free-regular-svg-icons';
 
 export default {
