@@ -17,7 +17,6 @@
  import { Color} from 'common';
  import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
  import { faCheck, faCross, faSearch } from '@fortawesome/free-solid-svg-icons';
-import { ColorPropType } from "react-native";
  
  export default class CustomMultiPicker extends Component {
    constructor(props){
