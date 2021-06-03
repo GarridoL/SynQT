@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { 
+import {
   Text,
   View,
   TouchableOpacity,
@@ -80,7 +80,7 @@ class Cards extends React.Component {
         clause: '='
       }],
       account_id: this.props.state.user.id,
-      sort: {title: 'asc'},
+      sort: { title: 'asc' },
       limit: this.state.limit,
       offset: this.state.offset,
       inventory_type: 'all'
@@ -91,7 +91,7 @@ class Cards extends React.Component {
       if (response.data.length > 0) {
         this.setState({ products: response.data });
       } else {
-        this.setState({ products: []})
+        this.setState({ products: [] })
       }
     },
       error => {
@@ -117,134 +117,134 @@ class Cards extends React.Component {
       status: 'pending'
     }
     this.props.onClose(null);
-    this.props.navigation.navigate('eventNameStack', {parameter: parameter, buttonTitle: 'Make Reservation', data: this.props.item, messenger_group_id: this.props.messengerGroup?.messenger_group_id})
+    this.props.navigation.navigate('eventNameStack', { parameter: parameter, buttonTitle: 'Make Reservation', data: this.props.item, messenger_group_id: this.props.messengerGroup?.messenger_group_id })
   }
 
   renderCard = (data) => {
     console.log(data.rating, 'heeee');
     return (
-      <View style={{ flex: 1}}>
-          <Card style={[styles.card]}>
-            <ImageBackground style={{ flex: 1, flexDirection: 'row', height: height - 150, width: null, resizeMode: 'cover', marginTop: this.props.bottomFloatButton === true ? 50 : height * 0.25 }}
-              imageStyle={{
-                flex: 1,
-                height: null,
-                width: null,
-                resizeMode: 'cover',
-                borderRadius: BasicStyles.standardBorderRadius,
-                backgroundColor: 'white'
-              }}
-              source={data && data.logo ? { uri: Config.BACKEND_URL + data.logo } : require('assets/default.png')}>
-                {this.state.isLoading ? <Spinner mode="overlay" /> : null}
-              <View style={{
-                position: 'absolute',
-                bottom: this.props.topFloatButton === true ? 70 : 15,
-                ...BasicStyles.standardWidth
-              }}>
-                <Text style={{
-                  fontSize: BasicStyles.standardTitleFontSize,
-                  color: 'white',
-                  fontWeight: 'bold',
-                  textShadowColor:'black',
-                  textShadowOffset:{width: 1, height: 1},
-                  textShadowRadius: 1,
-                }}>{data && data.name && data.name || 'No data'}</Text>
-                <Text style={{
-                  color: 'white',
-                  textShadowColor:'black',
-                  textShadowOffset:{width: 1, height: 1},
-                  textShadowRadius: 1
-                  }}>{data && data.address && data.address && data.address || 'No address'}</Text>
-              </View>
-              <View style={{ position: 'absolute', bottom: 70, right: 15, flexDirection: 'row' }}>
+      <View style={{ flex: 1 }}>
+        <Card style={[styles.card]}>
+          <ImageBackground style={{ flex: 1, flexDirection: 'row', height: height - 150, width: null, resizeMode: 'cover', marginTop: this.props.bottomFloatButton === true ? 50 : height * 0.25 }}
+            imageStyle={{
+              flex: 1,
+              height: null,
+              width: null,
+              resizeMode: 'cover',
+              borderRadius: BasicStyles.standardBorderRadius,
+              backgroundColor: 'white'
+            }}
+            source={data && data.logo ? { uri: Config.BACKEND_URL + data.logo } : require('assets/default.png')}>
+            {this.state.isLoading ? <Spinner mode="overlay" /> : null}
+            <View style={{
+              position: 'absolute',
+              bottom: this.props.topFloatButton === true ? 70 : 15,
+              ...BasicStyles.standardWidth
+            }}>
+              <Text style={{
+                fontSize: BasicStyles.standardTitleFontSize,
+                color: 'white',
+                fontWeight: 'bold',
+                textShadowColor: 'black',
+                textShadowOffset: { width: 1, height: 1 },
+                textShadowRadius: 1,
+              }}>{data && data.name && data.name || 'No data'}</Text>
+              <Text style={{
+                color: 'white',
+                textShadowColor: 'black',
+                textShadowOffset: { width: 1, height: 1 },
+                textShadowRadius: 1
+              }}>{data && data.address && data.address && data.address || 'No address'}</Text>
+            </View>
+            <View style={{ position: 'absolute', bottom: 70, right: 15, flexDirection: 'row' }}>
               <FontAwesomeIcon
-                        icon={faStar}
-                        size={30}
-                        color={data.rating?.stars >= 1 ? '#FFCC00' : '#ededed'}
-                      />
-                      <FontAwesomeIcon
-                        icon={faStar}
-                        size={30}
-                        color={data?.rating?.stars >= 2 ? '#FFCC00' : '#ededed'}
-                      />
-                      <FontAwesomeIcon
-                        icon={faStar}
-                        size={30}
-                        color={data?.rating?.stars >= 3 ? '#FFCC00' : '#ededed'}
-                      />
-                      <FontAwesomeIcon
-                        icon={faStar}
-                        size={30}
-                        color={data?.rating?.stars >= 4 ? '#FFCC00' : '#ededed'}
-                      />
-                      <FontAwesomeIcon
-                        icon={faStar}
-                        size={30}
-                        color={data?.rating?.stars >= 5 ? '#FFCC00' : '#ededed'}
-                      />
-              </View>
-              {this.props.topFloatButton === true && (<View style={{
-                ...BasicStyles.standardWidth,
-                position: 'absolute',
-                bottom: -30,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between'
-              }}>
-                <TouchableOpacity
-                  style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: 70,
-                    height: 70,
-                    backgroundColor: Color.warning,
-                    borderRadius: 35
-                  }}
+                icon={faStar}
+                size={30}
+                color={data.rating?.stars >= 1 ? '#FFCC00' : '#ededed'}
+              />
+              <FontAwesomeIcon
+                icon={faStar}
+                size={30}
+                color={data?.rating?.stars >= 2 ? '#FFCC00' : '#ededed'}
+              />
+              <FontAwesomeIcon
+                icon={faStar}
+                size={30}
+                color={data?.rating?.stars >= 3 ? '#FFCC00' : '#ededed'}
+              />
+              <FontAwesomeIcon
+                icon={faStar}
+                size={30}
+                color={data?.rating?.stars >= 4 ? '#FFCC00' : '#ededed'}
+              />
+              <FontAwesomeIcon
+                icon={faStar}
+                size={30}
+                color={data?.rating?.stars >= 5 ? '#FFCC00' : '#ededed'}
+              />
+            </View>
+            {this.props.topFloatButton === true && (<View style={{
+              ...BasicStyles.standardWidth,
+              position: 'absolute',
+              bottom: -30,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}>
+              <TouchableOpacity
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: 70,
+                  height: 70,
+                  backgroundColor: Color.warning,
+                  borderRadius: 35
+                }}
 
-                  onPress={() => {
-                    this.props.onClose(null)
-                  }}
-                >
-                  <FontAwesomeIcon
-                    icon={faTimes}
-                    size={35}
-                    color={'white'}
-                  />
-                </TouchableOpacity>
+                onPress={() => {
+                  this.props.onClose(null)
+                }}
+              >
+                <FontAwesomeIcon
+                  icon={faTimes}
+                  size={35}
+                  color={'white'}
+                />
+              </TouchableOpacity>
 
-                <TouchableOpacity
-                  style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: 80,
-                    height: 80,
-                    backgroundColor: Color.warning,
-                    borderRadius: 40
-                  }}
-                  onPress={() => {
-                    if(this.props.navigation.state?.params?.messenger_group_id?.status === 'ADMIN') {
-                      this.addToReservation()
-                    } else {
-                      Alert.alert(
-                        "",
-                        "Sorry you are not allowed to proceed to reservation.",
-                        [
-                          { text: "OK"}
-                        ],
-                        { cancelable: false }
-                      );
-                    }
-                  }}
-                >
-                  <FontAwesomeIcon
-                    icon={faCheck}
-                    size={40}
-                    color={'white'}
-                  />
-                </TouchableOpacity>
-              </View>)}
-            </ImageBackground>
-          </Card>
+              <TouchableOpacity
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: 80,
+                  height: 80,
+                  backgroundColor: Color.warning,
+                  borderRadius: 40
+                }}
+                onPress={() => {
+                  if (this.props.navigation.state?.params?.messenger_group_id?.status === 'ADMIN') {
+                    this.addToReservation()
+                  } else {
+                    Alert.alert(
+                      "",
+                      "Sorry you are not allowed to proceed to reservation.",
+                      [
+                        { text: "OK" }
+                      ],
+                      { cancelable: false }
+                    );
+                  }
+                }}
+              >
+                <FontAwesomeIcon
+                  icon={faCheck}
+                  size={40}
+                  color={'white'}
+                />
+              </TouchableOpacity>
+            </View>)}
+          </ImageBackground>
+        </Card>
         {this.renderMenu()}
       </View>
     )
@@ -263,16 +263,16 @@ class Cards extends React.Component {
           <View style={this.props.bottomFloatButton === true ? { marginBottom: 200 } : { marginBottom: 0 }}>
             {this.state.choice == 'Menu' ? (
               <View>
-              <MenuCards data={this.state.products.length > 0 && this.state.products}/>
-              {this.state.products.length === 0 && (
-                <View style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  paddingTop: 40
-                }}>
-                  <Text>No available product.</Text>
-                </View>
-              )}
+                <MenuCards data={this.state.products.length > 0 && this.state.products} />
+                {this.state.products.length === 0 && (
+                  <View style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    paddingTop: 40
+                  }}>
+                    <Text>No available product.</Text>
+                  </View>
+                )}
               </View>
             ) :
               <Information
@@ -290,7 +290,7 @@ class Cards extends React.Component {
     const { isLoading } = this.state;
     return (
       <ScrollView showsVerticalScrollIndicator={true}
-        style={{backgroundColor: 'white'}}
+        style={{ backgroundColor: 'white' }}
       >
         {this.renderCard(this.state.data && this.state.data)}
       </ScrollView>

@@ -26,6 +26,7 @@ import { Spinner } from 'components';
 import styles from './Swiper2Style';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import Header from '../generic/MenuHeader';
 
 const height = Math.round(Dimensions.get('window').height);
 const width = Math.round(Dimensions.get('window').width);
@@ -40,7 +41,8 @@ class Cards extends React.Component {
       data: [],
       products: [],
       limit: 5,
-      offset: 0
+      offset: 0,
+      header: false
     }
   }
 
@@ -96,12 +98,7 @@ class Cards extends React.Component {
       this.props.setTopChoices(temp);
     });
   }
-
-  goBack = () => {
-    console.log('test');
-    this.swipe.swipeRight();
-  }
-
+  
   retrieveProducts = () => {
     let menu = this.state.data[this.state.index]
     let parameter = {
@@ -116,8 +113,6 @@ class Cards extends React.Component {
       offset: this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
       inventory_type: 'all'
     }
-    console.log(menu);
-    console.log(parameter);
     this.setState({ isLoading: true })
     Api.request(Routes.productsRetrieve, parameter, response => {
       this.setState({ isLoading: false })
@@ -136,9 +131,7 @@ class Cards extends React.Component {
   }
 
   swipeHandler = () => {
-    console.log(this.state.index + 1, this.state.data.length - 2);
-    this.props.header(this.state.index + 1 === this.state.data.length - 2 ? true : false);
-    this.setState({ index: this.state.index + 1 === this.state.data.length ? 0 : this.state.index + 1, products: [], offset: 0 })
+    this.setState({ index: this.state.index + 1 === this.state.data.length ? 0 : this.state.index + 1, products: [], offset: 0, header: this.state.index + 1 === this.state.data.length - 2 ? true : false })
   }
 
   addToTopChoice = (status) => {
@@ -246,7 +239,7 @@ class Cards extends React.Component {
                       }}>{el.address || 'No address'}</Text>
                     </View>
 
-                    <View style={{ position: 'absolute', bottom: 25, right: 20, flexDirection: 'row' }}>
+                    <View style={{ position: 'absolute', bottom: 30, right: 20, flexDirection: 'row' }}>
                       <FontAwesomeIcon
                         icon={faStar}
                         size={30}
@@ -284,9 +277,9 @@ class Cards extends React.Component {
                       justifyContent: 'center',
                       alignItems: 'center'
                     }}
-                    onPress={() => {
-                      this.addToTopChoice('super-like')
-                    }}>
+                      onPress={() => {
+                        this.addToTopChoice('super-like')
+                      }}>
                       <FontAwesomeIcon
                         icon={faStar}
                         size={60}
@@ -394,24 +387,28 @@ class Cards extends React.Component {
   render() {
     const { isLoading } = this.state;
     return (
-      <ScrollView showsVerticalScrollIndicator={true}
-        onScroll={(event) => {
-          let scrollingHeight = event.nativeEvent.layoutMeasurement.height + event.nativeEvent.contentOffset.y
-          let totalHeight = event.nativeEvent.contentSize.height
-          if (event.nativeEvent.contentOffset.y <= 0) {
-            if (isLoading == false) {
-              // this.retrieve(false)
+      <View>
+        <Header status={this.state.header} {...this.props} goBack={() => { this.swiper.swipeRight() }}></Header>
+
+        <ScrollView showsVerticalScrollIndicator={true}
+          onScroll={(event) => {
+            let scrollingHeight = event.nativeEvent.layoutMeasurement.height + event.nativeEvent.contentOffset.y
+            let totalHeight = event.nativeEvent.contentSize.height
+            if (event.nativeEvent.contentOffset.y <= 0) {
+              if (isLoading == false) {
+                // this.retrieve(false)
+              }
             }
-          }
-          if (Math.round(scrollingHeight) >= Math.round(totalHeight)) {
-            if (isLoading == false && this.state.choice === 'Menu') {
-              this.retrieveProducts();
+            if (Math.round(scrollingHeight) >= Math.round(totalHeight)) {
+              if (isLoading == false && this.state.choice === 'Menu') {
+                this.retrieveProducts();
+              }
             }
-          }
-        }}
-      >
-        {this.renderCard()}
-      </ScrollView>
+          }}
+        >
+          {this.renderCard()}
+        </ScrollView>
+      </View>
     );
   }
 }
