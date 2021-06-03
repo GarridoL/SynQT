@@ -69,6 +69,25 @@ class ViewProfile extends Component {
           offset: flag == false ? 0 : this.state.offset,
         })
       }
+    }, error => {
+      this.setState({ isLoading: false })
+      console.log('error', error)
+    });
+  }
+
+  deleteConnection = (el) => {
+    let parameter = {
+      id: el.id
+    }
+    this.setState({ isLoading: true })
+    Api.request(Routes.circleDelete, parameter, response => {
+      this.setState({ isLoading: false })
+      if (response.data !== null) {
+        this.retrieveConnections(false);
+      }
+    }, error => {
+      this.setState({ isLoading: false })
+      console.log('error', error)
     });
   }
 
@@ -108,9 +127,9 @@ class ViewProfile extends Component {
             column: 'account',
             clause: '='
           }, {
-            clause: "=",
+            clause: "like",
             column: "status",
-            value: 'accepted'
+            value: '%%'
           }],
           offset: this.state.offset
         }
@@ -121,10 +140,8 @@ class ViewProfile extends Component {
             let ids = []
             res.data.forEach(el => {
               ids.push(el.account?.id)
-              console.log(el.account);
             });
             response.data.forEach(element => {
-              console.log(element);
               element['connected'] = ids.includes(element.account.id)
             });
           }
@@ -139,6 +156,9 @@ class ViewProfile extends Component {
           offset: flag == false ? 0 : this.state.offset
         })
       }
+    }, error => {
+      this.setState({ isLoading: false })
+      console.log('error', error)
     });
   }
 
@@ -165,6 +185,7 @@ class ViewProfile extends Component {
         Alert.alert('Error', response.error);
       }
     }, error => {
+      this.setState({ isLoading: false })
       console.log('error', error)
     });
   }
@@ -219,15 +240,25 @@ class ViewProfile extends Component {
                         <Text style={{ fontStyle: 'italic' }} numberOfLines={1}>{el?.account?.information?.address || 'No address provided'}</Text>
                         <Text style={{ color: 'gray', fontSize: 10 }} numberOfLines={1}> similar connections</Text>
                       </View>
-                      {el.connected === false && el.account.id !== this.props.state.user.id &&
+                      {el.connected === false && el.account.id !== this.props.state.user.id ?
                         <TouchableOpacity
                           onPress={() => this.sendRequest(el)}
                           style={{
                             ...Style.actionBtn,
-                            backgroundColor: theme ? them.primary : Color.primary
+                            backgroundColor: theme ? theme.primary : Color.primary
                           }}
                         >
                           <Text style={{ color: 'white' }}>Add</Text>
+                        </TouchableOpacity>
+                      : (el.account.id !== this.props.state.user.id) &&
+                        <TouchableOpacity
+                          onPress={() => this.deleteConnection(el)}
+                          style={{
+                            ...Style.actionBtn,
+                            backgroundColor: 'gray'
+                          }}
+                        >
+                          <Text style={{ color: 'white' }}>Cancel</Text>
                         </TouchableOpacity>
                       }
                     </View>
@@ -303,7 +334,6 @@ class ViewProfile extends Component {
 
   render() {
     let user = this.props.navigation.state?.params?.user
-    console.log(user, 'user');
     return (
       <View style={{
         backgroundColor: Color.containerBackground
@@ -340,16 +370,16 @@ class ViewProfile extends Component {
               </TouchableOpacity>
             </View>
             <View style={Style.BottomView}>
+              <Text style={{textAlign: 'center'}}>
               <FontAwesomeIcon
-                style={{ marginRight: 5 }}
                 icon={faCheckCircle}
                 size={20}
                 color={Color.blue} />
               <Text style={{
-                textAlign: 'center',
                 fontWeight: 'bold',
                 fontSize: 18
-              }}>{user?.account?.information?.first_name + user?.account?.information?.last_name || user?.account?.username}</Text>
+              }}>{user?.account?.information?.first_name ? user?.account?.information?.first_name + ' ' + user?.account?.information?.last_name : user?.username}</Text>
+              </Text>
             </View>
             <View style={{
               width: '100%'
@@ -357,7 +387,7 @@ class ViewProfile extends Component {
               <Text style={{
                 textAlign: 'center',
                 color: Color.gray
-              }}>3 similar connections</Text>
+              }}>{user.similar_connections} similar connections</Text>
             </View>
 
           </View>

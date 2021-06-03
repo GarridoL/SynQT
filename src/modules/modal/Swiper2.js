@@ -190,6 +190,7 @@ class Cards extends React.Component {
   }
 
   renderCard = () => {
+    console.log(this.state.data[this.state.index], 'ratings-----');
     return (
       <View style={{ flex: 1, marginTop: '91%' }}>
         <CardStack

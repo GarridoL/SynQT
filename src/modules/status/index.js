@@ -66,7 +66,6 @@ class Status extends Component {
         this.setState({offset: flag === false ? 1 : (this.state.offset + 1)})
         response.data.map((item, index) => {
           item.members?.length > 0 && item.members.map((i, inde) => {
-            console.log(i.account_id, this.props.state.user.id, 'test------------');
             item['joined'] = i.account_id === this.props.state.user.id && i.joined === 'true' ? 'true' : 'false'
             item['liked'] = i.account_id === this.props.state.user.id && i.liked === 'true' ? 'true' : 'false'
             if(i.joined !== 'true') {
@@ -197,10 +196,10 @@ class Status extends Component {
     const { isLoading } = this.state;
     const { comments } = this.props.state;
     return (
-      <SafeAreaView>
+      <SafeAreaView style={{height: height - 60}}>
         <ScrollView style={{
           backgroundColor: Color.containerBackground,
-          height: '100%'
+          padding: 5
         }}
           showsVerticalScrollIndicator={false}
           onScroll={(event) => {
@@ -221,7 +220,7 @@ class Status extends Component {
           <View style={{
             marginTop: 10,
             flex: 1,
-            paddingBottom: 40
+            paddingBottom: 100
           }}>
             {
               comments && comments.length > 0 && comments.map((item, index) => (
