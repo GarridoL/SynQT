@@ -96,93 +96,91 @@ class Slider2 extends Component {
         end={{ x: 1, y: 1 }}
         style={{ height: '100%', paddingRight: 10, width: width }}
       >
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={{flexDirection: 'row' }}>
-            <View style={{ backgroundColor: Color.white, height: height, width: '25%', borderTopRightRadius: 40, borderBottomRightRadius: 40, zIndex: 999, elevation: 50 }}>
-              <View style={{ marginTop: '40%', marginLeft: 10 }}>
-                <TouchableOpacity onPress={() => this.props.navigation.toggleDrawer()}>
-                  <FontAwesomeIcon color={Color.primary} icon={faTimes} size={BasicStyles.iconSize}></FontAwesomeIcon>
-                </TouchableOpacity>
-              </View>
+        <View style={{ flexDirection: 'row', height: '100%' }}>
+          <View style={{ backgroundColor: Color.white, height: '100%', width: '25%', borderTopRightRadius: 40, borderBottomRightRadius: 50, zIndex: 999, elevation: 50 }}>
+            <View style={{ marginTop: '40%', marginLeft: 10 }}>
+              <TouchableOpacity onPress={() => this.props.navigation.toggleDrawer()}>
+                <FontAwesomeIcon color={Color.primary} icon={faTimes} size={BasicStyles.iconSize}></FontAwesomeIcon>
+              </TouchableOpacity>
             </View>
-            {
-              user != null ? (
-                <View style={{ marginTop: '10%', position: 'absolute', right: 0, width: '75%' }}>
-                  {
-                    user.account_profile != null && user.account_profile.url != null && (
-                      <View style={{ flex: 1, flexDirection: 'row', marginTop: '10%', position: 'absolute', right: 0 }}>
-                        <Text numberOfLines={1} style={{ color: Color.white, fontWeight: 'bold', marginTop: '8%', marginRight: 10, width: '80%', textAlign: 'right' }}>{user.account_information.first_name} {user.account_information.last_name}</Text>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('profileStack')}>
-                          <Image
-                            source={{ uri: Config.BACKEND_URL + user.account_profile.url }}
-                            style={[BasicStyles.profileImageSize, {
-                              height: 50,
-                              width: 50,
-                              borderRadius: 50,
-                              borderWidth: 2,
-                              borderColor: Color.warning
-                            }]} />
-                        </TouchableOpacity>
-                      </View>
+          </View>
+          {
+            user != null ? (
+              <View style={{ marginTop: '10%', position: 'absolute', right: 0, width: '75%' }}>
+                {
+                  user.account_profile != null && user.account_profile.url != null && (
+                    <View style={{ flex: 1, flexDirection: 'row', marginTop: '10%', position: 'absolute', right: 0 }}>
+                      <Text numberOfLines={1} style={{ color: Color.white, fontWeight: 'bold', marginTop: '8%', marginRight: 10, width: '80%', textAlign: 'right' }}>{user.account_information.first_name} {user.account_information.last_name}</Text>
+                      <TouchableOpacity onPress={() => this.props.navigation.navigate('profileStack')}>
+                        <Image
+                          source={{ uri: Config.BACKEND_URL + user.account_profile.url }}
+                          style={[BasicStyles.profileImageSize, {
+                            height: 50,
+                            width: 50,
+                            borderRadius: 50,
+                            borderWidth: 2,
+                            borderColor: Color.warning
+                          }]} />
+                      </TouchableOpacity>
+                    </View>
 
-                    )
-                  }
-                  {
-                    (user.account_profile == null || (user.account_profile != null && user.account_profile.url == null)) && (
-                      <View style={{ flex: 1, flexDirection: 'row', marginTop: '10%', position: 'absolute', right: 0 }}>
-                        <Text style={{ color: Color.white, fontWeight: 'bold', marginTop: '8%', marginRight: 10 }}>{user.username}</Text>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('profileStack')}>
-                          <FontAwesomeIcon
-                            icon={faUserCircle}
-                            size={50}
-                            style={{
-                              color: Color.white
-                            }}
-                          />
-                        </TouchableOpacity>
-                      </View>
-                    )
-                  }
-                </View>
-              ) : (
-                <Text style={[styles.sectionHeadingStyle, {
-                  paddingTop: 150,
-                  backgroundColor: theme ? theme.primary : Color.primary
-                }]}>
-                  Welcome to {Helper.company}!
-                </Text>
-              )
-            }
-            <View style={{ marginTop: '60%', position: 'absolute', right: 0, alignItems: 'flex-end' }}>
-              {Helper.DrawerMenu.length > 0 &&
-                Helper.DrawerMenu.map((item, index) => {
-                  return (
-                    <TouchableOpacity style={[styles.navSectionStyle, { flexDirection: 'row-reverse', width: '200%', paddingBottom: 10 }]} onPress={() => item.title == 'Connections' ? this.redirect('connectionStack') : (item.title == 'Messages' ? this.redirect('mainMessageStack') : this.navigateToScreen(item.route))}>
-                      <View style={[styles.navSectionStyle, { flex: 1, flexDirection: 'row-reverse', width: '200%' }]}>
-                        <FontAwesomeIcon style={styles.navItemStyle} icon={item.icon} size={BasicStyles.iconSize}></FontAwesomeIcon>
-                        <Text style={{ color: Color.white, marginRight: 10, marginTop: 2 }}>{item.title}</Text>
-                      </View>
-                    </TouchableOpacity>
                   )
-                })
-              }
-            </View>
+                }
+                {
+                  (user.account_profile == null || (user.account_profile != null && user.account_profile.url == null)) && (
+                    <View style={{ flex: 1, flexDirection: 'row', marginTop: '10%', position: 'absolute', right: 0 }}>
+                      <Text style={{ color: Color.white, fontWeight: 'bold', marginTop: '8%', marginRight: 10 }}>{user.username}</Text>
+                      <TouchableOpacity onPress={() => this.props.navigation.navigate('profileStack')}>
+                        <FontAwesomeIcon
+                          icon={faUserCircle}
+                          size={50}
+                          style={{
+                            color: Color.white
+                          }}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                  )
+                }
+              </View>
+            ) : (
+              <Text style={[styles.sectionHeadingStyle, {
+                paddingTop: 150,
+                backgroundColor: theme ? theme.primary : Color.primary
+              }]}>
+                Welcome to {Helper.company}!
+              </Text>
+            )
+          }
+          <View style={{ marginTop: '60%', position: 'absolute', right: 0, alignItems: 'flex-end' }}>
+            {Helper.DrawerMenu.length > 0 &&
+              Helper.DrawerMenu.map((item, index) => {
+                return (
+                  <TouchableOpacity style={[styles.navSectionStyle, { flexDirection: 'row-reverse', width: '200%', paddingBottom: 10 }]} onPress={() => item.title == 'Connections' ? this.redirect('connectionStack') : (item.title == 'Messages' ? this.redirect('mainMessageStack') : this.navigateToScreen(item.route))}>
+                    <View style={[styles.navSectionStyle, { flex: 1, flexDirection: 'row-reverse', width: '200%' }]}>
+                      <FontAwesomeIcon style={styles.navItemStyle} icon={item.icon} size={BasicStyles.iconSize}></FontAwesomeIcon>
+                      <Text style={{ color: Color.white, marginRight: 10, marginTop: 2 }}>{item.title}</Text>
+                    </View>
+                  </TouchableOpacity>
+                )
+              })
+            }
           </View>
-          <View style={[styles.navSectionStyle, { borderBottomWidth: 0, flex: 1, position: 'absolute', bottom: 15, borderTopWidth: 1, width: width, borderColor: 'white', paddingRight: 10 }]}>
-            <TouchableOpacity onPress={() => this.navigateToScreen('TermsAndConditions')} style={{ flexDirection: 'row-reverse', paddingTop: 20 }}>
-              <FontAwesomeIcon style={styles.navItemStyle} icon={faCopy} size={BasicStyles.iconSize}></FontAwesomeIcon>
-              <Text style={{ color: Color.white, marginRight: 10 }}> Terms and Conditions</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => this.navigateToScreen('Privacy')} style={{ flexDirection: 'row-reverse', paddingTop: 20 }}>
-              <FontAwesomeIcon style={styles.navItemStyle} icon={faShieldAlt} size={BasicStyles.iconSize}></FontAwesomeIcon>
-              <Text style={{ color: Color.white, marginRight: 10 }}> Privacy Policy</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => this.logoutAction()} style={{ flexDirection: 'row-reverse', paddingTop: 20 }}>
-              <FontAwesomeIcon style={styles.navItemStyle} icon={faSignOutAlt} size={BasicStyles.iconSize}></FontAwesomeIcon>
-              <Text style={{ color: Color.white, marginRight: 10 }}>Logout</Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
+        </View>
+        <View style={[styles.navSectionStyle, { borderBottomWidth: 0, flex: 1, position: 'absolute', bottom: 15, borderTopWidth: 1, width: width, borderColor: 'white', paddingRight: 10 }]}>
+          <TouchableOpacity onPress={() => this.navigateToScreen('TermsAndConditions')} style={{ flexDirection: 'row-reverse', paddingTop: 20 }}>
+            <FontAwesomeIcon style={styles.navItemStyle} icon={faCopy} size={BasicStyles.iconSize}></FontAwesomeIcon>
+            <Text style={{ color: Color.white, marginRight: 10 }}> Terms and Conditions</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.navigateToScreen('Privacy')} style={{ flexDirection: 'row-reverse', paddingTop: 20 }}>
+            <FontAwesomeIcon style={styles.navItemStyle} icon={faShieldAlt} size={BasicStyles.iconSize}></FontAwesomeIcon>
+            <Text style={{ color: Color.white, marginRight: 10 }}> Privacy Policy</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.logoutAction()} style={{ flexDirection: 'row-reverse', paddingTop: 20 }}>
+            <FontAwesomeIcon style={styles.navItemStyle} icon={faSignOutAlt} size={BasicStyles.iconSize}></FontAwesomeIcon>
+            <Text style={{ color: Color.white, marginRight: 10 }}>Logout</Text>
+          </TouchableOpacity>
+        </View>
       </LinearGradient>
     );
   }
