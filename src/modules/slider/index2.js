@@ -89,16 +89,16 @@ class Slider2 extends Component {
     const { colors } = this.state
     console.log('[COLOR]', theme)
     return (
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <LinearGradient
-          colors={theme && theme.gradient !== undefined && theme.gradient !== null ? theme.gradient : Color.gradient}
-          locations={[0, 0.5, 1]}
-          start={{ x: 1, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={{ height: height, paddingRight: 10, marginTop: '-1%', width: width }}
-        >
-          <View style={{ flex: 1, flexDirection: 'row' }}>
-            <View style={{ backgroundColor: Color.white, height: height, width: '25%', borderTopRightRadius: 50, borderBottomRightRadius: 50, zIndex: 999, elevation: 50 }}>
+      <LinearGradient
+        colors={theme && theme.gradient !== undefined && theme.gradient !== null ? theme.gradient : Color.gradient}
+        locations={[0, 0.5, 1]}
+        start={{ x: 1, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={{ height: '100%', paddingRight: 10, width: width }}
+      >
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={{flexDirection: 'row' }}>
+            <View style={{ backgroundColor: Color.white, height: height, width: '25%', borderTopRightRadius: 40, borderBottomRightRadius: 40, zIndex: 999, elevation: 50 }}>
               <View style={{ marginTop: '40%', marginLeft: 10 }}>
                 <TouchableOpacity onPress={() => this.props.navigation.toggleDrawer()}>
                   <FontAwesomeIcon color={Color.primary} icon={faTimes} size={BasicStyles.iconSize}></FontAwesomeIcon>
@@ -111,7 +111,7 @@ class Slider2 extends Component {
                   {
                     user.account_profile != null && user.account_profile.url != null && (
                       <View style={{ flex: 1, flexDirection: 'row', marginTop: '10%', position: 'absolute', right: 0 }}>
-                        <Text numberOfLines={1} style={{ color: Color.white, fontWeight: 'bold', marginTop: '8%', marginRight: 10, width: '80%' }}>{user.account_information.first_name} {user.account_information.last_name}</Text>
+                        <Text numberOfLines={1} style={{ color: Color.white, fontWeight: 'bold', marginTop: '8%', marginRight: 10, width: '80%', textAlign: 'right' }}>{user.account_information.first_name} {user.account_information.last_name}</Text>
                         <TouchableOpacity onPress={() => this.props.navigation.navigate('profileStack')}>
                           <Image
                             source={{ uri: Config.BACKEND_URL + user.account_profile.url }}
@@ -182,8 +182,8 @@ class Slider2 extends Component {
               <Text style={{ color: Color.white, marginRight: 10 }}>Logout</Text>
             </TouchableOpacity>
           </View>
-        </LinearGradient>
-      </ScrollView>
+        </ScrollView>
+      </LinearGradient>
     );
   }
 }

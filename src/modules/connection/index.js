@@ -45,8 +45,9 @@ class Connections extends Component {
   }
 
   refresh = () => {
-    this.retrieveRandomUsers(false);
     this.retrieveSuggestions(false);
+    this.retrieveRandomUsers(false);
+    // this.retrieveConnections(false);
   }
 
   removeConnection = (id) => {
@@ -100,6 +101,22 @@ class Connections extends Component {
     });
   }
 
+  updateData = (update, el) => {
+    if(update === 'confirm') {
+      let data = this.state.connections
+      data.push(el)
+      this.setState({connections: data})
+    } else if(update === 'remove') {
+      let account = this.state.suggestions
+      account.length > 0 && account.map((item, index) => {
+        if(item.account?.id === el.account?.id) {
+          item.is_added = false
+        }
+      })
+      this.setState({suggestions: account});
+    }
+  }
+
   retrieveSuggestions(flag) {
     const { user } = this.props.state
     let parameter = {
@@ -121,10 +138,9 @@ class Connections extends Component {
     }
     this.setState({ isLoading: true })
     Api.request(Routes.circleRetrieve, parameter, response => {
+      console.log(response.data[0]);
       this.setState({ isLoading: false })
-      if (response.data.length > 0) {
-        this.setState({pending: response.data})
-      }
+      this.setState({pending: response.data.length > 0 ? response.data : []})
     });
   }
 
@@ -160,7 +176,9 @@ class Connections extends Component {
       await this.setState({ prevActive: idx })
     }
     if (idx === 0) {
-      // this.refresh();
+      // this.retrieveRandomUsers(false);
+      // this.retrieveSuggestions(false);
+      // this.retrieveConnections(false);
     }
     // this.setState({connections: []})
     // this.retrieve(false)
@@ -212,7 +230,7 @@ class Connections extends Component {
           {
             this.state.currActive == 0 ? (
               <View>
-                <CardList delete={(id) => {this.removeConnection(id)}} loading={this.loading} level={2} retrieve={() => { this.refresh() }} status={'pending'} navigation={this.props.navigation} data={this.state.pending.length > 0 && this.state.pending} hasAction={true} actionType={'text'}></CardList>
+                <CardList delete={(id) => {this.removeConnection(id)}} loading={this.loading} update={(update, el) => {this.updateData(update, el)}} level={2} retrieve={() => { this.refresh() }} status={'pending'} navigation={this.props.navigation} data={this.state.pending.length > 0 && this.state.pending} hasAction={true} actionType={'text'}></CardList>
                 {this.state.pending.length === this.state.limit &&
                   <TouchableOpacity onPress={() => {this.retrieveSuggestions(true)}}>
                     <Text style={{ color: 'gray', paddingTop: 5, paddingLeft: 15 }}>See All</Text>
@@ -240,7 +258,7 @@ class Connections extends Component {
                     />
                   </View>
                   <View>
-                    <CardList delete={(id) => {this.removeConnection(id)}} loading={this.loading} level={2} search={this.state.search} retrieve={() => { this.refresh() }} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
+                    <CardList delete={(id) => {this.removeConnection(id)}} update={(update, el) => {this.updateData(update, el)}} loading={this.loading} level={2} search={this.state.search} retrieve={() => { this.refresh() }} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
                   </View>
                 </View>
                 {this.state.connections.length == 0 && (<Empty refresh={true} onRefresh={() => this.retrieveConnections(false)} />)}
