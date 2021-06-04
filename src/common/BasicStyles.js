@@ -33,7 +33,7 @@ export default {
     paddingLeft: 10
   },
   formControls: {
-    height: 50,
+    height: 60,
     borderBottomColor: Color.gray,
     borderBottomWidth: 1,
     width: '100%',
