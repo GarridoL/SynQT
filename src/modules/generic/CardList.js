@@ -144,11 +144,11 @@ class CardList extends Component {
                               color={theme ? theme.primary : Color.primary}
                             /></View>}
                         <View>
-                          <View style={{ flexDirection: 'row' }}>
-                            <View>
-                              <Text style={{ fontWeight: 'bold' }}>{el.account?.information?.first_name ? el.account?.information?.first_name + ' ' + el.account?.information?.last_name : el.account?.username}</Text>
+                          <View style={{ flexDirection: 'row'}}>
+                            <View style={{width: '70%' }}>
+                              <Text style={{ fontWeight: 'bold'}} numberOfLines={1}>{el.account?.information?.first_name ? el.account?.information?.first_name + ' ' + el.account?.information?.last_name : el.account?.username}</Text>
                               <Text style={{ fontStyle: 'italic' }}>{el.account?.information?.address || 'No address provided'}</Text>
-                              <Text style={{ color: 'gray', fontSize: 10, marginBottom: 5 }}>{el.numberOfConnection} similar connections</Text>
+                              <Text style={{ color: 'gray', fontSize: 10, marginBottom: 5 }}>{el.similar_connections} similar connections</Text>
                               {
                                 this.props.hasAction && this.props.state.user.id != el.account_id && (
                                   <View style={{ flexDirection: 'row' }}>
@@ -266,11 +266,11 @@ class CardList extends Component {
                             color={theme ? theme.primary : Color.primary}
                           /></View>}
                       <View>
-                        <View style={{ flexDirection: 'row' }}>
-                          <View>
-                            <Text style={{ fontWeight: 'bold' }}>{el.account?.information?.first_name ? el.account?.information?.first_name + ' ' + el.account?.information?.last_name : el.account?.username}</Text>
+                          <View style={{ flexDirection: 'row'}}>
+                            <View style={{width: '70%' }}>
+                            <Text style={{ fontWeight: 'bold'}} numberOfLines={1}>{el.account?.information?.first_name ? el.account?.information?.first_name + ' ' + el.account?.information?.last_name : el.account?.username}</Text>
                             <Text style={{ fontStyle: 'italic' }}>{el.account?.information?.address || 'No address provided'}</Text>
-                            <Text style={{ color: 'gray', fontSize: 10, marginBottom: 5 }}>{el.numberOfConnection} similar connections</Text>
+                            <Text style={{ color: 'gray', fontSize: 10, marginBottom: 5 }}>{el.similar_connections} similar connections</Text>
                             {
                               this.props.hasAction && this.props.state.user.id != el.account_id && (
                                 <View style={{ flexDirection: 'row' }}>

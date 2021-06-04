@@ -23,9 +23,9 @@ export default {
   BottomView: {
     width: '100%',
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 15
+    marginTop: 15,
+    padding: 5
   },
   TextStyle: {
     marginTop: 15,

@@ -83,7 +83,7 @@ class Profile extends Component {
       );
       return
     }
-    if(this.state.password && this.state.password.length < 6 && /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/.test(this.state.password) === false) {
+    if(this.state.password && (this.state.password.length < 6 || /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/.test(this.state.password) === false)) {
       Alert.alert(
         "Opps",
         "Passwords should be atleast 6 characters. It must be alphanumeric characters. It should contain 1 number, 1 special character and 1 capital letter.",
@@ -156,6 +156,16 @@ class Profile extends Component {
     this.setState({ isLoading: true })
     Api.request(Routes.accountInformationUpdate, parameter, response => {
       this.setState({ isLoading: false })
+      if(response.data !== null) {
+        Alert.alert(
+          "",
+          "Profile updated successfully!",
+          [
+            { text: "OK" }
+          ],
+          { cancelable: false }
+        );
+      }
     }, error => {
       console.log(error)
     });

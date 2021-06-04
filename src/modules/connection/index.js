@@ -56,6 +56,7 @@ class Connections extends Component {
         temp.splice(index, 1);
       }
     })
+    this.refresh()
     this.setState({connections: temp});
   }
 
@@ -85,13 +86,11 @@ class Connections extends Component {
     this.setState({ isLoading: true })
     Api.request(Routes.circleRetrieve, parameter, response => {
       this.setState({ isLoading: false })
-      console.log(response.data, '---------');
       if (response.data.length > 0) {
         this.setState({
           connections: flag == false ? response.data : _.uniqBy([...this.state.connections, ...response.data], 'id'),
           offset: flag == false ? 1 : (this.state.offset + 1)
         })
-        console.log(_.uniqBy([...this.state.connections, ...response.data], 'id'), 'response------------');
       } else {
         this.setState({
           connections: flag == false ? [] : this.state.connections,
@@ -118,7 +117,7 @@ class Connections extends Component {
         value: 'pending'
       }],
       offset: 0,
-      limit: this.state.limit
+      limit: flag === false ? this.state.limit : ''
     }
     this.setState({ isLoading: true })
     Api.request(Routes.circleRetrieve, parameter, response => {

@@ -44,7 +44,7 @@ const ViewProfileStack = createStackNavigator({
   historyScreen: {
     screen: Screen,
     navigationOptions: ({navigation}) => ({
-      title: navigation.state?.params?.user?.account?.information?.first_name + navigation.state?.params?.user?.account?.information?.last_name || navigation.state?.params?.user?.account?.username,
+      title: navigation.state?.params?.user?.account?.information?.first_name ? navigation.state?.params?.user?.account?.information?.first_name + ' ' + navigation.state?.params?.user?.account?.information?.last_name : navigation.state?.params?.user?.username,
       headerLeft: <HeaderOptionsConnect navigationProps={navigation} />,
       ...BasicStyles.headerDrawerStyle
     }),
