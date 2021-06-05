@@ -117,11 +117,19 @@ class Profile extends Component {
       email: this.state.email,
       password: this.state.password
     }
-    console.log(parameter, Routes.accountUpdate);
     this.setState({ isLoading: true })
     Api.request(Routes.accountUpdate, parameter, response => {
-      console.log(response, 'response');
       this.setState({ isLoading: false })
+      if(response.data !== null) {
+        Alert.alert(
+          "",
+          "Email and Password updated successfully!",
+          [
+            { text: "OK" }
+          ],
+          { cancelable: false }
+        );
+      }
       this.reloadProfile();
     }, error => {
       console.log(error)
@@ -153,13 +161,17 @@ class Profile extends Component {
       cellular_number: 'NULL'
     }
     this.updateAccount();
+    if(user.account_information?.last_name === this.state.lastName && user.account_information?.first_name === this.state.firstName) {
+      return
+    }
     this.setState({ isLoading: true })
     Api.request(Routes.accountInformationUpdate, parameter, response => {
       this.setState({ isLoading: false })
       if(response.data !== null) {
+        this.reloadProfile();
         Alert.alert(
           "",
-          "Profile updated successfully!",
+          "Name updated successfully!",
           [
             { text: "OK" }
           ],
@@ -226,7 +238,7 @@ class Profile extends Component {
     const { user } = this.props.state;
     return (
       <View style={{height: height}}>
-        <ScrollView showsVerticalScrollIndicator={false} style={{marginBottom: 150}}>
+        <ScrollView showsVerticalScrollIndicator={false} style={{marginBottom: 100}}>
           <View style={{
             backgroundColor: Color.containerBackground,
             marginBottom: 170
@@ -369,9 +381,7 @@ class Profile extends Component {
               }} /> : null}
         </ScrollView>
         <View style={{
-          position: 'relative',
-          alignItems: 'center',
-          bottom: 70,
+          bottom: 80,
           width: '90%'
         }}>
           <CustomizedButton onClick={() => { this.update() }} title={'Update'}></CustomizedButton>

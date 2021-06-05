@@ -28,7 +28,9 @@ class ViewProfile extends Component {
       data: [],
       limit: 5,
       offset: 0,
-      isLoading: false
+      isLoading: false,
+      ids: [],
+      fromConnections: []
     }
   }
 
@@ -76,17 +78,28 @@ class ViewProfile extends Component {
   }
 
   deleteConnection = (el) => {
+    let del = null
+    this.state.fromConnections.length > 0 && this.state.fromConnections.map((item, index) => {
+      if(item.account?.id === el.account?.id) {
+        this.state.fromConnections.splice(index, 1);
+        del = item
+      }
+    })
+    this.state.ids.length > 0 && this.state.ids.map((item, index) => {
+      if(item === el.account?.id) {
+        this.state.ids.splice(index, 1);
+      }
+    })
     let parameter = {
-      id: el.id
+      id: del.id
     }
     this.setState({ isLoading: true })
     Api.request(Routes.circleDelete, parameter, response => {
       this.setState({ isLoading: false })
-      if (response.data !== null) {
-        this.retrieveConnections(false);
-      }
+      this.retrieveConnections(false);
     }, error => {
       this.setState({ isLoading: false })
+      this.retrieveConnections(false);
       console.log('error', error)
     });
   }
@@ -141,9 +154,7 @@ class ViewProfile extends Component {
             res.data.forEach(el => {
               ids.push(el.account?.id)
             });
-            response.data.forEach(element => {
-              element['connected'] = ids.includes(element.account.id)
-            });
+            this.setState({ids: ids, fromConnections: res.data});
           }
           this.setState({
             connections: flag == false ? response.data : _.uniqBy([...this.state.connections, ...response.data], 'id'),
@@ -178,14 +189,15 @@ class ViewProfile extends Component {
       content: "This is an invitation for you to join my connections."
     }
     this.setState({ isLoading: true })
-    console.log(parameter);
     Api.request(Routes.circleCreate, parameter, response => {
       this.setState({ isLoading: false })
+      this.retrieveConnections(false);
       if(response.error !== null) {
         Alert.alert('Error', response.error);
       }
     }, error => {
       this.setState({ isLoading: false })
+      this.retrieveConnections(false);
       console.log('error', error)
     });
   }
@@ -240,7 +252,7 @@ class ViewProfile extends Component {
                         <Text style={{ fontStyle: 'italic' }} numberOfLines={1}>{el?.account?.information?.address || 'No address provided'}</Text>
                         <Text style={{ color: 'gray', fontSize: 10 }} numberOfLines={1}> similar connections</Text>
                       </View>
-                      {el.connected === false && el.account.id !== this.props.state.user.id ?
+                      {this.state.ids.length > 0 && this.state.ids.includes(el.account?.id) === false && el.account.id !== this.props.state.user.id ?
                         <TouchableOpacity
                           onPress={() => this.sendRequest(el)}
                           style={{
@@ -378,7 +390,7 @@ class ViewProfile extends Component {
               <Text style={{
                 fontWeight: 'bold',
                 fontSize: 18
-              }}>{user?.account?.information?.first_name ? user?.account?.information?.first_name + ' ' + user?.account?.information?.last_name : user?.username}</Text>
+              }}>{user?.account?.information?.first_name ? user?.account?.information?.first_name + ' ' + user?.account?.information?.last_name : user?.account?.username}</Text>
               </Text>
             </View>
             <View style={{

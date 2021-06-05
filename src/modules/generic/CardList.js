@@ -72,6 +72,9 @@ class CardList extends Component {
     Api.request(Routes.circleUpdate, parameter, response => {
       this.props.loading(false);
       this.props.retrieve();
+      if(response.data !== null && status === 'accepted') {
+        this.props.update('confirm', item)
+      }
     }, error => {
       console.log('error', error)
       this.props.loading(false);
@@ -88,6 +91,7 @@ class CardList extends Component {
       this.props.loading(false);
       if (response.data !== null) {
         this.props.delete(el.id)
+        this.props.update('remove', el)
       }
     });
   }
@@ -144,9 +148,9 @@ class CardList extends Component {
                               color={theme ? theme.primary : Color.primary}
                             /></View>}
                         <View>
-                          <View style={{ flexDirection: 'row'}}>
-                            <View style={{width: '70%' }}>
-                              <Text style={{ fontWeight: 'bold'}} numberOfLines={1}>{el.account?.information?.first_name ? el.account?.information?.first_name + ' ' + el.account?.information?.last_name : el.account?.username}</Text>
+                          <View style={{ flexDirection: 'row' }}>
+                            <View style={{ width: '70%' }}>
+                              <Text style={{ fontWeight: 'bold' }} numberOfLines={1}>{el.account?.information?.first_name ? el.account?.information?.first_name + ' ' + el.account?.information?.last_name : el.account?.username}</Text>
                               <Text style={{ fontStyle: 'italic' }}>{el.account?.information?.address || 'No address provided'}</Text>
                               <Text style={{ color: 'gray', fontSize: 10, marginBottom: 5 }}>{el.similar_connections} similar connections</Text>
                               {
@@ -266,9 +270,9 @@ class CardList extends Component {
                             color={theme ? theme.primary : Color.primary}
                           /></View>}
                       <View>
-                          <View style={{ flexDirection: 'row'}}>
-                            <View style={{width: '70%' }}>
-                            <Text style={{ fontWeight: 'bold'}} numberOfLines={1}>{el.account?.information?.first_name ? el.account?.information?.first_name + ' ' + el.account?.information?.last_name : el.account?.username}</Text>
+                        <View style={{ flexDirection: 'row' }}>
+                          <View style={{ width: '70%' }}>
+                            <Text style={{ fontWeight: 'bold' }} numberOfLines={1}>{el.account?.information?.first_name ? el.account?.information?.first_name + ' ' + el.account?.information?.last_name : el.account?.username}</Text>
                             <Text style={{ fontStyle: 'italic' }}>{el.account?.information?.address || 'No address provided'}</Text>
                             <Text style={{ color: 'gray', fontSize: 10, marginBottom: 5 }}>{el.similar_connections} similar connections</Text>
                             {
