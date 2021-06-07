@@ -250,7 +250,7 @@ class ViewProfile extends Component {
                       <View style={{ width: '65%' }}>
                         <Text style={{ fontWeight: 'bold', width: '110%' }} numberOfLines={1}>{el?.account?.information?.first_name ? el?.account?.information?.first_name + ' ' + el?.account?.information?.last_name : el?.account?.username}</Text>
                         <Text style={{ fontStyle: 'italic' }} numberOfLines={1}>{el?.account?.information?.address || 'No address provided'}</Text>
-                        <Text style={{ color: 'gray', fontSize: 10 }} numberOfLines={1}> similar connections</Text>
+                        <Text style={{ color: 'gray', fontSize: 10 }} numberOfLines={1}> similar connection(s)</Text>
                       </View>
                       {this.state.ids.length > 0 && this.state.ids.includes(el.account?.id) === false && el.account.id !== this.props.state.user.id ?
                         <TouchableOpacity
@@ -399,7 +399,7 @@ class ViewProfile extends Component {
               <Text style={{
                 textAlign: 'center',
                 color: Color.gray
-              }}>{user.similar_connections} similar connections</Text>
+              }}>{user.similar_connections} similar connection(s)</Text>
             </View>
 
           </View>

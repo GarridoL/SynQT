@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
-import {View, TouchableOpacity, Text, Dimensions, SafeAreaView, TextInput} from 'react-native';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faAlignLeft, faBars, faChevronLeft, faClock, faHistory, faShoppingBag, faStar, faEdit} from '@fortawesome/free-solid-svg-icons';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { View, TouchableOpacity, Text, Dimensions, SafeAreaView, TextInput } from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faAlignLeft, faBars, faChevronLeft, faClock, faHistory, faShoppingBag, faStar, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { connect } from 'react-redux';
 import { BasicStyles, Color } from 'common';
 const width = Math.round(Dimensions.get('window').width)
 
@@ -15,7 +15,7 @@ class Header extends Component {
   }
 
   searchHandler = (value) => {
-    this.setState({search: value});
+    this.setState({ search: value });
   }
 
   back = () => {
@@ -33,10 +33,10 @@ class Header extends Component {
           alignItems: 'center',
           shadowRadius: 0,
           shadowOffset: {
-              height: 0,
+            height: 0,
           },
           borderBottomWidth: 0
-          }}>
+        }}>
         <TouchableOpacity
           onPress={() => {
             this.props.navigation.toggleDrawer()
@@ -52,7 +52,7 @@ class Header extends Component {
             position: 'relative',
             zIndex: 10001
           }}
-          >
+        >
           <FontAwesomeIcon
             icon={faAlignLeft}
             size={BasicStyles.iconSize}
@@ -69,50 +69,48 @@ class Header extends Component {
           routeName === 'Status' && (
             <View style={{
               flex: 1,
-               flexDirection: 'row',
-               width: width,
-               justifyContent: 'center',
+              flexDirection: 'row',
+              width: width,
+              justifyContent: 'center',
               alignItems: 'center',
               position: 'relative',
             }}>
-            <View style={{
-              height: 40,
-              borderColor: Color.gray,
-              borderWidth: 1,
-              borderRadius: 25,
-              width: '70%',
-              marginRight: '2%',
-              marginLeft: '-13%',
-              justifyContent: 'center'
-            }}>
-              <TextInput
-                style={{
-                  height: 45,
-                  width: '70%'
+              <View style={{
+                height: 40,
+                borderColor: Color.gray,
+                borderWidth: 1,
+                borderRadius: 25,
+                width: '75%',
+                marginRight: '2%',
+                marginLeft: '-13%',
+                justifyContent: 'center'
+              }}>
+                <TextInput
+                  style={{
+                    height: 45,
+                    width: '70%'
+                  }}
+                  onSubmitEditing={() => { this.props.setStatusSearch(this.state.search) }}
+                  onChangeText={text => this.searchHandler(text)}
+                  value={this.state.search}
+                  placeholder='Search...'
+                />
+              </View>
+                <TouchableOpacity style={{
+                  paddingRight: 25
                 }}
-                onSubmitEditing={() => {this.props.setStatusSearch(this.state.search)}}
-                onChangeText={text => this.searchHandler(text)}
-                value={this.state.search}
-                placeholder='Search...'
-              />
-            </View>
-            <View>
-              <TouchableOpacity style={{
-              marginRight: '7%'
-            }}
-              onPress={() => { this.props.setCreateStatus(true) }}
-            >
-              <FontAwesomeIcon
-                icon={faEdit}
-                size={BasicStyles.iconSize}
-                color={Color.primary} />
-            </TouchableOpacity>
-            </View>
+                  onPress={() => { this.props.setCreateStatus(true) }}
+                >
+                  <FontAwesomeIcon
+                    icon={faEdit}
+                    size={BasicStyles.iconSize}
+                    color={Color.primary} />
+                </TouchableOpacity>
             </View>
           )
         }
 
-      
+
         {/* <TouchableOpacity
           onPress={() => this.props.navigation.navigate('topChoiceStack')}
           style={{
@@ -158,7 +156,7 @@ class Header extends Component {
         </TouchableOpacity> */}
 
         <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('historyStack', {title: 'History'})}
+          onPress={() => this.props.navigation.navigate('historyStack', { title: 'History' })}
           style={{
             justifyContent: 'center',
             alignItems: 'center',
@@ -166,7 +164,7 @@ class Header extends Component {
             width: 50,
             marginLeft: width - (50 + 50)
           }}
-          >
+        >
           <FontAwesomeIcon
             icon={faHistory}
             size={BasicStyles.iconSize}
@@ -183,10 +181,10 @@ class Header extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({state: state});
+const mapStateToProps = (state) => ({ state: state });
 
 const mapDispatchToProps = (dispatch) => {
-  const {actions} = require('@redux');
+  const { actions } = require('@redux');
   return {
     logout: () => dispatch(actions.logout()),
     setStatusSearch: (statusSearch) => dispatch(actions.setStatusSearch(statusSearch)),

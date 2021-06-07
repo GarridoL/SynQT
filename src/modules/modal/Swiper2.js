@@ -41,8 +41,7 @@ class Cards extends React.Component {
       data: [],
       products: [],
       limit: 5,
-      offset: 0,
-      header: false
+      offset: 0
     }
   }
 
@@ -131,7 +130,7 @@ class Cards extends React.Component {
   }
 
   swipeHandler = () => {
-    this.setState({ index: this.state.index + 1 === this.state.data.length ? 0 : this.state.index + 1, products: [], offset: 0, header: this.state.index + 1 === this.state.data.length - 2 ? true : false })
+    this.setState({ index: this.state.index + 1 === this.state.data.length ? 0 : this.state.index + 1, products: [], offset: 0})
   }
 
   addToTopChoice = (status) => {
@@ -190,13 +189,12 @@ class Cards extends React.Component {
   }
 
   renderCard = () => {
-    console.log(this.state.data[this.state.index], 'ratings-----');
     return (
       <View style={{ flex: 1, marginTop: '91%' }}>
         <CardStack
           style={styles.content}
           loop={true}
-          renderNoMoreCards={() => <View><Text>{this.state.isLoading ? <Spinner mode="overlay" /> : 'No more cards.'}</Text></View>}
+          renderNoMoreCards={() => <View><Text>{this.state.isLoading ? <Spinner mode="overlay" /> : 'No merchant.'}</Text></View>}
           ref={swiper => {
             this.swiper = swiper
           }}
@@ -219,7 +217,7 @@ class Cards extends React.Component {
                     source={el.logo ? { uri: Config.BACKEND_URL + el.logo } : require('assets/default.png')}>
                     <View style={{
                       position: 'absolute',
-                      bottom: this.props.topFloatButton === true ? 100 : 25,
+                      bottom: this.props.topFloatButton === true ? 100 : 30,
                       ...BasicStyles.standardWidth
                     }}>
                       <Text style={{
@@ -229,6 +227,7 @@ class Cards extends React.Component {
                         textShadowOffset: { width: 1, height: 1 },
                         textShadowRadius: 1,
                         fontWeight: 'bold',
+                        width: '50%'
                       }}>{el.name || 'No data'}</Text>
                       <Text style={{
                         color: Color.white,
@@ -236,34 +235,34 @@ class Cards extends React.Component {
                         textShadowOffset: { width: 1, height: 1 },
                         textShadowRadius: 1,
                         fontWeight: 'bold',
-                        width: '70%'
+                        width: '50%'
                       }}>{el.address || 'No address'}</Text>
                     </View>
 
-                    <View style={{ position: 'absolute', bottom: 30, right: 20, flexDirection: 'row' }}>
+                    <View style={{ position: 'absolute', bottom: 30, right: 10, flexDirection: 'row'}}>
                       <FontAwesomeIcon
                         icon={faStar}
-                        size={30}
+                        size={25}
                         color={this.state.data[this.state.index]?.rating?.stars >= 1 ? '#FFCC00' : '#ededed'}
                       />
                       <FontAwesomeIcon
                         icon={faStar}
-                        size={30}
+                        size={25}
                         color={this.state.data[this.state.index]?.rating?.stars >= 2 ? '#FFCC00' : '#ededed'}
                       />
                       <FontAwesomeIcon
                         icon={faStar}
-                        size={30}
+                        size={25}
                         color={this.state.data[this.state.index]?.rating?.stars >= 3 ? '#FFCC00' : '#ededed'}
                       />
                       <FontAwesomeIcon
                         icon={faStar}
-                        size={30}
+                        size={25}
                         color={this.state.data[this.state.index]?.rating?.stars >= 4 ? '#FFCC00' : '#ededed'}
                       />
                       <FontAwesomeIcon
                         icon={faStar}
-                        size={30}
+                        size={25}
                         color={this.state.data[this.state.index]?.rating?.stars >= 5 ? '#FFCC00' : '#ededed'}
                       />
                     </View>
@@ -272,8 +271,8 @@ class Cards extends React.Component {
                       bottom: 140,
                       right: 20,
                       backgroundColor: '#30F2F2',
-                      height: 100,
-                      width: 100,
+                      height: 90,
+                      width: 90,
                       borderRadius: 50,
                       justifyContent: 'center',
                       alignItems: 'center'
@@ -378,9 +377,8 @@ class Cards extends React.Component {
           {this.state.isLoading ? <Spinner mode="overlay" /> : null}
         </View>
         {this.props.bottomFloatButton === true > 0 && (
-          <View style={{ alignItems: 'center', justifyContent: 'center', width: '90%' }}>
-            <FLoatingButton onClose={() => { this.swiper.swipeRight() }} onClick={() => { this.addToTopChoice('like') }}></FLoatingButton>
-          </View>)}
+          <FLoatingButton onClose={() => { this.swiper.swipeRight() }} onClick={() => { this.addToTopChoice('like') }}></FLoatingButton>
+        )}
       </View>
     )
   }
@@ -389,7 +387,7 @@ class Cards extends React.Component {
     const { isLoading } = this.state;
     return (
       <View>
-        <Header status={this.state.header} {...this.props} goBack={() => { this.swiper.swipeRight() }}></Header>
+        <Header status={this.state.index === this.state.data.length - 2 ? true : false} {...this.props} goBack={() => { this.swiper.swipeRight() }}></Header>
 
         <ScrollView showsVerticalScrollIndicator={true}
           onScroll={(event) => {

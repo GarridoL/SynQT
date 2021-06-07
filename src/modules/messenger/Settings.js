@@ -43,6 +43,7 @@ class Settings extends Component {
   }
 
   updateName = () => {
+    const { setCurrentTitle, setAllMessages } = this.props;
     let parameter = {
       id: this.props.groupId,
       title: this.state.title
@@ -52,7 +53,15 @@ class Settings extends Component {
       console.log(response, 'resonse');
       this.setState({ isLoading: false })
       if (response.data === true) {
-        this.props.setCurrentTitle(this.state.title)
+        setCurrentTitle(this.state.title)
+        let temp = this.props.state.allMessages;
+        temp.length > 0 && temp.map((item, index) => {
+          console.log(item.messenger_group_id, this.props.groupId, 'test');
+          if(item.messenger_group_id === this.props.groupId) {
+            item.title = this.state.title
+          }
+        })
+        setAllMessages(temp);
         this.setState({ visible: false, title: null })
       }
     });
@@ -222,6 +231,7 @@ const mapDispatchToProps = dispatch => {
   return {
     setShowSettings: (showSettings) => dispatch(actions.setShowSettings(showSettings)),
     setCurrentTitle: (currentTitle) => dispatch(actions.setCurrentTitle(currentTitle)),
+    setAllMessages: (allMessages) => dispatch(actions.setAllMessages(allMessages)),
   };
 };
 

@@ -63,19 +63,49 @@ class Connections extends Component {
     Api.request(Routes.circleRetrieve, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
-        response.data.map(i => {
-          tempMembers.length > 0 && tempMembers.map(item => {
-            if (item.account?.id === i.account?.id) {
-              i['added'] = true;
-            } else {
-              i['added'] = false;
+        if(this.props.navigation?.state?.params?.addMember) {
+          const par = {
+            condition: [{
+              value: this.props.navigation?.state?.params?.data?.messenger_group_id,
+              column: 'messenger_group_id',
+              clause: '='
+            }],
+            sort: {
+              'created_at': 'DESC'
+            }
+          }
+          this.setState({ isLoading: true });
+          Api.request(Routes.messengerMembersRetrieve, par, res => {
+            this.setState({ isLoading: false });
+            if (res.data.length > 0) {
+              response.data.map((item, index) => {
+                res.data.map((i, ind) => {
+                 if(item.account.id === i.information?.account_id) {
+                  response.data.splice(index, 1);
+                 }
+                })
+              })
+              this.setState({
+                data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
+                offset: flag == false ? 1 : (this.state.offset + 1)
+              })
             }
           })
-        })
-        this.setState({
-          data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
-          offset: flag == false ? 1 : (this.state.offset + 1)
-        })
+        } else {
+          response.data.map(i => {
+            tempMembers.length > 0 && tempMembers.map(item => {
+              if (item.account?.id === i.account?.id) {
+                i['added'] = true;
+              } else {
+                i['added'] = false;
+              }
+            })
+          })
+          this.setState({
+            data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
+            offset: flag == false ? 1 : (this.state.offset + 1)
+          })
+        }
       } else {
         this.setState({
           data: flag == false ? [] : this.state.data,
@@ -86,7 +116,6 @@ class Connections extends Component {
   }
 
   addMember = () => {
-    console.log(this.props.state.tempMembers);
     this.props.state.tempMembers.length > 0 && this.props.state.tempMembers.map((item, index) => {
       let parameter = {
         messenger_group_id: this.props.navigation?.state?.params?.addMember,
