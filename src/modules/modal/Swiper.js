@@ -148,12 +148,14 @@ class Cards extends React.Component {
                 textShadowColor: 'black',
                 textShadowOffset: { width: 1, height: 1 },
                 textShadowRadius: 1,
+                width: '50%'
               }}>{data && data.name && data.name || 'No data'}</Text>
               <Text style={{
                 color: 'white',
                 textShadowColor: 'black',
                 textShadowOffset: { width: 1, height: 1 },
-                textShadowRadius: 1
+                textShadowRadius: 1,
+                width: '50%'
               }}>{data && data.address && data.address && data.address || 'No address'}</Text>
             </View>
             <View style={{ position: 'absolute', bottom: 70, right: 15, flexDirection: 'row' }}>

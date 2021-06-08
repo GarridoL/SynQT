@@ -132,6 +132,7 @@ class Profile extends Component {
       }
       this.reloadProfile();
     }, error => {
+      this.setState({ isLoading: false })
       console.log(error)
     });
   }
@@ -238,7 +239,7 @@ class Profile extends Component {
     const { user } = this.props.state;
     return (
       <View style={{height: height}}>
-        <ScrollView showsVerticalScrollIndicator={false} style={{marginBottom: 100}}>
+        <ScrollView showsVerticalScrollIndicator={false} style={{marginBottom: 150}}>
           <View style={{
             backgroundColor: Color.containerBackground,
             marginBottom: 170

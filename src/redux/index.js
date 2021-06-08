@@ -26,7 +26,8 @@ const types = {
   SET_SELECTED: 'SET_SELECTED',
   SET_COMMENTS: 'SET_COMMENTS',
   SET_RANGE: 'SET_RANGE',
-  SET_TOP_CHOICES: 'SET_TOP_CHOICES'
+  SET_TOP_CHOICES: 'SET_TOP_CHOICES',
+  SET_ALL_MESSAGES: 'SET_ALL_MESSAGES'
 };
 
 export const actions = {
@@ -104,6 +105,9 @@ export const actions = {
   },
   setTopChoices(topChoices) {
     return {type: types.SET_TOP_CHOICES, topChoices}
+  },
+  setAllMessages(allMessages) {
+    return {type: types.SET_ALL_MESSAGES, allMessages}
   }
 };
 
@@ -131,7 +135,8 @@ const initialState = {
   currentTitle: null,
   selects: null,
   comments: [],
-  topChoices: []
+  topChoices: [],
+  allMessages: []
 };
 
 storeData = async (key, value) => {
@@ -158,6 +163,7 @@ const reducer = (state = initialState, action) => {
   const {selects} = action;
   const {comments} = action;
   const {topChoices} = action;
+  const {allMessages} = action;
   switch (type) {
     case types.LOGOUT:
       AsyncStorage.clear();
@@ -339,6 +345,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         topChoices
+      }
+    case types.SET_ALL_MESSAGES: 
+      return {
+        ...state,
+        allMessages
       }
     default:
       return {...state, nav: state.nav};

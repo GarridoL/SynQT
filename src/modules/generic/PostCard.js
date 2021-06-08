@@ -53,7 +53,8 @@ class PostCard extends Component {
 
   createSynqt = (data) => {
     if (data.members && data.members?.length > 0) {
-      this.props.navigation.navigate('restaurantStack', { members: data.members })
+      let temp = data.members
+      this.props.navigation.navigate('restaurantStack', { members: temp })
     }
   }
 
@@ -183,7 +184,7 @@ class PostCard extends Component {
             fontSize: 11
           }}>{data.joined === 'true' ? 'Joined' : 'Join'}</Text>
         </TouchableOpacity>
-        <Text style={{ color: 'gray', fontSize: 11 }}>{data.members.length} joined</Text>
+        <Text style={{ color: 'gray', fontSize: 11 }}>{data?.members?.length} joined</Text>
         {data.user?.id === this.props.state.user.id && <TouchableOpacity style={{
           position: 'absolute',
           right: 0,

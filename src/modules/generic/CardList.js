@@ -38,7 +38,6 @@ class CardList extends Component {
 
   storePeople = (item) => {
     item['added'] = true
-    console.log(item);
     const { setTempMembers } = this.props;
     let temp = this.props.state.tempMembers;
     temp.push(item);
@@ -99,7 +98,9 @@ class CardList extends Component {
   remove = (id) => {
     const { setTempMembers } = this.props;
     let temp = this.props.state.tempMembers;
-    temp.map((item, index) => {
+    console.log(temp, 'temp');
+    temp.length > 0 && temp.map((item, index) => {
+      console.log(id, item.account.id, '----------ids');
       if (id === item.account.id) {
         item['added'] = false
         temp.splice(index, 1)
@@ -152,7 +153,7 @@ class CardList extends Component {
                             <View style={{ width: '70%' }}>
                               <Text style={{ fontWeight: 'bold' }} numberOfLines={1}>{el.account?.information?.first_name ? el.account?.information?.first_name + ' ' + el.account?.information?.last_name : el.account?.username}</Text>
                               <Text style={{ fontStyle: 'italic' }}>{el.account?.information?.address || 'No address provided'}</Text>
-                              <Text style={{ color: 'gray', fontSize: 10, marginBottom: 5 }}>{el.similar_connections} similar connections</Text>
+                              <Text style={{ color: 'gray', fontSize: 10, marginBottom: 5 }}>{el.similar_connections} similar connection(s)</Text>
                               {
                                 this.props.hasAction && this.props.state.user.id != el.account_id && (
                                   <View style={{ flexDirection: 'row' }}>
@@ -274,7 +275,7 @@ class CardList extends Component {
                           <View style={{ width: '70%' }}>
                             <Text style={{ fontWeight: 'bold' }} numberOfLines={1}>{el.account?.information?.first_name ? el.account?.information?.first_name + ' ' + el.account?.information?.last_name : el.account?.username}</Text>
                             <Text style={{ fontStyle: 'italic' }}>{el.account?.information?.address || 'No address provided'}</Text>
-                            <Text style={{ color: 'gray', fontSize: 10, marginBottom: 5 }}>{el.similar_connections} similar connections</Text>
+                            <Text style={{ color: 'gray', fontSize: 10, marginBottom: 5 }}>{el.similar_connections} similar connection(s)</Text>
                             {
                               this.props.hasAction && this.props.state.user.id != el.account_id && (
                                 <View style={{ flexDirection: 'row' }}>

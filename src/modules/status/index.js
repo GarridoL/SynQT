@@ -60,14 +60,14 @@ class Status extends Component {
     }
     this.setState({ isLoading: true });
     Api.request(Routes.commentsRetrieve, parameter, response => {
-      console.log(response.data[2]?.members, 'response');
       this.setState({ isLoading: false });
       if (response.data.length > 0) {
         this.setState({ offset: flag === false ? 1 : (this.state.offset + 1) })
         response.data.map((item, index) => {
           item.members?.length > 0 && item.members.map((i, inde) => {
-            item['joined'] = i.account_id === this.props.state.user.id && i.joined === 'true' ? 'true' : 'false'
-            item['liked'] = i.account_id === this.props.state.user.id && i.liked === 'true' ? 'true' : 'false'
+            console.log(i, i.account_id, this.props.state.user.id, 'hii');
+            item['joined'] = i.account_id?.toString() === this.props.state.user.id?.toString() && i.joined === 'true' ? 'true' : 'false'
+            item['liked'] =  i.account_id?.toString() === this.props.state.user.id?.toString() && i.liked === 'true' ? 'true' : 'false'
             if (i.joined !== 'true') {
               item.members.splice(inde, 1);
             }
@@ -158,6 +158,7 @@ class Status extends Component {
       },
       account_id: this.props.state.user.id,
       comment_replies: [],
+      members: [],
       text: this.state.status,
       created_at_human: moment(new Date()).format('MMMM DD, YYYY hh:mm a')
     }
@@ -200,7 +201,7 @@ class Status extends Component {
         <ScrollView style={{
           backgroundColor: Color.containerBackground,
           padding: 5,
-          height: height - 5
+          height: '100%'
         }}
           showsVerticalScrollIndicator={false}
           onScroll={(event) => {

@@ -52,7 +52,7 @@ class Slider2 extends Component {
     }
     try {
       const result = await Share.share({
-        message: 'https://wearesynqt/profile/' + user.code
+        message: 'https://wearesynqt/profile/' + user?.code
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -103,43 +103,30 @@ class Slider2 extends Component {
             </View>
           </View>
           {
-            user != null ? (
+            user !== null ? (
               <View style={{ marginTop: '10%', position: 'absolute', right: 0, width: '75%' }}>
-                {
-                  user.account_profile != null && user.account_profile.url != null && (
-                    <View style={{ flex: 1, flexDirection: 'row', marginTop: '10%', position: 'absolute', right: 0 }}>
-                      <Text numberOfLines={1} style={{ color: Color.white, fontWeight: 'bold', marginTop: '8%', marginRight: 10, width: '80%', textAlign: 'right' }}>{user.account_information.first_name} {user.account_information.last_name}</Text>
-                      <TouchableOpacity onPress={() => this.props.navigation.navigate('profileStack')}>
-                        <Image
-                          source={{ uri: Config.BACKEND_URL + user.account_profile.url }}
-                          style={[BasicStyles.profileImageSize, {
-                            height: 50,
-                            width: 50,
-                            borderRadius: 50,
-                            borderWidth: 2,
-                            borderColor: Color.warning
-                          }]} />
-                      </TouchableOpacity>
-                    </View>
-
-                  )
-                }
-                {
-                  (user.account_profile == null || (user.account_profile != null && user.account_profile.url == null)) && (
-                    <View style={{ flex: 1, flexDirection: 'row', marginTop: '10%', position: 'absolute', right: 0 }}>
-                      <Text style={{ color: Color.white, fontWeight: 'bold', marginTop: '8%', marginRight: 10 }}>{user.username}</Text>
-                      <TouchableOpacity onPress={() => this.props.navigation.navigate('profileStack')}>
-                        <FontAwesomeIcon
-                          icon={faUserCircle}
-                          size={50}
-                          style={{
-                            color: Color.white
-                          }}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  )
-                }
+                <View style={{ flex: 1, flexDirection: 'row', marginTop: '10%', position: 'absolute', right: 0, justifyContent: 'center', alignItems: 'center' }}>
+                  <Text numberOfLines={1} style={{ color: Color.white, fontWeight: 'bold', marginRight: 10, width: '80%', textAlign: 'right' }}>{user?.account_information?.first_name ? user?.account_information.first_name + ' ' + user?.account_information.last_name : user?.username}</Text>
+                  <TouchableOpacity onPress={() => this.props.navigation.navigate('profileStack')}>
+                    {user?.account_profile?.url ? <Image
+                      source={{ uri: Config.BACKEND_URL + user?.account_profile.url }}
+                      style={[BasicStyles.profileImageSize, {
+                        height: 50,
+                        width: 50,
+                        borderRadius: 50,
+                        borderWidth: 2,
+                        borderColor: Color.warning
+                      }]} /> :
+                      <FontAwesomeIcon
+                        icon={faUserCircle}
+                        size={50}
+                        style={{
+                          color: Color.white
+                        }}
+                      />
+                    }
+                  </TouchableOpacity>
+                </View>
               </View>
             ) : (
               <Text style={[styles.sectionHeadingStyle, {
@@ -150,7 +137,7 @@ class Slider2 extends Component {
               </Text>
             )
           }
-          <View style={{ marginTop: '60%', position: 'absolute', right: 0, alignItems: 'flex-end' }}>
+          <View style={{ marginTop: height/3.5, position: 'absolute', right: 0, alignItems: 'flex-end' }}>
             {Helper.DrawerMenu.length > 0 &&
               Helper.DrawerMenu.map((item, index) => {
                 return (

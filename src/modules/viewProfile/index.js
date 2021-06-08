@@ -58,6 +58,7 @@ class ViewProfile extends Component {
       offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset
     }
     this.setState({ isLoading: true })
+    console.log(parameter, Routes.topChoiceRetrieveActivities);
     Api.request(Routes.topChoiceRetrieveActivities, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
@@ -226,15 +227,15 @@ class ViewProfile extends Component {
                 {/* <Card containerStyle={{padding:-5, borderRadius: 20}}> */}
                 <ListItem key={idx}>
                   {el.account?.profile?.url ? <Image
-                    style={Style.circleImage}
+                    style={[Style.circleImage, {borderColor: theme ? theme.primary : Color.primary}]}
                     source={{ uri: Config.BACKEND_URL + el.account?.profile?.url }}
                   /> :
                     <View style={{
-                      borderColor: Color.primary,
+                      borderColor: theme ? theme.primary : Color.primary,
                       width: 75,
                       height: 75,
                       borderRadius: 50,
-                      borderColor: Color.primary,
+                      borderColor: theme ? theme.primary : Color.primary,
                       borderWidth: 3,
                       overflow: "hidden",
                       justifyContent: 'center',
@@ -243,14 +244,14 @@ class ViewProfile extends Component {
                     }}><FontAwesomeIcon
                         icon={faUser}
                         size={53}
-                        color={Color.primary}
+                        color={theme ? theme.primary : Color.primary}
                       /></View>}
                   <View>
                     <View style={{ flexDirection: 'row', width: '100%' }}>
                       <View style={{ width: '65%' }}>
                         <Text style={{ fontWeight: 'bold', width: '110%' }} numberOfLines={1}>{el?.account?.information?.first_name ? el?.account?.information?.first_name + ' ' + el?.account?.information?.last_name : el?.account?.username}</Text>
                         <Text style={{ fontStyle: 'italic' }} numberOfLines={1}>{el?.account?.information?.address || 'No address provided'}</Text>
-                        <Text style={{ color: 'gray', fontSize: 10 }} numberOfLines={1}> similar connections</Text>
+                        <Text style={{ color: 'gray', fontSize: 10 }} numberOfLines={1}> similar connection(s)</Text>
                       </View>
                       {this.state.ids.length > 0 && this.state.ids.includes(el.account?.id) === false && el.account.id !== this.props.state.user.id ?
                         <TouchableOpacity
@@ -346,6 +347,7 @@ class ViewProfile extends Component {
 
   render() {
     let user = this.props.navigation.state?.params?.user
+    const {theme} = this.props.state;
     return (
       <View style={{
         backgroundColor: Color.containerBackground
@@ -359,7 +361,7 @@ class ViewProfile extends Component {
                     height: 180,
                     width: 180,
                     borderRadius: 100,
-                    borderColor: Color.primary,
+                    borderColor: theme ? theme.primary : Color.primary,
                     borderWidth: 2
                   }]}
                   // resizeMode="cover"
@@ -370,11 +372,11 @@ class ViewProfile extends Component {
                     icon={faUserCircle}
                     size={182}
                     style={{
-                      color: Color.primary,
+                      color: theme ? theme.primary : Color.primary,
                       height: 180,
                       width: 180,
                       borderRadius: 100,
-                      borderColor: Color.primary,
+                      borderColor: theme ? theme.primary : Color.primary,
                       borderWidth: 2
                     }}
                   />
@@ -386,7 +388,7 @@ class ViewProfile extends Component {
               <FontAwesomeIcon
                 icon={faCheckCircle}
                 size={20}
-                color={Color.blue} />
+                color={theme ? theme.primary : Color.primary} />
               <Text style={{
                 fontWeight: 'bold',
                 fontSize: 18
@@ -399,7 +401,7 @@ class ViewProfile extends Component {
               <Text style={{
                 textAlign: 'center',
                 color: Color.gray
-              }}>{user.similar_connections} similar connections</Text>
+              }}>{user.similar_connections} similar connection(s)</Text>
             </View>
 
           </View>
