@@ -387,7 +387,7 @@ class Login extends Component {
             column: 'id'
           }]
         }
-        console.log('parameter', parameter)
+        console.log('parameter', parameter, Routes.accountRetrieve)
         Api.request(Routes.accountRetrieve, parameter, userInfo => {
           if(userInfo.data.length > 0){
             login(userInfo.data[0], this.state.token);
@@ -398,9 +398,11 @@ class Login extends Component {
             login(null, null)
           }
         }, error => {
-          this.setState({isResponseError: true})
+          console.log(error, 'login-account retrieve');
+          // this.setState({isResponseError: true})
         })
       }, error => {
+        console.log(error, 'login-authenticate');
         this.setState({isResponseError: true})
       })
     }

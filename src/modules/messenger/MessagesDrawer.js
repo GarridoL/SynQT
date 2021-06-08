@@ -86,7 +86,7 @@ class HeaderOptions extends Component {
                     this.redirect('topChoiceStack')
                   }
                 }}>
-                  <View style={{borderWidth: 2, borderRadius: 20, height: 30, width: 30, borderColor: Color.warning, justifyContent: 'center', alignItems: 'center'}}>
+                  <View style={{borderWidth: 2, borderRadius: 20, height: 30, width: 30, borderColor: theme ? theme.primary : Color.primary, justifyContent: 'center', alignItems: 'center'}}>
                       <FontAwesomeIcon
                       color={Color.warning}
                       icon={ faStar }
@@ -110,7 +110,7 @@ class HeaderOptions extends Component {
                     <FontAwesomeIcon
                     icon={ faEllipsisV }
                     size={BasicStyles.iconSize}
-                    style={BasicStyles.iconStyle}/>
+                    style={BasicStyles.iconStyle, {color: theme ? theme.primary : Color.primary}}/>
                   </View>
                 </TouchableOpacity>
             </View>

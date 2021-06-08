@@ -137,7 +137,7 @@ class Slider2 extends Component {
               </Text>
             )
           }
-          <View style={{ marginTop: '60%', position: 'absolute', right: 0, alignItems: 'flex-end' }}>
+          <View style={{ marginTop: height/3.5, position: 'absolute', right: 0, alignItems: 'flex-end' }}>
             {Helper.DrawerMenu.length > 0 &&
               Helper.DrawerMenu.map((item, index) => {
                 return (

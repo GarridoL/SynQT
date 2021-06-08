@@ -58,6 +58,7 @@ class ViewProfile extends Component {
       offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset
     }
     this.setState({ isLoading: true })
+    console.log(parameter, Routes.topChoiceRetrieveActivities);
     Api.request(Routes.topChoiceRetrieveActivities, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
@@ -226,15 +227,15 @@ class ViewProfile extends Component {
                 {/* <Card containerStyle={{padding:-5, borderRadius: 20}}> */}
                 <ListItem key={idx}>
                   {el.account?.profile?.url ? <Image
-                    style={Style.circleImage}
+                    style={[Style.circleImage, {borderColor: theme ? theme.primary : Color.primary}]}
                     source={{ uri: Config.BACKEND_URL + el.account?.profile?.url }}
                   /> :
                     <View style={{
-                      borderColor: Color.primary,
+                      borderColor: theme ? theme.primary : Color.primary,
                       width: 75,
                       height: 75,
                       borderRadius: 50,
-                      borderColor: Color.primary,
+                      borderColor: theme ? theme.primary : Color.primary,
                       borderWidth: 3,
                       overflow: "hidden",
                       justifyContent: 'center',
@@ -243,7 +244,7 @@ class ViewProfile extends Component {
                     }}><FontAwesomeIcon
                         icon={faUser}
                         size={53}
-                        color={Color.primary}
+                        color={theme ? theme.primary : Color.primary}
                       /></View>}
                   <View>
                     <View style={{ flexDirection: 'row', width: '100%' }}>
@@ -346,6 +347,7 @@ class ViewProfile extends Component {
 
   render() {
     let user = this.props.navigation.state?.params?.user
+    const {theme} = this.props.state;
     return (
       <View style={{
         backgroundColor: Color.containerBackground
@@ -359,7 +361,7 @@ class ViewProfile extends Component {
                     height: 180,
                     width: 180,
                     borderRadius: 100,
-                    borderColor: Color.primary,
+                    borderColor: theme ? theme.primary : Color.primary,
                     borderWidth: 2
                   }]}
                   // resizeMode="cover"
@@ -370,11 +372,11 @@ class ViewProfile extends Component {
                     icon={faUserCircle}
                     size={182}
                     style={{
-                      color: Color.primary,
+                      color: theme ? theme.primary : Color.primary,
                       height: 180,
                       width: 180,
                       borderRadius: 100,
-                      borderColor: Color.primary,
+                      borderColor: theme ? theme.primary : Color.primary,
                       borderWidth: 2
                     }}
                   />
@@ -386,7 +388,7 @@ class ViewProfile extends Component {
               <FontAwesomeIcon
                 icon={faCheckCircle}
                 size={20}
-                color={Color.blue} />
+                color={theme ? theme.primary : Color.primary} />
               <Text style={{
                 fontWeight: 'bold',
                 fontSize: 18

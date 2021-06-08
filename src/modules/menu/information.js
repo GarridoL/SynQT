@@ -9,6 +9,9 @@ class Information extends Component {
 
   render() {
     let schedule = this.props.hours? JSON.parse(this.props.hours) : null
+    if(typeof(schedule) !== 'object') {
+      schedule = JSON.parse(schedule);
+    }
     return (
       <View style={{ paddingTop: 22 }}>
         <Text style={{ fontWeight: 'bold' }}>{this.props.name}</Text>

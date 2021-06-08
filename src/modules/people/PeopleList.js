@@ -26,15 +26,15 @@ class Connections extends Component {
   }
 
   componentDidMount() {
-    if(this.props.navigation?.state?.params?.fromComments) {
-      this.setState({data: this.props.navigation?.state?.params?.fromComments})
+    if (this.props.navigation?.state?.params?.fromComments) {
+      this.setState({ data: this.props.navigation?.state?.params?.fromComments })
     } else {
       this.retrieve(false);
     }
   }
 
   loading = (loading) => {
-    this.setState({isLoading: loading})
+    this.setState({ isLoading: loading })
   }
 
   retrieve(flag) {
@@ -63,7 +63,7 @@ class Connections extends Component {
     Api.request(Routes.circleRetrieve, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
-        if(this.props.navigation?.state?.params?.addMember) {
+        if (this.props.navigation?.state?.params?.addMember) {
           const par = {
             condition: [{
               value: this.props.navigation?.state?.params?.data?.messenger_group_id,
@@ -78,12 +78,15 @@ class Connections extends Component {
           Api.request(Routes.messengerMembersRetrieve, par, res => {
             this.setState({ isLoading: false });
             if (res.data.length > 0) {
-              response.data.map((item, index) => {
-                res.data.map((i, ind) => {
-                 if(item.account.id === i.information?.account_id) {
-                  response.data.splice(index, 1);
-                 }
-                })
+              let id = []
+              response.data.map((item, ind) => {
+                id.push(parseInt(item.account.id))
+              })
+              res.data.map((i, ind) => {
+                console.log(i?.information?.account_id, id, id.includes(i?.information?.account_id), 'test');
+                if(id.includes(i?.information?.account_id)) {
+                  response.data.splice(ind, 1)
+                }
               })
               this.setState({
                 data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
@@ -155,7 +158,7 @@ class Connections extends Component {
               />
             </View>
             {this.state.data.length > 0 && (<View>
-              <CardList loading={() => {this.loading}} search={this.state.search} navigation={this.props.navigation} data={this.state.data} invite={true} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
+              <CardList loading={() => { this.loading }} search={this.state.search} navigation={this.props.navigation} data={this.state.data} invite={true} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
             </View>)}
           </View>
         </ScrollView>
