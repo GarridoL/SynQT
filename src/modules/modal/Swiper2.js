@@ -58,6 +58,7 @@ class Cards extends React.Component {
   retrieve = () => {
     this.setState({ isLoading: true })
     Api.request(Routes.merchantsRetrieve, {
+      synqt_id: this.props.navigation.state.params?.synqt_id,
       sort: {
         name: 'asc'
       }
@@ -207,7 +208,7 @@ class Cards extends React.Component {
             this.state.data.length > 0 && this.state.data.map((el, idx) => {
               return (
                 <Card style={[styles.card]}>
-                  <ImageBackground style={{ resizeMode: 'cover', flex: 1, flexDirection: 'row', height: height - 140, width: null, marginTop: this.props.bottomFloatButton === true ? 50 : height * 0.25 }}
+                  <ImageBackground style={{ resizeMode: 'contain', flex: 1, flexDirection: 'row', height: height - 140, width: null, marginTop: this.props.bottomFloatButton === true ? 50 : height * 0.25 }}
                     imageStyle={{
                       flex: 1,
                       resizeMode: 'cover',
