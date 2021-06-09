@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native'
 import Style from 'modules/generic/TabOptionStyle.js'
 import { BasicStyles, Color } from 'common';
-
+import {connect} from 'react-redux';
 
 class Tab extends Component{
   constructor(props){
