@@ -271,7 +271,7 @@ class ViewProfile extends Component {
                             backgroundColor: 'gray'
                           }}
                         >
-                          <Text style={{ color: 'white' }}>Cancel</Text>
+                          <Text style={{ color: 'white' }}>Remove</Text>
                         </TouchableOpacity>
                       }
                     </View>
@@ -348,6 +348,7 @@ class ViewProfile extends Component {
   render() {
     let user = this.props.navigation.state?.params?.user
     const {theme} = this.props.state;
+    console.log(user, 'user');
     return (
       <View style={{
         backgroundColor: Color.containerBackground
@@ -401,7 +402,7 @@ class ViewProfile extends Component {
               <Text style={{
                 textAlign: 'center',
                 color: Color.gray
-              }}>{user.similar_connections} similar connection(s)</Text>
+              }}>{user.similar_connections ? user.similar_connections : 0} similar connection(s)</Text>
             </View>
 
           </View>

@@ -5,7 +5,8 @@ import {
   TouchableOpacity,
   Dimensions,
   ImageBackground,
-  Alert
+  Alert,
+  Image
 } from 'react-native';
 import CardStack, { Card } from 'react-native-card-stack-swiper';
 import Tab from 'modules/generic/TabOptions';
@@ -121,132 +122,136 @@ class Cards extends React.Component {
   }
 
   renderCard = (data) => {
-    console.log(data.rating, 'heeee');
     return (
       <View style={{ flex: 1 }}>
-        <Card style={[styles.card]}>
-          <ImageBackground style={{ flex: 1, flexDirection: 'row', height: height - 150, width: null, resizeMode: 'cover', marginTop: this.props.bottomFloatButton === true ? 50 : height * 0.25 }}
-            imageStyle={{
-              flex: 1,
-              height: null,
-              width: null,
-              resizeMode: 'cover',
-              borderRadius: BasicStyles.standardBorderRadius,
+        <View style={{
+          width: width,
+          paddingLeft: 15,
+          paddingRight: 15,
+          height: height * 0.9
+        }}>
+          <Image style={{
+              borderRadius: 3,
+              width: '100%',
+              height: '71%',
+              resizeMode: 'stretch',
+              marginTop: this.props.bottomFloatButton === true ? 50 : height * 0.25,
               backgroundColor: 'white'
             }}
-            source={data && data.logo ? { uri: Config.BACKEND_URL + data.logo } : require('assets/default.png')}>
-            {this.state.isLoading ? <Spinner mode="overlay" /> : null}
-            <View style={{
-              position: 'absolute',
-              bottom: this.props.topFloatButton === true ? 70 : 15,
-              ...BasicStyles.standardWidth
-            }}>
-              <Text style={{
-                fontSize: BasicStyles.standardTitleFontSize,
-                color: 'white',
-                fontWeight: 'bold',
-                textShadowColor: 'black',
-                textShadowOffset: { width: 1, height: 1 },
-                textShadowRadius: 1,
-                width: '50%'
-              }}>{data && data.name && data.name || 'No data'}</Text>
-              <Text style={{
-                color: 'white',
-                textShadowColor: 'black',
-                textShadowOffset: { width: 1, height: 1 },
-                textShadowRadius: 1,
-                width: '50%'
-              }}>{data && data.address && data.address && data.address || 'No address'}</Text>
-            </View>
-            <View style={{ position: 'absolute', bottom: 70, right: 15, flexDirection: 'row' }}>
-              <FontAwesomeIcon
-                icon={faStar}
-                size={30}
-                color={data.rating?.stars >= 1 ? '#FFCC00' : '#ededed'}
-              />
-              <FontAwesomeIcon
-                icon={faStar}
-                size={30}
-                color={data?.rating?.stars >= 2 ? '#FFCC00' : '#ededed'}
-              />
-              <FontAwesomeIcon
-                icon={faStar}
-                size={30}
-                color={data?.rating?.stars >= 3 ? '#FFCC00' : '#ededed'}
-              />
-              <FontAwesomeIcon
-                icon={faStar}
-                size={30}
-                color={data?.rating?.stars >= 4 ? '#FFCC00' : '#ededed'}
-              />
-              <FontAwesomeIcon
-                icon={faStar}
-                size={30}
-                color={data?.rating?.stars >= 5 ? '#FFCC00' : '#ededed'}
-              />
-            </View>
-            {this.props.topFloatButton === true && (<View style={{
-              ...BasicStyles.standardWidth,
-              position: 'absolute',
-              bottom: -30,
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between'
-            }}>
-              <TouchableOpacity
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: 70,
-                  height: 70,
-                  backgroundColor: Color.warning,
-                  borderRadius: 35
-                }}
+            source={data && data.logo ? { uri: Config.BACKEND_URL + data.logo } : require('assets/default.png')} />
+          {this.state.isLoading ? <Spinner mode="overlay" /> : null}
+          <View style={{
+            position: 'absolute',
+            left: 10,
+            bottom: this.props.topFloatButton === true ? 70 : 15,
+            ...BasicStyles.standardWidth
+          }}>
+            <Text style={{
+              fontSize: BasicStyles.standardTitleFontSize,
+              color: 'white',
+              fontWeight: 'bold',
+              textShadowColor: 'black',
+              textShadowOffset: { width: 1, height: 1 },
+              textShadowRadius: 1,
+              width: '50%'
+            }}>{data && data.name && data.name || 'No data'}</Text>
+            <Text style={{
+              color: 'white',
+              textShadowColor: 'black',
+              textShadowOffset: { width: 1, height: 1 },
+              textShadowRadius: 1,
+              width: '50%'
+            }}>{data && data.address && data.address && data.address || 'No address'}</Text>
+          </View>
+          <View style={{ position: 'absolute', bottom: 70, right: 25, flexDirection: 'row' }}>
+            <FontAwesomeIcon
+              icon={faStar}
+              size={30}
+              color={data.rating?.stars >= 1 ? '#FFCC00' : '#ededed'}
+            />
+            <FontAwesomeIcon
+              icon={faStar}
+              size={30}
+              color={data?.rating?.stars >= 2 ? '#FFCC00' : '#ededed'}
+            />
+            <FontAwesomeIcon
+              icon={faStar}
+              size={30}
+              color={data?.rating?.stars >= 3 ? '#FFCC00' : '#ededed'}
+            />
+            <FontAwesomeIcon
+              icon={faStar}
+              size={30}
+              color={data?.rating?.stars >= 4 ? '#FFCC00' : '#ededed'}
+            />
+            <FontAwesomeIcon
+              icon={faStar}
+              size={30}
+              color={data?.rating?.stars >= 5 ? '#FFCC00' : '#ededed'}
+            />
+          </View>
+          {this.props.topFloatButton === true && (<View style={{
+            ...BasicStyles.standardWidth,
+            position: 'absolute',
+            bottom: -30,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between'
+          }}>
+            <TouchableOpacity
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 70,
+                height: 70,
+                backgroundColor: Color.warning,
+                borderRadius: 35,
+                marginLeft: '4%'
+              }}
 
-                onPress={() => {
-                  this.props.onClose(null)
-                }}
-              >
-                <FontAwesomeIcon
-                  icon={faTimes}
-                  size={35}
-                  color={'white'}
-                />
-              </TouchableOpacity>
+              onPress={() => {
+                this.props.onClose(null)
+              }}
+            >
+              <FontAwesomeIcon
+                icon={faTimes}
+                size={35}
+                color={'white'}
+              />
+            </TouchableOpacity>
 
-              <TouchableOpacity
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: 80,
-                  height: 80,
-                  backgroundColor: Color.warning,
-                  borderRadius: 40
-                }}
-                onPress={() => {
-                  if (this.props.navigation.state?.params?.messenger_group_id?.status === 'ADMIN') {
-                    this.addToReservation()
-                  } else {
-                    Alert.alert(
-                      "",
-                      "Sorry you are not allowed to proceed to reservation.",
-                      [
-                        { text: "OK" }
-                      ],
-                      { cancelable: false }
-                    );
-                  }
-                }}
-              >
-                <FontAwesomeIcon
-                  icon={faCheck}
-                  size={40}
-                  color={'white'}
-                />
-              </TouchableOpacity>
-            </View>)}
-          </ImageBackground>
-        </Card>
+            <TouchableOpacity
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 80,
+                height: 80,
+                backgroundColor: Color.warning,
+                borderRadius: 40
+              }}
+              onPress={() => {
+                if (this.props.navigation.state?.params?.messenger_group_id?.status === 'ADMIN') {
+                  this.addToReservation()
+                } else {
+                  Alert.alert(
+                    "",
+                    "Sorry you are not allowed to proceed to reservation.",
+                    [
+                      { text: "OK" }
+                    ],
+                    { cancelable: false }
+                  );
+                }
+              }}
+            >
+              <FontAwesomeIcon
+                icon={faCheck}
+                size={40}
+                color={'white'}
+              />
+            </TouchableOpacity>
+          </View>)}
+        </View>
         {this.renderMenu()}
       </View>
     )
@@ -294,7 +299,7 @@ class Cards extends React.Component {
       <ScrollView showsVerticalScrollIndicator={true}
         style={{ backgroundColor: 'white' }}
       >
-        {this.renderCard(this.state.data && this.state.data)}
+        {this.state.data && this.renderCard(this.state.data)}
       </ScrollView>
     );
   }
