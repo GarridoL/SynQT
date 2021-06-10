@@ -339,7 +339,7 @@ class Cards extends React.Component {
             })
           }
         </CardStack>
-        {this.renderMenu()}
+        {this.state.data.length > 0 && this.renderMenu()}
       </View>
     )
   }

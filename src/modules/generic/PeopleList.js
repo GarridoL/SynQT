@@ -44,7 +44,7 @@ class PeopleList extends Component {
                 borderRadius: this.props.size ? this.props.size : 45,
                 width: this.props.size ? this.props.size : 45,
                 height: this.props.size ? this.props.size : 45,
-                marginLeft: 3,
+                marginRight: 5,
                 alignItems: 'center',
                 justifyContent: 'center'
               }}
