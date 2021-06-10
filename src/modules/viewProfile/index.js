@@ -28,7 +28,9 @@ class ViewProfile extends Component {
       data: [],
       limit: 5,
       offset: 0,
-      isLoading: false
+      isLoading: false,
+      ids: [],
+      fromConnections: []
     }
   }
 
@@ -56,6 +58,7 @@ class ViewProfile extends Component {
       offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset
     }
     this.setState({ isLoading: true })
+    console.log(parameter, Routes.topChoiceRetrieveActivities);
     Api.request(Routes.topChoiceRetrieveActivities, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
@@ -69,6 +72,36 @@ class ViewProfile extends Component {
           offset: flag == false ? 0 : this.state.offset,
         })
       }
+    }, error => {
+      this.setState({ isLoading: false })
+      console.log('error', error)
+    });
+  }
+
+  deleteConnection = (el) => {
+    let del = null
+    this.state.fromConnections.length > 0 && this.state.fromConnections.map((item, index) => {
+      if(item.account?.id === el.account?.id) {
+        this.state.fromConnections.splice(index, 1);
+        del = item
+      }
+    })
+    this.state.ids.length > 0 && this.state.ids.map((item, index) => {
+      if(item === el.account?.id) {
+        this.state.ids.splice(index, 1);
+      }
+    })
+    let parameter = {
+      id: del.id
+    }
+    this.setState({ isLoading: true })
+    Api.request(Routes.circleDelete, parameter, response => {
+      this.setState({ isLoading: false })
+      this.retrieveConnections(false);
+    }, error => {
+      this.setState({ isLoading: false })
+      this.retrieveConnections(false);
+      console.log('error', error)
     });
   }
 
@@ -108,9 +141,9 @@ class ViewProfile extends Component {
             column: 'account',
             clause: '='
           }, {
-            clause: "=",
+            clause: "like",
             column: "status",
-            value: 'accepted'
+            value: '%%'
           }],
           offset: this.state.offset
         }
@@ -121,12 +154,8 @@ class ViewProfile extends Component {
             let ids = []
             res.data.forEach(el => {
               ids.push(el.account?.id)
-              console.log(el.account);
             });
-            response.data.forEach(element => {
-              console.log(element);
-              element['connected'] = ids.includes(element.account.id)
-            });
+            this.setState({ids: ids, fromConnections: res.data});
           }
           this.setState({
             connections: flag == false ? response.data : _.uniqBy([...this.state.connections, ...response.data], 'id'),
@@ -139,6 +168,9 @@ class ViewProfile extends Component {
           offset: flag == false ? 0 : this.state.offset
         })
       }
+    }, error => {
+      this.setState({ isLoading: false })
+      console.log('error', error)
     });
   }
 
@@ -158,13 +190,15 @@ class ViewProfile extends Component {
       content: "This is an invitation for you to join my connections."
     }
     this.setState({ isLoading: true })
-    console.log(parameter);
     Api.request(Routes.circleCreate, parameter, response => {
       this.setState({ isLoading: false })
+      this.retrieveConnections(false);
       if(response.error !== null) {
         Alert.alert('Error', response.error);
       }
     }, error => {
+      this.setState({ isLoading: false })
+      this.retrieveConnections(false);
       console.log('error', error)
     });
   }
@@ -193,15 +227,15 @@ class ViewProfile extends Component {
                 {/* <Card containerStyle={{padding:-5, borderRadius: 20}}> */}
                 <ListItem key={idx}>
                   {el.account?.profile?.url ? <Image
-                    style={Style.circleImage}
+                    style={[Style.circleImage, {borderColor: theme ? theme.primary : Color.primary}]}
                     source={{ uri: Config.BACKEND_URL + el.account?.profile?.url }}
                   /> :
                     <View style={{
-                      borderColor: Color.primary,
+                      borderColor: theme ? theme.primary : Color.primary,
                       width: 75,
                       height: 75,
                       borderRadius: 50,
-                      borderColor: Color.primary,
+                      borderColor: theme ? theme.primary : Color.primary,
                       borderWidth: 3,
                       overflow: "hidden",
                       justifyContent: 'center',
@@ -210,24 +244,34 @@ class ViewProfile extends Component {
                     }}><FontAwesomeIcon
                         icon={faUser}
                         size={53}
-                        color={Color.primary}
+                        color={theme ? theme.primary : Color.primary}
                       /></View>}
                   <View>
                     <View style={{ flexDirection: 'row', width: '100%' }}>
                       <View style={{ width: '65%' }}>
                         <Text style={{ fontWeight: 'bold', width: '110%' }} numberOfLines={1}>{el?.account?.information?.first_name ? el?.account?.information?.first_name + ' ' + el?.account?.information?.last_name : el?.account?.username}</Text>
                         <Text style={{ fontStyle: 'italic' }} numberOfLines={1}>{el?.account?.information?.address || 'No address provided'}</Text>
-                        <Text style={{ color: 'gray', fontSize: 10 }} numberOfLines={1}> similar connections</Text>
+                        <Text style={{ color: 'gray', fontSize: 10 }} numberOfLines={1}>{el.similar_connections ? el.similar_connections : 0} similar connection(s)</Text>
                       </View>
-                      {el.connected === false && el.account.id !== this.props.state.user.id &&
+                      {this.state.ids.length > 0 && this.state.ids.includes(el.account?.id) === false && el.account.id !== this.props.state.user.id ?
                         <TouchableOpacity
                           onPress={() => this.sendRequest(el)}
                           style={{
                             ...Style.actionBtn,
-                            backgroundColor: theme ? them.primary : Color.primary
+                            backgroundColor: theme ? theme.primary : Color.primary
                           }}
                         >
                           <Text style={{ color: 'white' }}>Add</Text>
+                        </TouchableOpacity>
+                      : (el.account.id !== this.props.state.user.id) &&
+                        <TouchableOpacity
+                          onPress={() => this.deleteConnection(el)}
+                          style={{
+                            ...Style.actionBtn,
+                            backgroundColor: 'gray'
+                          }}
+                        >
+                          <Text style={{ color: 'white' }}>Cancel</Text>
                         </TouchableOpacity>
                       }
                     </View>
@@ -303,7 +347,7 @@ class ViewProfile extends Component {
 
   render() {
     let user = this.props.navigation.state?.params?.user
-    console.log(user, 'user');
+    const {theme} = this.props.state;
     return (
       <View style={{
         backgroundColor: Color.containerBackground
@@ -317,7 +361,7 @@ class ViewProfile extends Component {
                     height: 180,
                     width: 180,
                     borderRadius: 100,
-                    borderColor: Color.primary,
+                    borderColor: theme ? theme.primary : Color.primary,
                     borderWidth: 2
                   }]}
                   // resizeMode="cover"
@@ -328,11 +372,11 @@ class ViewProfile extends Component {
                     icon={faUserCircle}
                     size={182}
                     style={{
-                      color: Color.primary,
+                      color: theme ? theme.primary : Color.primary,
                       height: 180,
                       width: 180,
                       borderRadius: 100,
-                      borderColor: Color.primary,
+                      borderColor: theme ? theme.primary : Color.primary,
                       borderWidth: 2
                     }}
                   />
@@ -340,16 +384,16 @@ class ViewProfile extends Component {
               </TouchableOpacity>
             </View>
             <View style={Style.BottomView}>
+              <Text style={{textAlign: 'center'}}>
               <FontAwesomeIcon
-                style={{ marginRight: 5 }}
                 icon={faCheckCircle}
                 size={20}
-                color={Color.blue} />
+                color={theme ? theme.primary : Color.primary} />
               <Text style={{
-                textAlign: 'center',
                 fontWeight: 'bold',
                 fontSize: 18
-              }}>{user?.account?.information?.first_name + user?.account?.information?.last_name || user?.account?.username}</Text>
+              }}>{user?.account?.information?.first_name ? user?.account?.information?.first_name + ' ' + user?.account?.information?.last_name : user?.account?.username}</Text>
+              </Text>
             </View>
             <View style={{
               width: '100%'
@@ -357,7 +401,7 @@ class ViewProfile extends Component {
               <Text style={{
                 textAlign: 'center',
                 color: Color.gray
-              }}>3 similar connections</Text>
+              }}>{user.similar_connections} similar connection(s)</Text>
             </View>
 
           </View>

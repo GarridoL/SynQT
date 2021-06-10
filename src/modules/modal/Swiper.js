@@ -58,7 +58,7 @@ class Cards extends React.Component {
       }]
     }
     this.setState({ isLoading: true })
-    Api.request(Routes.merchantsRetrieve, parameter, response => {
+    Api.request(Routes.merchantOneRetrieve, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
         this.retrieveProducts();
@@ -148,12 +148,14 @@ class Cards extends React.Component {
                 textShadowColor: 'black',
                 textShadowOffset: { width: 1, height: 1 },
                 textShadowRadius: 1,
+                width: '50%'
               }}>{data && data.name && data.name || 'No data'}</Text>
               <Text style={{
                 color: 'white',
                 textShadowColor: 'black',
                 textShadowOffset: { width: 1, height: 1 },
-                textShadowRadius: 1
+                textShadowRadius: 1,
+                width: '50%'
               }}>{data && data.address && data.address && data.address || 'No address'}</Text>
             </View>
             <View style={{ position: 'absolute', bottom: 70, right: 15, flexDirection: 'row' }}>

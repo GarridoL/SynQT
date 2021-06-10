@@ -106,6 +106,7 @@ export default {
   commentMembersCreate: apiUrl + 'comment_members/create',
   commentRepliesCreate: apiUrl + 'comment_replies/create',
   merchantsRetrieve: apiUrl + 'merchants/retrieve_merchants',
+  merchantOneRetrieve: apiUrl + 'merchants/retrieve',
   productsRetrieve: apiUrl + 'products/retrieve',
   topChoiceRetrieve: apiUrl + 'top_choices/retrieve',
   topChoiceRetrieveActivities: apiUrl + 'top_choices/retrieve_activities',

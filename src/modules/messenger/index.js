@@ -23,7 +23,6 @@ class Groups extends Component {
     this.state = {
       isLoading: false,
       selected: null,
-      data: [],
       connections: [],
       limit: 10,
       offset: 0
@@ -80,14 +79,14 @@ class Groups extends Component {
     }
     this.setState({ isLoading: true });
     Api.request(Routes.messengerGroupRetrieve, parameter, response => {
-      const { setMessenger } = this.props;
+      const { setMessenger, setAllMessages } = this.props;
       const { messenger } = this.props.state;
       if (response.data.length !== 0) {
         this.setState({
           offset: flag === false ? 1 : (this.state.offset + 1),
-          isLoading: false,
-          data: flag === false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id')
+          isLoading: false
         })
+        setAllMessages(flag === false ? response.data : _.uniqBy([...this.props.state.allMessages, ...response.data], 'id'))
         var counter = 0
         for (var i = 0; i < response.data.length; i++) {
           let item = response.data[i]
@@ -104,7 +103,7 @@ class Groups extends Component {
         messenger_group_id: item.id
       }
       CommonRequest.updateMessageStatus(parameter, response => {
-        this.state.data.map((dataItem) => {
+        this.props.state.allMessages.length > 0 && this.props.state.allMessages.map((dataItem) => {
           if (item.id === dataItem.id) {
             const { messenger } = this.props.state;
             const { setMessenger } = this.props;
@@ -312,16 +311,16 @@ class Groups extends Component {
   };
 
   _flatList = () => {
-    const { data, selected } = this.state;
+    const { selected } = this.state;
     const { user } = this.props.state;
     return (
       <View style={{
         width: '100%'
       }}>
         {
-          data.length > 0 && user != null && (
+          this.props.state.allMessages.length > 0 && user != null && (
             <FlatList
-              data={data}
+              data={this.props.state.allMessages}
               extraData={selected}
               ItemSeparatorComponent={this.FlatListItemSeparator}
               style={{
@@ -341,7 +340,7 @@ class Groups extends Component {
   }
 
   render() {
-    const { isLoading, data } = this.state;
+    const { isLoading } = this.state;
     return (
       <View style={{
         flex: 1
@@ -382,7 +381,7 @@ class Groups extends Component {
           }}>
             {this._flatList()}
           </View>
-          {data.length === 0 && (<Empty refresh={true} onRefresh={() => this.retrieve(false)} />)}
+          {this.props.state.allMessages.length === 0 && (<Empty refresh={true} onRefresh={() => this.retrieve(false)} />)}
         </ScrollView>
         {isLoading ? <Spinner mode="overlay" /> : null}
         <Footer layer={1} {...this.props} />
@@ -398,6 +397,7 @@ const mapDispatchToProps = dispatch => {
     setMessengerGroup: (messengerGroup) => dispatch(actions.setMessengerGroup(messengerGroup)),
     setMessenger: (unread, messages) => dispatch(actions.setMessenger(unread, messages)),
     setCurrentTitle: (currentTitle) => dispatch(actions.setCurrentTitle(currentTitle)),
+    setAllMessages: (allMessages) => dispatch(actions.setAllMessages(allMessages)),
   };
 };
 

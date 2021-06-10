@@ -26,15 +26,15 @@ class Connections extends Component {
   }
 
   componentDidMount() {
-    if(this.props.navigation?.state?.params?.fromComments) {
-      this.setState({data: this.props.navigation?.state?.params?.fromComments})
+    if (this.props.navigation?.state?.params?.fromComments) {
+      this.setState({ data: this.props.navigation?.state?.params?.fromComments })
     } else {
       this.retrieve(false);
     }
   }
 
   loading = (loading) => {
-    this.setState({isLoading: loading})
+    this.setState({ isLoading: loading })
   }
 
   retrieve(flag) {
@@ -63,19 +63,52 @@ class Connections extends Component {
     Api.request(Routes.circleRetrieve, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
-        response.data.map(i => {
-          tempMembers.length > 0 && tempMembers.map(item => {
-            if (item.account?.id === i.account?.id) {
-              i['added'] = true;
-            } else {
-              i['added'] = false;
+        if (this.props.navigation?.state?.params?.addMember) {
+          const par = {
+            condition: [{
+              value: this.props.navigation?.state?.params?.data?.messenger_group_id,
+              column: 'messenger_group_id',
+              clause: '='
+            }],
+            sort: {
+              'created_at': 'DESC'
+            }
+          }
+          this.setState({ isLoading: true });
+          Api.request(Routes.messengerMembersRetrieve, par, res => {
+            this.setState({ isLoading: false });
+            if (res.data.length > 0) {
+              let id = []
+              response.data.map((item, ind) => {
+                id.push(parseInt(item.account.id))
+              })
+              res.data.map((i, ind) => {
+                console.log(i?.information?.account_id, id, id.includes(i?.information?.account_id), 'test');
+                if(id.includes(i?.information?.account_id)) {
+                  response.data.splice(ind, 1)
+                }
+              })
+              this.setState({
+                data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
+                offset: flag == false ? 1 : (this.state.offset + 1)
+              })
             }
           })
-        })
-        this.setState({
-          data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
-          offset: flag == false ? 1 : (this.state.offset + 1)
-        })
+        } else {
+          response.data.map(i => {
+            tempMembers.length > 0 && tempMembers.map(item => {
+              if (item.account?.id === i.account?.id) {
+                i['added'] = true;
+              } else {
+                i['added'] = false;
+              }
+            })
+          })
+          this.setState({
+            data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
+            offset: flag == false ? 1 : (this.state.offset + 1)
+          })
+        }
       } else {
         this.setState({
           data: flag == false ? [] : this.state.data,
@@ -86,7 +119,6 @@ class Connections extends Component {
   }
 
   addMember = () => {
-    console.log(this.props.state.tempMembers);
     this.props.state.tempMembers.length > 0 && this.props.state.tempMembers.map((item, index) => {
       let parameter = {
         messenger_group_id: this.props.navigation?.state?.params?.addMember,
@@ -126,7 +158,7 @@ class Connections extends Component {
               />
             </View>
             {this.state.data.length > 0 && (<View>
-              <CardList loading={() => {this.loading}} search={this.state.search} navigation={this.props.navigation} data={this.state.data} invite={true} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
+              <CardList loading={() => { this.loading }} search={this.state.search} navigation={this.props.navigation} data={this.state.data} invite={true} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
             </View>)}
           </View>
         </ScrollView>

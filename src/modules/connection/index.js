@@ -13,11 +13,6 @@ import { Spinner, Empty } from 'components';
 import Api from 'services/api/index.js';
 import _ from 'lodash';
 
-const navs = [
-  { name: "Suggestions", flag: true },
-  { name: "Connections", flag: false }
-]
-
 class Connections extends Component {
   constructor(props) {
     super(props);
@@ -33,7 +28,11 @@ class Connections extends Component {
       pending: [],
       suggestions: [],
       connections: [],
-      sentRequests: []
+      sentRequests: [],
+      navs: [
+        { name: "Suggestions", flag: true },
+        { name: "Connections", flag: false }
+      ]
     }
   }
 
@@ -45,18 +44,20 @@ class Connections extends Component {
   }
 
   refresh = () => {
-    this.retrieveRandomUsers(false);
     this.retrieveSuggestions(false);
+    this.retrieveRandomUsers(false);
+    // this.retrieveConnections(false);
   }
 
   removeConnection = (id) => {
     let temp = this.state.connections
     temp?.length > 0 && temp.map((item, index) => {
-      if(item.id === id) {
+      if (item.id === id) {
         temp.splice(index, 1);
       }
     })
-    this.setState({connections: temp});
+    this.refresh()
+    this.setState({ connections: temp });
   }
 
   loading = (loading) => {
@@ -85,13 +86,11 @@ class Connections extends Component {
     this.setState({ isLoading: true })
     Api.request(Routes.circleRetrieve, parameter, response => {
       this.setState({ isLoading: false })
-      console.log(response.data, '---------');
       if (response.data.length > 0) {
         this.setState({
           connections: flag == false ? response.data : _.uniqBy([...this.state.connections, ...response.data], 'id'),
           offset: flag == false ? 1 : (this.state.offset + 1)
         })
-        console.log(_.uniqBy([...this.state.connections, ...response.data], 'id'), 'response------------');
       } else {
         this.setState({
           connections: flag == false ? [] : this.state.connections,
@@ -99,6 +98,22 @@ class Connections extends Component {
         })
       }
     });
+  }
+
+  updateData = (update, el) => {
+    if (update === 'confirm') {
+      let data = this.state.connections
+      data.push(el)
+      this.setState({ connections: data })
+    } else if (update === 'remove') {
+      let account = this.state.suggestions
+      account.length > 0 && account.map((item, index) => {
+        if (item.account?.id === el.account?.id) {
+          item.is_added = false
+        }
+      })
+      this.setState({ suggestions: account });
+    }
   }
 
   retrieveSuggestions(flag) {
@@ -118,14 +133,13 @@ class Connections extends Component {
         value: 'pending'
       }],
       offset: 0,
-      limit: this.state.limit
+      limit: flag === false ? this.state.limit : ''
     }
     this.setState({ isLoading: true })
     Api.request(Routes.circleRetrieve, parameter, response => {
+      console.log(response.data[0]);
       this.setState({ isLoading: false })
-      if (response.data.length > 0) {
-        this.setState({pending: response.data})
-      }
+      this.setState({ pending: response.data.length > 0 ? response.data : [] })
     });
   }
 
@@ -154,6 +168,7 @@ class Connections extends Component {
   }
 
   async changeTab(idx) {
+    const {navs} = this.state;
     if (this.state.prevActive != idx) {
       await this.setState({ currActive: idx })
       navs[this.state.prevActive].flag = false
@@ -161,13 +176,16 @@ class Connections extends Component {
       await this.setState({ prevActive: idx })
     }
     if (idx === 0) {
-      // this.refresh();
+      // this.retrieveRandomUsers(false);
+      // this.retrieveSuggestions(false);
+      // this.retrieveConnections(false);
     }
     // this.setState({connections: []})
     // this.retrieve(false)
   }
 
   render() {
+    const { navs } = this.state;
     return (
       <View style={{
         flex: 1
@@ -213,9 +231,9 @@ class Connections extends Component {
           {
             this.state.currActive == 0 ? (
               <View>
-                <CardList delete={(id) => {this.removeConnection(id)}} loading={this.loading} level={2} retrieve={() => { this.refresh() }} status={'pending'} navigation={this.props.navigation} data={this.state.pending.length > 0 && this.state.pending} hasAction={true} actionType={'text'}></CardList>
+                <CardList delete={(id) => { this.removeConnection(id) }} loading={this.loading} update={(update, el) => { this.updateData(update, el) }} level={2} retrieve={() => { this.refresh() }} status={'pending'} navigation={this.props.navigation} data={this.state.pending.length > 0 && this.state.pending} hasAction={true} actionType={'text'}></CardList>
                 {this.state.pending.length === this.state.limit &&
-                  <TouchableOpacity onPress={() => {this.retrieveSuggestions(true)}}>
+                  <TouchableOpacity onPress={() => { this.retrieveSuggestions(true) }}>
                     <Text style={{ color: 'gray', paddingTop: 5, paddingLeft: 15 }}>See All</Text>
                   </TouchableOpacity>
                 }
@@ -224,7 +242,7 @@ class Connections extends Component {
                 </View>
 
                 <View>
-                  <CardList delete={(id) => {this.removeConnection(id)}} loading={this.loading} level={2} invite={false} retrieve={() => { this.refresh() }} navigation={this.props.navigation} data={this.state.suggestions.length > 0 && this.state.suggestions} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
+                  <CardList delete={(id) => { this.removeConnection(id) }} loading={this.loading} level={2} invite={false} retrieve={() => { this.refresh() }} navigation={this.props.navigation} data={this.state.suggestions.length > 0 && this.state.suggestions} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
                   {this.state.suggestions.length == 0 && (<Empty refresh={true} onRefresh={() => this.refresh()} />)}
                 </View>
 
@@ -241,7 +259,7 @@ class Connections extends Component {
                     />
                   </View>
                   <View>
-                    <CardList delete={(id) => {this.removeConnection(id)}} loading={this.loading} level={2} search={this.state.search} retrieve={() => { this.refresh() }} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
+                    <CardList delete={(id) => { this.removeConnection(id) }} update={(update, el) => { this.updateData(update, el) }} loading={this.loading} level={2} search={this.state.search} retrieve={() => { this.refresh() }} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
                   </View>
                 </View>
                 {this.state.connections.length == 0 && (<Empty refresh={true} onRefresh={() => this.retrieveConnections(false)} />)}

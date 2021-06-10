@@ -83,7 +83,7 @@ class Profile extends Component {
       );
       return
     }
-    if(this.state.password && this.state.password.length < 6 && /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/.test(this.state.password) === false) {
+    if(this.state.password && (this.state.password.length < 6 || /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/.test(this.state.password) === false)) {
       Alert.alert(
         "Opps",
         "Passwords should be atleast 6 characters. It must be alphanumeric characters. It should contain 1 number, 1 special character and 1 capital letter.",
@@ -117,13 +117,22 @@ class Profile extends Component {
       email: this.state.email,
       password: this.state.password
     }
-    console.log(parameter, Routes.accountUpdate);
     this.setState({ isLoading: true })
     Api.request(Routes.accountUpdate, parameter, response => {
-      console.log(response, 'response');
       this.setState({ isLoading: false })
+      if(response.data !== null) {
+        Alert.alert(
+          "",
+          "Email and Password updated successfully!",
+          [
+            { text: "OK" }
+          ],
+          { cancelable: false }
+        );
+      }
       this.reloadProfile();
     }, error => {
+      this.setState({ isLoading: false })
       console.log(error)
     });
   }
@@ -153,9 +162,23 @@ class Profile extends Component {
       cellular_number: 'NULL'
     }
     this.updateAccount();
+    if(user.account_information?.last_name === this.state.lastName && user.account_information?.first_name === this.state.firstName) {
+      return
+    }
     this.setState({ isLoading: true })
     Api.request(Routes.accountInformationUpdate, parameter, response => {
       this.setState({ isLoading: false })
+      if(response.data !== null) {
+        this.reloadProfile();
+        Alert.alert(
+          "",
+          "Name updated successfully!",
+          [
+            { text: "OK" }
+          ],
+          { cancelable: false }
+        );
+      }
     }, error => {
       console.log(error)
     });
@@ -359,9 +382,7 @@ class Profile extends Component {
               }} /> : null}
         </ScrollView>
         <View style={{
-          position: 'relative',
-          alignItems: 'center',
-          bottom: 70,
+          bottom: 80,
           width: '90%'
         }}>
           <CustomizedButton onClick={() => { this.update() }} title={'Update'}></CustomizedButton>

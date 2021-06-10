@@ -79,7 +79,7 @@ class Restaurants extends Component {
     let detail = {
       type: 'restaurant',
       size: this.state.size?.count != null ? this.state.size?.count : this.state.size,
-      price_range: {max: (this.state.value?.amount != null ? this.state.value.amount.high : this.state.valueHigh), min: (this.state.value?.amount != null ? this.state.value.amount.low : this.state.value)},
+      price_range: {max: ((this.props.state.range != null && (this.state.valueHigh != this.props.state.range?.high)) ? this.props.state.range.high : this.state.valueHigh), min: ((this.props.state.range != null && (this.state.value != this.props.state.range?.low)) ? this.props.state.range.low : this.state.value)},
       radius: this.state.val,
       cuisine: this.state.cuisines?.categories?.length >= 1 ? this.state.cuisines.categories : this.state.noneSelected
     }
@@ -298,11 +298,7 @@ class Restaurants extends Component {
             </View>
             <View style={{ marginBottom: '23%' }}>
               <Range
-                onFinish={(amount) => {
-                  this.setState({
-                    value: amount
-                  })
-                }} title={'Price Range'} />
+                title={'Price Range'} />
             </View>
             <View>
               <InputSelect

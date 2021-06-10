@@ -118,9 +118,10 @@ class ImageCardWithUser extends Component {
                     flexDirection: 'row'
                   }}>
                     <Text numberOfLines={1} style={{ fontSize: 10, color: 'white' }}>{data.distance || '0km'}</Text>
-                  </View></View>}
+                  </View>
+                </View>}
               </View>
-              <View style={{
+              {data.details === true && <View style={{
                 backgroundColor: 'white',
                 borderRadius: 6,
                 height: 21,
@@ -146,7 +147,7 @@ class ImageCardWithUser extends Component {
                   <FontAwesomeIcon icon={faStar} color={Color.white} size={8} />
                 </TouchableOpacity>
                 <Text numberOfLines={1} style={{ color: Color.warning }}>{data.superlike || 0}</Text>
-              </View>
+              </View>}
             </TouchableOpacity>
           )
         }

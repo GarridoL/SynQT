@@ -38,7 +38,6 @@ class CardList extends Component {
 
   storePeople = (item) => {
     item['added'] = true
-    console.log(item);
     const { setTempMembers } = this.props;
     let temp = this.props.state.tempMembers;
     temp.push(item);
@@ -72,6 +71,9 @@ class CardList extends Component {
     Api.request(Routes.circleUpdate, parameter, response => {
       this.props.loading(false);
       this.props.retrieve();
+      if(response.data !== null && status === 'accepted') {
+        this.props.update('confirm', item)
+      }
     }, error => {
       console.log('error', error)
       this.props.loading(false);
@@ -88,6 +90,7 @@ class CardList extends Component {
       this.props.loading(false);
       if (response.data !== null) {
         this.props.delete(el.id)
+        this.props.update('remove', el)
       }
     });
   }
@@ -95,7 +98,9 @@ class CardList extends Component {
   remove = (id) => {
     const { setTempMembers } = this.props;
     let temp = this.props.state.tempMembers;
-    temp.map((item, index) => {
+    console.log(temp, 'temp');
+    temp.length > 0 && temp.map((item, index) => {
+      console.log(id, item.account.id, '----------ids');
       if (id === item.account.id) {
         item['added'] = false
         temp.splice(index, 1)
@@ -145,10 +150,10 @@ class CardList extends Component {
                             /></View>}
                         <View>
                           <View style={{ flexDirection: 'row' }}>
-                            <View>
-                              <Text style={{ fontWeight: 'bold' }}>{el.account?.information?.first_name ? el.account?.information?.first_name + ' ' + el.account?.information?.last_name : el.account?.username}</Text>
+                            <View style={{ width: '70%' }}>
+                              <Text style={{ fontWeight: 'bold' }} numberOfLines={1}>{el.account?.information?.first_name ? el.account?.information?.first_name + ' ' + el.account?.information?.last_name : el.account?.username}</Text>
                               <Text style={{ fontStyle: 'italic' }}>{el.account?.information?.address || 'No address provided'}</Text>
-                              <Text style={{ color: 'gray', fontSize: 10, marginBottom: 5 }}>{el.numberOfConnection} similar connections</Text>
+                              <Text style={{ color: 'gray', fontSize: 10, marginBottom: 5 }}>{el.similar_connections ? el.similar_connections : 0} similar connection(s)</Text>
                               {
                                 this.props.hasAction && this.props.state.user.id != el.account_id && (
                                   <View style={{ flexDirection: 'row' }}>
@@ -267,10 +272,10 @@ class CardList extends Component {
                           /></View>}
                       <View>
                         <View style={{ flexDirection: 'row' }}>
-                          <View>
-                            <Text style={{ fontWeight: 'bold' }}>{el.account?.information?.first_name ? el.account?.information?.first_name + ' ' + el.account?.information?.last_name : el.account?.username}</Text>
+                          <View style={{ width: '70%' }}>
+                            <Text style={{ fontWeight: 'bold' }} numberOfLines={1}>{el.account?.information?.first_name ? el.account?.information?.first_name + ' ' + el.account?.information?.last_name : el.account?.username}</Text>
                             <Text style={{ fontStyle: 'italic' }}>{el.account?.information?.address || 'No address provided'}</Text>
-                            <Text style={{ color: 'gray', fontSize: 10, marginBottom: 5 }}>{el.numberOfConnection} similar connections</Text>
+                            <Text style={{ color: 'gray', fontSize: 10, marginBottom: 5 }}>{el.similar_connections ? el.similar_connections : 0} similar connection(s)</Text>
                             {
                               this.props.hasAction && this.props.state.user.id != el.account_id && (
                                 <View style={{ flexDirection: 'row' }}>
