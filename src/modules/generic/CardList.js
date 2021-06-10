@@ -153,7 +153,7 @@ class CardList extends Component {
                             <View style={{ width: '70%' }}>
                               <Text style={{ fontWeight: 'bold' }} numberOfLines={1}>{el.account?.information?.first_name ? el.account?.information?.first_name + ' ' + el.account?.information?.last_name : el.account?.username}</Text>
                               <Text style={{ fontStyle: 'italic' }}>{el.account?.information?.address || 'No address provided'}</Text>
-                              <Text style={{ color: 'gray', fontSize: 10, marginBottom: 5 }}>{el.similar_connections} similar connection(s)</Text>
+                              <Text style={{ color: 'gray', fontSize: 10, marginBottom: 5 }}>{el.similar_connections ? el.similar_connections : 0} similar connection(s)</Text>
                               {
                                 this.props.hasAction && this.props.state.user.id != el.account_id && (
                                   <View style={{ flexDirection: 'row' }}>
@@ -275,7 +275,7 @@ class CardList extends Component {
                           <View style={{ width: '70%' }}>
                             <Text style={{ fontWeight: 'bold' }} numberOfLines={1}>{el.account?.information?.first_name ? el.account?.information?.first_name + ' ' + el.account?.information?.last_name : el.account?.username}</Text>
                             <Text style={{ fontStyle: 'italic' }}>{el.account?.information?.address || 'No address provided'}</Text>
-                            <Text style={{ color: 'gray', fontSize: 10, marginBottom: 5 }}>{el.similar_connections} similar connection(s)</Text>
+                            <Text style={{ color: 'gray', fontSize: 10, marginBottom: 5 }}>{el.similar_connections ? el.similar_connections : 0} similar connection(s)</Text>
                             {
                               this.props.hasAction && this.props.state.user.id != el.account_id && (
                                 <View style={{ flexDirection: 'row' }}>
