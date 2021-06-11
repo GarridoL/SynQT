@@ -101,7 +101,7 @@ class Landing extends Component {
               marginTop: 100,
               padding: 30
             }}>
-              <Image source={require('assets/new2.png')} style={{ width: '90%', height: '100%' }}/>
+              <Image source={require('assets/new2.png')} style={{ width: '100%', height: '100%' }}/>
             </View>
             <View style={{
               width: '100%',

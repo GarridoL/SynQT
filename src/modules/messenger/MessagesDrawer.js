@@ -10,11 +10,11 @@ import { connect } from 'react-redux';
 import Config from 'src/config.js';
 import Currency from 'services/Currency.js';
 import Api from 'services/api/index.js';
-import {Dimensions} from 'react-native';
+import { Dimensions } from 'react-native';
 const width = Math.round(Dimensions.get('window').width);
 
 class HeaderOptions extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       status: false,
@@ -41,11 +41,11 @@ class HeaderOptions extends Component {
       offset: 0
     }
     Api.request(Routes.topChoiceRetrieve, parameter, response => {
-      this.setState({finishLoad: true})
+      this.setState({ finishLoad: true })
       response.data.length > 0 && response.data.map(item => {
         item.members.length > 0 && item.members.map(i => {
-          if(i.account_id == this.props.state.user.id) {
-            this.setState({status: true})
+          if (i.account_id == this.props.state.user.id) {
+            this.setState({ status: true })
             return
           }
         })
@@ -61,75 +61,75 @@ class HeaderOptions extends Component {
   }
 
   _card = () => {
-    const {theme } = this.props.state;
+    const { theme } = this.props.state;
     const { data, status } = this.props.navigationProps.state.params
     const { setShowSettings } = this.props;
     return (
-      <View style={{width: width}}>
+      <View style={{ width: width }}>
         {
           data != null && (
-          <View style={{
-            flexDirection: 'row',
-            width: '100%'
-          }}>
-            <Text style={{
-              color: theme ? theme.primary : Color.primary,
-              lineHeight: 30,
-              paddingLeft: 1,
-              // marginRight: 40
-            }}>{this.props.state.currentTitle}</Text>
-          </View>
-        )}
-        <View style={{flex: 1, flexDirection: 'row', position: 'absolute', right: 40}}>
-                <TouchableOpacity disabled={!this.state.finishLoad} onPress={() => {
-                  if(status !== 'completed') {
-                    this.redirect('topChoiceStack')
-                  }
-                }}>
-                  <View style={{borderWidth: 2, borderRadius: 20, height: 30, width: 30, borderColor: theme ? theme.primary : Color.primary, justifyContent: 'center', alignItems: 'center'}}>
-                      <FontAwesomeIcon
-                      color={Color.warning}
-                      icon={ faStar }
-                      size={20}
-                      style={BasicStyles.iconStyle}/>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity disabled={!this.state.finishLoad} onPress={() => status !== 'completed' ?
-                    this.redirect('menuStack') : console.log(status)}>
-                  <View style={{borderWidth: 2, borderRadius: 20, height: 30, width: 30, borderColor: Color.primary, justifyContent: 'center', alignItems: 'center', marginLeft: 5}}>
-                      <Image source={require('assets/logo.png')} style={{
-                        height: 20,
-                        width: 20
-                      }} />
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity disabled={!this.state.finishLoad} onPress={() => {
-                  setShowSettings(!this.props.state.showSettings)
-                }}>
-                  <View>
-                    <FontAwesomeIcon
-                    icon={ faEllipsisV }
-                    size={BasicStyles.iconSize}
-                    style={BasicStyles.iconStyle, {color: theme ? theme.primary : Color.primary}}/>
-                  </View>
-                </TouchableOpacity>
+            <View style={{
+              flexDirection: 'row',
+              width: '100%'
+            }}>
+              <Text style={{
+                color: theme ? theme.primary : Color.primary,
+                lineHeight: 30,
+                paddingLeft: 1,
+                // marginRight: 40
+              }}>{this.props.state.currentTitle}</Text>
             </View>
+          )}
+        <View style={{ flex: 1, flexDirection: 'row', position: 'absolute', right: 50 }}>
+          <TouchableOpacity disabled={!this.state.finishLoad} onPress={() => {
+            if (status !== 'completed') {
+              this.redirect('topChoiceStack')
+            }
+          }}>
+            <View style={{ borderWidth: 2, borderRadius: 20, height: 30, width: 30, borderColor: theme ? theme.primary : Color.primary, justifyContent: 'center', alignItems: 'center' }}>
+              <FontAwesomeIcon
+                color={Color.warning}
+                icon={faStar}
+                size={20}
+                style={BasicStyles.iconStyle} />
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity disabled={!this.state.finishLoad} onPress={() => status !== 'completed' ?
+            this.redirect('menuStack') : console.log(status)}>
+            <View style={{ borderWidth: 2, borderRadius: 20, height: 30, width: 30, borderColor: Color.primary, justifyContent: 'center', alignItems: 'center', marginLeft: 5 }}>
+              <Image source={require('assets/logo.png')} style={{
+                height: 20,
+                width: 20
+              }} />
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity disabled={!this.state.finishLoad} onPress={() => {
+            setShowSettings(!this.props.state.showSettings)
+          }}>
+            <View>
+              <FontAwesomeIcon
+                icon={faEllipsisV}
+                size={BasicStyles.iconSize}
+                style={BasicStyles.iconStyle, { color: theme ? theme.primary : Color.primary }} />
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
-  
-  
+
+
   render() {
     const { theme } = this.props.state;
     return (
       <View style={{ flexDirection: 'row' }}>
-        <TouchableOpacity onPress={this.back.bind(this)} 
-          >
+        <TouchableOpacity onPress={this.back.bind(this)}
+        >
           <FontAwesomeIcon
             color={theme ? theme.primary : Color.primary}
-            icon={ faChevronLeft }
+            icon={faChevronLeft}
             size={BasicStyles.iconSize}
-            style={BasicStyles.iconStyle}/>
+            style={BasicStyles.iconStyle} />
         </TouchableOpacity>
         {
           this._card()
@@ -158,7 +158,7 @@ let HeaderOptionsConnect = connect(
 
 const MessagesStack = createStackNavigator({
   messagesScreen: {
-    screen: Messages, 
+    screen: Messages,
     navigationOptions: ({ navigation }) => ({
       title: null,
       headerLeft: <HeaderOptionsConnect navigationProps={navigation} />,

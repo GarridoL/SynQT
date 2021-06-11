@@ -30,17 +30,40 @@ class ViewProfile extends Component {
       offset: 0,
       isLoading: false,
       ids: [],
-      fromConnections: []
+      fromConnections: [],
+      account: null
     }
   }
 
   componentDidMount() {
+    this.retrieveAccount();
     if (this.props.navigation.state?.params?.level === 1) {
       this.retrieveActivity(false);
     } else {
       this.retrieveConnections(false);
     }
     this.setState({ choice: this.props.navigation.state?.params?.level === 1 ? 'SYNQT ACTIVITIES' : 'CONNECTIONS' });
+  }
+
+  retrieveAccount = () => {
+    this.props.setCurrentAccount(null);
+    let parameter = {
+      condition: [{
+        value: this.props.navigation.state?.params?.user?.account?.id,
+        clause: '=',
+        column: 'id'
+      }]
+    }
+    this.setState({ isLoading: true })
+    Api.request(Routes.accountRetrieve, parameter, response => {
+      this.setState({ isLoading: false })
+      if (response.data.length > 0) {
+        this.props.setCurrentAccount(response.data[0]);
+      }
+    }, error => {
+      this.setState({ isLoading: false })
+      console.log(error)
+    });
   }
 
   retrieveActivity = (flag) => {
@@ -352,7 +375,6 @@ class ViewProfile extends Component {
   render() {
     let user = this.props.navigation.state?.params?.user
     const {theme} = this.props.state;
-    console.log(user, 'user');
     return (
       <View style={{
         backgroundColor: Color.containerBackground
@@ -361,7 +383,7 @@ class ViewProfile extends Component {
           <View>
             <View style={Style.TopView}>
               <TouchableOpacity>
-                {user.account?.profile?.url ? <Image
+                {this.props.state.acc?.account_profile?.url ? <Image
                   style={[Style.circleImage, {
                     height: 180,
                     width: 180,
@@ -370,7 +392,7 @@ class ViewProfile extends Component {
                     borderWidth: 2
                   }]}
                   // resizeMode="cover"
-                  source={{ uri: Config.BACKEND_URL + user.account?.profile?.url }}
+                  source={{ uri: Config.BACKEND_URL + this.props.state.acc?.account_profile?.url }}
                 />
                   :
                   <FontAwesomeIcon
@@ -397,7 +419,7 @@ class ViewProfile extends Component {
               <Text style={{
                 fontWeight: 'bold',
                 fontSize: 18
-              }}>{user?.account?.information?.first_name ? user?.account?.information?.first_name + ' ' + user?.account?.information?.last_name : user?.account?.username}</Text>
+              }}>{this.props.state.acc?.account_information?.first_name ? this.props.state.acc?.account_information?.first_name + ' ' + this.props.state.acc?.account_information?.last_name : this.props.state.acc?.username}</Text>
               </Text>
             </View>
             <View style={{
@@ -442,7 +464,9 @@ const mapStateToProps = state => ({ state: state });
 
 const mapDispatchToProps = dispatch => {
   const { actions } = require('@redux');
-  return {};
+  return {
+    setCurrentAccount: (acc) => dispatch(actions.setCurrentAccount(acc))
+  };
 };
 export default connect(
   mapStateToProps,

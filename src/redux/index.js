@@ -28,7 +28,8 @@ const types = {
   SET_RANGE: 'SET_RANGE',
   SET_TOP_CHOICES: 'SET_TOP_CHOICES',
   SET_ALL_MESSAGES: 'SET_ALL_MESSAGES',
-  SET_DEEP_LINK_ROUTE: 'SET_DEEP_LINK_ROUTE'
+  SET_DEEP_LINK_ROUTE: 'SET_DEEP_LINK_ROUTE',
+  SET_CURRENT_ACCOUNT: 'SET_CURRENT_ACCOUNT'
 };
 
 export const actions = {
@@ -112,6 +113,9 @@ export const actions = {
   },
   setDeepLinkRoute(deepLinkRoute) {
     return {type: types.SET_DEEP_LINK_ROUTE, deepLinkRoute}
+  },
+  setCurrentAccount(acc) {
+    return {type: types.SET_CURRENT_ACCOUNT, acc}
   }
 };
 
@@ -141,7 +145,8 @@ const initialState = {
   comments: [],
   topChoices: [],
   allMessages: [],
-  deepLinkRoute: null
+  deepLinkRoute: null,
+  acc: null
 };
 
 storeData = async (key, value) => {
@@ -169,7 +174,8 @@ const reducer = (state = initialState, action) => {
   const {comments} = action;
   const {topChoices} = action;
   const {allMessages} = action;
-  const {deepLinkRoute} = action
+  const {deepLinkRoute} = action;
+  const {acc} = action;
   switch (type) {
     case types.LOGOUT:
       AsyncStorage.clear();
@@ -361,6 +367,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         deepLinkRoute
+      }
+    case types.SET_CURRENT_ACCOUNT:
+      return {
+        ...state,
+        acc
       }
     default:
       return {...state, nav: state.nav};
