@@ -11,8 +11,42 @@ import Gradient from 'modules/generic/Gradient'
 import LinearGradient from 'react-native-linear-gradient'
 class HomePage extends Component {
   constructor(props) {
-    super(props); 3
+    super(props);
   }
+
+  onFocusFunction = () => {
+    /**
+     * Executed each time we enter in this component &&
+     * will be executed after going back to this component 
+    */
+
+    let deepLinkRoute = this.props.state.deepLinkRoute
+    console.log('TESTING::::::::: ', deepLinkRoute)
+    if(deepLinkRoute !== null && deepLinkRoute !== '') {
+      console.log('DEEP LINK ROUTE:')
+      const route = deepLinkRoute.replace(/.*?:\/\//g, '');
+      const routeName = route.split('/')[0];
+      console.log(deepLinkRoute)
+      // if (routeName === 'wearesynqt' && route.split('/')[2] === 'profile') {
+      //   navigate('orderPlacedStack')
+      // };
+      this.props.navigation.navigate('viewProfileStack', {
+        user: {
+          account: {
+            id: route.split('/')[2]
+          } 
+        },
+        level: 1
+      })
+    }
+  }
+
+  componentDidMount() {
+    this.focusListener = this.props.navigation.addListener('didFocus', () => {
+      this.onFocusFunction()
+    })
+  }
+
   redirect(route, layer) {
     if (route === 'historyStack') {
       this.props.navigation.navigate(route, { title: 'Upcoming' })
