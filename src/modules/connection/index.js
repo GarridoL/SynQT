@@ -137,7 +137,6 @@ class Connections extends Component {
     }
     this.setState({ isLoading: true })
     Api.request(Routes.circleRetrieve, parameter, response => {
-      console.log(response.data[0]);
       this.setState({ isLoading: false })
       this.setState({ pending: response.data.length > 0 ? response.data : [] })
     });

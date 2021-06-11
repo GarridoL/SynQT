@@ -11,7 +11,7 @@ import Gradient from 'modules/generic/Gradient'
 import LinearGradient from 'react-native-linear-gradient'
 class HomePage extends Component {
   constructor(props) {
-    super(props); 3
+    super(props);
   }
   redirect(route, layer) {
     if (route === 'historyStack') {

@@ -126,6 +126,7 @@ class ViewProfile extends Component {
       }],
       offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
     }
+    console.log(parameter, Routes.circleRetrieve);
     this.setState({ isLoading: true })
     Api.request(Routes.circleRetrieve, parameter, response => {
       this.setState({ isLoading: false })
@@ -152,9 +153,12 @@ class ViewProfile extends Component {
           this.setState({ isLoading: false })
           if (res.data.length > 0) {
             let ids = []
-            res.data.forEach(el => {
-              ids.push(el.account?.id)
-            });
+            response.data.forEach(item => {
+              res.data.forEach(el => {
+                ids.push(el.account?.id)
+                item['shouldBeCancel'] = el.account?.id === item.account.id && el.status === 'pending' ? true : false;
+              });
+            })
             this.setState({ids: ids, fromConnections: res.data});
           }
           this.setState({
@@ -251,7 +255,7 @@ class ViewProfile extends Component {
                       <View style={{ width: '65%' }}>
                         <Text style={{ fontWeight: 'bold', width: '110%' }} numberOfLines={1}>{el?.account?.information?.first_name ? el?.account?.information?.first_name + ' ' + el?.account?.information?.last_name : el?.account?.username}</Text>
                         <Text style={{ fontStyle: 'italic' }} numberOfLines={1}>{el?.account?.information?.address || 'No address provided'}</Text>
-                        <Text style={{ color: 'gray', fontSize: 10 }} numberOfLines={1}>{el.similar_connections ? el.similar_connections : 0} similar connection(s)</Text>
+                        {el.account?.id !== this.props.state.user.id && <Text style={{ color: 'gray', fontSize: 10 }} numberOfLines={1}>{el.similar_connections ? el.similar_connections : 0} similar connection(s)</Text>}
                       </View>
                       {this.state.ids.length > 0 && this.state.ids.includes(el.account?.id) === false && el.account.id !== this.props.state.user.id ?
                         <TouchableOpacity
@@ -263,7 +267,7 @@ class ViewProfile extends Component {
                         >
                           <Text style={{ color: 'white' }}>Add</Text>
                         </TouchableOpacity>
-                      : (el.account.id !== this.props.state.user.id) &&
+                      : (el.account.id !== this.props.state.user.id && el.shouldBeCancel === true) &&
                         <TouchableOpacity
                           onPress={() => this.deleteConnection(el)}
                           style={{
@@ -271,7 +275,7 @@ class ViewProfile extends Component {
                             backgroundColor: 'gray'
                           }}
                         >
-                          <Text style={{ color: 'white' }}>Remove</Text>
+                          <Text style={{ color: 'white' }}>Cancel</Text>
                         </TouchableOpacity>
                       }
                     </View>
