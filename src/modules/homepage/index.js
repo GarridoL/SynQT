@@ -36,7 +36,7 @@ class HomePage extends Component {
             id: route.split('/')[2]
           } 
         },
-        level: 1
+        level: 2
       })
     }
   }
