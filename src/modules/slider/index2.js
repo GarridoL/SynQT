@@ -52,7 +52,7 @@ class Slider2 extends Component {
     }
     try {
       const result = await Share.share({
-        message: 'https://wearesynqt/profile/' + user?.code
+        message: `https://wearesynqt/profile/${user?.id}/${user?.code}`
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {

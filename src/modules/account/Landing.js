@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Style from './Style.js';
 import { connect } from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
-import { View, Image, Text, TouchableHighlight, ScrollView } from 'react-native';
+import { View, Image, Text, TouchableHighlight, ScrollView, Linking } from 'react-native';
 import { Routes, Color, Helper, BasicStyles } from 'common';
 import LinearGradient from 'react-native-linear-gradient'
 import { Dimensions } from 'react-native';
@@ -14,8 +14,46 @@ class Landing extends Component {
     super(props);
   }
 
+  onFocusFunction = async () => {
+    /**
+     * Executed each time we enter in this component &&
+     * will be executed after going back to this component 
+    */
+    Linking.getInitialURL().then(url => {
+      console.log(`from initial url ${url}, call navigate`)
+      this.navigate(url);
+    });
+    Linking.addEventListener('url', this.handleOpenURL);
+  }
+
+
   componentDidMount() {
     this.getTheme()
+    this.focusListener = this.props.navigation.addListener('didFocus', () => {
+      this.onFocusFunction()
+    })
+  }
+
+  componentWillUnmount() { // C
+    Linking.removeEventListener('url', this.handleOpenURL);
+  }
+
+  handleOpenURL = (event) => { // D
+    this.navigate(event.url);
+  }
+
+  navigate = (url) => { // E
+    const { navigate } = this.props.navigation;
+    if(url !== null){
+      const route = url.replace(/.*?:\/\//g, '');
+      const routeName = route.split('/')[0];
+      if (routeName === 'wearesynqt' && route.split('/')[1] === 'profile') {
+        // navigate('orderPlacedStack')
+        console.log('DEEP LINK ROUTE IS SET::::')
+        const {setDeepLinkRoute} = this.props;
+        setDeepLinkRoute(url);
+      };
+    }
   }
 
   getTheme = async () => {
@@ -123,6 +161,7 @@ const mapDispatchToProps = dispatch => {
   const { actions } = require('@redux');
   return {
     setTheme: (theme) => dispatch(actions.setTheme(theme)),
+    setDeepLinkRoute: (deepLinkRoute) => dispatch(actions.setDeepLinkRoute(deepLinkRoute))
   };
 };
 export default connect(
