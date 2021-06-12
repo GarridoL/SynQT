@@ -53,8 +53,7 @@ class Rate extends Component {
       this.setState({ isLoading: false })
       if (response.data !== null) {
         let count = 0;
-        console.log(response.data[0], '-----------------');
-        this.setState({data: response.data[0]})
+        this.setState({ data: response.data[0] })
         if (response.data[0].rating?.length > 0) {
           response.data[0].rating.map(item => {
             if (item.account_id === this.props.state.user.id) {
@@ -104,12 +103,12 @@ class Rate extends Component {
     this.setState({ isLoading: true })
     Api.request(Routes.ratingsUpdate, parameter, response => {
       this.setState({ isLoading: false })
-      if(response.data === true) {
+      if (response.data === true) {
         Alert.alert(
           "",
           "Rate submitted. Thank you.",
           [
-            { text: "OK"}
+            { text: "OK" }
           ],
           { cancelable: false }
         );
@@ -154,7 +153,7 @@ class Rate extends Component {
       <View style={{ height: height }}>
         <View style={{
           backgroundColor: 'white',
-          width: '100%',
+          width: width,
           backgroundColor: 'white',
           padding: 15,
           height: height - (height / 1.7),
@@ -163,7 +162,7 @@ class Rate extends Component {
             style={{
               width: '100%',
               height: '80%',
-              borderRadius: 10
+              borderRadius: 10,
             }}
             source={data?.logo ? { uri: Config.BACKEND_URL + data?.logo } : require('assets/default.png')}>
           </Image>
@@ -273,12 +272,12 @@ class Rate extends Component {
       }}>
         {this.state.isLoading ? <Spinner mode="overlay" /> : null}
         <ScrollView style={{ height: height - 50 }}>
-        <View>
-          {this.props.navigation?.state.params?.status === 'completed' && this.state.data !== null && this.renderRateView()}
-          {this.props.navigation?.state.params?.status !== 'completed' && this.state.isLoading === false && <Text>Complete reservation first to rate the merchant.</Text>}
+          <View>
+            {this.props.navigation?.state.params?.status === 'completed' && this.state.data !== null && this.renderRateView()}
+            {this.props.navigation?.state.params?.status !== 'completed' && this.state.isLoading === false && <Text>Complete reservation first to rate the merchant.</Text>}
           </View>
         </ScrollView>
-        {this.state.data !== null &&<View style={{
+        {this.state.data !== null && <View style={{
           justifyContent: 'center',
           alignItems: 'center',
           marginLeft: -50,

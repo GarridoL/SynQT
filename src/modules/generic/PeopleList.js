@@ -54,7 +54,8 @@ class PeopleList extends Component {
                     account: {
                       profile: item.account?.profile,
                       username: item.account?.username,
-                      information: item.account?.information
+                      information: item.account?.information,
+                      id: item.account_id
                     }
                   },
                   synqt_id: this.props.navigation?.state.params?.data?.payload || null,
@@ -72,8 +73,8 @@ class PeopleList extends Component {
                     borderWidth: this.props.add === false ? 1 : 0,
                     borderColor: theme ? theme.secondary : Color.secondary,
                     borderRadius: this.props.size ? this.props.size : 45,
-                    width: this.props.size ? this.props.size : 45,
-                    height: this.props.size ? this.props.size : 45,
+                    width: this.props.size ? this.props.size : 46,
+                    height: this.props.size ? this.props.size : 46,
                   }}
                 />
               </TouchableOpacity>
