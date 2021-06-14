@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { ScrollView, View, Text, StyleSheet } from 'react-native';
 import { BasicStyles, Color } from 'common'
 import Footer from 'modules/generic/Footer'
+import { Col } from 'native-base';
 
 class Privacy extends Component {
   constructor(props) {
@@ -11,7 +12,9 @@ class Privacy extends Component {
   render() {
     return (
       <View style={{
-        flex: 1
+        flex: 1,
+        backgroundColor: Color.containerBackground,
+        marginTop: 25
       }}>
         <ScrollView style={{
           backgroundColor: Color.containerBackground

@@ -1,12 +1,12 @@
-import React, {Component} from 'react';
-import {View, TouchableOpacity, Text, Dimensions} from 'react-native';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faComments, faUsers, faReply} from '@fortawesome/free-solid-svg-icons';
-import {NavigationActions, StackActions} from 'react-navigation';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { View, TouchableOpacity, Text, Dimensions } from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faComments, faUsers, faReply } from '@fortawesome/free-solid-svg-icons';
+import { NavigationActions, StackActions } from 'react-navigation';
+import { connect } from 'react-redux';
 import { BasicStyles, Color } from 'common';
 const width = Math.round(Dimensions.get('window').width)
-
+import { NeomorphBlur, Neomorph } from 'react-native-neomorph-shadows';
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -22,10 +22,12 @@ class Header extends Component {
         index: 0,
         key: null,
         actions: [
-            NavigationActions.navigate({routeName: route, params: {
+          NavigationActions.navigate({
+            routeName: route, params: {
               initialRouteName: route,
               index: 0
-            }}),
+            }
+          }),
         ]
       })
     });
@@ -35,76 +37,34 @@ class Header extends Component {
   render() {
     const { status } = this.props;
     return (
-      <View style={{flex: 1, flexDirection: 'row', width: width, position: 'absolute', backgroundColor: 'white', zIndex: 1000}}>
-        <View style={{flex: 13, flexDirection: 'column'}}>
-            {status === false ? <View>
-              <TouchableOpacity
-                style={{
-                  height: 50,
-                  width: 50,
-                  marginLeft: 12,
-                  borderRadius: 25,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  position: 'relative',
-                  zIndex: 10001
-                }}
-
-                onPress={() => this.redirect('Connections')}
-                >
-                <FontAwesomeIcon
-                  icon={faUsers}
-                  size={BasicStyles.iconSize}
-                  style={[
-                    BasicStyles.iconStyle,
-                    {
-                      color: Color.primary,
-                    },
-                  ]}
-                />
-              </TouchableOpacity>
-            </View>
-            : <View>
+      <View style={{
+        flex: 1,
+        flexDirection: 'row',
+        width: width - 10,
+        position: 'absolute',
+        backgroundColor: Color.containerBackground,
+        zIndex: 1000,
+        alignItems: 'center',
+        marginLeft: 5,
+        height: 90
+      }}>
+        <View style={{ flex: 13, flexDirection: 'column' }}>
+          {status === false ? <View>
             <TouchableOpacity
-               style={{
-                 justifyContent: 'center',
-                 alignItems: 'center',
-                 height: 50,
-                 width: 50,
-                 right: 10,
-                 marginLeft: 12,
-               }}
-                onPress={() => this.props.goBack()}
-               >
-               <FontAwesomeIcon
-                 icon={faReply}
-                 size={BasicStyles.iconSize}
-                 style={[
-                   BasicStyles.iconStyle,
-                   {
-                     color: Color.primary,
-                   },
-                 ]}
-               />
-             </TouchableOpacity>
-            </View> }
-        </View>
+              style={{
+                height: 50,
+                width: 50,
+                marginLeft: 12,
+                borderRadius: 25,
+                justifyContent: 'center',
+                alignItems: 'center',
+                position: 'relative',
+                zIndex: 10001
+              }}
 
-        <View style={{flex: 12, flexDirection: 'column'}}>
-        {status === true ? <View>
-              <TouchableOpacity
-                style={{
-                  height: 50,
-                  width: 50,
-                  borderRadius: 25,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  position: 'relative',
-                  zIndex: 10001
-                }}
-
-                onPress={() => this.redirect('Connections')}
-                >
+              onPress={() => this.redirect('Connections')}
+            >
+              <Neomorph style={BasicStyles.neomorphIcon}>
                 <FontAwesomeIcon
                   icon={faUsers}
                   size={BasicStyles.iconSize}
@@ -115,13 +75,68 @@ class Header extends Component {
                     },
                   ]}
                 />
+              </Neomorph>
+            </TouchableOpacity>
+          </View>
+            : <View>
+              <TouchableOpacity
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: 50,
+                  width: 50,
+                  right: 10,
+                  marginLeft: 12,
+                }}
+                onPress={() => this.props.goBack()}
+              >
+                <FontAwesomeIcon
+                  icon={faReply}
+                  size={BasicStyles.iconSize}
+                  style={[
+                    BasicStyles.iconStyle,
+                    {
+                      color: Color.primary,
+                    },
+                  ]}
+                />
               </TouchableOpacity>
-            </View>
-            : null }
+            </View>}
         </View>
-        <View style={{flex: 4, flexDirection: 'column'}}>
-           <View>
-           <TouchableOpacity
+
+        <View style={{ flex: 12, flexDirection: 'column' }}>
+          {status === true ? <View>
+            <TouchableOpacity
+              style={{
+                height: 50,
+                width: 50,
+                borderRadius: 25,
+                justifyContent: 'center',
+                alignItems: 'center',
+                position: 'relative',
+                zIndex: 10001
+              }}
+              onPress={() => this.redirect('Connections')}
+            >
+              <Neomorph style={BasicStyles.neomorphIcon}>
+                <FontAwesomeIcon
+                  icon={faUsers}
+                  size={BasicStyles.iconSize}
+                  style={[
+                    BasicStyles.iconStyle,
+                    {
+                      color: Color.primary,
+                    },
+                  ]}
+                />
+              </Neomorph>
+            </TouchableOpacity>
+          </View>
+            : null}
+        </View>
+        <View style={{ flex: 4, flexDirection: 'column' }}>
+          <View>
+            <TouchableOpacity
               style={{
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -130,29 +145,31 @@ class Header extends Component {
                 right: 5
               }}
               onPress={() => this.redirect('Messenger')}
-              >
-              <FontAwesomeIcon
-                icon={faComments}
-                size={BasicStyles.iconSize}
-                style={[
-                  BasicStyles.iconStyle,
-                  {
-                    color: Color.primary,
-                  },
-                ]}
-              />
+            >
+              <Neomorph style={BasicStyles.neomorphIcon}>
+                <FontAwesomeIcon
+                  icon={faComments}
+                  size={BasicStyles.iconSize}
+                  style={[
+                    BasicStyles.iconStyle,
+                    {
+                      color: Color.primary,
+                    },
+                  ]}
+                />
+              </Neomorph>
             </TouchableOpacity>
-           </View>
+          </View>
         </View>
       </View>
     );
   }
 }
 
-const mapStateToProps = (state) => ({state: state});
+const mapStateToProps = (state) => ({ state: state });
 
 const mapDispatchToProps = (dispatch) => {
-  const {actions} = require('@redux');
+  const { actions } = require('@redux');
   return {
     logout: () => dispatch(actions.logout()),
   };

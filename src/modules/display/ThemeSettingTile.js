@@ -50,7 +50,7 @@ class ThemeSettingTile extends Component {
           <FontAwesomeIcon
             icon={faCheck}
             size={20}
-            style={{ color: this.props.selectedTile ? '#3DBB85' : '#FFFFFF', }}
+            style={{ color: this.props.selectedTile ? '#3DBB85' : '#EEEDFD', }}
           />
         </View>
       </TouchableOpacity>

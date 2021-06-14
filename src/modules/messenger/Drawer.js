@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, TouchableOpacity, Text} from 'react-native';
+import {View, TouchableOpacity, Text, Dimensions} from 'react-native';
 import {createStackNavigator} from 'react-navigation-stack';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faChevronLeft, faBars} from '@fortawesome/free-solid-svg-icons';
@@ -7,7 +7,7 @@ import Screen from 'modules/messenger/index.js';
 import {NavigationActions} from 'react-navigation';
 import {BasicStyles, Color} from 'common';
 import {connect} from 'react-redux';
-
+const width = Math.round(Dimensions.get('window').width);
 class HeaderOptions extends Component {
   constructor(props) {
     super(props);
@@ -18,7 +18,7 @@ class HeaderOptions extends Component {
   render() {
     const { theme } = this.props.state;
     return (
-      <View style={{flexDirection: 'row'}}>
+      <View style={{flexDirection: 'row', width: width}}>
       </View>
     );
   }
@@ -38,7 +38,19 @@ const MainMessageStack = createStackNavigator({
     navigationOptions: ({navigation}) => ({
       title: 'Messages',
       headerLeft: <HeaderOptionsConnect navigationProps={navigation} />,
-      ...BasicStyles.drawerHeader1
+      headerStyle: {
+        elevation: 0,
+        backgroundColor: Color.containerBackground
+      },
+      headerTitleContainerStyle: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: Color.containerBackground,
+        width: width - 120
+      },
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },  
     }),
   },
 });

@@ -87,9 +87,12 @@ class Display extends Component {
     });
   };
   render() {
+    console.log(this.props.navigation.state.routeName, 'test')
     return (
       <View style={{
-        flex: 1
+        flex: 1,
+        marginTop: 25,
+        backgroundColor: Color.containerBackground
       }}>
         <ScrollView
           showsVerticalScrollIndicator={false}

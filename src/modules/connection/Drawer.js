@@ -76,8 +76,8 @@ class HeaderOptions extends Component {
       <TouchableOpacity onPress={() => {
         this.onShare()
       }}>
-        <View style={{ paddingRight: 8, marginRight: 55 }} >
-          <FontAwesomeIcon icon={faShare} size={BasicStyles.iconSize + 5} style={{ color: Color.gray, marginRight: 10 }} />
+        <View style={{marginRight: 20}} >
+          <FontAwesomeIcon icon={faShare} size={BasicStyles.iconSize + 5} style={{ color: Color.gray}} />
         </View>
       </TouchableOpacity>
     );
@@ -102,20 +102,13 @@ const TermsAndConditionsStack = createStackNavigator({
       headerRight: <HeaderOptionsConnect navigationProps={navigation} />,
       ...{
         headerStyle: {
-          shadowColor: 'transparent',
           elevation: 0,
-          borderBottomWidth: 0,
-          justifyContent: 'center',
-          alignItems: 'center',
-          fontSize: 12,
-          width: width,
-          marginLeft: 60
         },
         headerTitleContainerStyle: {
-          backgroundColor: Color.white,
+          backgroundColor: Color.containerBackground,
           justifyContent: 'center',
           alignItems: 'center',
-          paddingRight: 64
+          width: width
         },
         headerTitleStyle: {
           fontWeight: 'bold',

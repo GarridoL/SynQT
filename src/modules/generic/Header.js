@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faAlignLeft, faBars, faChevronLeft, faClock, faHistory, faShoppingBag, faStar, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
 import { BasicStyles, Color } from 'common';
+import { NeomorphBlur, Neomorph } from 'react-native-neomorph-shadows';
 const width = Math.round(Dimensions.get('window').width)
 
 class Header extends Component {
@@ -31,11 +32,10 @@ class Header extends Component {
           flex: 1,
           flexDirection: 'row',
           alignItems: 'center',
-          shadowRadius: 0,
-          shadowOffset: {
-            height: 0,
-          },
-          borderBottomWidth: 0
+          backgroundColor: Color.containerBackground,
+          width: width,
+          height: 100,
+          marginTop: 25,
         }}>
         <TouchableOpacity
           onPress={() => {
@@ -45,24 +45,24 @@ class Header extends Component {
             height: 50,
             width: 50,
             marginLeft: 5,
-            // backgroundColor: Color.primary,
             borderRadius: 25,
             justifyContent: 'center',
             alignItems: 'center',
-            position: 'relative',
-            zIndex: 10001
+            marginLeft: 20
           }}
         >
-          <FontAwesomeIcon
-            icon={faAlignLeft}
-            size={BasicStyles.iconSize}
-            style={[
-              BasicStyles.iconStyle,
-              {
-                color: Color.primary,
-              },
-            ]}
-          />
+          <Neomorph style={BasicStyles.neomorphIcon}>
+            <FontAwesomeIcon
+              icon={faAlignLeft}
+              size={BasicStyles.iconSize}
+              style={[
+                BasicStyles.iconStyle,
+                {
+                  color: Color.primary,
+                },
+              ]}
+            />
+          </Neomorph>
         </TouchableOpacity>
 
         {
@@ -73,14 +73,15 @@ class Header extends Component {
               width: width,
               justifyContent: 'center',
               alignItems: 'center',
-              position: 'relative',
+              position: 'absolute',
+              padding: 10
             }}>
               <View style={{
                 height: 40,
-                borderColor: Color.gray,
+                borderColor: Color.white,
                 borderWidth: 1,
                 borderRadius: 25,
-                width: '75%',
+                width: '50%',
                 marginRight: '2%',
                 marginLeft: '-13%',
                 justifyContent: 'center'
@@ -88,7 +89,7 @@ class Header extends Component {
                 <TextInput
                   style={{
                     height: 45,
-                    width: '70%'
+                    width: '50%'
                   }}
                   onSubmitEditing={() => { this.props.setStatusSearch(this.state.search) }}
                   onChangeText={text => this.searchHandler(text)}
@@ -96,64 +97,22 @@ class Header extends Component {
                   placeholder='Search...'
                 />
               </View>
-                <TouchableOpacity style={{
-                  paddingRight: 25
-                }}
-                  onPress={() => { this.props.setCreateStatus(true) }}
-                >
+              <TouchableOpacity style={{
+                position: 'absolute',
+                right: 80
+              }}
+                onPress={() => { this.props.setCreateStatus(true) }}
+              >
+                <Neomorph style={BasicStyles.neomorphIcon}>
                   <FontAwesomeIcon
                     icon={faEdit}
                     size={BasicStyles.iconSize}
                     color={Color.primary} />
-                </TouchableOpacity>
+                </Neomorph>
+              </TouchableOpacity>
             </View>
           )
         }
-
-
-        {/* <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('topChoiceStack')}
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: 50,
-            width: 50,
-            marginLeft: width - (105 + 100),
-          }}
-          >
-          <FontAwesomeIcon
-            icon={faStar}
-            size={BasicStyles.iconSize}
-            style={[
-              BasicStyles.iconStyle,
-              {
-                color: Color.gray,
-              },
-            ]}
-          />
-        </TouchableOpacity>
-
-
-        <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('historyStack')}
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: 50,
-            width: 50,
-          }}
-          >
-          <FontAwesomeIcon
-            icon={faClock}
-            size={BasicStyles.iconSize}
-            style={[
-              BasicStyles.iconStyle,
-              {
-                color: Color.gray,
-              },
-            ]}
-          />
-        </TouchableOpacity> */}
 
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate('historyStack', { title: 'History' })}
@@ -162,19 +121,22 @@ class Header extends Component {
             alignItems: 'center',
             height: 50,
             width: 50,
-            marginLeft: width - (50 + 50)
+            position: 'absolute',
+            right: 20
           }}
         >
-          <FontAwesomeIcon
-            icon={faHistory}
-            size={BasicStyles.iconSize}
-            style={[
-              BasicStyles.iconStyle,
-              {
-                color: Color.primary,
-              },
-            ]}
-          />
+          <Neomorph style={BasicStyles.neomorphIcon}>
+            <FontAwesomeIcon
+              icon={faHistory}
+              size={BasicStyles.iconSize}
+              style={[
+                BasicStyles.iconStyle,
+                {
+                  color: Color.primary,
+                },
+              ]}
+            />
+          </Neomorph>
         </TouchableOpacity>
       </View>
     );

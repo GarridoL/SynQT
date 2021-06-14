@@ -387,10 +387,13 @@ class Cards extends React.Component {
   render() {
     const { isLoading } = this.state;
     return (
-      <View>
+      <View style={{backgroundColor: Color.containerBackground}}>
         <Header status={this.state.index === this.state.data.length - 2 ? true : false} {...this.props} goBack={() => { this.swiper.swipeRight() }}></Header>
-
-        <ScrollView showsVerticalScrollIndicator={true}
+        <ScrollView style={{
+          marginTop: 40,
+          height: height - 90,
+          backgroundColor: Color.containerBackground
+        }} showsVerticalScrollIndicator={true}
           onScroll={(event) => {
             let scrollingHeight = event.nativeEvent.layoutMeasurement.height + event.nativeEvent.contentOffset.y
             let totalHeight = event.nativeEvent.contentSize.height

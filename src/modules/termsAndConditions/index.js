@@ -7,7 +7,9 @@ class TermsAndConditions extends Component {
   render() {
     return (
       <View style={{
-        flex: 1
+        flex: 1,
+        marginTop: 25,
+        backgroundColor: Color.containerBackground
       }}>
         <ScrollView style={{
           backgroundColor: Color.containerBackground
