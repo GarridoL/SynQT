@@ -5,6 +5,7 @@ import {faBars, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
 import {createStackNavigator} from '@react-navigation/stack';
 import {BasicStyles} from 'common';
 import {connect} from 'react-redux';
+import Color from '../../common/Color';
 
 
 class StackHeaderTitle extends Component {
@@ -23,7 +24,7 @@ class StackHeaderTitle extends Component {
         }}>
         <Text
           style={{
-            color: '#000',
+            color: Color.containerBackground,
             marginLeft: 7,
             fontWeight: 'bold',
             fontSize: 20

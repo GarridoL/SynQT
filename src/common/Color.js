@@ -21,7 +21,7 @@ export default {
   orange: '#F89551', //logo color
   tertiary: tertiary,
   blue: '#1B6F9C', //logo color
-  containerBackground: '#fff',
+  containerBackground: '#E7E9FD',
   fourth: fourth,
   gradient: gradient,
   setPrimary(color){

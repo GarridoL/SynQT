@@ -187,10 +187,10 @@ class Connections extends Component {
     const { navs } = this.state;
     return (
       <View style={{
-        flex: 1
+        flex: 1,
+        backgroundColor: Color.containerBackground
       }}>
         <ScrollView style={{
-          backgroundColor: Color.containerBackground,
           marginBottom: 50
         }}
           showsVerticalScrollIndicator={false}

@@ -343,7 +343,8 @@ class Groups extends Component {
     const { isLoading } = this.state;
     return (
       <View style={{
-        flex: 1
+        flex: 1,
+        backgroundColor: Color.containerBackground
       }}>
         { this.state.connections.length > 0 && (
           <View style={{

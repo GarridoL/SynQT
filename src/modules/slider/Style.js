@@ -1,11 +1,9 @@
 import { Color } from 'common';
+import { Dimensions } from 'react-native';
+const width = Math.round(Dimensions.get('window').width);
 export default {
   container: {
     flex: 1,
-  },
-  navItemStyle: {
-    padding: 10,
-    color:Color.white
   },
   navSectionStyle: {
     paddingTop: 5,
@@ -29,5 +27,22 @@ export default {
   footerContainer: {
     padding: 20,
     fontSize: 8
+  },
+  activeDrawer: {
+    shadowRadius: 10,
+    borderRadius: 8,
+    backgroundColor: Color.containerBackground,
+    width: width / 2,
+    height: 40,
+    flexDirection: 'row-reverse',
+    paddingLeft: 10,
+    alignItems: 'center'
+  },
+  inActiveDrawer: {
+    width: width,
+    height: 40,
+    flexDirection: 'row-reverse',
+    paddingLeft: 10,
+    alignItems: 'center'
   }
 };

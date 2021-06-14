@@ -242,7 +242,9 @@ class CardList extends Component {
                       </ListItem>
                       {/* </Card> */}
                     </TouchableOpacity>}</View> :
-                  <TouchableOpacity onPress={() => { this.props.navigation.navigate('viewProfileStack', { user: el, level: this.props.level }) }}>
+                  <TouchableOpacity
+                    onPress={() => { this.props.navigation.navigate('viewProfileStack', { user: el, level: this.props.level }) }}
+                  >
                     <ListItem key={idx} style={{ width: width }}>
                       {el.account?.profile?.url ? <Image
                         style={{

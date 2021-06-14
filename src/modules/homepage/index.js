@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import Style from './Style.js';
-import { View, Image, Text, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
+import { View, Image, Text, TouchableOpacity, ScrollView, SafeAreaView, Dimensions } from 'react-native';
 import { Routes, Color, Helper, BasicStyles } from 'common';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBars, faUtensils, faChevronLeft, faTicketAlt, faShoppingBag, faEdit, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import Footer from 'modules/generic/Footer';
 import { connect } from 'react-redux';
 import Config from 'src/config.js';
-import Gradient from 'modules/generic/Gradient'
-import LinearGradient from 'react-native-linear-gradient'
+import Gradient from 'modules/generic/Gradient';
+import LinearGradient from 'react-native-linear-gradient';
+import { NeomorphBlur } from 'react-native-neomorph-shadows';
+const width = Math.round(Dimensions.get('window').width)
+const height = Math.round(Dimensions.get('window').height)
 class HomePage extends Component {
   constructor(props) {
     super(props);
@@ -22,7 +25,7 @@ class HomePage extends Component {
 
     let deepLinkRoute = this.props.state.deepLinkRoute
     console.log('TESTING::::::::: ', deepLinkRoute)
-    if(deepLinkRoute !== null && deepLinkRoute !== '') {
+    if (deepLinkRoute !== null && deepLinkRoute !== '') {
       console.log('DEEP LINK ROUTE:')
       const route = deepLinkRoute.replace(/.*?:\/\//g, '');
       const routeName = route.split('/')[0];
@@ -34,7 +37,7 @@ class HomePage extends Component {
         user: {
           account: {
             id: route.split('/')[2]
-          } 
+          }
         },
         level: 2
       })
@@ -68,21 +71,44 @@ class HomePage extends Component {
             backgroundColor: Color.containerBackground
           }}
         >
-          <SafeAreaView>
+          <View style={{
+            height: '27%',
+            justifyContent: 'center',
+            width: '90%',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            marginTop: '20%',
+            padding: 10,
+            alignItems: 'center'
+          }}>
+            {/* <NeomorphBlur
+              style={{
+                shadowRadius: 5,
+                borderRadius: 70,
+                backgroundColor: Color.containerBackground,
+                width: width - 40,
+                height: height / 3.5,
+                padding: 18
+              }}
+            > */}
             <LinearGradient
               colors={theme && theme.gradient !== undefined && theme.gradient !== null ? theme.gradient : Color.gradient}
               locations={[0, 0.5, 1]}
               start={{ x: 1, y: 0 }}
               end={{ x: 1, y: 1 }}
-              style={{ borderRadius: 20, width: '90%', marginLeft: 'auto', marginRight: 'auto', marginTop: '15%', padding: 10 }}
+              style={{ borderRadius: 40 }}
             >
               <View style={{
-                flex: 1,
                 flexDirection: 'row',
                 justifyContent: 'center',
                 alignItems: 'center'
               }}>
-                <View style={{ width: '50%', padding: 5 }}>
+                <View style={{
+                  width: '50%',
+                  paddingLeft: 20,
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}>
                   <Text adjustsFontSizeToFit style={{
                     color: Color.white,
                     textAlign: 'center'
@@ -91,7 +117,7 @@ class HomePage extends Component {
                     fontWeight: 'bold',
                     color: Color.white,
                     textAlign: 'center',
-                    fontSize: 25
+                    fontSize: 23
                   }}>HI GUYS! WHERE SHALL WE GO?</Text>
                 </View>
                 <View style={{
@@ -103,8 +129,8 @@ class HomePage extends Component {
                 >
                   <TouchableOpacity
                     style={{
-                      height: 135,
-                      width: 135,
+                      height: 120,
+                      width: 120,
                       borderRadius: 100,
                       borderColor: Color.white,
                       borderWidth: user?.account_profile && user?.account_profile.url ? 0 : 2
@@ -119,7 +145,7 @@ class HomePage extends Component {
                             width: '101%',
                             borderRadius: 100,
                             borderColor: Color.white,
-                            borderWidth: 2
+                            borderWidth: 3
                           }]} />
                       ) : <FontAwesomeIcon
                         icon={faUserCircle}
@@ -129,7 +155,7 @@ class HomePage extends Component {
                         }}
                       />
                     }
-                    <View style={{
+                    {/* <View style={{
                       height: 40,
                       width: 40,
                       borderRadius: 100,
@@ -159,12 +185,13 @@ class HomePage extends Component {
                           color={Color.primary}
                         />
                       </View>
-                    </View>
+                    </View> */}
                   </TouchableOpacity>
                 </View>
               </View>
             </LinearGradient>
-          </SafeAreaView>
+            {/* </NeomorphBlur> */}
+          </View>
 
           {/* <View style={{
               width: '80%',
@@ -237,44 +264,42 @@ class HomePage extends Component {
               </View>
             </View> */}
 
+
+
           <View style={{
-            // width: '30%',
-            // marginLeft: '10%',
-            // marginRight: '10%',
-            marginTop: 50,
-            // // borderRadius: BasicStyles.standardBorderRadius,
-            // height: 120,
-            // borderColor: Color.primary,
-            // borderWidth: 1,
-            // flexDirection: 'row',
+            marginTop: '20%',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}>
-            <View style={{
-              // width: '33%',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
+            <NeomorphBlur
+              style={{
+                shadowRadius: 5,
+                borderRadius: 70,
+                backgroundColor: Color.containerBackground,
+                width: 150,
+                height: 150,
+                padding: 5
+              }}
+            >
               <TouchableOpacity
                 onPress={() => this.redirect('restaurantStack')}
                 style={{
-                  height: 120,
-                  width: 120,
+                  height: '100%',
+                  width: '100%',
+                  backgroundColor: Color.containerBackground,
                   borderRadius: 70,
                   borderWidth: 1,
-                  borderColor: Color.gray,
+                  borderColor: theme ? theme.primary : Color.primary,
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: 'white',
-                  elevation: 3,
-                  shadowColor: Color.primary,
-                  shadowOffset: { width: 0, height: 3 },
-                  shadowOpacity: 0.5,
-                  shadowRadius: 5,
                   marginBottom: 10
                 }}>
-                <FontAwesomeIcon icon={faUtensils} size={60} color={Color.primary} />
+                <FontAwesomeIcon icon={faUtensils} size={60} color={theme ? theme.primary : Color.primary} />
               </TouchableOpacity>
-            </View>
+            </NeomorphBlur>
           </View>
+
+
 
           <View style={{
             width: '50%',
@@ -283,24 +308,30 @@ class HomePage extends Component {
             marginTop: 50,
             marginBottom: 100
           }}>
-            <TouchableOpacity
-              onPress={() => this.redirect('historyStack')}
-              style={{
-                ...BasicStyles.standardButton,
-                backgroundColor: Color.white,
-                borderColor: Color.primary,
-                borderWidth: 1,
-                elevation: 3,
-                shadowColor: Color.primary,
-                shadowOffset: { width: 0, height: 3 },
-                shadowOpacity: 0.5,
-                shadowRadius: 5,
-                marginBottom: 10
-              }}>
-              <Text style={{
-                color: Color.primary
-              }}>Upcoming</Text>
-            </TouchableOpacity>
+            <NeomorphBlur style={{
+              shadowRadius: 10,
+              borderRadius: 70,
+              backgroundColor: Color.containerBackground,
+              width: width / 2,
+              height: 60,
+              padding: 10
+            }}
+            >
+              <TouchableOpacity
+                onPress={() => this.redirect('historyStack')}
+                style={{
+                  ...BasicStyles.standardButton,
+                  backgroundColor: Color.containerBackground,
+                  borderColor: theme ? theme.primary : Color.primary,
+                  borderWidth: 1,
+                  marginBottom: 10,
+                }}>
+                <Text style={{
+                  color: theme ? theme.primary : Color.primary,
+                  fontWeight: 'bold'
+                }}>Upcoming</Text>
+              </TouchableOpacity>
+            </NeomorphBlur>
           </View>
         </ScrollView>
 

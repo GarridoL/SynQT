@@ -25,31 +25,36 @@ export default {
       title: 'Homepage',
       route: 'Homepage',
       icon: faHome,
-      borderBottom: false
+      borderBottom: false,
+      currentPage: 'drawerStack'
     },
     {
       title: 'Messages',
       route: 'Messenger',
       icon: faEnvelope,
-      borderBottom: false
+      borderBottom: false,
+      currentPage: 'mainMessageStack'
     },
     {
       title: 'Connections',
       route: 'Connections',
       icon: faUsers,
-      borderBottom: false
+      borderBottom: false,
+      currentPage: 'connectionStack'
     },
     {
       title: 'Theme Settings',
       route: 'Settings',
       icon: faCog,
-      borderBottom: false
+      borderBottom: false,
+      currentPage: 'Settings'
     },
     {
       title: 'Share Profile',
       route: 'share',
       icon: faShareSquare,
-      borderBottom: true
+      borderBottom: true,
+      currentPage: 'share'
     }
   ],
   DrawerMenu1: [{
