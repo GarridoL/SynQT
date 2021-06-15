@@ -96,7 +96,7 @@ class Slider2 extends Component {
         style={{ height: '100%', paddingRight: 10, width: width }}
       >
         <View style={{ flexDirection: 'row', height: '100%' }}>
-          <View style={{ backgroundColor: Color.containerBackground, height: '100%', width: '25%', borderTopRightRadius: 40, borderBottomRightRadius: 50, zIndex: 999, elevation: 50 }}>
+          <View style={{ backgroundColor: '#E7E9FD', height: '100%', width: '25%', borderTopRightRadius: 40, borderBottomRightRadius: 50, zIndex: 999, elevation: 50 }}>
             <View style={{ marginTop: '40%', marginLeft: 10 }}>
               <TouchableOpacity onPress={() => this.props.navigation.toggleDrawer()}>
                 <FontAwesomeIcon color={Color.primary} icon={faTimes} size={BasicStyles.iconSize}></FontAwesomeIcon>
@@ -150,8 +150,9 @@ class Slider2 extends Component {
                     }
                   ]}
                     onPress={() => {
-                      this.setState({current: item.title === 'Messages' || item.title === 'Connections' ? 'drawerStack' : item.currentPage});
-                      item.title == 'Connections' ? this.redirect('connectionStack') : (item.title == 'Messages' ? this.redirect('mainMessageStack') : this.navigateToScreen(item.route))}}>
+                      this.setState({ current: item.title === 'Messages' || item.title === 'Connections' ? 'drawerStack' : item.currentPage });
+                      item.title == 'Connections' ? this.redirect('connectionStack') : (item.title == 'Messages' ? this.redirect('mainMessageStack') : this.navigateToScreen(item.route))
+                    }}>
                     {this.state.current === item.currentPage ? <View style={styles.navSectionStyle}>
                       <Neomorph
                         swapShadows
@@ -179,16 +180,52 @@ class Slider2 extends Component {
           </View>
         </View>
         <View style={[styles.navSectionStyle, { borderBottomWidth: 0, flex: 1, position: 'absolute', bottom: 15, borderTopWidth: 1, width: width, borderColor: 'white', paddingRight: 10 }]}>
-          <TouchableOpacity onPress={() => {this.setState({current: 'Terms and Conditions' }); this.navigateToScreen('TermsAndConditions')}} style={{ flexDirection: 'row-reverse', paddingTop: 20 }}>
-            <FontAwesomeIcon style={[styles.navItemStyle, {color: this.state.current === 'Terms and Conditions' ? Color.primary : 'white'}]} icon={faCopy} size={BasicStyles.iconSize}></FontAwesomeIcon>
-            <Text style={{ color: Color.white, marginRight: 10 }}> Terms and Conditions</Text>
+          <TouchableOpacity onPress={() => { this.setState({ current: 'Terms and Conditions' }); this.navigateToScreen('TermsAndConditions') }} style={{ flexDirection: 'row-reverse', paddingTop: 20 }}>
+          {this.state.current === 'Terms and Conditions' ? <View style={styles.navSectionStyle}>
+            <Neomorph
+              swapShadows
+              inner
+              style={styles.activeDrawer}
+            >
+              <FontAwesomeIcon style={{
+                padding: 10,
+                color: theme ? theme.primary : Color.primary
+              }} icon={faCopy} size={BasicStyles.iconSize}></FontAwesomeIcon>
+              <Text style={{ color: theme ? theme.primary : Color.primary, marginRight: 10, marginTop: 2 }}>Terms and Conditions</Text>
+            </Neomorph>
+          </View> :
+            <View style={styles.inActiveDrawer}>
+              <FontAwesomeIcon style={{
+                padding: 10,
+                color: 'white'
+              }} icon={faCopy} size={BasicStyles.iconSize}></FontAwesomeIcon>
+              <Text style={{ color: 'white', marginRight: 10, marginTop: 2 }}>Terms and Conditions</Text>
+            </View>}
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => {this.setState({current: 'Privacy Policy' }); this.navigateToScreen('Privacy')}} style={{ flexDirection: 'row-reverse', paddingTop: 20 }}>
-            <FontAwesomeIcon style={[styles.navItemStyle, {color: this.state.current === 'Privacy Policy' ? Color.primary : 'white'}]} icon={faShieldAlt} size={BasicStyles.iconSize}></FontAwesomeIcon>
-            <Text style={{ color: Color.white, marginRight: 10 }}> Privacy Policy</Text>
+          <TouchableOpacity onPress={() => { this.setState({ current: 'Privacy Policy' }); this.navigateToScreen('Privacy') }} style={{ flexDirection: 'row-reverse', paddingTop: 20 }}>
+            {this.state.current === 'Privacy Policy' ? <View style={styles.navSectionStyle}>
+            <Neomorph
+              swapShadows
+              inner
+              style={styles.activeDrawer}
+            >
+              <FontAwesomeIcon style={{
+                padding: 10,
+                color: theme ? theme.primary : Color.primary
+              }} icon={faShieldAlt} size={BasicStyles.iconSize}></FontAwesomeIcon>
+              <Text style={{ color: theme ? theme.primary : Color.primary, marginRight: 10, marginTop: 2 }}>Privacy Policy</Text>
+            </Neomorph>
+          </View> :
+            <View style={styles.inActiveDrawer}>
+              <FontAwesomeIcon style={{
+                padding: 10,
+                color: 'white'
+              }} icon={faShieldAlt} size={BasicStyles.iconSize}></FontAwesomeIcon>
+              <Text style={{ color: 'white', marginRight: 10, marginTop: 2 }}>Privacy Policy</Text>
+            </View>}
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => {this.logoutAction()}} style={{ flexDirection: 'row-reverse', paddingTop: 20 }}>
-            <FontAwesomeIcon style={[styles.navItemStyle, {color: 'white'}]} icon={faSignOutAlt} size={BasicStyles.iconSize}></FontAwesomeIcon>
+          <TouchableOpacity onPress={() => { this.logoutAction() }} style={{ flexDirection: 'row-reverse', paddingTop: 20 }}>
+            <FontAwesomeIcon style={[styles.navItemStyle, { color: 'white', marginRight: 10 }]} icon={faSignOutAlt} size={BasicStyles.iconSize}></FontAwesomeIcon>
             <Text style={{ color: Color.white, marginRight: 10 }}>Logout</Text>
           </TouchableOpacity>
         </View>

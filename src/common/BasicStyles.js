@@ -6,19 +6,18 @@ export default {
   neomorphIcon: {
     shadowRadius: 2,
     borderRadius: 25,
-    backgroundColor: Color.containerBackground,
+    backgroundColor: '#E7E9FD',
     width: 55,
     height: 55,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 5
   },
   formControl: {
     height: 50,
     borderColor: Color.lightGray,
     backgroundColor: 'white',
     borderWidth: 1,
-    width: width-40,
+    width: width - 40,
     paddingLeft: 10,
     marginBottom: 20,
     borderRadius: 25
@@ -191,7 +190,7 @@ export default {
     },
     headerTitleStyle: {
       fontWeight: 'bold',
-    },  
+    },
   },
   headerDrawerStyleStandard: {
     headerStyle: {
@@ -208,7 +207,7 @@ export default {
     },
     headerTitleStyle: {
       fontWeight: 'bold',
-    },  
+    },
   },
   standardDivider: {
     width: '90%',
@@ -282,7 +281,7 @@ export default {
     borderRadius: 25,
     paddingLeft: 10
   },
-  circleButton : {
+  circleButton: {
     height: 60,
     backgroundColor: Color.primary,
     width: '100%',
@@ -314,12 +313,12 @@ export default {
       backgroundColor: Color.containerBackground
     },
     headerTitleContainerStyle: {
-      backgroundColor: Color.white,
+      backgroundColor: Color.containerBackground,
       justifyContent: 'center',
       alignItems: 'center'
     },
     headerTitleStyle: {
       fontWeight: 'bold',
-    },  
+    },
   },
 }

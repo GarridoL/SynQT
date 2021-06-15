@@ -62,13 +62,13 @@ class HomePage extends Component {
     const { user, theme } = this.props.state;
     return (
       <View style={[Style.MainContainer, {
-        backgroundColor: Color.containerBackground,
+        backgroundColor: '#E7E9FD',
         flex: 1
       }]}>
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={{
-            backgroundColor: Color.containerBackground
+            backgroundColor: '#E7E9FD'
           }}
         >
           <View style={{
@@ -149,7 +149,7 @@ class HomePage extends Component {
                           }]} />
                       ) : <FontAwesomeIcon
                         icon={faUserCircle}
-                        size={132}
+                        size={117}
                         style={{
                           color: Color.white
                         }}
@@ -275,7 +275,7 @@ class HomePage extends Component {
               style={{
                 shadowRadius: 5,
                 borderRadius: 70,
-                backgroundColor: Color.containerBackground,
+                backgroundColor: '#E7E9FD',
                 width: 150,
                 height: 150,
                 padding: 5
@@ -286,7 +286,7 @@ class HomePage extends Component {
                 style={{
                   height: '100%',
                   width: '100%',
-                  backgroundColor: Color.containerBackground,
+                  backgroundColor: '#E7E9FD',
                   borderRadius: 70,
                   borderWidth: 1,
                   borderColor: theme ? theme.primary : Color.primary,
@@ -311,17 +311,17 @@ class HomePage extends Component {
             <NeomorphBlur style={{
               shadowRadius: 10,
               borderRadius: 70,
-              backgroundColor: Color.containerBackground,
+              backgroundColor: '#E7E9FD',
               width: width / 2,
               height: 60,
-              padding: 10
+              padding: 10,
             }}
             >
               <TouchableOpacity
                 onPress={() => this.redirect('historyStack')}
                 style={{
                   ...BasicStyles.standardButton,
-                  backgroundColor: Color.containerBackground,
+                  backgroundColor: '#E7E9FD',
                   borderColor: theme ? theme.primary : Color.primary,
                   borderWidth: 1,
                   marginBottom: 10,

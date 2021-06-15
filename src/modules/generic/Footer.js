@@ -46,9 +46,9 @@ class Footer extends Component {
       <NeomorphBlur
         inner 
         style={{
-          shadowRadius: 6,
-          borderRadius: 50,
-          backgroundColor: Color.containerBackground,
+          // shadowRadius: 6,
+          // borderRadius: 50,
+          backgroundColor: '#E7E9FD',
           width: width,
           height: 88,
           alignItems: 'center',
@@ -67,8 +67,8 @@ class Footer extends Component {
             bottom: 0,
             height: 85,
             zIndex: 0,
-            backgroundColor: Color.containerBackground,
-            elevation: 10
+            backgroundColor: '#E7E9FD',
+            // elevation: 10
           }}>
           {
             layer == 0 && (
@@ -128,8 +128,7 @@ class Footer extends Component {
             style={{
               justifyContent: 'center',
               alignItems: 'center',
-              width: '33%',
-              marginTop: -20
+              width: '33%'
             }}
           >
             <Neomorph style={BasicStyles.neomorphIcon}>
