@@ -208,7 +208,7 @@ class Cards extends React.Component {
             this.state.data.length > 0 && this.state.data.map((el, idx) => {
               return (
                 <Card style={[styles.card]}>
-                  <ImageBackground style={{ resizeMode: 'contain', flex: 1, flexDirection: 'row', height: height - 140, width: null, marginTop: this.props.bottomFloatButton === true ? 50 : height * 0.25 }}
+                  <ImageBackground style={{ resizeMode: 'contain', flex: 1, flexDirection: 'row', height: '88%', width: null, marginTop: this.props.bottomFloatButton === true ? 50 : height * 0.25 }}
                     imageStyle={{
                       flex: 1,
                       resizeMode: 'cover',
@@ -218,7 +218,7 @@ class Cards extends React.Component {
                     source={el.logo ? { uri: Config.BACKEND_URL + el.logo } : require('assets/default.png')}>
                     <View style={{
                       position: 'absolute',
-                      bottom: this.props.topFloatButton === true ? 100 : 30,
+                      bottom: 100,
                       ...BasicStyles.standardWidth
                     }}>
                       <Text style={{
@@ -240,7 +240,7 @@ class Cards extends React.Component {
                       }}>{el.address || 'No address'}</Text>
                     </View>
 
-                    <View style={{ position: 'absolute', bottom: 30, right: 10, flexDirection: 'row'}}>
+                    <View style={{ position: 'absolute', bottom: 100, right: 10, flexDirection: 'row'}}>
                       <FontAwesomeIcon
                         icon={faStar}
                         size={25}
@@ -269,7 +269,7 @@ class Cards extends React.Component {
                     </View>
                     <TouchableOpacity style={{
                       position: 'absolute',
-                      bottom: 140,
+                      bottom: 170,
                       right: 20,
                       backgroundColor: '#30F2F2',
                       height: 90,
@@ -348,10 +348,13 @@ class Cards extends React.Component {
     const { data } = this.state;
     return (
       <View
-        style={{ marginTop: '90%' }}
+        style={{ marginTop: '76%'}}
       >
-        <View style={{ padding: 20 }}>
-          <View style={this.props.topFloatButton === true ? { marginTop: 30 } : { marginTop: 0 }}>
+        <View style={{ padding: 10, width: width }}>
+          <View style={{
+            textAlign: 'center',
+            justifyContent: 'center'
+          }}>
             <Tab level={1} choice={['Menu', 'Information']} onClick={this.choiceHandler}></Tab>
           </View>
           <View style={this.props.bottomFloatButton === true ? { marginBottom: 200 } : { marginBottom: 0 }}>

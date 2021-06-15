@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, TouchableOpacity } from 'react-native'
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCheck, faTimes} from '@fortawesome/free-solid-svg-icons';
+import Color from '../../common/Color';
 
 class FloatingButton extends Component{
   constructor(props){
@@ -11,6 +12,7 @@ class FloatingButton extends Component{
   }
 
   render() {
+    const { theme } = this.props.state;
     return (
 			<View style={{flexDirection: 'row', position: 'absolute', bottom: 70, width: '100%'}}>
         <View style={{width: '50%'}}>
@@ -21,7 +23,7 @@ class FloatingButton extends Component{
             width:80,
             left: 70,
             height:80,
-            backgroundColor:'#F7B567',
+            backgroundColor: theme ? theme.secondary : Color.secondary,
             borderRadius:40,
           }}
           onPress={() => {
@@ -43,7 +45,7 @@ class FloatingButton extends Component{
             width:80,
             right: -50,
             height:80,
-            backgroundColor:'#F7B567',
+            backgroundColor: theme ? theme.secondary : Color.secondary,
             borderRadius: 40,
           }}
           onPress={() => {this.props.onClick()}}

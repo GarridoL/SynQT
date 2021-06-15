@@ -29,14 +29,16 @@ export default {
     fontSize: 8
   },
   activeDrawer: {
-    shadowRadius: 10,
+    shadowRadius: 3,
     borderRadius: 8,
-    backgroundColor: Color.containerBackground,
+    backgroundColor: '#E7E9FD',
     width: width / 2,
     height: 40,
     flexDirection: 'row-reverse',
     paddingLeft: 10,
-    alignItems: 'center'
+    alignItems: 'center',
+    borderWidth: 1.5,
+    borderColor: 'white'
   },
   inActiveDrawer: {
     width: width,

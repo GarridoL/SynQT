@@ -106,18 +106,31 @@ class EventName extends Component {
         { text: 'Cancel', onPress: () => { return }, style: 'cancel' },
         {
           text: 'Confirm', onPress: () => {
-            this.setState({ isLoading: true })
-            Api.request(Routes.reservationCreate, this.props.navigation.state?.params?.parameter, response => {
-              this.setState({ isLoading: false })
-              if (response.data !== null) {
-                this.props.navigation.navigate('historyStack', { title: 'Upcoming' })
+            this.state.members?.length > 0 && this.state.members.map((item, index) => {
+              let parameter = {
+                account_id: item.information?.account_id,
+                datetime: this.props.navigation.state?.params?.parameter?.datetime,
+                details: this.props.navigation.state?.params?.parameter?.details,
+                merchant_id: this.props.navigation.state?.params?.parameter?.merchant_id,
+                payload: this.props.navigation.state?.params?.parameter?.payload,
+                payload_value: this.props.navigation.state?.params?.parameter?.payload_value,
+                status: this.props.navigation.state?.params?.parameter?.status,
+                code: null
               }
-            },
-              error => {
+              console.log(Routes.reservationCreate, parameter, 'test');
+              this.setState({ isLoading: true })
+              Api.request(Routes.reservationCreate, parameter, response => {
                 this.setState({ isLoading: false })
-                console.log({ error });
+                if (response.data !== null) {
+                  this.props.navigation.navigate('historyStack', { title: 'Upcoming' })
+                }
               },
-            );
+                error => {
+                  this.setState({ isLoading: false })
+                  console.log({ error });
+                },
+              );
+            })
           }
         },
       ],

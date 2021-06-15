@@ -32,7 +32,7 @@ class Header extends Component {
           flex: 1,
           flexDirection: 'row',
           alignItems: 'center',
-          backgroundColor: Color.containerBackground,
+          backgroundColor: '#E7E9FD',
           width: width,
           height: 100,
           marginTop: 25,
