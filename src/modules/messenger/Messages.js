@@ -61,7 +61,9 @@ class MessagesV3 extends Component {
     const { user } = this.props.state
     this.props.setShowSettings(false)
     if (user == null) return
-    this.retrieveMembers();
+    this.focusListener = this.props.navigation.addListener('didFocus', () => {
+      this.retrieveMembers();
+    })
     this.retrieve();
   }
 
@@ -674,7 +676,6 @@ class MessagesV3 extends Component {
     const { isLoading, isImageModal, imageModalUrl, photo, keyRefresh, isPullingMessages, isLock } = this.state;
     const { data } = this.props.navigation.state.params;
     const { messengerGroup, user, isViewing } = this.props.state;
-    console.log(data?.status, '------');
     return (
       <SafeAreaView>
         {

@@ -3,6 +3,7 @@ import { View, TouchableOpacity } from 'react-native'
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCheck, faTimes} from '@fortawesome/free-solid-svg-icons';
 import Color from '../../common/Color';
+import { connect } from 'react-redux';
 
 class FloatingButton extends Component{
   constructor(props){
@@ -62,5 +63,12 @@ class FloatingButton extends Component{
   }
 
 }
+const mapStateToProps = state => ({ state: state });
 
-export default FloatingButton;
+const mapDispatchToProps = dispatch => {
+  const { actions } = require('@redux');
+  return {};
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps)(FloatingButton);

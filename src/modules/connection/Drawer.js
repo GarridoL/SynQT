@@ -54,7 +54,7 @@ class HeaderOptions extends Component {
     }
     try {
       const result = await Share.share({
-        message: 'http://app.wearesiml.com/'
+        message: `https://wearesynqt/profile/${user?.id}/${user?.code}`
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
