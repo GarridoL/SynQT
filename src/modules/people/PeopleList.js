@@ -79,12 +79,11 @@ class Connections extends Component {
             this.setState({ isLoading: false });
             if (res.data.length > 0) {
               let id = []
-              response.data.map((item, ind) => {
-                id.push(parseInt(item.account.id))
+              res.data.map((item, ind) => {
+                id.push(item?.information?.account_id)
               })
-              res.data.map((i, ind) => {
-                console.log(i?.information?.account_id, id, id.includes(i?.information?.account_id), 'test');
-                if(id.includes(i?.information?.account_id)) {
+              response.data.map((i, ind) => {
+                if(id.includes(i?.account?.id)) {
                   response.data.splice(ind, 1)
                 }
               })

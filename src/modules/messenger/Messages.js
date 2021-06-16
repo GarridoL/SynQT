@@ -673,8 +673,8 @@ class MessagesV3 extends Component {
   render() {
     const { isLoading, isImageModal, imageModalUrl, photo, keyRefresh, isPullingMessages, isLock } = this.state;
     const { data } = this.props.navigation.state.params;
-    console.log(data.status, '-------------------');
     const { messengerGroup, user, isViewing } = this.props.state;
+    console.log(data?.status, '------');
     return (
       <SafeAreaView>
         {
