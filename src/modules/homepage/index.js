@@ -10,8 +10,11 @@ import Config from 'src/config.js';
 import Gradient from 'modules/generic/Gradient';
 import LinearGradient from 'react-native-linear-gradient';
 import { NeomorphBlur } from 'react-native-neomorph-shadows';
+import Api from 'services/api/index.js';
+
 const width = Math.round(Dimensions.get('window').width)
 const height = Math.round(Dimensions.get('window').height)
+
 class HomePage extends Component {
   constructor(props) {
     super(props);
@@ -29,18 +32,38 @@ class HomePage extends Component {
       console.log('DEEP LINK ROUTE:')
       const route = deepLinkRoute.replace(/.*?:\/\//g, '');
       const routeName = route.split('/')[0];
-      console.log(deepLinkRoute)
-      // if (routeName === 'wearesynqt' && route.split('/')[2] === 'profile') {
-      //   navigate('orderPlacedStack')
-      // };
-      this.props.navigation.navigate('viewProfileStack', {
-        user: {
-          account: {
-            id: route.split('/')[2]
-          }
-        },
-        level: 2
-      })
+      let parameter = {
+        condition: [{
+          value: route.split('/')[2],
+          clause: '=',
+          column: 'id'
+        }]
+      }
+      this.setState({ isLoading: true })
+      Api.request(Routes.accountRetrieve, parameter, response => {
+        this.setState({ isLoading: false })
+        if (response.data.length > 0) {
+          this.props.navigation.navigate('viewProfileStack', {
+            user: {
+              account: {
+                username: response.data[0].username,
+                information: {
+                  first_name: response.data[0].account_information?.first_name,
+                  last_name: response.data[0].account_information?.last_name,
+                },
+                profile: {
+                  url: response.data[0].account_profile?.url
+                },
+                id: route.split('/')[2]
+              }
+            },
+            level: 2
+          })
+        }
+      }, error => {
+        this.setState({ isLoading: false })
+        console.log(error)
+      });
     }
   }
 

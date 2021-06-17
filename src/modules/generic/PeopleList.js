@@ -32,7 +32,8 @@ class PeopleList extends Component {
             style={{
               color: Color.primary,
               marginLeft: 20,
-              fontSize: 1
+              fontSize: 1,
+              marginRight: 4
             }}
             onPress={() => this.props.redirectTo()}
           /></View>}

@@ -352,8 +352,9 @@ class Cards extends React.Component {
       >
         <View style={{ padding: 10, width: width }}>
           <View style={{
-            textAlign: 'center',
-            justifyContent: 'center'
+             marginTop: 20,
+             textAlign: 'center',
+             justifyContent: 'center'
           }}>
             <Tab level={1} choice={['Menu', 'Information']} onClick={this.choiceHandler}></Tab>
           </View>
