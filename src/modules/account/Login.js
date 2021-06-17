@@ -250,6 +250,7 @@ class Login extends Component {
   }
 
   retrieveUserData = (accountId) => {
+    console.log('=============', accountId, Helper.retrieveDataFlag);
     if(Helper.retrieveDataFlag == 1){
       this.setState({isLoading: false});
       const { setLayer } = this.props;
@@ -261,6 +262,7 @@ class Login extends Component {
         account_id: accountId
       }
       this.retrieveSystemNotification();
+      this.setState({isLoading: true});
       Api.request(Routes.notificationsRetrieve, parameter, notifications => {
         setNotifications(notifications.size, notifications.data)
         Api.request(Routes.messagesRetrieve, parameter, messages => {
@@ -571,7 +573,7 @@ class Login extends Component {
                 }}>Or sign in with</Text>
               </View>
 
-              <SocialLogin/>
+              <SocialLogin login={(user, token) => login(user, token)} retrieveUser={(id)=>this.retrieveUserData(id)}/>
               
               <View style={{
                 width: '100%',
