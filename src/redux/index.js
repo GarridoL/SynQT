@@ -34,6 +34,7 @@ const types = {
 
 export const actions = {
   login: (user, token) => {
+    console.log('=========TOKEN', user, token);
     return {type: types.LOGIN, user, token};
   },
   logout() {

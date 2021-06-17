@@ -8,6 +8,7 @@ export default {
   authInvalidate: apiUrl + 'authenticate/invalidate',
   accountRetrieve: apiUrl + 'accounts/retrieve',
   accountUpdate: apiUrl + 'accounts/update',
+  socialLogin: apiUrl + 'accounts/social_login',
   accountCreate: apiUrl + 'accounts/create',
   notificationsRetrieve: apiUrl + 'notifications/retrieve_synqt_notifications',
   notificationUpdate: apiUrl + 'notifications/update',
