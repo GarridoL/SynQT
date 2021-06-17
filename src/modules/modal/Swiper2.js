@@ -215,7 +215,7 @@ class Cards extends React.Component {
                       borderRadius: BasicStyles.standardBorderRadius,
                       backgroundColor: 'white'
                     }}
-                    source={el.logo ? { uri: Config.BACKEND_URL + el.logo } : require('assets/default.png')}>
+                    source={el.featured_photos?.length > 0 ? { uri: Config.BACKEND_URL + el.featured_photos[0]?.url } : require('assets/default.png')}>
                     <View style={{
                       position: 'absolute',
                       bottom: 100,

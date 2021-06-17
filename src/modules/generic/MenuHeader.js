@@ -86,10 +86,11 @@ class Header extends Component {
                   height: 50,
                   width: 50,
                   right: 10,
-                  marginLeft: 12,
+                  marginLeft: 20,
                 }}
                 onPress={() => this.props.goBack()}
               >
+                <Neomorph style={BasicStyles.neomorphIcon}>
                 <FontAwesomeIcon
                   icon={faReply}
                   size={BasicStyles.iconSize}
@@ -100,6 +101,7 @@ class Header extends Component {
                     },
                   ]}
                 />
+                </Neomorph>
               </TouchableOpacity>
             </View>}
         </View>
