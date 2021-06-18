@@ -147,6 +147,17 @@ class Rate extends Component {
     );
   }
 
+  getAddress = (address) => {
+    let location = null
+    try {
+      location = JSON.parse(address).name
+    } catch (e) {
+      console.log(e);
+      location = address
+    }
+    return location;
+  }
+
   renderRateView() {
     const { data } = this.state;
     return (
@@ -178,7 +189,7 @@ class Rate extends Component {
             }}>
               <FontAwesomeIcon icon={faMapMarkerAlt} size={13} style={{ marginTop: 3, marginRight: 5 }} />
               <Text>
-                {data?.address}
+                {data?.address ? this.getAddress(data.address) : 'No address provided'}
               </Text>
             </View>
             <View style={{ position: 'absolute', top: 10, right: 0, flexDirection: 'row' }}>

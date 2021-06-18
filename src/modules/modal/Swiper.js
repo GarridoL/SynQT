@@ -33,11 +33,12 @@ class Cards extends React.Component {
     this.state = {
       choice: 'Menu',
       isLoading: true,
-      index: 0,
       data: [],
       products: [],
       limit: 5,
-      offset: 0
+      offset: 0,
+      featured_photos: [],
+      active: 0
     }
   }
 
@@ -48,6 +49,31 @@ class Cards extends React.Component {
 
   componentDidMount() {
     this.retrieve();
+    this.retrieveFeaturedPhotos(this.props.item.merchant.account_id);
+  }
+
+  retrieveFeaturedPhotos = (id) => {
+    let parameter = {
+      condition: [{
+        value: id,
+        column: 'account_id',
+        clause: '='
+      }, {
+        value: 'featured-photo',
+        column: 'category',
+        clause: '='
+      }],
+      sort: {
+        created_at: 'desc'
+      }
+    }
+    this.setState({ isLoading: true })
+    Api.request(Routes.imageRetrieve, parameter, response => {
+      this.setState({ isLoading: false })
+      if (response.data.length > 0) {
+        this.setState({ featured_photos: response.data })
+      }
+    })
   }
 
   retrieve = () => {
@@ -102,11 +128,6 @@ class Cards extends React.Component {
     );
   }
 
-  swipeHandler = () => {
-    this.props.header(this.state.index >= this.state.data.length - 2 ? true : false);
-    this.setState({ index: this.state.index + 1 === this.state.data.length ? 0 : this.state.index + 1 })
-  }
-
   addToReservation = () => {
     let parameter = {
       account_id: this.props.state.user.id,
@@ -121,7 +142,36 @@ class Cards extends React.Component {
     this.props.navigation.navigate('eventNameStack', { parameter: parameter, buttonTitle: 'Make Reservation', data: this.props.item, messenger_group_id: this.props.messengerGroup?.messenger_group_id })
   }
 
+  getAddress = (address) => {
+    let location = null
+    try {
+      location = JSON.parse(address).name
+    } catch (e) {
+      console.log(e);
+      location = address
+    }
+    return location;
+  }
+
+  getWidth = () => {
+    let temp = width - 50;
+    if (this.state.featured_photos.length > 0) {
+      return temp / this.state.featured_photos.length
+    } else {
+      return temp;
+    }
+  }
+
+  change = (option) => {
+    if(option === 'next') {
+      this.setState({active: this.state.featured_photos.length === this.state.active + 1 ? this.state.active : this.state.active + 1})
+    } else {
+      this.setState({active: this.state.active === 0 ? 0 : this.state.active - 1})
+    }
+  }
+
   renderCard = (data) => {
+    const { theme } = this.props.state;
     return (
       <View style={{ flex: 1 }}>
         <View style={{
@@ -131,14 +181,65 @@ class Cards extends React.Component {
           height: height * 0.9
         }}>
           <Image style={{
-              borderRadius: 3,
-              width: '100%',
-              height: '71%',
-              resizeMode: 'stretch',
-              marginTop: this.props.bottomFloatButton === true ? 50 : height * 0.25,
-              backgroundColor: 'white'
+            borderRadius: 3,
+            width: '100%',
+            height: '71%',
+            resizeMode: 'stretch',
+            marginTop: this.props.bottomFloatButton === true ? 50 : height * 0.25,
+            backgroundColor: 'white'
+          }}
+            source={this.state.featured_photos?.length > 0 ? { uri: Config.BACKEND_URL + this.state.featured_photos[this.state.active]?.url } : require('assets/default.png')}
+          />
+          <View
+            style={{
+              flexDirection: 'row',
+              position: 'absolute',
+              padding: 20,
+              marginTop: (height * 0.25) - 10,
+            }}>
+            {this.state.featured_photos.length > 0 && this.state.featured_photos.map((item, index) => {
+              return (
+                <View
+                  style={{
+                    margin: 1,
+                    borderColor: theme ? theme.primary : Color.primary,
+                    borderWidth: .3,
+                    backgroundColor: this.state.active === index ? 'white' : '#b5b5b5',
+                    height: 5,
+                    width: this.getWidth(),
+                    borderRadius: 10
+                  }}
+                ></View>)
+            })}
+          </View>
+          <TouchableOpacity
+            style={{
+              height: '70%',
+              width: '35%',
+              position: 'absolute',
+              marginTop: height * 0.25,
+              left: 20,
+              zIndex: 100
             }}
-            source={data && data.logo ? { uri: Config.BACKEND_URL + data.logo } : require('assets/default.png')} />
+            onPress={() => {
+              this.change('prev')
+            }}
+          >
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              height: '70%',
+              width: '35%',
+              position: 'absolute',
+              marginTop: height * 0.25,
+              right: 20,
+              zIndex: 100
+            }}
+            onPress={() => {
+              this.change('next')
+            }}
+          >
+          </TouchableOpacity>
           {this.state.isLoading ? <Spinner mode="overlay" /> : null}
           <View style={{
             position: 'absolute',
@@ -161,7 +262,7 @@ class Cards extends React.Component {
               textShadowOffset: { width: 1, height: 1 },
               textShadowRadius: 1,
               width: '50%'
-            }}>{data && data.address && data.address && data.address || 'No address'}</Text>
+            }}>{data.address ? this.getAddress(data.address) : 'No address provided'}</Text>
           </View>
           <View style={{ position: 'absolute', bottom: 70, right: 25, flexDirection: 'row' }}>
             <FontAwesomeIcon

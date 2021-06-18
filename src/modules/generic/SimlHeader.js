@@ -1,9 +1,10 @@
-import React, {Component} from 'react';
-import {View, TouchableOpacity, Text, Dimensions, Share} from 'react-native';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faUsers, faHome, faBell, faComments, faReply, faShare} from '@fortawesome/free-solid-svg-icons';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { View, TouchableOpacity, Text, Dimensions, Share } from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faUsers, faHome, faBell, faComments, faReply, faShare } from '@fortawesome/free-solid-svg-icons';
+import { connect } from 'react-redux';
 import { BasicStyles, Color } from 'common';
+import { NeomorphBlur, Neomorph } from 'react-native-neomorph-shadows';
 const width = Math.round(Dimensions.get('window').width)
 
 class Header extends Component {
@@ -16,12 +17,12 @@ class Header extends Component {
 
   onShare = async () => {
     const { user } = this.props.state;
-    if(user == null){
+    if (user == null) {
       return
     }
     try {
       const result = await Share.share({
-        message: 'https://wearesynqt/profile/' + user.code
+        message: `https://wearesynqt/profile/${user?.id}/${user?.code}`
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -42,38 +43,40 @@ class Header extends Component {
     return (
       <View
         style={{
-            flex: 1, 
-            flexDirection: 'row', 
-            alignItems: 'center', 
-            justifyContent: 'center',
-            width: '100%',
-            padding: 5,
-            backgroundColor: Color.containerBackground
-            }}>
+          flex: 1,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
+          padding: 10,
+          backgroundColor: Color.containerBackground
+        }}>
 
-          <TouchableOpacity
+        <TouchableOpacity
           onPress={() => this.onShare()}
-          >
-          <FontAwesomeIcon
-            icon={faShare}
-            size={BasicStyles.iconSize}
-            style={[
-              BasicStyles.iconStyle,
-              {
-                color: Color.gray,
-              },
-            ]}
-          />
-          </TouchableOpacity>
+        >
+          <Neomorph style={[BasicStyles.neomorphIcon, {height: 35, width: 35}]}>
+            <FontAwesomeIcon
+              icon={faShare}
+              size={BasicStyles.iconSize}
+              style={[
+                BasicStyles.iconStyle,
+                {
+                  color: Color.gray,
+                },
+              ]}
+            />
+          </Neomorph>
+        </TouchableOpacity>
       </View>
     );
   }
 }
 
-const mapStateToProps = (state) => ({state: state});
+const mapStateToProps = (state) => ({ state: state });
 
 const mapDispatchToProps = (dispatch) => {
-  const {actions} = require('@redux');
+  const { actions } = require('@redux');
   return {
     logout: () => dispatch(actions.logout()),
   };

@@ -137,9 +137,11 @@ class Connections extends Component {
   }
 
   render() {
+    const { theme } = this.props.state;
     return (
       <View style={{
-        flex: 1
+        flex: 1,
+        backgroundColor: Color.containerBackground
       }}>
         <ScrollView style={{
           backgroundColor: Color.containerBackground,
@@ -150,7 +152,7 @@ class Connections extends Component {
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
             <View style={Style.TextContainer}>
               <TextInput
-                style={BasicStyles.formControl}
+                style={[BasicStyles.formControl, {borderColor: theme ? them.primary : Color.primary}]}
                 onChangeText={(search) => this.setState({ search: search })}
                 value={this.state.search}
                 placeholder={'Search Connections'}
@@ -166,7 +168,8 @@ class Connections extends Component {
           padding: 25,
           textAlign: 'center',
           justifyContent: 'center',
-          paddingTop: 50
+          paddingTop: 50,
+          backgroundColor: Color.containerBackground
         }}>
           <CustomizedButton onClick={() => { this.addMember() }} title={'Add member/s'}></CustomizedButton>
         </View>}

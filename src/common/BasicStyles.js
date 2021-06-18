@@ -309,13 +309,14 @@ export default {
       justifyContent: 'center',
       alignItems: 'center',
       fontSize: 12,
-      width: '86%',
+      width: '100%',
       backgroundColor: Color.containerBackground
     },
     headerTitleContainerStyle: {
       backgroundColor: Color.containerBackground,
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
+      marginLeft: '-10%'
     },
     headerTitleStyle: {
       fontWeight: 'bold',

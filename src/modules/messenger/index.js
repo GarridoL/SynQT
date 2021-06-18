@@ -13,6 +13,7 @@ import Group from 'modules/generic/PeopleList.js'
 import Footer from 'modules/generic/Footer';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import _ from 'lodash';
 
 const height = Math.round(Dimensions.get('window').height);
 const width = Math.round(Dimensions.get('window').width);
@@ -148,13 +149,16 @@ class Groups extends Component {
   _card = (item) => {
     const { user, theme } = this.props.state;
     return (
-      <View>
+      <View style={{
+        backgroundColor: Color.containerBackground
+      }}>
         <TouchableHighlight
           onPress={() => { this.viewMessages(item) }}
           underlayColor={Color.lightGray}
           style={{
             paddingTop: 10,
-            paddingBottom: 10
+            paddingBottom: 10,
+            backgroundColor: Color.containerBackground
           }}
         >
           <View>
@@ -315,7 +319,8 @@ class Groups extends Component {
     const { user } = this.props.state;
     return (
       <View style={{
-        width: '100%'
+        width: '100%',
+        backgroundColor: Color.containerBackground
       }}>
         {
           this.props.state.allMessages.length > 0 && user != null && (
@@ -324,7 +329,8 @@ class Groups extends Component {
               extraData={selected}
               ItemSeparatorComponent={this.FlatListItemSeparator}
               style={{
-                marginBottom: 10
+                marginBottom: 10,
+                backgroundColor: Color.containerBackground
               }}
               renderItem={({ item, index }) => (
                 <View>
@@ -359,7 +365,7 @@ class Groups extends Component {
           </View>
         )}
         <ScrollView
-          style={{ marginBottom: 50 }}
+          style={{ backgroundColor: Color.containerBackground }}
           onScroll={(event) => {
             let scrollingHeight = event.nativeEvent.layoutMeasurement.height + event.nativeEvent.contentOffset.y
             let totalHeight = event.nativeEvent.contentSize.height
@@ -378,7 +384,8 @@ class Groups extends Component {
         >
           <View stle={{
             flexDirection: 'row',
-            width: '100%'
+            width: '100%',
+            backgroundColor: Color.containerBackground
           }}>
             {this._flatList()}
           </View>

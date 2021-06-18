@@ -22,6 +22,17 @@ class ImageCardWithUser extends Component {
     return Math.round(Math.random()) * 1;
   }
 
+  getAddress = (address) => {
+    let location = null
+    try {
+      location = JSON.parse(address).name
+    } catch (e) {
+      console.log(e);
+      location = address
+    }
+    return location;
+  }
+
   render() {
     const { data } = this.props;
     console.log(data.ratings, '-----------');
@@ -77,7 +88,7 @@ class ImageCardWithUser extends Component {
                     marginBottom: 10
                   }}
                     numberOfLines={1}
-                  >{data.address}</Text>
+                  >{data.address ? this.getAddress(data.address) : 'No address provided.'}</Text>
                 </View>
                 <View style={{
                   zIndex: 10,

@@ -85,13 +85,15 @@ const _StackNavigator = createStackNavigator({
           justifyContent: 'center',
           alignItems: 'center',
           fontSize: 12,
-          marginLeft: '25%'
+          backgroundColor: Color.containerBackground,
+          width: '100%'
         },
         headerTitleContainerStyle: {
           backgroundColor: Color.white,
           justifyContent: 'center',
           alignItems: 'center',
-          paddingRight: 64
+          marginRight: '-15%',
+          backgroundColor: Color.containerBackground
         },
         headerTitleStyle: {
           fontWeight: 'bold',

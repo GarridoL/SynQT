@@ -125,6 +125,17 @@ class EventName extends Component {
     )
   }
 
+  getAddress = (address) => {
+    let location = null
+    try {
+      location = JSON.parse(address).name
+    } catch (e) {
+      console.log(e);
+      location = address
+    }
+    return location;
+  }
+
   render() {
     const { data } = this.props.navigation.state.params;
     return (
@@ -148,7 +159,7 @@ class EventName extends Component {
               color: Color.gray,
               marginTop: 5
             }}>
-              {data.merchant.address || 'no address provided'}
+              {data.merchant.address ? this.getAddress(data.merchant.address) : 'no address provided'}
             </Text>
           </View>
           <View style={{

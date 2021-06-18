@@ -113,7 +113,7 @@ class CardList extends Component {
   render() {
     const { theme } = this.props.state;
     return (
-      <View>
+      <View style={{backgroundColor: Color.containerBackground}}>
         {
           this.props.data.length > 0 && this.props.data.map((el, idx) => {
             return (
@@ -244,6 +244,7 @@ class CardList extends Component {
                     </TouchableOpacity>}</View> :
                   <TouchableOpacity
                     onPress={() => { this.props.navigation.navigate('viewProfileStack', { user: el, level: this.props.level }) }}
+                    style={{backgroundColor: Color.containerBackground}}
                   >
                     <ListItem key={idx} style={{ width: width }}>
                       {el.account?.profile?.url ? <Image
