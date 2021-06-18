@@ -190,9 +190,7 @@ class Connections extends Component {
         flex: 1,
         backgroundColor: Color.containerBackground
       }}>
-        <ScrollView style={{
-          marginBottom: 50
-        }}
+        <ScrollView
           showsVerticalScrollIndicator={false}
           onScroll={(event) => {
             let scrollingHeight = event.nativeEvent.layoutMeasurement.height + event.nativeEvent.contentOffset.y
@@ -251,7 +249,7 @@ class Connections extends Component {
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: '5%' }}>
                   <View style={Style.TextContainer}>
                     <TextInput
-                      style={[BasicStyles.formControl, { backgroundColor: '#e8e8e8' }]}
+                      style={BasicStyles.formControl}
                       onChangeText={(search) => this.setState({ search: search })}
                       value={this.state.search}
                       placeholder={'Search'}

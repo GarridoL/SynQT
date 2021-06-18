@@ -123,7 +123,7 @@ class History extends Component {
               <ImageCardWithUser
                 data={{
                   logo: item.merchant?.logo,
-                  address: item.merchant?.address || 'No address provided',
+                  address: item.merchant?.address,
                   name: item.merchant?.name,
                   date: item.synqt.length > 0 && item.synqt[0]?.date_at_human,
                   superlike: true,

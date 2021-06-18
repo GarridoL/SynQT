@@ -41,7 +41,8 @@ class Cards extends React.Component {
       data: [],
       products: [],
       limit: 5,
-      offset: 0
+      offset: 0,
+      active: 0
     }
   }
 
@@ -82,7 +83,7 @@ class Cards extends React.Component {
         column: 'synqt_id',
         clause: '='
       }],
-      limit: 5,
+      limit: "",
       offset: 0
     }
     Api.request(Routes.topChoiceRetrieve, parameter, response => {
@@ -131,7 +132,12 @@ class Cards extends React.Component {
   }
 
   swipeHandler = () => {
-    this.setState({ index: this.state.index + 1 === this.state.data.length ? 0 : this.state.index + 1, products: [], offset: 0})
+    this.setState({
+      index: this.state.index + 1 === this.state.data.length ? 0 : this.state.index + 1,
+      products: [],
+      offset: 0,
+      active: 0
+    })
   }
 
   addToTopChoice = (status) => {
@@ -189,6 +195,25 @@ class Cards extends React.Component {
     });
   }
 
+  getAddress = (address) => {
+    let location = null
+    try {
+      location = JSON.parse(address).name
+    } catch (e) {
+      console.log(e);
+      location = address
+    }
+    return location;
+  }
+
+  change = (option, photos) => {
+    if(option === 'next') {
+      this.setState({active: photos.length === this.state.active + 1 ? this.state.active : this.state.active + 1})
+    } else {
+      this.setState({active: this.state.active === 0 ? 0 : this.state.active - 1})
+    }
+  }
+
   renderCard = () => {
     return (
       <View style={{ flex: 1, marginTop: '91%' }}>
@@ -215,7 +240,7 @@ class Cards extends React.Component {
                       borderRadius: BasicStyles.standardBorderRadius,
                       backgroundColor: 'white'
                     }}
-                    source={el.featured_photos?.length > 0 ? { uri: Config.BACKEND_URL + el.featured_photos[0]?.url } : require('assets/default.png')}>
+                    source={el.featured_photos?.length > 0 ? { uri: Config.BACKEND_URL + el.featured_photos[this.state.active]?.url } : require('assets/default.png')}>
                     <View style={{
                       position: 'absolute',
                       bottom: 100,
@@ -237,7 +262,7 @@ class Cards extends React.Component {
                         textShadowRadius: 1,
                         fontWeight: 'bold',
                         width: '50%'
-                      }}>{el.address || 'No address'}</Text>
+                      }}>{el.address ? this.getAddress(el.address) : 'No address provided'}</Text>
                     </View>
 
                     <View style={{ position: 'absolute', bottom: 100, right: 10, flexDirection: 'row'}}>
