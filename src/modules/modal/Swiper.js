@@ -181,7 +181,7 @@ class Cards extends React.Component {
           height: height * 0.9
         }}>
           <Image style={{
-            borderRadius: 3,
+            borderRadius: 2,
             width: '100%',
             height: '71%',
             resizeMode: 'stretch',

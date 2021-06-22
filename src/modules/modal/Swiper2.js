@@ -60,12 +60,17 @@ class Cards extends React.Component {
     this.setState({ isLoading: true })
     Api.request(Routes.merchantsRetrieve, {
       synqt_id: this.props.navigation.state.params?.synqt_id,
+      limit: 5,
+      offset: 0,
       sort: {
         name: 'asc'
       }
     }, response => {
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
+        response.data.map((item, index) => {
+          item['index'] = 0;
+        })
         this.setState({ data: response.data, index: response.data.length - 1 });
       }
     },
@@ -99,7 +104,7 @@ class Cards extends React.Component {
       this.props.setTopChoices(temp);
     });
   }
-  
+
   retrieveProducts = () => {
     let menu = this.state.data[this.state.index]
     let parameter = {
@@ -138,6 +143,7 @@ class Cards extends React.Component {
       offset: 0,
       active: 0
     })
+    console.log(this.state.data[this.state.index]);
   }
 
   addToTopChoice = (status) => {
@@ -206,15 +212,28 @@ class Cards extends React.Component {
     return location;
   }
 
-  change = (option, photos) => {
-    if(option === 'next') {
-      this.setState({active: photos.length === this.state.active + 1 ? this.state.active : this.state.active + 1})
+  getWidth = (photos) => {
+    let temp = width - 50;
+    if (photos.length > 0) {
+      return temp / photos.length
     } else {
-      this.setState({active: this.state.active === 0 ? 0 : this.state.active - 1})
+      return temp;
     }
   }
 
+  change = (option, item, index) => {
+    let temp = this.state.data;
+    if (option === 'next') {
+      temp[index].index = item.featured_photos.length === item.index + 1 ? item.index : item.index + 1;
+    } else {
+      temp[index].index = item.index === 0 ? 0 : item.index - 1;
+    }
+    this.setState({ data: temp })
+    console.log(this.state.data[index]);
+  }
+
   renderCard = () => {
+    const { theme } = this.props.state;
     return (
       <View style={{ flex: 1, marginTop: '91%' }}>
         <CardStack
@@ -232,7 +251,7 @@ class Cards extends React.Component {
           {
             this.state.data.length > 0 && this.state.data.map((el, idx) => {
               return (
-                <Card style={[styles.card]}>
+                <Card style={styles.card}>
                   <ImageBackground style={{ resizeMode: 'contain', flex: 1, flexDirection: 'row', height: '88%', width: null, marginTop: this.props.bottomFloatButton === true ? 50 : height * 0.25 }}
                     imageStyle={{
                       flex: 1,
@@ -240,7 +259,56 @@ class Cards extends React.Component {
                       borderRadius: BasicStyles.standardBorderRadius,
                       backgroundColor: 'white'
                     }}
-                    source={el.featured_photos?.length > 0 ? { uri: Config.BACKEND_URL + el.featured_photos[this.state.active]?.url } : require('assets/default.png')}>
+                    source={el.featured_photos?.length > 0 ? { uri: Config.BACKEND_URL + el.featured_photos[el.index]?.url } : require('assets/default.png')}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        position: 'absolute',
+                        padding: 5,
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                      }}>
+                      {el.featured_photos?.length > 0 && el.featured_photos.map((item, index) => {
+                        return (
+                          <View
+                            style={{
+                              margin: 1,
+                              borderColor: theme ? theme.primary : Color.primary,
+                              borderWidth: .3,
+                              backgroundColor: el.index === index ? 'white' : '#b5b5b5',
+                              height: 5,
+                              width: this.getWidth(el.featured_photos),
+                              borderRadius: 10
+                            }}
+                          ></View>)
+                      })}
+                    </View>
+                    <TouchableOpacity
+                      style={{
+                        height: '70%',
+                        width: '35%',
+                        position: 'absolute',
+                        left: 20,
+                        zIndex: 100
+                      }}
+                      onPress={() => {
+                        this.change('prev', el, idx)
+                      }}
+                    >
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={{
+                        height: '70%',
+                        width: '35%',
+                        position: 'absolute',
+                        right: 20,
+                        zIndex: 100
+                      }}
+                      onPress={() => {
+                        this.change('next', el, idx)
+                      }}
+                    >
+                    </TouchableOpacity>
                     <View style={{
                       position: 'absolute',
                       bottom: 100,
@@ -265,31 +333,31 @@ class Cards extends React.Component {
                       }}>{el.address ? this.getAddress(el.address) : 'No address provided'}</Text>
                     </View>
 
-                    <View style={{ position: 'absolute', bottom: 100, right: 10, flexDirection: 'row'}}>
+                    <View style={{ position: 'absolute', bottom: 100, right: 10, flexDirection: 'row' }}>
                       <FontAwesomeIcon
                         icon={faStar}
                         size={25}
-                        color={this.state.data[this.state.index]?.rating?.stars >= 1 ? '#FFCC00' : '#ededed'}
+                        color={el?.rating?.stars >= 1 ? '#FFCC00' : '#ededed'}
                       />
                       <FontAwesomeIcon
                         icon={faStar}
                         size={25}
-                        color={this.state.data[this.state.index]?.rating?.stars >= 2 ? '#FFCC00' : '#ededed'}
+                        color={el?.rating?.stars >= 2 ? '#FFCC00' : '#ededed'}
                       />
                       <FontAwesomeIcon
                         icon={faStar}
                         size={25}
-                        color={this.state.data[this.state.index]?.rating?.stars >= 3 ? '#FFCC00' : '#ededed'}
+                        color={el?.rating?.stars >= 3 ? '#FFCC00' : '#ededed'}
                       />
                       <FontAwesomeIcon
                         icon={faStar}
                         size={25}
-                        color={this.state.data[this.state.index]?.rating?.stars >= 4 ? '#FFCC00' : '#ededed'}
+                        color={el?.rating?.stars >= 4 ? '#FFCC00' : '#ededed'}
                       />
                       <FontAwesomeIcon
                         icon={faStar}
                         size={25}
-                        color={this.state.data[this.state.index]?.rating?.stars >= 5 ? '#FFCC00' : '#ededed'}
+                        color={el?.rating?.stars >= 5 ? '#FFCC00' : '#ededed'}
                       />
                     </View>
                     <TouchableOpacity style={{
@@ -301,7 +369,8 @@ class Cards extends React.Component {
                       width: 90,
                       borderRadius: 50,
                       justifyContent: 'center',
-                      alignItems: 'center'
+                      alignItems: 'center',
+                      zIndex: 200
                     }}
                       onPress={() => {
                         this.addToTopChoice('super-like')
@@ -373,13 +442,13 @@ class Cards extends React.Component {
     const { data } = this.state;
     return (
       <View
-        style={{ marginTop: '76%'}}
+        style={{ marginTop: '76%' }}
       >
         <View style={{ padding: 10, width: width }}>
           <View style={{
-             marginTop: 20,
-             textAlign: 'center',
-             justifyContent: 'center'
+            marginTop: 20,
+            textAlign: 'center',
+            justifyContent: 'center'
           }}>
             <Tab level={1} choice={['Menu', 'Information']} onClick={this.choiceHandler}></Tab>
           </View>
@@ -416,7 +485,7 @@ class Cards extends React.Component {
   render() {
     const { isLoading } = this.state;
     return (
-      <View style={{backgroundColor: Color.containerBackground}}>
+      <View style={{ backgroundColor: Color.containerBackground }}>
         <Header status={this.state.index === this.state.data.length - 2 ? true : false} {...this.props} goBack={() => { this.swiper.swipeRight() }}></Header>
         <ScrollView style={{
           marginTop: 40,
@@ -428,7 +497,7 @@ class Cards extends React.Component {
             let totalHeight = event.nativeEvent.contentSize.height
             if (event.nativeEvent.contentOffset.y <= 0) {
               if (isLoading == false) {
-                // this.retrieve(false)
+                // this.retrieve(false) 
               }
             }
             if (Math.round(scrollingHeight) >= Math.round(totalHeight)) {

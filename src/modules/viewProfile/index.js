@@ -31,18 +31,35 @@ class ViewProfile extends Component {
       isLoading: false,
       ids: [],
       fromConnections: [],
-      account: null
+      account: null,
+      similarConnections: 0
     }
   }
 
   componentDidMount() {
+    this.setState({similarConnections: 0})
     this.props.setDeepLinkRoute(null);
+    this.retrieveSimilarConnections();
     if (this.props.navigation.state?.params?.level === 1) {
       this.retrieveActivity(false);
     } else {
       this.retrieveConnections(false);
     }
     this.setState({ choice: this.props.navigation.state?.params?.level === 1 ? 'SYNQT ACTIVITIES' : 'CONNECTIONS' });
+  }
+
+  retrieveSimilarConnections = () => {
+    let parameter = {
+      user_id: this.props.state.user.id,
+      account_id: this.props.navigation.state?.params?.user?.account?.id
+    }
+    this.setState({ isLoading: true })
+    Api.request(Routes.similarConnectionRetrieve, parameter, response => {
+      this.setState({ isLoading: false, similarConnections: response.data })
+    }, error => {
+      this.setState({ isLoading: false })
+      console.log('error', error)
+    });
   }
 
   retrieveActivity = (flag) => {
@@ -407,7 +424,7 @@ class ViewProfile extends Component {
               <Text style={{
                 textAlign: 'center',
                 color: Color.gray
-              }}>{user.similar_connections ? user.similar_connections : 0} similar connection(s)</Text>
+              }}>{this.state.similarConnections} similar connection(s)</Text>
             </View>
 
           </View>

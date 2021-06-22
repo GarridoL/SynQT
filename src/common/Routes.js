@@ -127,4 +127,5 @@ export default {
   reservationRetrieve: apiUrl + 'reservations/retrieve',
   reservationDelete: apiUrl + 'reservations/delete',
   reservationUpdate: apiUrl + 'reservations/update',
+  similarConnectionRetrieve: apiUrl + 'my_circles/profile',
 };
