@@ -8,6 +8,7 @@ import { fab } from '@fortawesome/free-brands-svg-icons'
 import { faComments, faReply } from '@fortawesome/free-solid-svg-icons';
 import { Routes, Color, Helper, BasicStyles } from 'common';
 import Api from 'services/api/index.js';
+import { Spinner } from 'components';
 import auth from '@react-native-firebase/auth'
 import { LoginButton, AccessToken, GraphRequest, LoginManager, GraphRequestManager } from 'react-native-fbsdk';
 import { GoogleSignin, statusCodes } from '@react-native-community/google-signin'
@@ -19,13 +20,15 @@ class SocialLogin extends Component {
     this.state = {
       profilePicture: null,
       userInfo: {},
-      googleInfo: {}
+      googleInfo: {},
+      isLoading: false
     }
   }
 
   async componentDidMount() {
     console.log('configure');
     await GoogleSignin.configure({
+      scopes: ['email'],
       webClientId: '961931208022-i05qbn3spsc9jtm3tf0p8h3pf9o5talu.apps.googleusercontent.com',
       offlineAccess: true
     })
@@ -42,10 +45,10 @@ class SocialLogin extends Component {
         }]
       }
       Api.request(Routes.accountRetrieve, parameter, userInfo => {
-        if(userInfo.data.length > 0){
+        if (userInfo.data.length > 0) {
           this.props.retrieveUser(userInfo.data[0].id);
           login(userInfo.data[0], token)
-        }else{
+        } else {
           login(null, null)
         }
       })
@@ -70,26 +73,40 @@ class SocialLogin extends Component {
         } else {
           this.setState({ userInfo: result });
           console.log('result:', result);
-          let parameter = {
-            email: result.email,
-            token: token
-          }
-          Api.request(Routes.socialLogin, parameter, response => {
-            console.log('RESPONSE', response);
-            if (response.data !== null) {
-              let parameter = {
-                condition: [{
-                  value: token,
-                  clause: '=',
-                  column: 'token'
-                }]
-              }
-              Api.request(Routes.accountRetrieve, parameter, userInfo => {
-                this.props.retrieveUser(userInfo.data[0].id);
-                login(userInfo.data[0], token)
-              })
+          if (this.props.page === 'Login') {
+            let parameter = {
+              email: result.email,
+              token: token
             }
-          })
+            Api.request(Routes.socialLogin, parameter, response => {
+              console.log('RESPONSE', response);
+              if (response.data !== null) {
+                let parameter = {
+                  condition: [{
+                    value: token,
+                    clause: '=',
+                    column: 'token'
+                  }]
+                }
+                Api.request(Routes.accountRetrieve, parameter, userInfo => {
+                  this.props.retrieveUser(userInfo.data[0].id);
+                  login(userInfo.data[0], token)
+                })
+              }
+            })
+          } else if (this.props.page === 'Register') {
+            let parameter = {
+              username: result.name,
+              email: result.email,
+              token: token,
+              password: '',
+              config: null,
+              account_type: 'USER',
+              referral_code: null,
+              status: 'ADMIN'
+            }
+            this.props.socialRegister(parameter);
+          }
         }
       }
     );
@@ -117,17 +134,64 @@ class SocialLogin extends Component {
 
   // Login with GOOGLE process
   signIn = async () => {
-    // Get the users ID token
-    const { idToken } = await GoogleSignin.signIn();
-    console.log(idToken);
-
-    // Create a Google credential with the token
-    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-
-    // Sign-in the user with the credential
-    return auth().signInWithCredential(googleCredential);
-
+    try {
+      const { accessToken, idToken } = await GoogleSignin.signIn();
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken, accessToken);
+      if (googleCredential !== null) {
+        this.getGoogleUser();
+      }
+      return auth().signInWithCredential(googleCredential);
+    } catch (e) {
+      console.log('[ERROR]', e);
+    }
   }
+
+  getGoogleUser = async () => {
+    let user = await GoogleSignin.getCurrentUser();
+    console.log('=========', user);
+    this.setState({ googleInfo: user })
+    if (this.props.page === 'Login') {
+      try {
+        let parameter = {
+          email: user.user.email,
+          token: user.idToken
+        }
+        this.setState({isLoading: true})
+        Api.request(Routes.socialLogin, parameter, response => {
+          this.setState({isLoading: false})
+          console.log('RESPONSE', response);
+          if (response.data !== null) {
+            let parameter = {
+              condition: [{
+                value: user.idToken,
+                clause: '=',
+                column: 'token'
+              }]
+            }
+            Api.request(Routes.accountRetrieve, parameter, userInfo => {
+              this.props.retrieveUser(userInfo.data[0].id);
+              login(userInfo.data[0], user.idToken)
+            })
+          }
+        })
+      } catch (e) {
+        console.log('[ERROR REQUEST]', e);
+      }
+    }else if(this.props.page === 'Register'){
+      let parameter = {
+        username: user.user.name,
+        email: user.user.email,
+        token: user.idToken,
+        password: '',
+        config: null,
+        account_type: 'USER',
+        referral_code: null,
+        status: 'ADMIN'
+      }
+      this.props.socialRegister(parameter);
+    }
+  }
+
   // ==========END=======================================
 
   render() {
@@ -144,6 +208,7 @@ class SocialLogin extends Component {
           <FontAwesomeIcon size={30} color={Color.primary} icon={['fab', 'twitter']} />
         </TouchableHighlight>
         {/* </View> */}
+        {this.state.isLoading ? <Spinner mode="overlay"/> : null }
       </View>
     );
   }
