@@ -573,7 +573,11 @@ class Login extends Component {
                 }}>Or sign in with</Text>
               </View>
 
-              <SocialLogin login={(user, token) => login(user, token)} retrieveUser={(id)=>this.retrieveUserData(id)}/>
+              <SocialLogin
+                page={'Login'} 
+                login={(user, token) => login(user, token)} 
+                retrieveUser={(id)=>this.retrieveUserData(id)} 
+                />
               
               <View style={{
                 width: '100%',

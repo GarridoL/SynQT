@@ -12,6 +12,7 @@ import { faCopy, faSignOutAlt, faTimes, faUserCircle, faShieldAlt } from '@forta
 import LinearGradient from 'react-native-linear-gradient'
 import { Dimensions } from 'react-native';
 import { NeomorphBlur, Neomorph } from 'react-native-neomorph-shadows';
+import { GoogleSignin, statusCodes } from '@react-native-community/google-signin'
 const width = Math.round(Dimensions.get('window').width);
 const height = Math.round(Dimensions.get('window').height);
 
@@ -80,6 +81,14 @@ class Slider2 extends Component {
     //clear storage
     const { logout, setActiveRoute } = this.props;
     logout();
+
+    //logout from google
+    try {
+      GoogleSignin.signOut();
+    } catch (error) {
+      console.log('SIGNOUT', error);
+    }
+    
     // setActiveRoute(null)
     this.props.navigation.navigate('loginStack');
   }

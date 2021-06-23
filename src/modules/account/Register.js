@@ -43,22 +43,26 @@ class Register extends Component {
     this.props.navigation.navigate(route);
   }
   
-  submit(){
+  submit(parameter){
     const { username, email, password } = this.state;
-    if(this.validate() == false){
-      return
-    }
-    let parameter = {
-      username: username,
-      email: email,
-      password: password,
-      config: null,
-      account_type: 'USER',
-      referral_code: null,
-      status: 'ADMIN'
+    console.log('[PARAMETER]', parameter);
+    if(parameter === null){
+      if(this.validate() == false){
+        return
+      }
+      parameter = {
+        username: username,
+        email: email,
+        password: password,
+        config: null,
+        account_type: 'USER',
+        referral_code: null,
+        status: 'ADMIN'
+      }
     }
     this.setState({isLoading: true})
-    Api.request(Routes.accountCreate, parameter, response => {
+    Api.request(Routes, parameter, response => {
+      console.log('[REGISTER FB]', response);
       this.setState({isLoading: false})
       if(response.error !== null){
         if(response.error.status === 100){
@@ -197,7 +201,7 @@ class Register extends Component {
               } styles={[BasicStyles.btnRound, {
                 marginTop: '5%',
                 marginLeft: '50%',
-                width: '50%'}]} redirect={()=> this.submit()}/>
+                width: '50%'}]} redirect={()=> this.submit(null)}/>
 
               <View style={{
                 justifyContent: 'center',
@@ -210,7 +214,8 @@ class Register extends Component {
                 }}>Or sign up with</Text>
               </View>
 
-              <SocialLogin/>
+              <SocialLogin page={'Register'}
+                socialRegister={(parameter) => this.submit(parameter)}/>
               
               <View style={{
                 width: '100%',
