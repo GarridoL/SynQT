@@ -238,7 +238,7 @@ class Profile extends Component {
   render() {
     const { user } = this.props.state;
     return (
-      <View style={{height: height}}>
+      <View style={{height: height, backgroundColor: Color.containerBackground}}>
         <ScrollView showsVerticalScrollIndicator={false} style={{marginBottom: 150}}>
           <View style={{
             backgroundColor: Color.containerBackground,
