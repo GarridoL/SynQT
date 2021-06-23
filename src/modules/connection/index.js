@@ -37,10 +37,12 @@ class Connections extends Component {
   }
 
   componentDidMount() {
-    this.retrieveRandomUsers(false);
-    this.retrieveConnections(false);
-    this.retrieveSuggestions(false);
-    this.props.setTempMembers([]);
+    this.focusListener = this.props.navigation.addListener('didFocus', () => {
+      this.retrieveRandomUsers(false);
+      this.retrieveConnections(false);
+      this.retrieveSuggestions(false);
+      this.props.setTempMembers([]);
+    })
   }
 
   refresh = () => {
@@ -80,6 +82,7 @@ class Connections extends Component {
         column: "status",
         value: 'accepted'
       }],
+      account_id: user.id,
       offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
       limit: this.state.limit
     }
@@ -133,6 +136,7 @@ class Connections extends Component {
         value: 'pending'
       }],
       offset: 0,
+      account_id: user.id,
       limit: flag === false ? this.state.limit : ''
     }
     this.setState({ isLoading: true })
@@ -167,7 +171,7 @@ class Connections extends Component {
   }
 
   async changeTab(idx) {
-    const {navs} = this.state;
+    const { navs } = this.state;
     if (this.state.prevActive != idx) {
       await this.setState({ currActive: idx })
       navs[this.state.prevActive].flag = false

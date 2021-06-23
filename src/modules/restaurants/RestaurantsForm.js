@@ -273,8 +273,9 @@ class Restaurants extends Component {
               <DateTimePicker
                 borderBottomColor={Color.gray}
                 icon={true}
+                backgroundColor={Color.containerBackground}
                 textStyle={{ marginRight: '-7%' }}
-                borderColor={'white'}
+                borderColor={Color.containerBackground}
                 type={'date'}
                 placeholder={'Select Date'}
                 onFinish={(date) => {
@@ -284,7 +285,8 @@ class Restaurants extends Component {
                 }}
                 minimumDate={this.state.currentDate}
                 style={{
-                  marginTop: '-5%'
+                  marginTop: '-5%',
+                  backgroundColor: Color.containerBackground
                 }} />
             </View>
             <View style={{ marginBottom: '23%' }}>

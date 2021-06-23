@@ -143,7 +143,6 @@ class Cards extends React.Component {
       offset: 0,
       active: 0
     })
-    console.log(this.state.data[this.state.index]);
   }
 
   addToTopChoice = (status) => {
@@ -206,7 +205,7 @@ class Cards extends React.Component {
     try {
       location = JSON.parse(address).name
     } catch (e) {
-      console.log(e);
+      // console.log(e);
       location = address
     }
     return location;
@@ -228,11 +227,10 @@ class Cards extends React.Component {
     } else {
       temp[index].index = item.index === 0 ? 0 : item.index - 1;
     }
-    this.setState({ data: temp })
-    console.log(this.state.data[index]);
+    this.setState({ data: temp, active: this.state.data[index].index })
   }
 
-  renderCard = () => {
+  renderCard = (data) => {
     const { theme } = this.props.state;
     return (
       <View style={{ flex: 1, marginTop: '91%' }}>
@@ -249,9 +247,9 @@ class Cards extends React.Component {
           disableTopSwipe={true}
         >
           {
-            this.state.data.length > 0 && this.state.data.map((el, idx) => {
+            data.length > 0 && data.map((el, idx) => {
               return (
-                <Card style={styles.card}>
+                <Card style={styles.card} key={idx + el.featured_photos[this.state.active]?.url}>
                   <ImageBackground style={{ resizeMode: 'contain', flex: 1, flexDirection: 'row', height: '88%', width: null, marginTop: this.props.bottomFloatButton === true ? 50 : height * 0.25 }}
                     imageStyle={{
                       flex: 1,
@@ -259,7 +257,7 @@ class Cards extends React.Component {
                       borderRadius: BasicStyles.standardBorderRadius,
                       backgroundColor: 'white'
                     }}
-                    source={el.featured_photos?.length > 0 ? { uri: Config.BACKEND_URL + el.featured_photos[el.index]?.url } : require('assets/default.png')}>
+                    source={el.featured_photos?.length > 0 ? { uri: Config.BACKEND_URL + el.featured_photos[this.state.active]?.url } : require('assets/default.png')}>
                     <View
                       style={{
                         flexDirection: 'row',
@@ -275,7 +273,7 @@ class Cards extends React.Component {
                               margin: 1,
                               borderColor: theme ? theme.primary : Color.primary,
                               borderWidth: .3,
-                              backgroundColor: el.index === index ? 'white' : '#b5b5b5',
+                              backgroundColor: this.state.active === index ? 'white' : '#b5b5b5',
                               height: 5,
                               width: this.getWidth(el.featured_photos),
                               borderRadius: 10
@@ -507,7 +505,7 @@ class Cards extends React.Component {
             }
           }}
         >
-          {this.renderCard()}
+          {this.renderCard(this.state.data)}
         </ScrollView>
       </View>
     );
