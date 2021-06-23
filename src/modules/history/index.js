@@ -53,6 +53,7 @@ class History extends Component {
       sort: { datetime: 'asc'}
     }
     this.setState({ isLoading: true })
+    console.log(parameter, Routes.reservationRetrieve, '---------------');
     Api.request(Routes.reservationRetrieve, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data.length > 0) {

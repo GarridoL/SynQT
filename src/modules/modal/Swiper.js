@@ -181,10 +181,9 @@ class Cards extends React.Component {
           height: height * 0.9
         }}>
           <Image style={{
-            borderRadius: 2,
+            borderRadius: 10,
             width: '100%',
             height: '71%',
-            resizeMode: 'stretch',
             marginTop: this.props.bottomFloatButton === true ? 50 : height * 0.25,
             backgroundColor: 'white'
           }}
@@ -195,7 +194,7 @@ class Cards extends React.Component {
               flexDirection: 'row',
               position: 'absolute',
               padding: 20,
-              marginTop: (height * 0.25) - 10,
+              marginTop: (height * 0.25) - 15,
             }}>
             {this.state.featured_photos.length > 0 && this.state.featured_photos.map((item, index) => {
               return (

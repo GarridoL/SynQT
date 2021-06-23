@@ -56,6 +56,7 @@ class Connections extends Component {
         column: "status",
         value: "accepted"
       }],
+      account_id: user.id,
       limit: this.state.limit,
       offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
     }

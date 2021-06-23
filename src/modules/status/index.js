@@ -25,7 +25,8 @@ class Status extends Component {
       status: null,
       reply: null,
       offset: 0,
-      limit: 5
+      limit: 5,
+      loading: false
     }
   }
 
@@ -96,6 +97,10 @@ class Status extends Component {
   }
 
   join = (data) => {
+    this.setState({loading: true})
+    if(this.state.loading === true) {
+      return
+    }
     let parameter = {
       account_id: this.props.state.user.id,
       comment_id: data.id,
@@ -103,6 +108,7 @@ class Status extends Component {
       joined: data.joined === 'true' ? 'false' : 'true'
     }
     Api.request(Routes.commentMembersCreate, parameter, response => {
+      this.setState({loading: false})
       let temp = this.props.state.comments
       temp[data.index].joined = data.joined === 'true' ? 'false' : 'true';
       let myAccount = {

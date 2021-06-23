@@ -56,7 +56,8 @@ class Groups extends Component {
         column: "status",
         value: "accepted"
       }],
-      offset: 0
+      offset: 0,
+      account_id: user.id
     }
     console.log(user.id);
     Api.request(Routes.circleRetrieve, parameter, response => {

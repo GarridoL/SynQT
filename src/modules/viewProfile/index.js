@@ -39,13 +39,13 @@ class ViewProfile extends Component {
   componentDidMount() {
     this.setState({similarConnections: 0})
     this.props.setDeepLinkRoute(null);
-    this.retrieveSimilarConnections();
     if (this.props.navigation.state?.params?.level === 1) {
       this.retrieveActivity(false);
     } else {
       this.retrieveConnections(false);
     }
     this.setState({ choice: this.props.navigation.state?.params?.level === 1 ? 'SYNQT ACTIVITIES' : 'CONNECTIONS' });
+    this.retrieveSimilarConnections();
   }
 
   retrieveSimilarConnections = () => {
@@ -53,12 +53,8 @@ class ViewProfile extends Component {
       user_id: this.props.state.user.id,
       account_id: this.props.navigation.state?.params?.user?.account?.id
     }
-    this.setState({ isLoading: true })
     Api.request(Routes.similarConnectionRetrieve, parameter, response => {
       this.setState({ isLoading: false, similarConnections: response.data })
-    }, error => {
-      this.setState({ isLoading: false })
-      console.log('error', error)
     });
   }
 
@@ -143,9 +139,9 @@ class ViewProfile extends Component {
         column: "status",
         value: 'accepted'
       }],
+      account_id: this.props.navigation.state?.params?.user?.account?.id,
       offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
     }
-    console.log(parameter, Routes.circleRetrieve);
     this.setState({ isLoading: true })
     Api.request(Routes.circleRetrieve, parameter, response => {
       this.setState({ isLoading: false })
@@ -165,7 +161,8 @@ class ViewProfile extends Component {
             column: "status",
             value: '%%'
           }],
-          offset: this.state.offset
+          offset: this.state.offset,
+          account_id: user.id
         }
         this.setState({ isLoading: true })
         Api.request(Routes.circleRetrieve, par, res => {
@@ -173,9 +170,12 @@ class ViewProfile extends Component {
           if (res.data.length > 0) {
             let ids = []
             response.data.forEach(item => {
+              item['shouldBeCancel'] = false;
               res.data.forEach(el => {
-                ids.push(el.account?.id)
-                item['shouldBeCancel'] = el.account?.id === item.account.id && el.status === 'pending' ? true : false;
+                ids.push(el.account.id)
+                if(el.account.id == item.account.id && el.status === 'pending') {
+                  item.shouldBeCancel = true;
+                }
               });
             })
             this.setState({ids: ids, fromConnections: res.data});
@@ -274,7 +274,7 @@ class ViewProfile extends Component {
                       <View style={{ width: '65%' }}>
                         <Text style={{ fontWeight: 'bold', width: '110%' }} numberOfLines={1}>{el?.account?.information?.first_name ? el?.account?.information?.first_name + ' ' + el?.account?.information?.last_name : el?.account?.username}</Text>
                         <Text style={{ fontStyle: 'italic' }} numberOfLines={1}>{el?.account?.information?.address || 'No address provided'}</Text>
-                        {el.account?.id !== this.props.state.user.id && <Text style={{ color: 'gray', fontSize: 10 }} numberOfLines={1}>{el.similar_connections ? el.similar_connections : 0} similar connection(s)</Text>}
+                        {el.account?.id !== this.props.state.user.id && <Text style={{ color: 'gray', fontSize: 10 }} numberOfLines={1}>{el.similar_connections} similar connection(s)</Text>}
                       </View>
                       {this.state.ids.length > 0 && this.state.ids.includes(el.account?.id) === false && el.account.id !== this.props.state.user.id ?
                         <TouchableOpacity
