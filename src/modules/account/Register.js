@@ -61,7 +61,7 @@ class Register extends Component {
       }
     }
     this.setState({isLoading: true})
-    Api.request(Routes, parameter, response => {
+    Api.request(Routes.accountCreate, parameter, response => {
       console.log('[REGISTER FB]', response);
       this.setState({isLoading: false})
       if(response.error !== null){

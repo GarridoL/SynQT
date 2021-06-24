@@ -135,7 +135,7 @@ class ViewProfile extends Component {
         column: 'account',
         clause: 'or'
       }, {
-        clause: "like",
+        clause: "=",
         column: "status",
         value: 'accepted'
       }],
