@@ -56,7 +56,7 @@ class PeopleList extends Component {
                       profile: item.account?.profile,
                       username: item.account?.username,
                       information: item.account?.information,
-                      id: item.account_id
+                      id: item.account.id
                     }
                   },
                   synqt_id: this.props.navigation?.state.params?.data?.payload || null,

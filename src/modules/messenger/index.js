@@ -81,12 +81,12 @@ class Groups extends Component {
     }
     this.setState({ isLoading: true });
     Api.request(Routes.messengerGroupRetrieve, parameter, response => {
+      this.setState({ isLoading: false });
       const { setMessenger, setAllMessages } = this.props;
       const { messenger } = this.props.state;
       if (response.data.length !== 0) {
         this.setState({
-          offset: flag === false ? 1 : (this.state.offset + 1),
-          isLoading: false
+          offset: flag === false ? 1 : (this.state.offset + 1)
         })
         setAllMessages(flag === false ? response.data : _.uniqBy([...this.props.state.allMessages, ...response.data], 'id'))
         var counter = 0

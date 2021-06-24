@@ -52,9 +52,17 @@ class PostCard extends Component {
   }
 
   createSynqt = (data) => {
+    let status = false;
     if (data.members && data.members?.length > 0) {
       let temp = data.members
-      this.props.navigation.navigate('restaurantStack', { members: temp })
+      data.members.length === 1 && data.members.map((item, index) => {
+        if(item.account_id == this.props.state.user.id) {
+          status = true;
+        }
+      })
+      if(status === false) {
+        this.props.navigation.navigate('restaurantStack', { members: temp })
+      } 
     }
   }
 
@@ -281,9 +289,10 @@ class PostCard extends Component {
       <View style={{
         ...BasicStyles.standardWidth,
         borderRadius: BasicStyles.standardBorderRadius,
-        borderColor: Color.lightGray,
+        borderColor: Color.white,
         borderWidth: 1,
-        marginBottom: 20
+        marginBottom: 20,
+        marginTop: 20
       }}>
         {this.renderHeader(data, true)}
         {this.renderBody(data)}

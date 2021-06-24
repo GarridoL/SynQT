@@ -61,12 +61,12 @@ class Status extends Component {
     }
     this.setState({ isLoading: true });
     Api.request(Routes.commentsRetrieve, parameter, response => {
+      console.log(response.data[0].comment_replies);
       this.setState({ isLoading: false });
       if (response.data.length > 0) {
         this.setState({ offset: flag === false ? 1 : (this.state.offset + 1) })
         response.data.map((item, index) => {
           item.members?.length > 0 && item.members.map((i, inde) => {
-            console.log(i, i.account_id, this.props.state.user.id, 'hii');
             item['joined'] = i.account_id?.toString() === this.props.state.user.id?.toString() && i.joined === 'true' ? 'true' : 'false'
             item['liked'] =  i.account_id?.toString() === this.props.state.user.id?.toString() && i.liked === 'true' ? 'true' : 'false'
             if (i.joined !== 'true') {
@@ -115,7 +115,8 @@ class Status extends Component {
         account: {
           profile: {
             url: this.props.state.user.account_profile.url
-          }
+          },
+          id: this.props.state.user.id
         },
         joined: data.liked || false,
         joined: data.joined === 'true' ? 'false' : 'true'
@@ -180,6 +181,13 @@ class Status extends Component {
   }
 
   reply = (comment) => {
+    const tempArray = this.props.state.comments;
+    let temp = null;
+    tempArray.length > 0 && tempArray.map((item, index) => {
+      if(item.id === comment.id) {
+        temp = item;
+      }
+    })
     let parameter = {
       account_id: this.props.state.user.id,
       comment_id: comment.id,
@@ -188,13 +196,33 @@ class Status extends Component {
     this.setState({ isLoading: true });
     Api.request(Routes.commentRepliesCreate, parameter, response => {
       this.setState({ isLoading: false });
-      console.log(response, "replying");
+      console.log(response, '---------------------response');
       if (response.data !== null) {
         this.setState({
           isVisible: false,
           reply: null
         })
-        this.retrieve(false);
+        let data = {
+          account: {
+            email: this.props.state.user.email,
+            id: this.props.state.user.id,
+            profile: {
+              account_id: this.props.state.user.id,
+              url: this.props.state.user.account_profile?.url || null
+            },
+            username: this.props.state.user.username
+          },
+          account_id: this.props.state.user.id,
+          comment_id: comment.id,
+          id: response.data,
+          text: parameter.text,
+          created_at_human: moment(new Date()).format('MMMM DD, YYYY hh:mm a')
+        }
+        if(temp.comment_replies === null) {
+          temp.comment_replies = []
+        }
+        temp.comment_replies.push(data)
+        this.props.setComments(tempArray);
       }
     })
   }

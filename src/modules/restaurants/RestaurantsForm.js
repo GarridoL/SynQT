@@ -98,7 +98,6 @@ class Restaurants extends Component {
       Api.request(Routes.synqtCreate, parameter, res => {
         this.setState({ isLoading: false })
         if (res.data !== null) {
-
           setDefaultAddress(null);
           setLocation(null);
           this.createMessengerGroup(res.data, parameter.date)
