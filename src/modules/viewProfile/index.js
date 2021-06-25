@@ -61,7 +61,7 @@ class ViewProfile extends Component {
   retrieveActivity = (flag) => {
     let parameter = {
       condition: [{
-        value: this.props.navigation.state?.params?.user?.account?.profile?.account_id,
+        value: this.props.navigation.state?.params?.user?.account?.id,
         column: 'account_id',
         clause: '='
       }, {
@@ -419,14 +419,14 @@ class ViewProfile extends Component {
               }}>{user?.account?.information?.first_name ? user?.account?.information?.first_name + user?.account?.information?.last_name : user?.account?.username}</Text>
               </Text>
             </View>
-            <View style={{
+            {user.account.id !== this.props.state.user.id && <View style={{
               width: '100%'
             }}>
               <Text style={{
                 textAlign: 'center',
                 color: Color.gray
               }}>{this.state.similarConnections} similar connection(s)</Text>
-            </View>
+            </View>}
 
           </View>
           <View style={{
