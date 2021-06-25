@@ -202,7 +202,7 @@ class Groups extends Component {
                       width: 35,
                       borderRadius: 100,
                       marginBottom: 10,
-                      backgroundColor: 'white',
+                      backgroundColor: Color.containerBackground,
                       justifyContent: 'center',
                       alignItems: 'center'
                     }}>
@@ -219,7 +219,7 @@ class Groups extends Component {
                       width: 35,
                       borderRadius: 100,
                       marginBottom: 10,
-                      backgroundColor: 'white',
+                      backgroundColor: Color.containerBackground,
                       justifyContent: 'center',
                       alignItems: 'center',
                       borderColor: theme ? theme.primary : Color.primary,

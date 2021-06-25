@@ -146,7 +146,7 @@ class Header extends Component {
                 width: 50,
                 right: 5
               }}
-              onPress={() => this.redirect('Messenger')}
+              onPress={() => this.props.navigation.navigate('mainMessageStack')}
             >
               <Neomorph style={BasicStyles.neomorphIcon}>
                 <FontAwesomeIcon
