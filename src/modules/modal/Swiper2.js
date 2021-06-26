@@ -42,7 +42,9 @@ class Cards extends React.Component {
       products: [],
       limit: 5,
       offset: 0,
-      active: 0
+      active: 0,
+      offset1: 0,
+      limit1: 5
     }
   }
 
@@ -71,7 +73,7 @@ class Cards extends React.Component {
         response.data.map((item, index) => {
           item['index'] = 0;
         })
-        this.setState({ data: response.data, index: response.data.length - 1 });
+        this.setState({ data: response.data, index: response.data.length - 1, offset: 2 });
       }
     },
       error => {
@@ -115,8 +117,8 @@ class Cards extends React.Component {
       }],
       account_id: menu.account_id,
       sort: { title: 'asc' },
-      limit: this.state.limit,
-      offset: this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
+      limit: this.state.limit1,
+      offset: this.state.offset1 > 0 ? (this.state.offset1 * this.state.limit1) : this.state.offset1,
       inventory_type: 'all'
     }
     this.setState({ isLoading: true })
@@ -124,7 +126,7 @@ class Cards extends React.Component {
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
         this.setState({
-          offset: this.state.offset + 1,
+          offset1: this.state.offset1 + 1,
           products: _.uniqBy([...this.state.products, ...response.data], 'id')
         })
       }
@@ -140,9 +142,38 @@ class Cards extends React.Component {
     this.setState({
       index: this.state.index + 1 === this.state.data.length ? 0 : this.state.index + 1,
       products: [],
-      offset: 0,
+      offset1: 0,
       active: 0
     })
+    if(this.state.data.length  > 5 && this.state.index === this.state.data.length - 3) {
+      this.retrieveAgain();
+    }
+  }
+
+  retrieveAgain = () => {
+    let parameter = {
+      synqt_id: this.props.navigation.state.params?.synqt_id,
+      limit: this.state.limit,
+      offset: this.state.offset,
+      sort: {
+        name: 'asc'
+      }
+    }
+    Api.request(Routes.merchantsRetrieve, parameter, response => {
+      if (response.data.length > 0) {
+        let temp = this.state.data;
+        response.data.map((item, index) => {
+          item['index'] = 0;
+          temp.push(item);
+        })
+        this.setState({ data: temp, offset: this.state.offset + this.state.limit});
+      }
+    },
+      error => {
+        this.setState({ isLoading: false })
+        console.log({ error });
+      },
+    );
   }
 
   addToTopChoice = (status) => {
@@ -484,7 +515,7 @@ class Cards extends React.Component {
     const { isLoading } = this.state;
     return (
       <View style={{ backgroundColor: Color.containerBackground }}>
-        <Header status={this.state.index === this.state.data.length - 2 ? true : false} {...this.props} goBack={() => { this.swiper.swipeRight() }}></Header>
+        <Header navigation={this.props.navigation} status={this.state.index === this.state.data.length - 2 ? true : false} {...this.props} goBack={() => { this.swiper.swipeRight() }}></Header>
         <ScrollView style={{
           marginTop: 40,
           height: height - 90,

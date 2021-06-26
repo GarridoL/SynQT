@@ -50,7 +50,7 @@ class History extends Component {
       }],
       limit: this.state.limit,
       offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
-      sort: { datetime: 'asc'}
+      sort: { created_at: 'asc' }
     }
     this.setState({ isLoading: true })
     console.log(parameter, Routes.reservationRetrieve, '---------------');
@@ -68,7 +68,12 @@ class History extends Component {
           offset: flag == false ? 0 : this.state.offset,
         })
       }
-    });
+    },
+      error => {
+        this.setState({ isLoading: false })
+        console.log({ error });
+      }
+    );
   }
 
 
@@ -139,15 +144,17 @@ class History extends Component {
                 }}
                 redirectTo={this.props.navigation.state.params && this.props.navigation.state.params.title}
                 onClick={() => {
-                  this.props.navigation.navigate('eventNameStack', {parameter: {
-                    account_id: this.props.state.user?.id,
-                    merchant_id: item.merchant?.id,
-                    payload: 'synqt',
-                    payload_value: item?.synqt[0]?.id,
-                    details: item?.synqt[0]?.details,
-                    datetime: item?.synqt[0]?.date,
-                    status: 'pending'
-                  }, buttonTitle: this.props.navigation.state?.params?.title === 'Upcoming' ? "Cancel" : 'Make Reservation', data: item})
+                  this.props.navigation.navigate('eventNameStack', {
+                    parameter: {
+                      account_id: this.props.state.user?.id,
+                      merchant_id: item.merchant?.id,
+                      payload: 'synqt',
+                      payload_value: item?.synqt[0]?.id,
+                      details: item?.synqt[0]?.details,
+                      datetime: item?.synqt[0]?.date,
+                      status: 'pending'
+                    }, buttonTitle: this.props.navigation.state?.params?.title === 'Upcoming' ? "Cancel" : 'Make Reservation', data: item
+                  })
                 }}
                 navigation={this.props.navigation}
               />
