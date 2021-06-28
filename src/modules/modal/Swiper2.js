@@ -202,7 +202,7 @@ class Cards extends React.Component {
       this.setState({ isLoading: false })
       if (response.data !== null) {
         topChoices.push(this.state.data[this.state.index].id)
-        this.deleteFromNotification(this.props.id);
+        // this.deleteFromNotification(this.props.id);
       }
     },
       error => {
