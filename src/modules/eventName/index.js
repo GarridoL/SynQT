@@ -137,6 +137,7 @@ class EventName extends Component {
   }
 
   render() {
+    const { theme } = this.props.state;
     const { data } = this.props.navigation.state.params;
     return (
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -177,14 +178,14 @@ class EventName extends Component {
               right: 10
             }}>
               <View style={style.Date}>
-                <Text style={{ color: Color.primary, fontSize: 10 }}>{data.synqt[0].date}</Text>
+                <Text style={{ color: theme ? theme.primary : Color.primary, fontSize: 10 }}>{data.synqt[0].date}</Text>
               </View>
               <View style={style.Distance}>
                 <Text numberOfLines={1} style={{ fontSize: 10, color: 'white' }}>{data.distance || '0km'}</Text>
               </View>
               <View style={style.Rate}>
                 <FontAwesomeIcon icon={faStar} color={Color.warning} style={{ marginRight: 2 }} size={8} />
-                <Text numberOfLines={1} style={{ fontSize: 10, color: Color.primary }}>{data.rating ? data.rating.avg : 0}</Text>
+                <Text numberOfLines={1} style={{ fontSize: 10, color: theme ? theme.primary : Color.primary }}>{data.rating ? data.rating.avg : 0}</Text>
               </View>
               <View style={style.StarContainer}>
                 <TouchableOpacity style={style.Star}>
@@ -202,7 +203,7 @@ class EventName extends Component {
           }}>
             <Group navigation={this.props.navigation} size={45} data={this.state.members.length > 0 ? this.state.members : []} />
           </View>
-          <CustomizedButton style={{ marginLeft: -20, marginBottom: 10 }} onClick={this.onClick} title={this.props.navigation.state && this.props.navigation.state.params && this.props.navigation.state.params.buttonTitle && this.props.navigation.state.params.buttonTitle}></CustomizedButton>
+          <CustomizedButton backgroundColor={Color.danger} style={{ marginLeft: -20, marginBottom: 10 }} onClick={this.onClick} title={this.props.navigation.state && this.props.navigation.state.params && this.props.navigation.state.params.buttonTitle && this.props.navigation.state.params.buttonTitle}></CustomizedButton>
         </View>
       </ScrollView>
     );

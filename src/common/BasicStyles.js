@@ -3,15 +3,6 @@ import { Dimensions } from 'react-native';
 const width = Math.round(Dimensions.get('window').width);
 const borderRadius = 12
 export default {
-  neomorphIcon: {
-    shadowRadius: 2,
-    borderRadius: 25,
-    backgroundColor: '#E7E9FD',
-    width: 55,
-    height: 55,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   formControl: {
     height: 50,
     borderColor: Color.lightGray,

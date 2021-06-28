@@ -6,7 +6,6 @@ import { NavigationActions, StackActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import { BasicStyles, Color } from 'common';
 const width = Math.round(Dimensions.get('window').width)
-import { NeomorphBlur, Neomorph } from 'react-native-neomorph-shadows';
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -64,7 +63,6 @@ class Header extends Component {
 
               onPress={() => this.redirect('Connections')}
             >
-              <Neomorph style={BasicStyles.neomorphIcon}>
                 <FontAwesomeIcon
                   icon={faUsers}
                   size={BasicStyles.iconSize}
@@ -75,7 +73,6 @@ class Header extends Component {
                     },
                   ]}
                 />
-              </Neomorph>
             </TouchableOpacity>
           </View>
             : <View>
@@ -90,7 +87,6 @@ class Header extends Component {
                 }}
                 onPress={() => this.props.goBack()}
               >
-                <Neomorph style={BasicStyles.neomorphIcon}>
                 <FontAwesomeIcon
                   icon={faReply}
                   size={BasicStyles.iconSize}
@@ -101,7 +97,6 @@ class Header extends Component {
                     },
                   ]}
                 />
-                </Neomorph>
               </TouchableOpacity>
             </View>}
         </View>
@@ -120,7 +115,6 @@ class Header extends Component {
               }}
               onPress={() => this.redirect('Connections')}
             >
-              <Neomorph style={BasicStyles.neomorphIcon}>
                 <FontAwesomeIcon
                   icon={faUsers}
                   size={BasicStyles.iconSize}
@@ -131,7 +125,6 @@ class Header extends Component {
                     },
                   ]}
                 />
-              </Neomorph>
             </TouchableOpacity>
           </View>
             : null}
@@ -148,7 +141,6 @@ class Header extends Component {
               }}
               onPress={() => this.props.navigation.navigate('mainMessageStack')}
             >
-              <Neomorph style={BasicStyles.neomorphIcon}>
                 <FontAwesomeIcon
                   icon={faComments}
                   size={BasicStyles.iconSize}
@@ -159,7 +151,6 @@ class Header extends Component {
                     },
                   ]}
                 />
-              </Neomorph>
             </TouchableOpacity>
           </View>
         </View>

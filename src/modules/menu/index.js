@@ -19,15 +19,10 @@ class Menu extends Component {
   }
 
   render() {
-    const { data } = this.state;
     return (
-      <View style={{ backgroundColor: Color.containerBackground, height: '100%' }}>
-        <View style={{height: '90%'}}>
-          <Swipe id={this.props.navigation.state?.params?.id} navigation={this.props.navigation} topFloatButton={false} bottomFloatButton={true}></Swipe>
-        </View>
-        <View>
-          <Footer layer={1} {...this.props} />
-        </View>
+      <View style={{ height: '100%' }}>
+        <Swipe id={this.props.navigation.state?.params?.id} navigation={this.props.navigation} topFloatButton={false} bottomFloatButton={true}></Swipe>
+        <Footer layer={1} {...this.props} />
       </View>
     )
   }

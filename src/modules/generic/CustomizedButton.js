@@ -32,7 +32,7 @@ class Button extends Component{
             height:55,
             left: 30,
             width: '65%',
-            backgroundColor: Color.primary,
+            backgroundColor: this.props.backgroundColor ? this.props.backgroundColor : Color.primary,
             borderRadius:100,
           }}
           onPress={() => {this.props.onClick()}}

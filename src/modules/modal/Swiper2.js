@@ -518,9 +518,9 @@ class Cards extends React.Component {
         <Header navigation={this.props.navigation} status={this.state.index === this.state.data.length - 2 ? true : false} {...this.props} goBack={() => { this.swiper.swipeRight() }}></Header>
         <ScrollView style={{
           marginTop: 40,
-          height: height - 90,
+          height: height,
           backgroundColor: Color.containerBackground
-        }} showsVerticalScrollIndicator={true}
+        }} showsVerticalScrollIndicator={false}
           onScroll={(event) => {
             let scrollingHeight = event.nativeEvent.layoutMeasurement.height + event.nativeEvent.contentOffset.y
             let totalHeight = event.nativeEvent.contentSize.height
