@@ -11,7 +11,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCopy, faSignOutAlt, faTimes, faUserCircle, faShieldAlt } from '@fortawesome/free-solid-svg-icons';
 import LinearGradient from 'react-native-linear-gradient'
 import { Dimensions } from 'react-native';
-import { NeomorphBlur, Neomorph } from 'react-native-neomorph-shadows';
 import { GoogleSignin, statusCodes } from '@react-native-community/google-signin'
 const width = Math.round(Dimensions.get('window').width);
 const height = Math.round(Dimensions.get('window').height);
@@ -20,8 +19,7 @@ class Slider2 extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      colors: [],
-      current: 'drawerStack'
+      colors: []
     }
   }
   navigateToScreen = (route) => {
@@ -88,7 +86,7 @@ class Slider2 extends Component {
     } catch (error) {
       console.log('SIGNOUT', error);
     }
-    
+
     // setActiveRoute(null)
     this.props.navigation.navigate('loginStack');
   }
@@ -105,7 +103,7 @@ class Slider2 extends Component {
         style={{ height: '100%', paddingRight: 10, width: width }}
       >
         <View style={{ flexDirection: 'row', height: '100%' }}>
-          <View style={{ backgroundColor: '#E7E9FD', height: '100%', width: '25%', borderTopRightRadius: 40, borderBottomRightRadius: 50, zIndex: 999, elevation: 50 }}>
+          <View style={{ height: '100%', width: '25%', backgroundColor: Color.containerBackground, borderTopRightRadius: 40, borderBottomRightRadius: 50, zIndex: 999, elevation: 50 }}>
             <View style={{ marginTop: '40%', marginLeft: 10 }}>
               <TouchableOpacity onPress={() => this.props.navigation.toggleDrawer()}>
                 <FontAwesomeIcon color={Color.primary} icon={faTimes} size={BasicStyles.iconSize}></FontAwesomeIcon>
@@ -159,29 +157,15 @@ class Slider2 extends Component {
                     }
                   ]}
                     onPress={() => {
-                      this.setState({ current: item.title === 'Messages' || item.title === 'Connections' ? 'drawerStack' : item.currentPage });
                       item.title == 'Connections' ? this.redirect('connectionStack') : (item.title == 'Messages' ? this.redirect('mainMessageStack') : this.navigateToScreen(item.route))
                     }}>
-                    {this.state.current === item.currentPage ? <View style={styles.navSectionStyle}>
-                      <Neomorph
-                        swapShadows
-                        inner
-                        style={styles.activeDrawer}
-                      >
-                        <FontAwesomeIcon style={{
-                          padding: 10,
-                          color: theme ? theme.primary : Color.primary
-                        }} icon={item.icon} size={BasicStyles.iconSize}></FontAwesomeIcon>
-                        <Text style={{ color: theme ? theme.primary : Color.primary, marginRight: 10, marginTop: 2 }}>{item.title}</Text>
-                      </Neomorph>
-                    </View> :
-                      <View style={styles.inActiveDrawer}>
-                        <FontAwesomeIcon style={{
-                          padding: 10,
-                          color: 'white'
-                        }} icon={item.icon} size={BasicStyles.iconSize}></FontAwesomeIcon>
-                        <Text style={{ color: 'white', marginRight: 10, marginTop: 2 }}>{item.title}</Text>
-                      </View>}
+                    <View style={styles.inActiveDrawer}>
+                      <FontAwesomeIcon style={{
+                        padding: 10,
+                        color: 'white'
+                      }} icon={item.icon} size={BasicStyles.iconSize}></FontAwesomeIcon>
+                      <Text style={{ color: 'white', marginRight: 10, marginTop: 2 }}>{item.title}</Text>
+                    </View>
                   </TouchableOpacity>
                 )
               })
@@ -189,49 +173,25 @@ class Slider2 extends Component {
           </View>
         </View>
         <View style={[styles.navSectionStyle, { borderBottomWidth: 0, flex: 1, position: 'absolute', bottom: 15, borderTopWidth: 1, width: width, borderColor: 'white', paddingRight: 10 }]}>
-          <TouchableOpacity onPress={() => { this.setState({ current: 'Terms and Conditions' }); this.navigateToScreen('TermsAndConditions') }} style={{ flexDirection: 'row-reverse', paddingTop: 20 }}>
-          {this.state.current === 'Terms and Conditions' ? <View style={styles.navSectionStyle}>
-            <Neomorph
-              swapShadows
-              inner
-              style={styles.activeDrawer}
-            >
-              <FontAwesomeIcon style={{
-                padding: 10,
-                color: theme ? theme.primary : Color.primary
-              }} icon={faCopy} size={BasicStyles.iconSize}></FontAwesomeIcon>
-              <Text style={{ color: theme ? theme.primary : Color.primary, marginRight: 10, marginTop: 2 }}>Terms and Conditions</Text>
-            </Neomorph>
-          </View> :
+          <TouchableOpacity onPress={() => { this.navigateToScreen('TermsAndConditions') }} style={{ flexDirection: 'row-reverse', paddingTop: 20 }}>
+
             <View style={styles.inActiveDrawer}>
               <FontAwesomeIcon style={{
                 padding: 10,
                 color: 'white'
               }} icon={faCopy} size={BasicStyles.iconSize}></FontAwesomeIcon>
               <Text style={{ color: 'white', marginRight: 10, marginTop: 2 }}>Terms and Conditions</Text>
-            </View>}
+            </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => { this.setState({ current: 'Privacy Policy' }); this.navigateToScreen('Privacy') }} style={{ flexDirection: 'row-reverse', paddingTop: 20 }}>
-            {this.state.current === 'Privacy Policy' ? <View style={styles.navSectionStyle}>
-            <Neomorph
-              swapShadows
-              inner
-              style={styles.activeDrawer}
-            >
-              <FontAwesomeIcon style={{
-                padding: 10,
-                color: theme ? theme.primary : Color.primary
-              }} icon={faShieldAlt} size={BasicStyles.iconSize}></FontAwesomeIcon>
-              <Text style={{ color: theme ? theme.primary : Color.primary, marginRight: 10, marginTop: 2 }}>Privacy Policy</Text>
-            </Neomorph>
-          </View> :
+          <TouchableOpacity onPress={() => { this.navigateToScreen('Privacy') }} style={{ flexDirection: 'row-reverse', paddingTop: 20 }}>
+
             <View style={styles.inActiveDrawer}>
               <FontAwesomeIcon style={{
                 padding: 10,
                 color: 'white'
               }} icon={faShieldAlt} size={BasicStyles.iconSize}></FontAwesomeIcon>
               <Text style={{ color: 'white', marginRight: 10, marginTop: 2 }}>Privacy Policy</Text>
-            </View>}
+            </View>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => { this.logoutAction() }} style={{ flexDirection: 'row-reverse', paddingTop: 20 }}>
             <FontAwesomeIcon style={[styles.navItemStyle, { color: 'white', marginRight: 10 }]} icon={faSignOutAlt} size={BasicStyles.iconSize}></FontAwesomeIcon>
