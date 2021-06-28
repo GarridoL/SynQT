@@ -104,7 +104,6 @@ class PostCard extends Component {
           {this.state.options === true && show === true && (<TouchableOpacity style={{
             position: 'absolute',
             right: -5,
-            backgroundColor: 'white',
             top: 40,
             height: 40,
             width: 105,
@@ -289,8 +288,8 @@ class PostCard extends Component {
       <View style={{
         ...BasicStyles.standardWidth,
         borderRadius: BasicStyles.standardBorderRadius,
-        borderColor: Color.white,
-        borderWidth: 1,
+        borderColor: Color.gray,
+        borderWidth: .3,
         marginBottom: 20,
         marginTop: 20
       }}>

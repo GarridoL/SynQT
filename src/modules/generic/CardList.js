@@ -246,7 +246,7 @@ class CardList extends Component {
                     onPress={() => { this.props.navigation.navigate('viewProfileStack', { user: el, level: this.props.level }) }}
                     style={{backgroundColor: Color.containerBackground}}
                   >
-                    <ListItem key={idx} style={{ width: width }}>
+                    <ListItem key={idx} style={{ width: width }} containerStyle={{backgroundColor: Color.containerBackground}}>
                       {el.account?.profile?.url ? <Image
                         style={{
                           width: 75,

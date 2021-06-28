@@ -31,7 +31,6 @@ export default {
   activeDrawer: {
     shadowRadius: 3,
     borderRadius: 8,
-    backgroundColor: '#E7E9FD',
     width: width / 2,
     height: 40,
     flexDirection: 'row-reverse',

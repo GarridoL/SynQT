@@ -68,7 +68,7 @@ class Status extends Component {
         response.data.map((item, index) => {
           item.members?.length > 0 && item.members.map((i, inde) => {
             item['joined'] = i.account_id?.toString() === this.props.state.user.id?.toString() && i.joined === 'true' ? 'true' : 'false'
-            item['liked'] =  i.account_id?.toString() === this.props.state.user.id?.toString() && i.liked === 'true' ? 'true' : 'false'
+            item['liked'] = i.account_id?.toString() === this.props.state.user.id?.toString() && i.liked === 'true' ? 'true' : 'false'
             if (i.joined !== 'true') {
               item.members.splice(inde, 1);
             }
@@ -97,8 +97,8 @@ class Status extends Component {
   }
 
   join = (data) => {
-    this.setState({loading: true})
-    if(this.state.loading === true) {
+    this.setState({ loading: true })
+    if (this.state.loading === true) {
       return
     }
     let parameter = {
@@ -108,7 +108,7 @@ class Status extends Component {
       joined: data.joined === 'true' ? 'false' : 'true'
     }
     Api.request(Routes.commentMembersCreate, parameter, response => {
-      this.setState({loading: false})
+      this.setState({ loading: false })
       let temp = this.props.state.comments
       temp[data.index].joined = data.joined === 'true' ? 'false' : 'true';
       let myAccount = {
@@ -184,7 +184,7 @@ class Status extends Component {
     const tempArray = this.props.state.comments;
     let temp = null;
     tempArray.length > 0 && tempArray.map((item, index) => {
-      if(item.id === comment.id) {
+      if (item.id === comment.id) {
         temp = item;
       }
     })
@@ -218,7 +218,7 @@ class Status extends Component {
           text: parameter.text,
           created_at_human: moment(new Date()).format('MMMM DD, YYYY hh:mm a')
         }
-        if(temp.comment_replies === null) {
+        if (temp.comment_replies === null) {
           temp.comment_replies = []
         }
         temp.comment_replies.push(data)
@@ -229,7 +229,7 @@ class Status extends Component {
 
   render() {
     const { isLoading } = this.state;
-    const { comments } = this.props.state;
+    const { comments, theme } = this.props.state;
     return (
       <SafeAreaView>
         <ScrollView style={{
@@ -253,65 +253,65 @@ class Status extends Component {
             }
           }}
         >
-            <View style={{
-              marginTop: 10,
-              marginBottom: 350
-            }}>
-              {
-                comments && comments.length > 0 && comments.map((item, index) => (
-                  <View>
-                    {(this.props.state.statusSearch === null || this.props.state.statusSearch === '') ?
-                      <PostCard
-                        navigation={this.props.navigation}
-                        loader={this.loader}
-                        data={{
-                          user: item.account,
-                          comments: item.comment_replies,
-                          message: item.text,
-                          date: item.created_at_human,
-                          id: item.id,
-                          liked: item.liked,
-                          joined: item.joined,
-                          members: item.members,
-                          index: index
-                        }}
-                        postReply={() => { this.reply(item) }}
-                        reply={(value) => this.replyHandler(value)}
-                        onLike={(params) => this.like(params)}
-                        onJoin={(params) => this.join(params)}
-                      />
-                      : <View>
-                        {item.account && item.account.username && item.account.username.toLowerCase().includes(this.props.state.statusSearch && this.props.state.statusSearch.toLowerCase()) === true && (
-                          <PostCard
-                            navigation={this.props.navigation}
-                            loader={this.loader}
-                            data={{
-                              user: item.account,
-                              comments: item.comment_replies,
-                              message: item.text,
-                              date: item.created_at_human,
-                              id: item.id,
-                              liked: item.liked,
-                              joined: item.joined,
-                              members: item.members,
-                              index: index
-                            }}
-                            postReply={() => { this.reply(item) }}
-                            reply={(value) => this.replyHandler(value)}
-                            onLike={(params) => this.like(params)}
-                            onJoin={(params) => this.join(params)}
-                          />
-                        )}
-                      </View>
-                    }
-                  </View>
-                ))
-              }
-            </View>
+          <View style={{
+            marginTop: 10,
+            marginBottom: 350
+          }}>
+            {
+              comments && comments.length > 0 && comments.map((item, index) => (
+                <View>
+                  {(this.props.state.statusSearch === null || this.props.state.statusSearch === '') ?
+                    <PostCard
+                      navigation={this.props.navigation}
+                      loader={this.loader}
+                      data={{
+                        user: item.account,
+                        comments: item.comment_replies,
+                        message: item.text,
+                        date: item.created_at_human,
+                        id: item.id,
+                        liked: item.liked,
+                        joined: item.joined,
+                        members: item.members,
+                        index: index
+                      }}
+                      postReply={() => { this.reply(item) }}
+                      reply={(value) => this.replyHandler(value)}
+                      onLike={(params) => this.like(params)}
+                      onJoin={(params) => this.join(params)}
+                    />
+                    : <View>
+                      {item.account && item.account.username && item.account.username.toLowerCase().includes(this.props.state.statusSearch && this.props.state.statusSearch.toLowerCase()) === true && (
+                        <PostCard
+                          navigation={this.props.navigation}
+                          loader={this.loader}
+                          data={{
+                            user: item.account,
+                            comments: item.comment_replies,
+                            message: item.text,
+                            date: item.created_at_human,
+                            id: item.id,
+                            liked: item.liked,
+                            joined: item.joined,
+                            members: item.members,
+                            index: index
+                          }}
+                          postReply={() => { this.reply(item) }}
+                          reply={(value) => this.replyHandler(value)}
+                          onLike={(params) => this.like(params)}
+                          onJoin={(params) => this.join(params)}
+                        />
+                      )}
+                    </View>
+                  }
+                </View>
+              ))
+            }
+          </View>
           <BottomSheet
             isVisible={this.props.state.createStatus}
             containerStyle={{ backgroundColor: 'rgba(0.5, 0.25, 0, 0.2)' }}
-            >
+          >
             <View style={{
               backgroundColor: 'white',
               paddingTop: 40,
@@ -337,34 +337,35 @@ class Status extends Component {
                   onChangeText={text => this.statusHandler(text)}
                   value={this.state.status}
                   placeholder="Express what's on your mind!"
-                  />
+                />
               </View>
               <View style={{
                 flexDirection: 'row-reverse',
-                marginTop: 30,
-                marginBottom: 10
+                padding: 30
               }}>
                 <TouchableOpacity style={{
-                  backgroundColor: Color.primary,
-                  height: 35,
-                  width: '20%',
-                  marginRight: '10%',
+                  width: '23%',
                   alignItems: 'center',
-                  borderRadius: 25,
-                  justifyContent: 'center'
+                  justifyContent: 'center',
+                  borderRadius: 20,
+                  borderColor: theme ? theme.primary : Color.primary,
+                  borderWidth: 1,
+                  height: 35,
+                  marginRight: 5,
+                  backgroundColor: theme ? theme.primary : Color.primary
                 }}
-                onPress={() => { this.post() }}
+                  onPress={() => { this.post() }}
                 >
                   <Text style={{ color: 'white' }}>Post</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={{
-                  backgroundColor: Color.gray,
-                  height: 35,
-                  width: '20%',
-                  marginRight: '2%',
+                  width: '23%',
                   alignItems: 'center',
-                  borderRadius: 25,
-                  justifyContent: 'center'
+                  justifyContent: 'center',
+                  borderRadius: 20,
+                  height: 35,
+                  marginRight: 5,
+                  backgroundColor: Color.gray,
                 }}
                 onPress={() => { this.props.setCreateStatus(false), this.setState({ status: null }) }}
                 >

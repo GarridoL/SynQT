@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faUsers, faHome, faBell, faComments, faReply, faShare } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
 import { BasicStyles, Color } from 'common';
-import { NeomorphBlur, Neomorph } from 'react-native-neomorph-shadows';
 const width = Math.round(Dimensions.get('window').width)
 
 class Header extends Component {
@@ -55,7 +54,6 @@ class Header extends Component {
         <TouchableOpacity
           onPress={() => this.onShare()}
         >
-          <Neomorph style={[BasicStyles.neomorphIcon, {height: 35, width: 35}]}>
             <FontAwesomeIcon
               icon={faShare}
               size={BasicStyles.iconSize}
@@ -66,7 +64,6 @@ class Header extends Component {
                 },
               ]}
             />
-          </Neomorph>
         </TouchableOpacity>
       </View>
     );

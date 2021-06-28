@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faAlignLeft, faBars, faChevronLeft, faClock, faHistory, faShoppingBag, faStar, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
 import { BasicStyles, Color } from 'common';
-import { NeomorphBlur, Neomorph } from 'react-native-neomorph-shadows';
 const width = Math.round(Dimensions.get('window').width)
 
 class Header extends Component {
@@ -32,7 +31,6 @@ class Header extends Component {
           flex: 1,
           flexDirection: 'row',
           alignItems: 'center',
-          backgroundColor: '#E7E9FD',
           width: width,
           height: 100,
           marginTop: 25,
@@ -51,7 +49,6 @@ class Header extends Component {
             marginLeft: 20
           }}
         >
-          <Neomorph style={BasicStyles.neomorphIcon}>
             <FontAwesomeIcon
               icon={faAlignLeft}
               size={BasicStyles.iconSize}
@@ -62,7 +59,6 @@ class Header extends Component {
                 },
               ]}
             />
-          </Neomorph>
         </TouchableOpacity>
 
         {
@@ -103,12 +99,10 @@ class Header extends Component {
               }}
                 onPress={() => { this.props.setCreateStatus(true) }}
               >
-                <Neomorph style={BasicStyles.neomorphIcon}>
                   <FontAwesomeIcon
                     icon={faEdit}
                     size={BasicStyles.iconSize}
                     color={Color.primary} />
-                </Neomorph>
               </TouchableOpacity>
             </View>
           )
@@ -125,7 +119,6 @@ class Header extends Component {
             right: 20
           }}
         >
-          <Neomorph style={BasicStyles.neomorphIcon}>
             <FontAwesomeIcon
               icon={faHistory}
               size={BasicStyles.iconSize}
@@ -136,7 +129,6 @@ class Header extends Component {
                 },
               ]}
             />
-          </Neomorph>
         </TouchableOpacity>
       </View>
     );
