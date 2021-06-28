@@ -105,7 +105,16 @@ class Slider2 extends Component {
         style={{ height: '100%', paddingRight: 10, width: width }}
       >
         <View style={{ flexDirection: 'row', height: '100%' }}>
-          <View style={{ backgroundColor: '#E7E9FD', height: '100%', width: '25%', borderTopRightRadius: 40, borderBottomRightRadius: 50, zIndex: 999, elevation: 50 }}>
+          <View
+            style={{
+              backgroundColor: '#E7E9FD',
+              height: '100%',
+              width: '25%',
+              borderTopRightRadius: 40,
+              borderBottomRightRadius: 50,
+              zIndex: 999,
+              elevation: 50
+            }}>
             <View style={{ marginTop: '40%', marginLeft: 10 }}>
               <TouchableOpacity onPress={() => this.props.navigation.toggleDrawer()}>
                 <FontAwesomeIcon color={Color.primary} icon={faTimes} size={BasicStyles.iconSize}></FontAwesomeIcon>
@@ -115,7 +124,15 @@ class Slider2 extends Component {
           {
             user !== null ? (
               <View style={{ marginTop: '10%', position: 'absolute', right: 0, width: '75%' }}>
-                <View style={{ flex: 1, flexDirection: 'row', marginTop: '10%', position: 'absolute', right: 0, justifyContent: 'center', alignItems: 'center' }}>
+                <View
+                  style={{ flex: 1,
+                    flexDirection: 'row',
+                    marginTop: '10%',
+                    position: 'absolute',
+                    right: 0,
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}>
                   <Text numberOfLines={1} style={{ color: Color.white, fontWeight: 'bold', marginRight: 10, width: '80%', textAlign: 'right' }}>{user?.account_information?.first_name ? user?.account_information.first_name + ' ' + user?.account_information.last_name : user?.username}</Text>
                   <TouchableOpacity onPress={() => this.props.navigation.navigate('profileStack')}>
                     {user?.account_profile?.url ? <Image
@@ -147,7 +164,11 @@ class Slider2 extends Component {
               </Text>
             )
           }
-          <View style={{ marginTop: height / 3.5, position: 'absolute', right: 0, alignItems: 'flex-end' }}>
+          <View style={{
+              marginTop: height / 3.5,
+              position: 'absolute',
+              right: 0,
+              alignItems: 'flex-end' }}>
             {Helper.DrawerMenu.length > 0 &&
               Helper.DrawerMenu.map((item, index) => {
                 return (
@@ -158,6 +179,7 @@ class Slider2 extends Component {
                       paddingBottom: 10
                     }
                   ]}
+                    key={index}
                     onPress={() => {
                       this.setState({ current: item.title === 'Messages' || item.title === 'Connections' ? 'drawerStack' : item.currentPage });
                       item.title == 'Connections' ? this.redirect('connectionStack') : (item.title == 'Messages' ? this.redirect('mainMessageStack') : this.navigateToScreen(item.route))
