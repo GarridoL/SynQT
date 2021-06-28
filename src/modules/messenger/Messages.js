@@ -207,6 +207,8 @@ class MessagesV3 extends Component {
     if(this.state.newMessage === '' || this.state.newMessage === null) {
       return
     }
+    let use = user;
+    use['profile'] = user.account_profile;
     let parameter = {
       messenger_group_id: this.props.navigation.state.params.data.messenger_group_id,
       message: this.state.newMessage,
@@ -218,11 +220,12 @@ class MessagesV3 extends Component {
     }
     let newMessageTemp = {
       ...parameter,
-      account: user,
+      account: use,
       created_at_human: moment(new Date()).format('MMMM DD, YYYY hh:mm a'),
       sending_flag: false,
       error: null
     }
+    
     updateMessagesOnGroup(newMessageTemp);
     this.setState({ newMessage: null })
     Api.request(Routes.messengerMessagesCreate, parameter, response => {

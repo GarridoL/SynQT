@@ -29,6 +29,7 @@ class Profile extends Component {
 
   componentDidMount() {
     this.retrieve();
+    console.log(this.props.state.user, '----');
   }
 
   firstNameHandler = (value) => {
@@ -212,12 +213,23 @@ class Profile extends Component {
     if (user == null) {
       return
     }
-    let parameter = {
-      account_id: user.id,
-      url: url
+    let parameter = null;
+    let route = null
+    if(this.props.state.user?.account_profile?.url) {
+      parameter = {
+        id: this.props.state.user?.account_profile?.id,
+        url: url
+      }
+      route = Routes.accountProfileUpdate;
+    } else {
+      parameter = {
+        account_id: user.id,
+        url: url
+      }
+      route = Routes.accountProfileCreate;
     }
     this.setState({ isLoading: true })
-    Api.request(Routes.accountProfileCreate, parameter, response => {
+    Api.request(route, parameter, response => {
       this.setState({ isLoading: false })
       this.reloadProfile();
     }, error => {
