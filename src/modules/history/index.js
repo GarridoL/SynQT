@@ -23,7 +23,8 @@ class History extends Component {
       isLoading: false,
       isVisible: false,
       limit: 50,
-      offset: 0
+      offset: 0,
+      item: null
     };
   }
 
@@ -53,7 +54,6 @@ class History extends Component {
       sort: { created_at: 'asc' }
     }
     this.setState({ isLoading: true })
-    console.log(parameter, Routes.reservationRetrieve, '---------------');
     Api.request(Routes.reservationRetrieve, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
@@ -76,25 +76,14 @@ class History extends Component {
     );
   }
 
+  closeModal = (value) => {
+    this.setState({isVisible: false});
+  }
 
   onPageChange(index) {
     this.setState({
       activeIndex: index
     })
-  }
-
-  onClick = (item) => {
-    if (this.props.navigation.state && this.props.navigation.state.params && this.props.navigation.state.params.title !== null) {
-      if (this.state.activeIndex === 0 || this.state.activeIndex === 1) {
-        this.props.navigation.navigate('eventNameStack', { buttonTitle: this.props.navigation.state.params && this.props.navigation.state.params.title && this.props.navigation.state.params.title.toLowerCase() === 'history' ? 'Make Reservation' : 'Cancel', data: item });
-      } else {
-        this.props.navigation.navigate('retailNameStack', { data: item });
-      }
-    } else {
-      this.setState({
-        isVisible: true
-      })
-    }
   }
 
   renderData(data) {
@@ -144,48 +133,46 @@ class History extends Component {
                 }}
                 redirectTo={this.props.navigation.state.params && this.props.navigation.state.params.title}
                 onClick={() => {
-                  this.props.navigation.navigate('eventNameStack', {
-                    parameter: {
-                      account_id: this.props.state.user?.id,
-                      merchant_id: item.merchant?.id,
-                      payload: 'synqt',
-                      payload_value: item?.synqt[0]?.id,
-                      details: item?.synqt[0]?.details,
-                      datetime: item?.synqt[0]?.date,
-                      status: 'pending'
-                    }, buttonTitle: this.props.navigation.state?.params?.title === 'Upcoming' ? "Cancel" : 'Make Reservation', data: item
-                  })
+                  if(this.props.navigation.state?.params?.title === 'Upcoming') {
+                    this.props.navigation.navigate('eventNameStack', {
+                      parameter: {
+                        account_id: this.props.state.user?.id,
+                        merchant_id: item.merchant?.id,
+                        payload: 'synqt',
+                        payload_value: item?.synqt[0]?.id,
+                        details: item?.synqt[0]?.details,
+                        datetime: item?.synqt[0]?.date,
+                        status: 'pending'
+                      },
+                      buttonTitle: this.props.navigation.state?.params?.title === 'Upcoming' ? "Cancel" : 'Make Reservation',
+                      data: item,
+                      messenger_group_id: item.members?.[0].messenger_group_id
+                    })
+                  } else {
+                    this.setState({item: item})
+                  }
                 }}
                 navigation={this.props.navigation}
               />
             ))
           }
         </View>
-        {isVisible && <CardModal
+        {this.state.item !== null && <CardModal
+          item={this.state.item}
           history={this.props.navigation.state.params && this.props.navigation.state.params.title && this.props.navigation.state.params.title.toLowerCase() === 'history' ? true : false}
           navigation={this.props.navigation}
-          visisble={isVisible}
+          visible={this.state.item !== null}
+          fromHistory={true}
           onClose={() => {
             this.setState({
-              isVisible: false
+              item: null
             })
           }} />}
       </ScrollView>
     )
   }
   render() {
-    const { activeIndex, label, isLoading } = this.state;
-    const paginationProps = [
-      {
-        icon: faUtensils
-      },
-      {
-        icon: faTicketAlt
-      },
-      {
-        icon: faShoppingBag
-      }
-    ]
+    const { isVisible } = this.state;
     return (
       <View style={[Style.MainContainer, {
         backgroundColor: Color.containerBackground

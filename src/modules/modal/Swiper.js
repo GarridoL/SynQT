@@ -49,7 +49,7 @@ class Cards extends React.Component {
 
   componentDidMount() {
     this.retrieve();
-    this.retrieveFeaturedPhotos(this.props.item.merchant.account_id);
+    this.retrieveFeaturedPhotos(this.props.item?.merchant?.account_id);
   }
 
   retrieveFeaturedPhotos = (id) => {
@@ -73,13 +73,16 @@ class Cards extends React.Component {
       if (response.data.length > 0) {
         this.setState({ featured_photos: response.data })
       }
+    }, error => {
+      this.setState({ isLoading: false })
+      console.log({ error });
     })
   }
 
   retrieve = () => {
     let parameter = {
       condition: [{
-        value: this.props.item.merchant.id,
+        value: this.props.item?.merchant?.id,
         column: 'id',
         clause: '='
       }]
@@ -102,7 +105,7 @@ class Cards extends React.Component {
   retrieveProducts = () => {
     let parameter = {
       condition: [{
-        value: this.props.item.merchant.id,
+        value: this.props.item?.merchant?.id,
         column: 'merchant_id',
         clause: '='
       }],
@@ -131,7 +134,7 @@ class Cards extends React.Component {
   addToReservation = () => {
     let parameter = {
       account_id: this.props.state.user.id,
-      merchant_id: this.props.item.merchant.id,
+      merchant_id: this.props.item?.merchant?.id,
       payload: 'synqt',
       payload_value: this.props.item.synqt[0].id,
       details: this.props.item.synqt[0]?.details,
@@ -330,17 +333,22 @@ class Cards extends React.Component {
                 borderRadius: 40
               }}
               onPress={() => {
-                if (this.props.navigation.state?.params?.messenger_group_id?.status === 'ADMIN') {
-                  this.addToReservation()
+                if(this.props.fromHistory) {
+                  this.props.onClose(null);
+                  this.props.navigation.navigate('restaurantStack', { members: this.props.item?.members});
                 } else {
-                  Alert.alert(
-                    "",
-                    "Sorry you are not allowed to proceed to reservation.",
-                    [
-                      { text: "OK" }
-                    ],
-                    { cancelable: false }
-                  );
+                  if (this.props.navigation.state?.params?.messenger_group_id?.status === 'ADMIN') {
+                    this.addToReservation()
+                  } else {
+                    Alert.alert(
+                      "",
+                      "Sorry you are not allowed to proceed to reservation.",
+                      [
+                        { text: "OK" }
+                      ],
+                      { cancelable: false }
+                    );
+                  }
                 }
               }}
             >

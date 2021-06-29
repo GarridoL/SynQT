@@ -27,6 +27,7 @@ import styles from './Swiper2Style';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import Header from '../generic/MenuHeader';
+import ConfettiCannon from 'react-native-confetti-cannon';
 
 const height = Math.round(Dimensions.get('window').height);
 const width = Math.round(Dimensions.get('window').width);
@@ -37,6 +38,7 @@ class Cards extends React.Component {
     this.state = {
       choice: 'Menu',
       isLoading: true,
+      isLoading1: false,
       index: 0,
       data: [],
       products: [],
@@ -176,6 +178,10 @@ class Cards extends React.Component {
     );
   }
 
+  startExplosion = () => {
+    this.explosion && this.explosion.start();
+  };
+
   addToTopChoice = (status) => {
     const { topChoices } = this.props.state;
     if (topChoices.includes(this.state.data[this.state.index].id)) {
@@ -197,16 +203,17 @@ class Cards extends React.Component {
       status: status,
       synqt_id: this.props.navigation.state.params?.synqt_id && this.props.navigation.state.params?.synqt_id
     }
-    this.setState({ isLoading: true })
+    this.setState({ isLoading1: true })
     Api.request(Routes.topChoiceCreate, parameter, response => {
-      this.setState({ isLoading: false })
+      this.setState({ isLoading1: false })
       if (response.data !== null) {
         topChoices.push(this.state.data[this.state.index].id)
         // this.deleteFromNotification(this.props.id);
+        this.startExplosion();
       }
     },
       error => {
-        this.setState({ isLoading: false })
+        this.setState({ isLoading1: false })
         console.log({ error });
       },
     );
@@ -538,6 +545,13 @@ class Cards extends React.Component {
         >
           {this.renderCard(this.state.data)}
         </ScrollView>
+        {this.state.isLoading1 ? <Spinner mode="overlay" /> : null}
+        <ConfettiCannon
+          count={200}
+          origin={{x: -10, y: 0}}
+          autoStart={false}
+          ref={ref => (this.explosion = ref)}
+        />
       </View>
     );
   }

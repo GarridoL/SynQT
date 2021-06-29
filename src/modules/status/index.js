@@ -196,7 +196,6 @@ class Status extends Component {
     this.setState({ isLoading: true });
     Api.request(Routes.commentRepliesCreate, parameter, response => {
       this.setState({ isLoading: false });
-      console.log(response, '---------------------response');
       if (response.data !== null) {
         this.setState({
           isVisible: false,

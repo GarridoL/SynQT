@@ -61,6 +61,7 @@
     "react-native-camera": "^3.21.0",
     "react-native-card-stack-swiper": "^1.2.5",
     "react-native-collapsible": "^1.5.3",
+    "react-native-confetti-cannon": "^1.5.2",
     "react-native-credit-card-input": "^0.4.1",
     "react-native-customisable-switch": "github:baderahmed/react-native-customisable-switch#master",
     "react-native-deck-swiper": "^2.0.5",
