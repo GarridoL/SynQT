@@ -167,19 +167,42 @@ class HomePage extends Component {
                         }}
                       />
                     }
+                    <View style={{
+                    borderColor: Color.primary,
+                    borderWidth: 1,
+                    height: 30,
+                    width: 30,
+                    borderRadius: 100,
+                    marginRight: 5,
+                    position: 'absolute',
+                    right: 1,
+                    bottom: 1,
+                    backgroundColor: 'white',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }}>
+                    <FontAwesomeIcon style={{
+                      borderColor: Color.primary
+                    }}
+                      icon={faEdit}
+                      size={15}
+                      color={Color.primary}
+                    />
+                  </View>
                   </TouchableOpacity>
                 </View>
               </View>
             </LinearGradient>
           </View>
 
-          <View style={{
+          <View elevation={10} style={{
             marginTop: '20%',
             borderRadius: 100,
-            height: '23%',
+            height: '24%',
             width: '40%',
             justifyContent: 'center',
             alignItems: 'center',
+            backgroundColor: Color.containerBackground
           }}>
             <TouchableOpacity
               onPress={() => this.redirect('restaurantStack')}
@@ -190,9 +213,7 @@ class HomePage extends Component {
                 borderWidth: 1,
                 borderColor: theme ? theme.primary : Color.primary,
                 justifyContent: 'center',
-                alignItems: 'center',
-                marginBottom: 10
-
+                alignItems: 'center'
               }}>
               <FontAwesomeIcon icon={faUtensils} size={60} color={theme ? theme.primary : Color.primary} />
             </TouchableOpacity>
@@ -205,7 +226,10 @@ class HomePage extends Component {
             marginLeft: '25%',
             marginRight: '25%',
             marginTop: 50,
-            marginBottom: 100
+            marginBottom: 100,
+            elevation: 10,
+            borderRadius: 25,
+            backgroundColor: Color.containerBackground
           }}>
             <TouchableOpacity
               onPress={() => this.redirect('historyStack')}
@@ -213,8 +237,7 @@ class HomePage extends Component {
                 ...BasicStyles.standardButton,
                 backgroundColor: Color.containerBackground,
                 borderColor: theme ? theme.primary : Color.primary,
-                borderWidth: 1,
-                marginBottom: 10,
+                borderWidth: 1
               }}>
               <Text style={{
                 color: theme ? theme.primary : Color.primary,

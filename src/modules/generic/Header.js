@@ -42,11 +42,9 @@ class Header extends Component {
           style={{
             height: 50,
             width: 50,
-            marginLeft: 5,
             borderRadius: 25,
             justifyContent: 'center',
-            alignItems: 'center',
-            marginLeft: 20
+            alignItems: 'center'
           }}
         >
             <FontAwesomeIcon
@@ -70,22 +68,24 @@ class Header extends Component {
               justifyContent: 'center',
               alignItems: 'center',
               position: 'absolute',
-              padding: 10
+              padding: 20
             }}>
               <View style={{
                 height: 40,
                 borderColor: Color.white,
                 borderWidth: 1,
                 borderRadius: 25,
-                width: '50%',
-                marginRight: '2%',
-                marginLeft: '-13%',
+                width: '75%',
+                marginLeft: '-10%',
                 justifyContent: 'center'
               }}>
                 <TextInput
                   style={{
                     height: 45,
-                    width: '50%'
+                    width: '100%',
+                    borderWidth: .3,
+                    borderRadius: 20,
+                    borderColor: Color.gray
                   }}
                   onSubmitEditing={() => { this.props.setStatusSearch(this.state.search) }}
                   onChangeText={text => this.searchHandler(text)}
@@ -95,7 +95,7 @@ class Header extends Component {
               </View>
               <TouchableOpacity style={{
                 position: 'absolute',
-                right: 80
+                right: 50
               }}
                 onPress={() => { this.props.setCreateStatus(true) }}
               >
@@ -116,7 +116,7 @@ class Header extends Component {
             height: 50,
             width: 50,
             position: 'absolute',
-            right: 20
+            right: 1
           }}
         >
             <FontAwesomeIcon
