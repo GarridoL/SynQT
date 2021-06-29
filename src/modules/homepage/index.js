@@ -198,7 +198,7 @@ class HomePage extends Component {
           <View elevation={10} style={{
             marginTop: '20%',
             borderRadius: 100,
-            height: '24%',
+            height: '25%',
             width: '40%',
             justifyContent: 'center',
             alignItems: 'center',
