@@ -196,17 +196,17 @@ class SocialLogin extends Component {
 
   render() {
     return (
-      <View style={[Style.MainContainer, { flex: 1, flexDirection: 'row' }]}>
+      <View style={[Style.MainContainer, { flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }]}>
         {/* <View style={Style.TextContainer}> */}
         <TouchableHighlight style={[BasicStyles.btnRound, { backgroundColor: 'white', width: 50 }]} onPress={() => this.loginWithFacebook()}>
           <FontAwesomeIcon size={30} color={Color.primary} icon={['fab', 'facebook-f']} />
         </TouchableHighlight>
-        <TouchableHighlight style={[BasicStyles.btnRound, { backgroundColor: 'white', width: 50, marginLeft: -20, marginRight: -20 }]} onPress={() => this.signIn()}>
+        <TouchableHighlight style={[BasicStyles.btnRound, { backgroundColor: 'white', width: 50}]} onPress={() => this.signIn()}>
           <FontAwesomeIcon size={30} color={Color.primary} icon={['fab', 'google-plus-g']} />
         </TouchableHighlight>
-        <TouchableHighlight style={[BasicStyles.btnRound, { backgroundColor: 'white', width: 50 }]}>
+        {/* <TouchableHighlight style={[BasicStyles.btnRound, { backgroundColor: 'white', width: 50 }]}>
           <FontAwesomeIcon size={30} color={Color.primary} icon={['fab', 'twitter']} />
-        </TouchableHighlight>
+        </TouchableHighlight> */}
         {/* </View> */}
         {this.state.isLoading ? <Spinner mode="overlay"/> : null }
       </View>
