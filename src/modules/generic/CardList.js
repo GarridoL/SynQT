@@ -100,7 +100,6 @@ class CardList extends Component {
     let temp = this.props.state.tempMembers;
     console.log(temp, 'temp');
     temp.length > 0 && temp.map((item, index) => {
-      console.log(id, item.account.id, '----------ids');
       if (id === item.account.id) {
         item['added'] = false
         temp.splice(index, 1)

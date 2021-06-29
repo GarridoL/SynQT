@@ -35,7 +35,6 @@ class ImageCardWithUser extends Component {
 
   render() {
     const { data } = this.props;
-    console.log(data.ratings, '-----------');
     return (
       <View style={{
         width: '100%',

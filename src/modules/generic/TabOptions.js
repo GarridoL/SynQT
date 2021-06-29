@@ -14,7 +14,6 @@ class Tab extends Component {
 
   choiceHandler = (value) => {
     this.setState({ choice: value });
-    console.log(value, 'test-------');
     this.props.onClick(value)
   }
 

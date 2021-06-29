@@ -203,7 +203,7 @@ class EventName extends Component {
           }}>
             <Group navigation={this.props.navigation} size={45} data={this.state.members.length > 0 ? this.state.members : []} />
           </View>
-          <CustomizedButton backgroundColor={Color.danger} style={{ marginLeft: -20, marginBottom: 10 }} onClick={this.onClick} title={this.props.navigation.state && this.props.navigation.state.params && this.props.navigation.state.params.buttonTitle && this.props.navigation.state.params.buttonTitle}></CustomizedButton>
+          <CustomizedButton backgroundColor={this.props.navigation.state?.params?.buttonTitle === 'Cancel' ? Color.danger : (theme ? theme.primary : Color.primary)} style={{ marginLeft: -20, marginBottom: 10 }} onClick={this.onClick} title={this.props.navigation.state?.params?.buttonTitle}></CustomizedButton>
         </View>
       </ScrollView>
     );

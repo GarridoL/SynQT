@@ -12,15 +12,21 @@ class Information extends Component {
     if(schedule && schedule !== 'NULL' && typeof(schedule) !== 'object') {
       schedule = JSON.parse(schedule);
     }
+    let information = null
+    try {
+      information = JSON.parse(this.props.description).information
+    } catch (e) {
+      console.log(e)
+    }
     return (
       <View style={{ paddingTop: 22 }}>
         <Text style={{ fontWeight: 'bold' }}>{this.props.name}</Text>
-        <Text>{this.props.description}</Text>
+        <Text>{information}</Text>
         <Text style={{ fontWeight: 'bold', marginTop: 20 }}>RESTAURANT HOURS</Text>
         { schedule && schedule !== 'NULL' && schedule?.schedule?.length > 0 && schedule?.schedule?.map((item, index) => {
           return (
             <View>
-              <Text>{item.value} {item.startTime ? item.startTime?.HH + ':' + item.startTime?.mm : ''} {item.startTime ? '-' : ''} {item.endTime ? item.endTime?.HH + ':' + item.endTime?.mm : ''}</Text>
+              <Text>{item.value} {item.startTime ? item.startTime?.hh + ':' + item.startTime?.mm + ' ' + item.startTime?.a : ''} {item.startTime ? '-' : ''} {item.endTime ? item.endTime?.hh + ':' + item.endTime?.mm + ' ' + item.endTime?.a : ''}</Text>
             </View>
           )
         })}

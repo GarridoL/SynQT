@@ -22,6 +22,7 @@ class GroupUsers extends Component{
       }}>
         {
           data.length > 0 && data.map((item, index) => {
+            item['account']['id'] = item.account_id
             if(index < 5) {
               return (
                 <TouchableOpacity onPress={() => {this.props.navigation.navigate('viewProfileStack', { user: item, level: 2 }) }}>
