@@ -760,7 +760,7 @@ class MessagesV3 extends Component {
             </ScrollView>
             <View style={{
               position: 'absolute',
-              bottom: Platform.OS == 'ios' ? 0 : this.state.members.length > 0 ? 180 : 0,
+              bottom: this.state.members.length > 0 ? 180 : 0,
               left: 0,
               borderTopColor: Color.lightGray,
               borderTopWidth: 1,
