@@ -139,6 +139,7 @@ class EventName extends Component {
   render() {
     const { theme } = this.props.state;
     const { data } = this.props.navigation.state.params;
+    console.log(data, '--');
     return (
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={style.Container}>

@@ -153,7 +153,12 @@ class Connections extends Component {
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
             <View style={Style.TextContainer}>
               <TextInput
-                style={[BasicStyles.formControl, {borderColor: theme ? them.primary : Color.primary}]}
+                style={[
+                  BasicStyles.formControl, {
+                    borderColor: Color.gray,
+                    borderWidth: .3
+                  }
+                ]}
                 onChangeText={(search) => this.setState({ search: search })}
                 value={this.state.search}
                 placeholder={'Search Connections'}

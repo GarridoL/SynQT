@@ -184,10 +184,13 @@ class Rate extends Component {
               {data?.name}
             </Text>
             <View style={{
-              marginTop: 5,
-              flexDirection: 'row'
+              flexDirection: 'row',
+              padding: 10
             }}>
-              <FontAwesomeIcon icon={faMapMarkerAlt} size={13} style={{ marginTop: 3, marginRight: 5 }} />
+              <FontAwesomeIcon icon={faMapMarkerAlt} size={13} style={{ 
+                marginTop: 3,
+                marginRight: 7,
+              }} />
               <Text>
                 {data?.address ? this.getAddress(data.address) : 'No address provided'}
               </Text>
