@@ -336,6 +336,7 @@ class Status extends Component {
                   onChangeText={text => this.statusHandler(text)}
                   value={this.state.status}
                   placeholder="Express what's on your mind!"
+                  placeholderTextColor={'#d1d1d1'}
                 />
               </View>
               <View style={{

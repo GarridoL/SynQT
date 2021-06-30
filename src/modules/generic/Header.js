@@ -32,8 +32,7 @@ class Header extends Component {
           flexDirection: 'row',
           alignItems: 'center',
           width: width,
-          height: 100,
-          marginTop: 25,
+          marginTop: 25
         }}>
         <TouchableOpacity
           onPress={() => {
@@ -44,7 +43,8 @@ class Header extends Component {
             width: 50,
             borderRadius: 25,
             justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            zIndex: 1000
           }}
         >
             <FontAwesomeIcon
@@ -53,7 +53,7 @@ class Header extends Component {
               style={[
                 BasicStyles.iconStyle,
                 {
-                  color: Color.primary,
+                  color: Color.primary
                 },
               ]}
             />
@@ -63,12 +63,15 @@ class Header extends Component {
           routeName === 'Status' && (
             <View style={{
               flex: 1,
+              height: 55,
               flexDirection: 'row',
               width: width,
               justifyContent: 'center',
               alignItems: 'center',
               position: 'absolute',
-              padding: 20
+              paddingLeft: 20,
+              paddingRight: 25,
+              backgroundColor: Color.containerBackground
             }}>
               <View style={{
                 height: 40,
@@ -77,7 +80,8 @@ class Header extends Component {
                 borderRadius: 25,
                 width: '75%',
                 marginLeft: '-10%',
-                justifyContent: 'center'
+                justifyContent: 'center',
+                backgroundColor: Color.containerBackground
               }}>
                 <TextInput
                   style={{
@@ -85,12 +89,14 @@ class Header extends Component {
                     width: '100%',
                     borderWidth: .3,
                     borderRadius: 20,
-                    borderColor: Color.gray
+                    borderColor: Color.gray,
+                    backgroundColor: Color.containerBackground
                   }}
                   onSubmitEditing={() => { this.props.setStatusSearch(this.state.search) }}
                   onChangeText={text => this.searchHandler(text)}
                   value={this.state.search}
                   placeholder='Search...'
+                  placeholderTextColor={'#d1d1d1'}
                 />
               </View>
               <TouchableOpacity style={{

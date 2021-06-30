@@ -162,6 +162,7 @@ class Connections extends Component {
                 onChangeText={(search) => this.setState({ search: search })}
                 value={this.state.search}
                 placeholder={'Search Connections'}
+                placeholderTextColor={'#d1d1d1'}
               />
             </View>
             {this.state.data.length > 0 && (<View>

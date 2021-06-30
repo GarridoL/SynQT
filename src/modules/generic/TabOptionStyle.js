@@ -13,25 +13,25 @@ export default {
   },
   MenuClicked: {
     width: '50%',
-    textAlign: 'center',
+    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Color.primary,
+    backgroundColor: Color.primary
   },
   Menu: {
     width: '50%',
-    textAlign: 'center',
+    justifyContent: 'center',
     alignItems: 'center'
   },
   Information: {
     width: '50%',
-    textAlign: 'center',
+    justifyContent: 'center',
     alignItems: 'center',
     borderColor: Color.primary,
   },
   InformationClicked: {
     width: '50%',
     borderLeftWidth: 1,
-    textAlign: 'center',
+    justifyContent: 'center',
     alignItems: 'center',
     borderColor: Color.primary,
     backgroundColor: Color.primary
