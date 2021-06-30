@@ -204,7 +204,7 @@ class MessagesV3 extends Component {
   sendNewMessage = () => {
     const { messengerGroup, user, messagesOnGroup } = this.props.state;
     const { updateMessagesOnGroup, updateMessageByCode } = this.props;
-    if (this.state.newMessage === '' || this.state.newMessage === null) {
+    if(this.state.newMessage === '' || this.state.newMessage === null) {
       return
     }
     let use = user;
@@ -709,71 +709,80 @@ class MessagesV3 extends Component {
             <Group add={data?.status === 'ADMIN' && this.props.navigation?.state.params?.status !== 'completed' ? true : false} navigation={this.props.navigation} style={{ marginLeft: 9 }} redirectTo={() => this.props.navigation.navigate('peopleListStack', { data: this.props.navigation.state?.params?.data, addMember: this.props.navigation.state.params.data.messenger_group_id })} color={Color.primary} size={55} data={this.state.members} />
           </View>
         )}
-        <View key={keyRefresh}>
-          {isLoading ? <Spinner mode="full" /> : null}
-          <ScrollView
-            ref={ref => this.scrollView = ref}
-            onContentSizeChange={(contentWidth, contentHeight) => {
-              if (!isPullingMessages) {
-                this.scrollView.scrollToEnd({ animated: true });
-              }
-            }}
-            showsVerticalScrollIndicator={false}
-            style={[Style.ScrollView, {
-              height: '100%'
-            }]}
-            onScroll={({ nativeEvent }) => {
-              const { layoutMeasurement, contentOffset, contentSize } = nativeEvent
-              const isOnBottom = layoutMeasurement.height + contentOffset.y >= contentSize.height
-              const isOnTop = contentOffset.y <= 0
+        <KeyboardAvoidingView
+          behavior={'padding'}
+          keyboardVerticalOffset={
+            Platform.select({
+              ios: () => 65,
+              android: () => -450
+            })()}
+        >
+          <View key={keyRefresh}>
+            {isLoading ? <Spinner mode="full" /> : null}
+            <ScrollView
+              ref={ref => this.scrollView = ref}
+              onContentSizeChange={(contentWidth, contentHeight) => {
+                if (!isPullingMessages) {
+                  this.scrollView.scrollToEnd({ animated: true });
+                }
+              }}
+              showsVerticalScrollIndicator={false}
+              style={[Style.ScrollView, {
+                height: '100%'
+              }]}
+              onScroll={({ nativeEvent }) => {
+                const { layoutMeasurement, contentOffset, contentSize } = nativeEvent
+                const isOnBottom = layoutMeasurement.height + contentOffset.y >= contentSize.height
+                const isOnTop = contentOffset.y <= 0
 
-              if (isOnTop) {
-                if (this.state.isLoading == false) {
-                  if (!isPullingMessages) {
-                    this.setState({ isPullingMessages: true })
+                if (isOnTop) {
+                  if (this.state.isLoading == false) {
+                    if (!isPullingMessages) {
+                      this.setState({ isPullingMessages: true })
+                    }
+                    this.retrieveMoreMessages()
                   }
-                  this.retrieveMoreMessages()
                 }
-              }
-              if (isOnBottom) {
-                if (this.state.isLoading == false && isPullingMessages) {
-                  this.setState({ isPullingMessages: false })
+                if (isOnBottom) {
+                  if (this.state.isLoading == false && isPullingMessages) {
+                    this.setState({ isPullingMessages: false })
+                  }
                 }
-              }
-            }}
-          >
+              }}
+            >
+              <View style={{
+                flexDirection: 'row',
+                width: '100%',
+                marginBottom: 100
+              }}>
+                {this._flatList()}
+              </View>
+            </ScrollView>
             <View style={{
-              flexDirection: 'row',
-              width: '100%',
-              marginBottom: 100
+              position: 'absolute',
+              bottom: this.state.members.length > 0 ? 180 : 0,
+              left: 0,
+              borderTopColor: Color.lightGray,
+              borderTopWidth: 1,
+              backgroundColor: Color.white
             }}>
-              {this._flatList()}
+              {this.props.navigation?.state.params?.status !== 'completed' && this._footer()}
             </View>
-          </ScrollView>
-          <View style={{
-            position: 'absolute',
-            bottom: this.state.members.length > 0 ? 180 : 0,
-            left: 0,
-            borderTopColor: Color.lightGray,
-            borderTopWidth: 1,
-            backgroundColor: Color.white
-          }}>
-            {this.props.navigation?.state.params?.status !== 'completed' && this._footer()}
+            <ImageModal
+              visible={isImageModal}
+              url={imageModalUrl}
+              action={() => this.setState({ isImageModal: false })}
+            ></ImageModal>
           </View>
-          <ImageModal
-            visible={isImageModal}
-            url={imageModalUrl}
-            action={() => this.setState({ isImageModal: false })}
-          ></ImageModal>
-        </View>
+        </KeyboardAvoidingView>
         {this.props.state.showSettings &&
-          <Settings
-            groupId={this.props.navigation?.state?.params.data?.messenger_group_id}
-            synqtId={this.props.navigation.state?.params?.data?.payload}
-            title={this.props.navigation?.state?.params.data?.title}
-            navigation={this.props.navigation}
-            status={this.props.navigation?.state.params?.status}
-          ></Settings>}
+        <Settings
+          groupId={this.props.navigation?.state?.params.data?.messenger_group_id}
+          synqtId={this.props.navigation.state?.params?.data?.payload}
+          title={this.props.navigation?.state?.params.data?.title}
+          navigation={this.props.navigation}
+          status={this.props.navigation?.state.params?.status}
+        ></Settings>}
       </SafeAreaView>
     );
   }

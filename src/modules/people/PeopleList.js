@@ -83,13 +83,15 @@ class Connections extends Component {
               res.data.map((item, ind) => {
                 id.push(item?.information?.account_id)
               })
+              let temp = []
               response.data.map((i, ind) => {
-                if(id.includes(i?.account?.id)) {
-                  response.data.splice(ind, 1)
+                console.log(id, i?.account?.id, 'hi---', id.includes(i?.account?.id));
+                if(id.includes(i?.account?.id) === false) {
+                  temp.push(i);
                 }
               })
               this.setState({
-                data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
+                data: flag == false ? temp : _.uniqBy([...this.state.data, ...temp], 'id'),
                 offset: flag == false ? 1 : (this.state.offset + 1)
               })
             }
@@ -132,6 +134,7 @@ class Connections extends Component {
           this.props.navigation.navigate('messagesStack', {
             data: this.props.navigation.state?.params?.data
           });
+          this.props.setTempMembers([]);
         }
       });
     })
@@ -190,7 +193,8 @@ const mapStateToProps = state => ({ state: state });
 const mapDispatchToProps = dispatch => {
   const { actions } = require('@redux');
   return {
-    viewMenu: (isViewing) => dispatch(actions.viewMenu(isViewing))
+    viewMenu: (isViewing) => dispatch(actions.viewMenu(isViewing)),
+    setTempMembers: (tempMembers) => dispatch(actions.setTempMembers(tempMembers))
   };
 };
 export default connect(

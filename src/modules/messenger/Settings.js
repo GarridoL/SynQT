@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity, Dimensions, Modal, Pressable, TextInput } from 'react-native';
+import { View, Platform, Text, Image, TouchableOpacity, Dimensions, Modal, Pressable, TextInput } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { Color, BasicStyles, Routes } from 'common';
@@ -92,7 +92,8 @@ class Settings extends Component {
                     borderRadius: 50,
                     width: width - 100,
                     marginTop: 30,
-                    paddingLeft: 20
+                    paddingLeft: 20,
+                    height: Platform.OS == 'ios' ? 30 : null,
                   }}
                   multiline={true}
                   numberOfLines={1}
