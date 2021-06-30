@@ -404,7 +404,7 @@ class Cards extends React.Component {
   render() {
     const { isLoading } = this.state;
     return (
-      <ScrollView showsVerticalScrollIndicator={true}
+      <ScrollView showsVerticalScrollIndicator={false}
         style={{ backgroundColor: 'white' }}
       >
         {this.state.data && this.renderCard(this.state.data)}
