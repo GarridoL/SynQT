@@ -511,9 +511,13 @@ class Cards extends React.Component {
           </View>
           {this.state.isLoading ? <Spinner mode="overlay" /> : null}
         </View>
+        <View style={{
+          marginBottom: 50
+        }}>
         {this.props.bottomFloatButton === true > 0 && (
           <FLoatingButton onClose={() => { this.swiper.swipeRight() }} onClick={() => { this.addToTopChoice('like') }}></FLoatingButton>
         )}
+        </View>
       </View>
     )
   }

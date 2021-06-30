@@ -99,7 +99,7 @@ class HomePage extends Component {
             width: '90%',
             marginLeft: 'auto',
             marginRight: 'auto',
-            marginTop: '25%',
+            marginTop: '20%',
             padding: 10,
             alignItems: 'center'
           }}>
@@ -198,8 +198,8 @@ class HomePage extends Component {
           <View elevation={10} style={{
             marginTop: '20%',
             borderRadius: 100,
-            height: '25%',
-            width: '40%',
+            height: 150,
+            width: 150,
             justifyContent: 'center',
             alignItems: 'center',
             backgroundColor: Color.containerBackground

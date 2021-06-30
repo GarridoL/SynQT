@@ -23,7 +23,11 @@ class Tab extends Component {
       <View>
         {
           (this.props.level === 1) && (
-            <View style={[Style.Tab, { borderColor: theme ? theme.primary : Color.primary }]}>
+            <View style={[
+              Style.Tab, {
+                borderColor: theme ? theme.primary : Color.primary 
+              }
+            ]}>
               <TouchableOpacity
                 onPress={() => this.choiceHandler(this.props.choice[0])}
                 style={[
@@ -32,7 +36,7 @@ class Tab extends Component {
                   }
                 ]}
               >
-                <Text style={this.state.choice == this.props.choice[0] ? { color: 'white', marginTop: 12 } : { color: Color.primary, marginTop: 12, fontWeight: 'bold' }}>{this.props.choice[0]}</Text>
+                <Text style={this.state.choice == this.props.choice[0] ? { color: 'white' } : { color: Color.primary, fontWeight: 'bold' }}>{this.props.choice[0]}</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => this.choiceHandler(this.props.choice[1])}
@@ -42,7 +46,7 @@ class Tab extends Component {
                   }
                 ]}
               >
-                <Text style={this.state.choice == this.props.choice[1] ? { color: 'white', marginTop: 12 } : { color: Color.primary, marginTop: 12, fontWeight: 'bold' }}>{this.props.choice[1]}</Text>
+                <Text style={this.state.choice == this.props.choice[1] ? { color: 'white'} : { color: Color.primary, fontWeight: 'bold' }}>{this.props.choice[1]}</Text>
               </TouchableOpacity>
             </View>
           )
@@ -51,7 +55,7 @@ class Tab extends Component {
           (this.props.level === 2) && (
             <View style={[Style.Tab, { borderColor: theme ? theme.primary : Color.primary }]}>
               <TouchableOpacity style={[Style.Information, { width: '100%' }]}>
-                <Text style={{ color: Color.primary, marginTop: 12, fontWeight: 'bold' }}>{this.props.choice[0]}</Text>
+                <Text style={{ color: Color.primary, fontWeight: 'bold' }}>{this.props.choice[0]}</Text>
               </TouchableOpacity>
             </View>
           )

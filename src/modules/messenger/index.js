@@ -300,9 +300,10 @@ class Groups extends Component {
             <Text style={{
               lineHeight: 30,
               paddingLeft: '25%',
-              width: '100%',
+              width: '94%',
               fontStyle: 'italic'
-            }}>{item.last_messages ? item.last_messages?.title + ': ' + item.last_messages?.description : 'No message yet.'}</Text>
+            }}
+            numberOfLines={1}>{item.last_messages ? item.last_messages?.title + ': ' + (item.last_messages?.description || 'Sent a photo.') : 'No message yet.'}</Text>
           </View>
         </TouchableHighlight>
       </View>
@@ -366,7 +367,10 @@ class Groups extends Component {
           </View>
         )}
         <ScrollView
-          style={{ backgroundColor: Color.containerBackground }}
+          style={{
+            backgroundColor: Color.containerBackground,
+            marginBottom: 50
+          }}
           onScroll={(event) => {
             let scrollingHeight = event.nativeEvent.layoutMeasurement.height + event.nativeEvent.contentOffset.y
             let totalHeight = event.nativeEvent.contentSize.height
