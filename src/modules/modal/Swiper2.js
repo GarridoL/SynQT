@@ -182,14 +182,22 @@ class Cards extends React.Component {
     this.explosion && this.explosion.start();
   };
 
-  addToTopChoice = (status) => {
+  swp = (like) => {
+    this.swiper.swipeRight();
+    this.addToTopChoice(like, 'swiper');
+  }
+
+  addToTopChoice = (status, option) => {
+    if(option === 'button') {
+      this.swipeHandler();
+    }
     const { topChoices } = this.props.state;
     if (topChoices.includes(this.state.data[this.state.index].id)) {
       Alert.alert(
         "",
         "Cannot choose the same restaurant twice.",
         [
-          { text: "OK" }
+          { text: "OK", style: 'cancel' }
         ],
         { cancelable: false }
       );
@@ -203,13 +211,13 @@ class Cards extends React.Component {
       status: status,
       synqt_id: this.props.navigation.state.params?.synqt_id && this.props.navigation.state.params?.synqt_id
     }
-    this.setState({ isLoading1: true })
     Api.request(Routes.topChoiceCreate, parameter, response => {
-      this.setState({ isLoading1: false })
       if (response.data !== null) {
         topChoices.push(this.state.data[this.state.index].id)
         // this.deleteFromNotification(this.props.id);
-        this.startExplosion();
+        if(status === 'super-like') {
+          this.startExplosion();
+        }
       }
     },
       error => {
@@ -279,8 +287,9 @@ class Cards extends React.Component {
           ref={swiper => {
             this.swiper = swiper
           }}
-          onSwiped={() => this.swipeHandler()}
-          onSwipedLeft={() => console.log('onSwipedLeft')}
+          onSwiped={() => {console.log('hi');}}
+          onSwipedLeft={() => this.addToTopChoice('like', 'swiper')}
+          onSwipedRight={() => {this.swipeHandler()}}
           disableBottomSwipe={true}
           disableTopSwipe={true}
         >
@@ -309,8 +318,6 @@ class Cards extends React.Component {
                           <View
                             style={{
                               margin: 1,
-                              borderColor: theme ? theme.primary : Color.primary,
-                              borderWidth: .3,
                               backgroundColor: this.state.active === index ? 'white' : '#b5b5b5',
                               height: 5,
                               width: this.getWidth(el.featured_photos),
@@ -409,7 +416,7 @@ class Cards extends React.Component {
                       zIndex: 200
                     }}
                       onPress={() => {
-                        this.addToTopChoice('super-like')
+                        this.swp('super-like')
                       }}>
                       <FontAwesomeIcon
                         icon={faStar}
@@ -515,7 +522,7 @@ class Cards extends React.Component {
           marginBottom: 50
         }}>
         {this.props.bottomFloatButton === true > 0 && (
-          <FLoatingButton onClose={() => { this.swiper.swipeRight() }} onClick={() => { this.addToTopChoice('like') }}></FLoatingButton>
+          <FLoatingButton onClose={() => { this.swiper.swipeRight(); }} onClick={() => { this.swp('like') }}></FLoatingButton>
         )}
         </View>
       </View>
@@ -526,7 +533,7 @@ class Cards extends React.Component {
     const { isLoading } = this.state;
     return (
       <View style={{ backgroundColor: Color.containerBackground }}>
-        <Header navigation={this.props.navigation} status={this.state.index === this.state.data.length - 2 ? true : false} {...this.props} goBack={() => { this.swiper.swipeRight() }}></Header>
+        <Header navigation={this.props.navigation} status={this.state.index === this.state.data.length - 2 ? true : false} {...this.props} goBack={() => { this.swipeHandler() }}></Header>
         <ScrollView style={{
           marginTop: 40,
           height: height,

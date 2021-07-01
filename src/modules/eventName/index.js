@@ -43,7 +43,6 @@ class EventName extends Component {
 
   retrieveMembers = () => {
     const { offset, limit } = this.state;
-    this.setState({ isLoading: true });
     const parameter = {
       condition: [{
         value: this.props.navigation.state?.params?.messenger_group_id,
@@ -54,14 +53,17 @@ class EventName extends Component {
         'created_at': 'DESC'
       }
     }
-    console.log(parameter, 'paramter');
+    this.setState({ isLoading: true });
     Api.request(Routes.messengerMembersRetrieve, parameter, response => {
       this.setState({ isLoading: false });
-      console.log(response, 'response')
       if (response.data.length > 0) {
-        this.setState({ members: response.data })
+        this.setState({ members: response.data.concat(response.data) })
       }
-    })
+    },
+      error => {
+        this.setState({ isLoading: false })
+        console.log({ error });
+      })
   }
 
   redirect(route) {
@@ -90,7 +92,11 @@ class EventName extends Component {
               if (response.data !== null) {
                 this.props.navigation.navigate('historyStack', { title: 'Upcoming' })
               }
-            })
+            },
+              error => {
+                this.setState({ isLoading: false })
+                console.log({ error });
+              })
           }
         },
       ],
@@ -139,74 +145,126 @@ class EventName extends Component {
   render() {
     const { theme } = this.props.state;
     const { data } = this.props.navigation.state.params;
-    console.log(data, '--');
+    // console.log(data, '--');
     return (
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={style.Container}>
-          <ImageBackground
-            style={{
-              width: '100%',
-              height: '50%'
-            }}
-            imageStyle={{ flex: 1, height: null, width: null, resizeMode: 'cover' }}
-            source={{ uri: Config.BACKEND_URL + data.merchant.logo }}>
-          </ImageBackground>
-          <View style={{ padding: 10 }}>
-            <Text style={{
-              fontSize: 16,
-            }}>
-              {data.merchant.name}
-            </Text>
-            <Text style={{
-              color: Color.gray,
-              marginTop: 5
-            }}>
-              {data.merchant.address ? this.getAddress(data.merchant.address) : 'no address provided'}
-            </Text>
-          </View>
-          <View style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginTop: 10,
-            paddingLeft: 20
-          }}>
-            {this.state.isLoading ? <Spinner mode="overlay" /> : null}
-            <FontAwesomeIcon icon={faUser} size={20} color={Color.gray} style={{ marginRight: 10 }} />
-            <Text style={{ color: Color.gray }}>{this.state.members.length} people</Text>
+      <View>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={style.Container}>
+            <ImageBackground
+              style={{
+                width: '100%',
+                height: '50%'
+              }}
+              imageStyle={{ flex: 1, height: null, width: null, resizeMode: 'cover' }}
+              source={{ uri: Config.BACKEND_URL + data.merchant.logo }}>
+              <View style={{
+                width: width,
+                height: 110,
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                opacity: .3,
+                backgroundColor: 'white',
+                justifyContent: 'center'
+              }}>
+              </View>
+              <View style={{
+                position: 'absolute',
+                bottom: 4,
+                zIndex: 100,
+                padding: 10
+              }}>
+                <Text
+                  numberOfLines={1}
+                  style={{
+                    color: theme ? theme.primary : Color.primary,
+                    fontSize: 20,
+                    color: 'white',
+                    textShadowColor: 'black',
+                    textShadowOffset: { width: 1, height: 1 },
+                    textShadowRadius: 5,
+                    fontWeight: 'bold',
+                  }}
+                >{data.synqt[0].date_at_human}</Text>
+                <Text
+                  numberOfLines={1}
+                  style={{
+                    fontSize: 20,
+                    color: 'white',
+                    textShadowColor: 'black',
+                    textShadowOffset: { width: 1, height: 1 },
+                    textShadowRadius: 5,
+                    fontWeight: 'bold',
+                  }}
+                >
+                  {data.merchant.name}
+                </Text>
+                <Text
+                  numberOfLines={2}
+                  style={{
+                    color: Color.gray,
+                    marginTop: 5,
+                    color: 'white',
+                    textShadowColor: 'black',
+                    textShadowOffset: { width: 1, height: 1 },
+                    textShadowRadius: 5,
+                    fontWeight: 'bold',
+                  }}
+                >
+                  {data.merchant.address ? this.getAddress(data.merchant.address) : 'no address provided'}
+                </Text>
+              </View>
+            </ImageBackground>
             <View style={{
               flexDirection: 'row',
-              position: 'absolute',
-              right: 10
+              alignItems: 'center',
+              marginTop: 20,
+              paddingLeft: 20
             }}>
-              <View style={style.Date}>
-                <Text style={{ color: theme ? theme.primary : Color.primary, fontSize: 10 }}>{data.synqt[0].date}</Text>
-              </View>
-              <View style={style.Distance}>
-                <Text numberOfLines={1} style={{ fontSize: 10, color: 'white' }}>{data.distance || '0km'}</Text>
-              </View>
-              <View style={style.Rate}>
-                <FontAwesomeIcon icon={faStar} color={Color.warning} style={{ marginRight: 2 }} size={8} />
-                <Text numberOfLines={1} style={{ fontSize: 10, color: theme ? theme.primary : Color.primary }}>{data.rating ? data.rating.avg : 0}</Text>
-              </View>
-              <View style={style.StarContainer}>
-                <TouchableOpacity style={style.Star}>
-                  <FontAwesomeIcon icon={faStar} color={Color.white} size={8} />
-                </TouchableOpacity>
-                <Text numberOfLines={1} style={{ color: Color.warning }}>{data.total_super_likes || 0}</Text>
+              {this.state.isLoading ? <Spinner mode="overlay" /> : null}
+              <FontAwesomeIcon icon={faUser} size={20} color={Color.gray} style={{ marginRight: 10 }} />
+              <Text style={{ color: Color.gray }}>{this.state.members.length} people</Text>
+              <View style={{
+                flexDirection: 'row',
+                position: 'absolute',
+                right: 10
+              }}>
+                <View style={style.Distance}>
+                  <Text numberOfLines={1} style={{ color: 'white' }}>{data.distance || '0km'}</Text>
+                </View>
+                <View style={style.Rate}>
+                  <FontAwesomeIcon icon={faStar} color={Color.warning} style={{ marginRight: 2 }} size={15} />
+                  <Text numberOfLines={1} style={{ color: theme ? theme.primary : Color.primary }}>{data.rating ? data.rating.avg : 0}</Text>
+                </View>
+                <View style={style.StarContainer}>
+                  <TouchableOpacity style={style.Star}>
+                    <FontAwesomeIcon icon={faStar} color={Color.white} size={15} />
+                  </TouchableOpacity>
+                  <Text numberOfLines={1} style={{ color: Color.warning }}>{data.total_super_likes || 0}</Text>
+                </View>
               </View>
             </View>
+            <View style={{
+              flexDirection: 'row',
+              width: '100%',
+              height: '60%',
+              marginTop: 25,
+              padding: 10
+            }}>
+              <Group
+                reverse={false}
+                navigation={this.props.navigation}
+                size={45}
+                data={this.state.members.length > 0 ? this.state.members : []}
+                style={{
+                  height: '100%'
+                }}
+              />
+            </View>
           </View>
-          <View style={{
-            flexDirection: 'row',
-            width: '100%',
-            marginTop: 25,
-            padding: 10
-          }}>
-            <Group navigation={this.props.navigation} size={45} data={this.state.members.length > 0 ? this.state.members : []} />
-          </View>
-          <CustomizedButton backgroundColor={this.props.navigation.state?.params?.buttonTitle === 'Cancel' ? Color.danger : (theme ? theme.primary : Color.primary)} style={{ marginLeft: -20, marginBottom: 10 }} onClick={this.onClick} title={this.props.navigation.state?.params?.buttonTitle}></CustomizedButton>
-        </View>
-      </ScrollView>
+        </ScrollView>
+        <CustomizedButton backgroundColor={this.props.navigation.state?.params?.buttonTitle === 'Cancel' ? Color.danger : (theme ? theme.primary : Color.primary)} style={{ marginLeft: -20, marginBottom: 10 }} onClick={this.onClick} title={this.props.navigation.state?.params?.buttonTitle}></CustomizedButton>
+      </View>
     );
   }
 }

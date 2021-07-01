@@ -142,7 +142,7 @@ class ViewProfile extends Component {
       account_id: user.id,
       offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
     }
-    console.log(parameter);
+    console.log(parameter, '---');
     this.setState({ isLoading: true })
     Api.request(Routes.circleRetrieve, parameter, response => {
       this.setState({ isLoading: false })

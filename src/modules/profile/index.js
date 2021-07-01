@@ -29,7 +29,6 @@ class Profile extends Component {
 
   componentDidMount() {
     this.retrieve();
-    console.log(this.props.state.user, '----');
   }
 
   firstNameHandler = (value) => {

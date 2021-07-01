@@ -85,7 +85,6 @@ class Connections extends Component {
               })
               let temp = []
               response.data.map((i, ind) => {
-                console.log(id, i?.account?.id, 'hi---', id.includes(i?.account?.id));
                 if(id.includes(i?.account?.id) === false) {
                   temp.push(i);
                 }
