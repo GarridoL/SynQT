@@ -204,8 +204,6 @@ class Cards extends React.Component {
                 <View
                   style={{
                     margin: 1,
-                    borderColor: theme ? theme.primary : Color.primary,
-                    borderWidth: .3,
                     backgroundColor: this.state.active === index ? 'white' : '#b5b5b5',
                     height: 5,
                     width: this.getWidth(),

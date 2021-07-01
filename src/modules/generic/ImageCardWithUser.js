@@ -66,7 +66,7 @@ class ImageCardWithUser extends Component {
                 backgroundColor: 'white',
                 paddingLeft: 15,
                 paddingTop: 15,
-                paddingBottom: data.details === true ? 15 : 0,
+                paddingBottom: data.details === true ? 20 : 0,
                 paddingRight: 15,
                 elevation: 1,
                 borderBottomLeftRadius: BasicStyles.standardBorderRadius,
@@ -92,19 +92,26 @@ class ImageCardWithUser extends Component {
                 <View style={{
                   zIndex: 10,
                   marginTop: -7,
-                  marginLeft: 6
+                  marginLeft: 6,
+                  width: '50%'
                 }}>
-                  <GroupUsers navigation={this.props.navigation} cardUser={true} style={{ marginLeft: -15 }} size={30} data={data.users} />
+                  <GroupUsers
+                  reverse={true}
+                  navigation={this.props.navigation}
+                  cardUser={true}
+                  size={30} data={data.users}
+                  marginLeft={2}
+                />
                 </View>
                 {data.details === true && <View style={{
                   flexDirection: 'row',
                   position: 'absolute',
-                  bottom: 10,
+                  bottom: 6,
                   right: 10,
                 }}><View style={{
                   backgroundColor: 'white',
                   borderRadius: 6,
-                  height: 18,
+                  height: 22,
                   width: 55,
                   borderWidth: .5,
                   borderColor: Color.primary,
@@ -114,12 +121,12 @@ class ImageCardWithUser extends Component {
                   marginRight: 5
                 }}>
                     <FontAwesomeIcon icon={faStar} color={Color.warning} style={{ marginRight: 2 }} size={8} />
-                    <Text numberOfLines={1} style={{ fontSize: 10, color: Color.primary }}>{data.ratings || data.ratings?.length > 0 ? data.ratings?.avg : 0}</Text>
+                    <Text numberOfLines={1} style={{ fontSize: 12, color: Color.primary }}>{data.ratings || data.ratings?.length > 0 ? data.ratings?.avg : 0}</Text>
                   </View>
                   <View style={{
                     backgroundColor: Color.primary,
                     borderRadius: 6,
-                    height: 18,
+                    height: 22,
                     width: 55,
                     borderWidth: .5,
                     borderColor: Color.primary,
@@ -127,36 +134,42 @@ class ImageCardWithUser extends Component {
                     alignItems: 'center',
                     flexDirection: 'row'
                   }}>
-                    <Text numberOfLines={1} style={{ fontSize: 10, color: 'white' }}>{data.distance || '0km'}</Text>
+                    <Text numberOfLines={1} style={{ fontSize: 12, color: 'white' }}>{data.distance || '0km'}</Text>
                   </View>
                 </View>}
               </View>
               {data.details === true && <View style={{
-                backgroundColor: 'white',
-                borderRadius: 6,
-                height: 21,
                 position: 'absolute',
                 top: 10,
-                right: 10,
-                width: 50,
-                borderWidth: .5,
-                borderColor: Color.primary,
+                right: 6,
+                borderRadius: 100,
+                height: 70, 
+                width: 70,
+                backgroundColor: '#30F2F2',
                 justifyContent: 'center',
-                alignItems: 'center',
-                flexDirection: 'row'
+                alignItems: 'center'
               }}>
-                <TouchableOpacity style={{
-                  height: 15,
-                  width: 15,
-                  borderRadius: 8,
-                  backgroundColor: '#30F2F2',
+                <View style={{
+                  marginTop: -23,
                   justifyContent: 'center',
                   alignItems: 'center',
-                  marginRight: 5
                 }}>
-                  <FontAwesomeIcon icon={faStar} color={Color.white} size={8} />
-                </TouchableOpacity>
-                <Text numberOfLines={1} style={{ color: Color.warning }}>{data.superlike || 0}</Text>
+                <FontAwesomeIcon icon={faStar} color={Color.white} size={60} />
+                <View style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginTop: -35,
+                  width: 30,
+                }}>
+                  <Text
+                    numberOfLines={1}
+                    style={{
+                      color: Color.secondary
+                    }}>
+                    {data.superlike || 0}
+                  </Text>
+                </View>
+                </View>
               </View>}
             </TouchableOpacity>
           )

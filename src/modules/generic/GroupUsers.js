@@ -16,14 +16,15 @@ class GroupUsers extends Component{
     return (
 			<View style={{
         width: '100%',
-        position: 'relative',
-        flexDirection: 'row',
+        flexDirection: this.props.reverse ? 'row-reverse' : 'row',
+        textAlign: 'justify',
+        flexWrap: 'wrap',
         ...this.props.style
       }}>
         {
           data.length > 0 && data.map((item, index) => {
             item['account']['id'] = item.account_id
-            if(index < 5) {
+            if(this.props.reverse && index < 5) {
               return (
                 <TouchableOpacity onPress={() => {this.props.navigation.navigate('viewProfileStack', { user: item, level: 2 }) }}>
                   <UserImage
@@ -34,11 +35,36 @@ class GroupUsers extends Component{
                       width: this.props.size,
                       height: this.props.size,
                       borderRadius: 30,
-                      marginRight: '2%',
+                      borderColor: Color.secondary,
+                      borderWidth: 1,
+                      opacity: data.length > 5 && index === 4 && this.props.cardUser ? 0.5 : 1,
+                      marginLeft: 3
+                    }}/>
+                </TouchableOpacity>
+              )
+            } else if( this.props.reverse === false) {
+              return (
+                <TouchableOpacity
+                  onPress={() => {
+                    this.props.navigation.navigate('viewProfileStack', { user: item, level: 2 })
+                  }}
+                  style={{
+                    padding: 5
+                  }}
+                >
+                  <UserImage
+                    user={{profile: item.account?.profile ? item.account.profile : item?.profile}}
+                    color={this.props.color ? this.props.color : Color.secondary}
+                    size={ this.props.size ? this.props.size : 30 }
+                    style={{
+                      width: this.props.size,
+                      height: this.props.size,
+                      borderRadius: 30,
                       borderColor: Color.secondary,
                       borderWidth: 1,
                       opacity: data.length > 5 && index === 4 && this.props.cardUser ? 0.5 : 1
-                    }}/>
+                    }}
+                    marginLeft={-2}/>
                 </TouchableOpacity>
               )
             }
