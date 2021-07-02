@@ -101,6 +101,7 @@
     "react-native-super-range-slider": "^0.2.5",
     "react-native-svg": "^9.13.6",
     "react-native-svg-transformer": "^0.14.3",
+    "react-native-swipe-gestures": "^1.0.5",
     "react-native-swipeable-cards": "^1.1.23",
     "react-native-swipeable-list": "^0.1.0",
     "react-native-table-component": "^1.2.1",

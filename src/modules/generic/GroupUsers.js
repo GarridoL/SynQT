@@ -37,7 +37,7 @@ class GroupUsers extends Component{
                       borderRadius: 30,
                       borderColor: Color.secondary,
                       borderWidth: 1,
-                      opacity: data.length > 5 && index === 4 && this.props.cardUser ? 0.5 : 1,
+                      opacity: data.length > 5 && index === 0 && this.props.cardUser ? 0.5 : 1,
                       marginLeft: 3
                     }}/>
                 </TouchableOpacity>
@@ -62,7 +62,7 @@ class GroupUsers extends Component{
                       borderRadius: 30,
                       borderColor: Color.secondary,
                       borderWidth: 1,
-                      opacity: data.length > 5 && index === 4 && this.props.cardUser ? 0.5 : 1
+                      opacity: data.length > 5 && index === 0 && this.props.cardUser ? 0.5 : 1
                     }}
                     marginLeft={-2}/>
                 </TouchableOpacity>
@@ -71,9 +71,29 @@ class GroupUsers extends Component{
           })
         }{
           data.length > 5 && this.props.cardUser && (
-            <View style={{position: 'absolute', zIndex: 10, right: 5, top: 3, justifyContent: 'center', alignItems: 'center'}}>
-              <Text style={{color: '#6e6d6d', fontSize: 10}}>+{data.length - 5}</Text>
-              <Text style={{color: '#6e6d6d', fontSize: 8, marginTop: -5}}>more</Text>
+            <View style={{
+              backgroundColor:'red',
+              position: 'absolute',
+              zIndex: 10,
+              right: 0,
+              top: 3,
+              width: '100%',
+            }}>
+              <Text style={{
+                color: '#6e6d6d',
+                fontSize: 10,
+                position: 'absolute',
+                right: 10,
+                top: 1
+              }}>+{data.length - 5}</Text>
+              <Text style={{
+                color: '#6e6d6d',
+                fontSize: 8,
+                marginTop: -5,
+                position: 'absolute',
+                right: 9,
+                top: 15
+              }}>more</Text>
             </View>
           )
         }

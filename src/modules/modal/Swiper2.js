@@ -182,15 +182,7 @@ class Cards extends React.Component {
     this.explosion && this.explosion.start();
   };
 
-  swp = (like) => {
-    this.swiper.swipeRight();
-    this.addToTopChoice(like, 'swiper');
-  }
-
-  addToTopChoice = (status, option) => {
-    if(option === 'button') {
-      this.swipeHandler();
-    }
+  addToTopChoice = (status) => {
     const { topChoices } = this.props.state;
     if (topChoices.includes(this.state.data[this.state.index].id)) {
       Alert.alert(
@@ -201,30 +193,32 @@ class Cards extends React.Component {
         ],
         { cancelable: false }
       );
-      return
-    }
-    let parameter = {
-      account_id: this.props.state.user.id,
-      payload: 'merchant_id',
-      payload_value: this.state.data[this.state.index].id,
-      category: 'restaurant',
-      status: status,
-      synqt_id: this.props.navigation.state.params?.synqt_id && this.props.navigation.state.params?.synqt_id
-    }
-    Api.request(Routes.topChoiceCreate, parameter, response => {
-      if (response.data !== null) {
-        topChoices.push(this.state.data[this.state.index].id)
-        // this.deleteFromNotification(this.props.id);
-        if(status === 'super-like') {
-          this.startExplosion();
-        }
+    } else {
+      let parameter = {
+        account_id: this.props.state.user.id,
+        payload: 'merchant_id',
+        payload_value: this.state.data[this.state.index].id,
+        category: 'restaurant',
+        status: status,
+        synqt_id: this.props.navigation.state.params?.synqt_id && this.props.navigation.state.params?.synqt_id
       }
-    },
-      error => {
-        this.setState({ isLoading1: false })
-        console.log({ error });
+      this.setState({isLoading1: true});
+      Api.request(Routes.topChoiceCreate, parameter, response => {
+        this.setState({isLoading1: false});
+        if (response.data !== null) {
+          topChoices.push(this.state.data[this.state.index].id)
+          // this.deleteFromNotification(this.props.id);
+          if(status === 'super-like') {
+            this.startExplosion();
+          }
+        }
       },
-    );
+        error => {
+          this.setState({ isLoading1: false })
+          console.log({ error });
+        },
+      );
+    }
   }
 
   deleteFromNotification = (id) => {
@@ -288,7 +282,7 @@ class Cards extends React.Component {
             this.swiper = swiper
           }}
           onSwiped={() => {console.log('hi');}}
-          onSwipedLeft={() => this.addToTopChoice('like', 'swiper')}
+          onSwipedLeft={() => {this.addToTopChoice('like'); this.swipeHandler()}}
           onSwipedRight={() => {this.swipeHandler()}}
           disableBottomSwipe={true}
           disableTopSwipe={true}
@@ -416,7 +410,8 @@ class Cards extends React.Component {
                       zIndex: 200
                     }}
                       onPress={() => {
-                        this.swp('super-like')
+                        this.addToTopChoice('super-like');
+                        this.swiper.swipeLeft();
                       }}>
                       <FontAwesomeIcon
                         icon={faStar}
@@ -522,7 +517,7 @@ class Cards extends React.Component {
           marginBottom: 50
         }}>
         {this.props.bottomFloatButton === true > 0 && (
-          <FLoatingButton onClose={() => { this.swiper.swipeRight(); }} onClick={() => { this.swp('like') }}></FLoatingButton>
+          <FLoatingButton onClose={() => { this.swiper.swipeRight(); }} onClick={() => { this.addToTopChoice('like'); this.swiper.swipeLeft(); }}></FLoatingButton>
         )}
         </View>
       </View>

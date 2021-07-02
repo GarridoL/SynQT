@@ -23,6 +23,7 @@ import Api from 'services/api/index.js';
 import { Spinner } from 'components';
 import styles from './Swiper2Style';
 import { connect } from 'react-redux';
+import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 
 const height = Math.round(Dimensions.get('window').height);
 const width = Math.round(Dimensions.get('window').width);
@@ -173,9 +174,59 @@ class Cards extends React.Component {
     }
   }
 
+  onSwipeUp(gestureState) {
+    console.log('You swiped up!');
+  }
+
+  onSwipeDown(gestureState) {
+    console.log('You swiped down!');
+  }
+
+  onSwipeLeft(gestureState) {
+    if(this.props.fromHistory) {
+      this.props.onClose(null);
+      this.props.navigation.navigate('restaurantStack', { members: this.props.item?.members});
+    } else {
+      if (this.props.navigation.state?.params?.messenger_group_id?.status === 'ADMIN') {
+        this.addToReservation()
+      } else {
+        Alert.alert(
+          "",
+          "Sorry you are not allowed to proceed to reservation.",
+          [
+            { text: "OK" }
+          ],
+          { cancelable: false }
+        );
+      }
+    }
+    console.log('You swiped left!');
+  }
+
+  onSwipeRight(gestureState) {
+    this.props.onClose(null)
+    console.log('You swiped right!');
+  }
+
   renderCard = (data) => {
     const { theme } = this.props.state;
+    const config = {
+      velocityThreshold: 0.3,
+      directionalOffsetThreshold: 80
+    };
     return (
+      <GestureRecognizer
+        onSwipe={(direction, state) => console.log(direction, 'direction')}
+        onSwipeUp={(state) => this.onSwipeUp(state)}
+        onSwipeDown={(state) => this.onSwipeDown(state)}
+        onSwipeLeft={(state) => this.onSwipeLeft(state)}
+        onSwipeRight={(state) => this.onSwipeRight(state)}
+        config={config}
+        style={{
+          flex: 1,
+          backgroundColor: this.state.backgroundColor
+        }}
+        >
       <View style={{ flex: 1 }}>
         <View style={{
           width: width,
@@ -187,7 +238,7 @@ class Cards extends React.Component {
             borderRadius: 10,
             width: '100%',
             height: '71%',
-            marginTop: this.props.bottomFloatButton === true ? 50 : height * 0.25,
+            marginTop: 20,
             backgroundColor: 'white'
           }}
             source={this.state.featured_photos?.length > 0 ? { uri: Config.BACKEND_URL + this.state.featured_photos[this.state.active]?.url } : require('assets/default.png')}
@@ -197,7 +248,7 @@ class Cards extends React.Component {
               flexDirection: 'row',
               position: 'absolute',
               padding: 20,
-              marginTop: (height * 0.25) - 15,
+              marginTop: 5,
             }}>
             {this.state.featured_photos.length > 0 && this.state.featured_photos.map((item, index) => {
               return (
@@ -360,6 +411,7 @@ class Cards extends React.Component {
         </View>
         {this.renderMenu()}
       </View>
+      </GestureRecognizer>
     )
   }
 

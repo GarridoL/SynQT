@@ -22,7 +22,12 @@ class Swipe extends Component {
         collapsable={true}>
         <ScrollView style={styles.ModalContainer}>
           <View style={{
-            marginBottom: 100
+            height: '17%',
+            backgroundColor: 'rgba(0,0,0,0.5)'
+          }}>
+          </View>
+          <View style={{
+            marginBottom: 300
           }}>
             <Swiper
               fromHistory={this.props.fromHistory}

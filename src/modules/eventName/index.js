@@ -25,12 +25,23 @@ class EventName extends Component {
       value: null,
       placeOrder: false,
       isLoading: false,
-      members: []
+      members: [],
+      day: new Date(this.props.navigation?.state?.params?.data?.synqt[0].date).getDay(),
+      days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+      time: [],
+      schedule: null
     }
   }
 
   componentDidMount() {
     this.retrieveMembers();
+    const { data } = this.props.navigation.state.params;
+    let schedule = data?.merchant?.schedule && data?.merchant?.schedule !== 'NULL' ? JSON.parse(data?.merchant?.schedule) : null
+    if (schedule && schedule !== 'NULL' && typeof (schedule) !== 'object') {
+      schedule = JSON.parse(schedule);
+    }
+    this.setState({ schedule: schedule?.schedule });
+    this.getTime(schedule?.schedule);
   }
 
   onClick = () => {
@@ -57,7 +68,7 @@ class EventName extends Component {
     Api.request(Routes.messengerMembersRetrieve, parameter, response => {
       this.setState({ isLoading: false });
       if (response.data.length > 0) {
-        this.setState({ members: response.data.concat(response.data) })
+        this.setState({ members: response.data })
       }
     },
       error => {
@@ -142,13 +153,34 @@ class EventName extends Component {
     return location;
   }
 
+  getTime = (schedule) => {
+    let time = [];
+    let d = null;
+    schedule?.length > 0 && schedule.forEach(element => {
+      console.log(element.value, this.state.day);
+      if (element.value === 'Sunday') {
+        d = element;
+      }
+    });
+    if (d?.startTime && d?.endTime) {
+      let date = new Date()
+      date.setHours(d.endTime?.hh, d.endTime?.mm, 0)
+      if (date.getHours() !== 0) {
+        time.push(date.getHours() - 1);
+      }
+      console.log(date.getHours(), 'hour');
+    } else {
+      let date1 = new Date()
+      time.push(date1.getHours() + 1);
+    }
+  }
+
   render() {
     const { theme } = this.props.state;
     const { data } = this.props.navigation.state.params;
-    // console.log(data, '--');
     return (
       <View>
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView style={{ marginBottom: 50 }} showsVerticalScrollIndicator={false}>
           <View style={style.Container}>
             <ImageBackground
               style={{
@@ -244,10 +276,33 @@ class EventName extends Component {
                 </View>
               </View>
             </View>
+            {this.props.navigation.state?.params?.buttonTitle === 'Make Reservation' && <View style={{
+              width: '100%',
+              marginTop: 25,
+              padding: 10
+            }}>
+              {this.state.schedule?.length > 0 && this.state.schedule.map((item, index) => {
+                return (
+                  <View>
+                    <View style={{
+                      width: 80,
+                      backgroundColor: theme ? theme.primary : Color.primary,
+                      padding: 4,
+                      height: 35,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: 5,
+                      flexDirection: 'row'
+                    }}>
+                      <Text style={{ color: Color.white }}>{item.startTime?.hh ? item.startTime?.hh + ':' + item.startTime?.mm + ' ' + item.startTime?.a : ''} {item.startTime?.hh ? '-' : ''} {item.endTime?.hh ? item.endTime?.hh + ':' + item.endTime?.mm + ' ' + item.endTime?.a : ''}</Text>
+                    </View>
+                  </View>
+                )
+              })}
+            </View>}
             <View style={{
               flexDirection: 'row',
               width: '100%',
-              height: '60%',
               marginTop: 25,
               padding: 10
             }}>
