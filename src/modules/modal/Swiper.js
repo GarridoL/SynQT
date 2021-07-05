@@ -232,7 +232,7 @@ class Cards extends React.Component {
           width: width,
           paddingLeft: 15,
           paddingRight: 15,
-          height: height * 0.9
+          height: height * 0.9,
         }}>
           <Image style={{
             borderRadius: 10,
@@ -295,7 +295,7 @@ class Cards extends React.Component {
           <View style={{
             position: 'absolute',
             left: 10,
-            bottom: this.props.topFloatButton === true ? 70 : 15,
+            bottom: this.props.topFloatButton === true ? height * .33 : 15,
             ...BasicStyles.standardWidth
           }}>
             <Text style={{
@@ -315,7 +315,7 @@ class Cards extends React.Component {
               width: '50%'
             }}>{data.address ? this.getAddress(data.address) : 'No address provided'}</Text>
           </View>
-          <View style={{ position: 'absolute', bottom: 70, right: 25, flexDirection: 'row' }}>
+          <View style={{ position: 'absolute', bottom: height * .33, right: 25, flexDirection: 'row' }}>
             <FontAwesomeIcon
               icon={faStar}
               size={30}
@@ -342,10 +342,11 @@ class Cards extends React.Component {
               color={data?.rating?.stars >= 5 ? '#FFCC00' : '#ededed'}
             />
           </View>
-          {this.props.topFloatButton === true && (<View style={{
+        </View>
+        <View style={{
             ...BasicStyles.standardWidth,
             position: 'absolute',
-            bottom: -30,
+            top: height * .6,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between'
@@ -358,7 +359,8 @@ class Cards extends React.Component {
                 height: 70,
                 backgroundColor: Color.warning,
                 borderRadius: 35,
-                marginLeft: '4%'
+                marginLeft: '4%',
+                zIndex: 100
               }}
 
               onPress={() => {
@@ -379,7 +381,8 @@ class Cards extends React.Component {
                 width: 80,
                 height: 80,
                 backgroundColor: Color.warning,
-                borderRadius: 40
+                borderRadius: 40,
+                zIndex: 100
               }}
               onPress={() => {
                 if(this.props.fromHistory) {
@@ -407,8 +410,7 @@ class Cards extends React.Component {
                 color={'white'}
               />
             </TouchableOpacity>
-          </View>)}
-        </View>
+          </View>
         {this.renderMenu()}
       </View>
       </GestureRecognizer>
@@ -419,7 +421,11 @@ class Cards extends React.Component {
     const { data } = this.state;
     return (
       <View
-        style={{ padding: 20, marginTop: '5%' }}
+        style={{
+          paddingLeft: 20,
+          paddingRight: 20,
+          marginTop: -150
+        }}
       >
         <View>
           <View style={this.props.topFloatButton === true ? { marginTop: 30 } : { marginTop: 0 }}>

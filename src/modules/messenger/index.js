@@ -31,6 +31,7 @@ class Groups extends Component {
   }
 
   componentDidMount() {
+    this.props.setAllMessages([]);
     const { user } = this.props.state;
     if (user != null) {
       this.retrieve(false);
@@ -66,7 +67,7 @@ class Groups extends Component {
       }
     });
   }
-  
+
   retrieve = (flag) => {
     this.retrieveConnections();
     const { user } = this.props.state;
@@ -196,7 +197,7 @@ class Groups extends Component {
                           size={20}
                           color={Color.primary}
                         /></View>
-                      }
+                    }
                     {item.members.length > 0 && item.members[0]?.profile?.url ? <View style={{
                       height: 35,
                       width: 35,
@@ -214,23 +215,23 @@ class Groups extends Component {
                           borderRadius: 100
                         }]} />
                     </View> :
-                    <View style={{
-                      height: 35,
-                      width: 35,
-                      borderRadius: 100,
-                      marginBottom: 10,
-                      backgroundColor: Color.containerBackground,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      borderColor: theme ? theme.primary : Color.primary,
-                      borderWidth: 1,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}><FontAwesomeIcon
-                        icon={faUser}
-                        size={20}
-                        color={Color.primary}
-                      /></View>
+                      <View style={{
+                        height: 35,
+                        width: 35,
+                        borderRadius: 100,
+                        marginBottom: 10,
+                        backgroundColor: Color.containerBackground,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderColor: theme ? theme.primary : Color.primary,
+                        borderWidth: 1,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}><FontAwesomeIcon
+                          icon={faUser}
+                          size={20}
+                          color={Color.primary}
+                        /></View>
                     }
                   </View>
                 ) :
@@ -303,7 +304,7 @@ class Groups extends Component {
               width: '94%',
               fontStyle: 'italic'
             }}
-            numberOfLines={1}>{item.last_messages ? item.last_messages?.title + ': ' + (item.last_messages?.description || 'Sent a photo.') : 'No message yet.'}</Text>
+              numberOfLines={1}>{item.last_messages ? item.last_messages?.title + ': ' + (item.last_messages?.description || 'Sent a photo.') : 'No message yet.'}</Text>
           </View>
         </TouchableHighlight>
       </View>
@@ -354,18 +355,25 @@ class Groups extends Component {
         flex: 1,
         backgroundColor: Color.containerBackground
       }}>
-        { this.state.connections.length > 0 && (
-          <View style={{
-            borderBottomColor: Color.primary,
-            borderBottomWidth: 1,
-            paddingBottom: 10,
-          }}>
-            <Group inviteToSynqt={true} add={false} style={{
-              borderColor: Color.primary,
-              borderWidth: 2
-            }} navigation={this.props.navigation} size={50} data={this.state.connections} />
-          </View>
-        )}
+
+        <View style={{
+          borderBottomColor: Color.primary,
+          borderBottomWidth: 1,
+          paddingBottom: 10,
+        }}>
+          {this.state.connections.length > 0 ? (<Group inviteToSynqt={true} add={false} style={{
+            borderColor: Color.primary,
+            borderWidth: 2
+          }} navigation={this.props.navigation} size={50} data={this.state.connections} />
+          ) :
+            <Text style={{
+              padding: 10,
+              color: Color.gray
+            }}>
+              No connections.
+            </Text>
+          }
+        </View>
         <ScrollView
           style={{
             backgroundColor: Color.containerBackground,
