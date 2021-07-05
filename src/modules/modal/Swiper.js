@@ -23,6 +23,7 @@ import Api from 'services/api/index.js';
 import { Spinner } from 'components';
 import styles from './Swiper2Style';
 import { connect } from 'react-redux';
+import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 
 const height = Math.round(Dimensions.get('window').height);
 const width = Math.round(Dimensions.get('window').width);
@@ -173,21 +174,71 @@ class Cards extends React.Component {
     }
   }
 
+  onSwipeUp(gestureState) {
+    console.log('You swiped up!');
+  }
+
+  onSwipeDown(gestureState) {
+    console.log('You swiped down!');
+  }
+
+  onSwipeLeft(gestureState) {
+    if(this.props.fromHistory) {
+      this.props.onClose(null);
+      this.props.navigation.navigate('restaurantStack', { members: this.props.item?.members});
+    } else {
+      if (this.props.navigation.state?.params?.messenger_group_id?.status === 'ADMIN') {
+        this.addToReservation()
+      } else {
+        Alert.alert(
+          "",
+          "Sorry you are not allowed to proceed to reservation.",
+          [
+            { text: "OK" }
+          ],
+          { cancelable: false }
+        );
+      }
+    }
+    console.log('You swiped left!');
+  }
+
+  onSwipeRight(gestureState) {
+    this.props.onClose(null)
+    console.log('You swiped right!');
+  }
+
   renderCard = (data) => {
     const { theme } = this.props.state;
+    const config = {
+      velocityThreshold: 0.3,
+      directionalOffsetThreshold: 80
+    };
     return (
+      <GestureRecognizer
+        onSwipe={(direction, state) => console.log(direction, 'direction')}
+        onSwipeUp={(state) => this.onSwipeUp(state)}
+        onSwipeDown={(state) => this.onSwipeDown(state)}
+        onSwipeLeft={(state) => this.onSwipeLeft(state)}
+        onSwipeRight={(state) => this.onSwipeRight(state)}
+        config={config}
+        style={{
+          flex: 1,
+          backgroundColor: this.state.backgroundColor
+        }}
+        >
       <View style={{ flex: 1 }}>
         <View style={{
           width: width,
           paddingLeft: 15,
           paddingRight: 15,
-          height: height * 0.9
+          height: height * 0.9,
         }}>
           <Image style={{
             borderRadius: 10,
             width: '100%',
             height: '71%',
-            marginTop: this.props.bottomFloatButton === true ? 50 : height * 0.25,
+            marginTop: 20,
             backgroundColor: 'white'
           }}
             source={this.state.featured_photos?.length > 0 ? { uri: Config.BACKEND_URL + this.state.featured_photos[this.state.active]?.url } : require('assets/default.png')}
@@ -197,7 +248,7 @@ class Cards extends React.Component {
               flexDirection: 'row',
               position: 'absolute',
               padding: 20,
-              marginTop: (height * 0.25) - 15,
+              marginTop: 5,
             }}>
             {this.state.featured_photos.length > 0 && this.state.featured_photos.map((item, index) => {
               return (
@@ -244,7 +295,7 @@ class Cards extends React.Component {
           <View style={{
             position: 'absolute',
             left: 10,
-            bottom: this.props.topFloatButton === true ? 70 : 15,
+            bottom: this.props.topFloatButton === true ? height * .33 : 15,
             ...BasicStyles.standardWidth
           }}>
             <Text style={{
@@ -264,7 +315,7 @@ class Cards extends React.Component {
               width: '50%'
             }}>{data.address ? this.getAddress(data.address) : 'No address provided'}</Text>
           </View>
-          <View style={{ position: 'absolute', bottom: 70, right: 25, flexDirection: 'row' }}>
+          <View style={{ position: 'absolute', bottom: height * .33, right: 25, flexDirection: 'row' }}>
             <FontAwesomeIcon
               icon={faStar}
               size={30}
@@ -291,10 +342,11 @@ class Cards extends React.Component {
               color={data?.rating?.stars >= 5 ? '#FFCC00' : '#ededed'}
             />
           </View>
-          {this.props.topFloatButton === true && (<View style={{
+        </View>
+        <View style={{
             ...BasicStyles.standardWidth,
             position: 'absolute',
-            bottom: -30,
+            top: height * .6,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between'
@@ -307,7 +359,8 @@ class Cards extends React.Component {
                 height: 70,
                 backgroundColor: Color.warning,
                 borderRadius: 35,
-                marginLeft: '4%'
+                marginLeft: '4%',
+                zIndex: 100
               }}
 
               onPress={() => {
@@ -328,7 +381,8 @@ class Cards extends React.Component {
                 width: 80,
                 height: 80,
                 backgroundColor: Color.warning,
-                borderRadius: 40
+                borderRadius: 40,
+                zIndex: 100
               }}
               onPress={() => {
                 if(this.props.fromHistory) {
@@ -356,10 +410,10 @@ class Cards extends React.Component {
                 color={'white'}
               />
             </TouchableOpacity>
-          </View>)}
-        </View>
+          </View>
         {this.renderMenu()}
       </View>
+      </GestureRecognizer>
     )
   }
 
@@ -367,7 +421,11 @@ class Cards extends React.Component {
     const { data } = this.state;
     return (
       <View
-        style={{ padding: 20, marginTop: '5%' }}
+        style={{
+          paddingLeft: 20,
+          paddingRight: 20,
+          marginTop: -150
+        }}
       >
         <View>
           <View style={this.props.topFloatButton === true ? { marginTop: 30 } : { marginTop: 0 }}>

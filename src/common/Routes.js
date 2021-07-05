@@ -123,6 +123,7 @@ export default {
   removeAddress: apiUrl + 'locations/delete',
   synqtCreate: apiUrl + 'synqts/create',
   synqtRetrieve: apiUrl + 'synqts/retrieve',
+  synqtUpdate: apiUrl + 'synqts/update',
   reservationCreate: apiUrl + 'reservations/create',
   reservationRetrieve: apiUrl + 'reservations/retrieve',
   reservationDelete: apiUrl + 'reservations/delete',

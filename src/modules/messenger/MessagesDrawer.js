@@ -17,7 +17,6 @@ class HeaderOptions extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      status: false,
       finishLoad: false
     }
   }
@@ -41,15 +40,8 @@ class HeaderOptions extends Component {
       offset: 0
     }
     Api.request(Routes.topChoiceRetrieve, parameter, response => {
+      console.log(response, '-----------');
       this.setState({ finishLoad: true })
-      response.data.length > 0 && response.data.map(item => {
-        item.members.length > 0 && item.members.map(i => {
-          if (i.account_id == this.props.state.user.id) {
-            this.setState({ status: true })
-            return
-          }
-        })
-      })
     });
   }
 
