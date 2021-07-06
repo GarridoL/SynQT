@@ -56,7 +56,6 @@ class Cards extends React.Component {
   }
 
   componentDidMount() {
-    this.retrieve();
     this.retrieveTopChoices()
   }
 
@@ -92,10 +91,12 @@ class Cards extends React.Component {
         column: 'synqt_id',
         clause: '='
       }],
-      limit: "",
+      limit: 5,
       offset: 0
     }
+    console.log(parameter, Routes.topChoiceRetrieve, '---');
     Api.request(Routes.topChoiceRetrieve, parameter, response => {
+      this.retrieve();
       this.setState({ finishLoad: true })
       let temp = []
       response.data.length > 0 && response.data.map(item => {
@@ -184,6 +185,8 @@ class Cards extends React.Component {
 
   addToTopChoice = (status) => {
     const { topChoices } = this.props.state;
+    console.log(topChoices);
+    console.log(this.state.data[this.state.index]);
     if (topChoices.includes(this.state.data[this.state.index].id)) {
       Alert.alert(
         "",
@@ -194,6 +197,7 @@ class Cards extends React.Component {
         { cancelable: false }
       );
     } else {
+      console.log('not on top choice yet!');
       let parameter = {
         account_id: this.props.state.user.id,
         payload: 'merchant_id',

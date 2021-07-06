@@ -32,22 +32,26 @@ class EventName extends Component {
       selectedTime: null,
       currentDate: null,
       changed_date: null,
-      showDate: false
+      showDate: false,
+      date: null,
+      selectedDate: null
     }
   }
 
   componentDidMount() {
     this.retrieveMembers();
-    const { data } = this.props.navigation.state.params;
+    const { data, parameter } = this.props.navigation.state.params;
     let schedule = data?.merchant?.schedule && data?.merchant?.schedule !== 'NULL' ? JSON.parse(data?.merchant?.schedule) : null
     if (schedule && schedule !== 'NULL' && typeof (schedule) !== 'object') {
       schedule = JSON.parse(schedule);
     }
+    console.log(parameter, 'hi')
     let date = new Date()
     this.setState({
       schedule: schedule?.schedule,
       data: data,
-      currentDate: date.setDate(date.getDate())
+      currentDate: date.setDate(date.getDate()),
+      date: this.props.navigation.state?.params?.parameter?.datetime
     })
     this.getTime(schedule?.schedule);
   }
@@ -135,18 +139,19 @@ class EventName extends Component {
         {
           text: 'Confirm', onPress: () => {
             this.setState({ isLoading: true })
-            let datetime = this.state.changed_date?.date || this.props.navigation.state?.params?.parameter?.datetime
-            console.log(datetime, 'date');
-            // datetime = new Date(datetime);
+            let datetime = this.state.selectedDate !== null ? this.state.selectedDate?.date?.toString() : this.state.date?.toString();
+            let forSynqt = datetime;
+            // datetime = datetime?.split('-');
+            // datetime = new Date(datetime.join('/'));
             // let time = this.state.selectedTime?.fourf?.split(':');
             // datetime.setHours(time[0], time[1], 0)
             let params = this.props.navigation.state?.params?.parameter;
-            params['datetime'] = datetime;
-            console.log(params, datetime, 'test');
+            params['datetime'] = datetime + ' ' + this.state.selectedTime?.fourf;
+            console.log(params, 'test');
             Api.request(Routes.reservationCreate, params, response => {
               this.setState({ isLoading: false })
               if (response.data !== null) {
-                this.synqtUpdate(params?.payload_value, this.state.changed_date?.date || this.props.navigation.state?.params?.parameter?.datetime);
+                this.synqtUpdate(params?.payload_value, forSynqt);
                 this.props.navigation.navigate('historyStack', { title: 'Upcoming' })
               }
             },
@@ -189,11 +194,6 @@ class EventName extends Component {
     );
   }
 
-  changeDate = () => {
-    let data = this.state.data;
-    console.log(data?.synqt[0].date_at_human, this.state.changed_date, '-------------')
-  }
-
   getTime = (schedule) => {
     let d = null;
     schedule?.length > 0 && schedule.forEach(element => {
@@ -202,21 +202,22 @@ class EventName extends Component {
       }
     });
     let date = new Date();
-    let stopper = d.endTime?.hh || (date.getHours() - 1) % 12 || 12;
-    let stop = d.endTime?.a || (date.getHours() - 1) > 12 && (date.getHours() - 1) % 12 ? ' pm' : ' am';
-
+    let stopper = d?.endTime?.hh || (date.getHours() - 1) % 12 || 12;
     let temp = [];
-    let hour = date.getHours();
-    let minutes = date.getMinutes();
-    let m = hour > 12 && hour % 12 ? ' pm' : ' am';
-    console.log(stopper !== hour, stop === m, stopper, hour, stop, m);
-    while(stopper !== hour && stop === m) {
+    let hour = (d?.startTime?.hh ? parseInt(d?.startTime?.hh) + 1 : date.getHours()) + 1;
+    let minutes = d?.startTime?.mm || date.getMinutes();
+    let m = d?.startTime?.a || hour > 12 && hour % 12 ? ' pm' : ' am';
+    while(hour !== 11) {
       m = hour > 12 && hour % 12 ? ' pm' : ' am';
       let convertedHour = hour % 12 || 12;
       let time = convertedHour + ':' + minutes + m
       let t = {
         twelvef: time,
         fourf: hour + ':' + minutes 
+      }
+      let h = hour % 12 || 12;
+      if(time === '12:' + minutes + m) {
+        break;
       }
       temp.push(t);
       hour = hour === 23 ? 0 : hour + 1;
@@ -312,8 +313,7 @@ class EventName extends Component {
                   margin: 5
                 }}
                 onPress={() => {
-                  this.setState({showDate: false})
-                  this.changeDate();
+                  this.setState({showDate: false, selectedDate: this.state.changed_date})
                 }}>
                   <FontAwesomeIcon icon={faCheck} size={35} color={theme ? theme.primary : Color.primary} />
                 </TouchableOpacity>
@@ -409,7 +409,6 @@ class EventName extends Component {
             <View style={{
               flexDirection: 'row',
               width: '100%',
-              marginTop: 10,
               padding: 10
             }}>
               <Group
