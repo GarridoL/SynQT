@@ -195,6 +195,9 @@ class Connections extends Component {
         backgroundColor: Color.containerBackground
       }}>
         <ScrollView
+        style={{
+          marginBottom: 50
+        }}
           showsVerticalScrollIndicator={false}
           onScroll={(event) => {
             let scrollingHeight = event.nativeEvent.layoutMeasurement.height + event.nativeEvent.contentOffset.y
