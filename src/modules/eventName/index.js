@@ -196,31 +196,40 @@ class EventName extends Component {
 
   getTime = (schedule) => {
     let d = null;
-    schedule?.length > 0 && schedule.forEach(element => {
-      if (element.value === this.state.days[this.state.day]) {
-        d = element;
+    let length = schedule?.length;
+    if(length > 0) {
+      for(let i = 0; i < length; i++) {
+        if(schedule[i].value !== this.state.days[this.state.day - 1]) {
+          d = schedule[i + 1 === length ? 0 : i + 1];
+        } else {
+          d = schedule[i];
+        }
       }
-    });
+    }
     let date = new Date();
-    let stopper = d?.endTime?.hh || (date.getHours() - 1) % 12 || 12;
+    let stopper = d?.endTime?.hh || 11;
+    let stop = d?.startTime?.a || stopper > 12 && stopper % 12 ? ' pm' : ' am';
     let temp = [];
-    let hour = (d?.startTime?.hh ? parseInt(d?.startTime?.hh) + 1 : date.getHours()) + 1;
+    let hour = (parseInt(d?.startTime?.hh) + 12 || date.getHours()) + 1;
     let minutes = d?.startTime?.mm || date.getMinutes();
     let m = d?.startTime?.a || hour > 12 && hour % 12 ? ' pm' : ' am';
-    while(hour !== 11) {
+    while(temp[temp.length - 1]?.twelvef !== `11:${minutes} pm` || temp[temp.length - 1]?.twelvef === `${stopper}:${minutes} ${stop}`) {
       m = hour > 12 && hour % 12 ? ' pm' : ' am';
-      let convertedHour = hour % 12 || 12;
+      let convertedHour = hour > 12 && hour % 12 || 12;
+      convertedHour = convertedHour.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})
+      minutes = minutes.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})
+      hour = hour.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})
       let time = convertedHour + ':' + minutes + m
       let t = {
         twelvef: time,
         fourf: hour + ':' + minutes 
       }
-      let h = hour % 12 || 12;
-      if(time === '12:' + minutes + m) {
+      let s = hour > 12 && hour % 12;
+      if(s.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false}) === stopper) {
         break;
       }
       temp.push(t);
-      hour = hour === 23 ? 0 : hour + 1;
+      hour = parseInt(hour) === 23 ? 0 : parseInt(hour) + 1;
     }
     this.setState({time: temp});
   }
