@@ -219,8 +219,8 @@ class Cards extends React.Component {
         onSwipe={(direction, state) => console.log(direction, 'direction')}
         onSwipeUp={(state) => this.onSwipeUp(state)}
         onSwipeDown={(state) => this.onSwipeDown(state)}
-        onSwipeLeft={(state) => this.onSwipeLeft(state)}
-        onSwipeRight={(state) => this.onSwipeRight(state)}
+        onSwipeLeft={(state) => this.onSwipeRight(state)}
+        onSwipeRight={(state) => this.onSwipeLeft(state)}
         config={config}
         style={{
           flex: 1,

@@ -57,6 +57,7 @@ class Cards extends React.Component {
 
   componentDidMount() {
     this.retrieveTopChoices()
+    this.props.setTopChoices([])
   }
 
   retrieve = () => {
@@ -186,7 +187,7 @@ class Cards extends React.Component {
   addToTopChoice = (status) => {
     const { topChoices } = this.props.state;
     console.log(topChoices);
-    console.log(this.state.data[this.state.index]);
+    console.log(this.state.data[this.state.index].id);
     if (topChoices.includes(this.state.data[this.state.index].id)) {
       Alert.alert(
         "",
@@ -210,8 +211,10 @@ class Cards extends React.Component {
       Api.request(Routes.topChoiceCreate, parameter, response => {
         this.setState({isLoading1: false});
         if (response.data !== null) {
-          topChoices.push(this.state.data[this.state.index].id)
+          let top = topChoices;
+          top.push(this.state.data[this.state.index].id);
           // this.deleteFromNotification(this.props.id);
+          this.props.setTopChoices(top);
           if(status === 'super-like') {
             this.startExplosion();
           }
@@ -286,8 +289,8 @@ class Cards extends React.Component {
             this.swiper = swiper
           }}
           onSwiped={() => {console.log('hi');}}
-          onSwipedLeft={() => {this.addToTopChoice('like'); this.swipeHandler()}}
-          onSwipedRight={() => {this.swipeHandler()}}
+          onSwipedLeft={() => {this.swipeHandler()}}
+          onSwipedRight={() => {this.addToTopChoice('like'); this.swipeHandler()}}
           disableBottomSwipe={true}
           disableTopSwipe={true}
         >
