@@ -206,17 +206,16 @@ class EventName extends Component {
         }
       }
     }
-    console.log(d, '------------');
     let date = new Date();
     let stopper = d?.endTime?.hh || 11;
-    let stop = d?.startTime?.a || stopper % 12 ? ' pm' : ' am';
+    let stop = d?.startTime?.a || stopper > 12 && stopper % 12 ? ' pm' : ' am';
     let temp = [];
-    let hour = (parseInt(d?.startTime?.hh) || date.getHours()) + 1;
+    let hour = (parseInt(d?.startTime?.hh) + 12 || date.getHours()) + 1;
     let minutes = d?.startTime?.mm || date.getMinutes();
-    let m = d?.startTime?.a || ' pm';
+    let m = d?.startTime?.a || hour > 12 && hour % 12 ? ' pm' : ' am';
     while(temp[temp.length - 1]?.twelvef !== `11:${minutes} pm` || temp[temp.length - 1]?.twelvef === `${stopper}:${minutes} ${stop}`) {
       m = hour > 12 && hour % 12 ? ' pm' : ' am';
-      let convertedHour = hour % 12 || 12;
+      let convertedHour = hour > 12 && hour % 12 || 12;
       convertedHour = convertedHour.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})
       minutes = minutes.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})
       hour = hour.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})
@@ -225,7 +224,7 @@ class EventName extends Component {
         twelvef: time,
         fourf: hour + ':' + minutes 
       }
-      let s = hour % 12;
+      let s = hour > 12 && hour % 12;
       if(s.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false}) === stopper) {
         break;
       }
