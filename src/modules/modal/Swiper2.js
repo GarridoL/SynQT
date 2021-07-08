@@ -186,8 +186,8 @@ class Cards extends React.Component {
 
   addToTopChoice = (status) => {
     const { topChoices } = this.props.state;
-    console.log(topChoices);
-    console.log(this.state.data[this.state.index].id);
+    let id = this.state.data[this.state.index].id;
+    console.log(id, 'id');
     if (topChoices.includes(this.state.data[this.state.index].id)) {
       Alert.alert(
         "",
@@ -202,7 +202,7 @@ class Cards extends React.Component {
       let parameter = {
         account_id: this.props.state.user.id,
         payload: 'merchant_id',
-        payload_value: this.state.data[this.state.index].id,
+        payload_value: id,
         category: 'restaurant',
         status: status,
         synqt_id: this.props.navigation.state.params?.synqt_id && this.props.navigation.state.params?.synqt_id
@@ -212,7 +212,7 @@ class Cards extends React.Component {
         this.setState({isLoading1: false});
         if (response.data !== null) {
           let top = topChoices;
-          top.push(this.state.data[this.state.index].id);
+          top.push(id);
           // this.deleteFromNotification(this.props.id);
           this.props.setTopChoices(top);
           if(status === 'super-like') {
