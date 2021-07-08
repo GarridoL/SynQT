@@ -128,7 +128,7 @@ class EventName extends Component {
   }
 
   addToReservation = () => {
-    if(this.state.selectedTime === null) {
+    if (this.state.selectedTime === null) {
       return;
     }
     Alert.alert(
@@ -197,10 +197,10 @@ class EventName extends Component {
   getTime = (schedule) => {
     let d = null;
     let length = schedule?.length;
-    if(length > 0) {
-      for(let i = 0; i < length; i++) {
+    if (length > 0) {
+      for (let i = 0; i < length; i++) {
         console.log(schedule[i].value === this.state.days[this.state.day - 1]);
-        if(schedule[i].value === this.state.days[this.state.day - 1]) {
+        if (schedule[i].value === this.state.days[this.state.day - 1]) {
           d = schedule[i];
           break;
         } else {
@@ -215,25 +215,25 @@ class EventName extends Component {
     let hour = (parseInt(d?.startTime?.hh) || date.getHours()) + 1;
     let minutes = d?.startTime?.mm || date.getMinutes();
     let m = d?.startTime?.a ? ` ${d?.startTime?.a}` : hour > 12 && hour % 12 ? ' pm' : ' am';
-    while(temp[temp.length - 1]?.twelvef !== `11:${minutes} pm` || temp[temp.length - 1]?.twelvef === `${stopper}:${minutes} ${stop}`) {
+    while (temp[temp.length - 1]?.twelvef !== `11:${minutes} pm` || temp[temp.length - 1]?.twelvef === `${stopper}:${minutes} ${stop}`) {
       let convertedHour = hour > 12 ? hour % 12 : hour;
-      convertedHour = convertedHour.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})
-      minutes = minutes.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})
-      hour = hour.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})
+      convertedHour = convertedHour.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })
+      minutes = minutes.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })
+      hour = hour.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })
       m = hour > 11 && hour !== 0 ? ' pm' : ' am';
       let time = convertedHour + ':' + minutes + m
       let t = {
         twelvef: time,
-        fourf: hour + ':' + minutes 
+        fourf: hour + ':' + minutes
       }
       let s = hour > 12 ? hour % 12 : hour;
-      if(s.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false}) === stopper.toString() && m === stop) {
+      if (s.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false }) === stopper.toString() && m === stop) {
         break;
       }
       temp.push(t);
       hour = parseInt(hour) === 23 ? 0 : parseInt(hour) + 1;
     }
-    this.setState({time: temp});
+    this.setState({ time: temp });
   }
 
   render() {
@@ -267,9 +267,18 @@ class EventName extends Component {
                 zIndex: 100,
                 padding: 10
               }}>
+                {this.state.showDate === false &&<Text style={{
+                  fontSize: 11,
+                  color: Color.white,
+                  textShadowColor: 'black',
+                  textShadowOffset: { width: 1, height: 1 },
+                  textShadowRadius: 5,
+                  fontWeight: 'bold',
+                  marginBottom: 10
+                }}>Note: Click the date to edit.</Text>}
                 {this.state.showDate === false && <Text
                   onPress={() => {
-                    this.setState({showDate: true})
+                    this.setState({ showDate: true })
                   }}
                   numberOfLines={1}
                   style={{
@@ -287,48 +296,48 @@ class EventName extends Component {
                   width: '75%',
                   marginBottom: -15
                 }}>
-                <DateTimePicker
-                borderBottomColor={Color.gray}
-                icon={true}
-                backgroundColor={Color.containerBackground}
-                textStyle={{ marginRight: '-7%' }}
-                borderColor={Color.containerBackground}
-                type={'date'}
-                placeholder={'Select Date'}
-                onFinish={(date) => {
-                  this.setState({
-                    changed_date: date
-                  })
-                }}
-                minimumDate={this.state.currentDate}
-                style={{
-                  marginTop: '-5%'
-                }} />
-                <View style={{
-                  width: '25%',
-                  flexDirection: 'row'
-                }}>
-                <TouchableOpacity style={{
-                  margin: 5,
-                  height:50,
-                  justifyContent: 'center',
-                }}
-                onPress={() => {
-                  this.setState({showDate: false})
-                }}>
-                  <FontAwesomeIcon icon={faTimes} size={40} color={Color.danger} />
-                </TouchableOpacity>
-                <TouchableOpacity style={{
-                  height:50,
-                  justifyContent: 'center',
-                  margin: 5
-                }}
-                onPress={() => {
-                  this.setState({showDate: false, selectedDate: this.state.changed_date})
-                }}>
-                  <FontAwesomeIcon icon={faCheck} size={35} color={theme ? theme.primary : Color.primary} />
-                </TouchableOpacity>
-                </View>
+                  <DateTimePicker
+                    borderBottomColor={Color.gray}
+                    icon={true}
+                    backgroundColor={Color.containerBackground}
+                    textStyle={{ marginRight: '-7%' }}
+                    borderColor={Color.containerBackground}
+                    type={'date'}
+                    placeholder={'Select Date'}
+                    onFinish={(date) => {
+                      this.setState({
+                        changed_date: date
+                      })
+                    }}
+                    minimumDate={this.state.currentDate}
+                    style={{
+                      marginTop: '-5%'
+                    }} />
+                  <View style={{
+                    width: '25%',
+                    flexDirection: 'row'
+                  }}>
+                    <TouchableOpacity style={{
+                      margin: 5,
+                      height: 50,
+                      justifyContent: 'center',
+                    }}
+                      onPress={() => {
+                        this.setState({ showDate: false })
+                      }}>
+                      <FontAwesomeIcon icon={faTimes} size={40} color={Color.danger} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{
+                      height: 50,
+                      justifyContent: 'center',
+                      margin: 5
+                    }}
+                      onPress={() => {
+                        this.setState({ showDate: false, selectedDate: this.state.changed_date })
+                      }}>
+                      <FontAwesomeIcon icon={faCheck} size={35} color={theme ? theme.primary : Color.primary} />
+                    </TouchableOpacity>
+                  </View>
                 </View>}
                 <Text
                   numberOfLines={1}
@@ -344,7 +353,7 @@ class EventName extends Component {
                   {data?.merchant.name}
                 </Text>
                 <Text
-                  numberOfLines={2}
+                  numberOfLines={1}
                   style={{
                     color: Color.gray,
                     marginTop: 5,
@@ -397,23 +406,23 @@ class EventName extends Component {
             }}>
               {this.state.time.length > 0 && this.state.time.map((item, index) => {
                 return (
-                    <TouchableOpacity style={{
-                      width: 70,
-                      backgroundColor: this.state.selectedTime?.twelvef !== item?.twelvef ? (theme ? theme.primary : Color.primary) : theme ? theme.secondary : Color.secondary,
-                      height: 35,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      borderRadius: 5,
-                      flexDirection: 'row',
-                      margin: 2
-                    }}
+                  <TouchableOpacity style={{
+                    width: 70,
+                    backgroundColor: this.state.selectedTime?.twelvef !== item?.twelvef ? (theme ? theme.primary : Color.primary) : theme ? theme.secondary : Color.secondary,
+                    height: 35,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 5,
+                    flexDirection: 'row',
+                    margin: 2
+                  }}
                     onPress={() => {
                       this.setState({
                         selectedTime: item
                       })
                     }}>
-                      <Text style={{ color: Color.white }}>{item?.twelvef}</Text>
-                    </TouchableOpacity>
+                    <Text style={{ color: Color.white }}>{item?.twelvef}</Text>
+                  </TouchableOpacity>
                 )
               })}
             </View>}
