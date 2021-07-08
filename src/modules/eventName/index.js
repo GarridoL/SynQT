@@ -26,7 +26,7 @@ class EventName extends Component {
       isLoading: false,
       members: [],
       day: new Date(this.props.navigation?.state?.params?.data?.synqt[0].date).getDay(),
-      days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+      days: ['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
       time: [],
       schedule: null,
       selectedTime: null,
@@ -34,7 +34,8 @@ class EventName extends Component {
       changed_date: null,
       showDate: false,
       date: null,
-      selectedDate: null
+      selectedDate: null,
+      displayDate: []
     }
   }
 
@@ -53,6 +54,7 @@ class EventName extends Component {
       currentDate: date.setDate(date.getDate()),
       date: this.props.navigation.state?.params?.parameter?.datetime
     })
+    this.setState({displayDate: schedule?.schedule})
     this.getTime(schedule?.schedule);
   }
 
@@ -199,8 +201,8 @@ class EventName extends Component {
     let length = schedule?.length;
     if (length > 0) {
       for (let i = 0; i < length; i++) {
-        console.log(schedule[i].value === this.state.days[this.state.day - 1]);
-        if (schedule[i].value === this.state.days[this.state.day - 1]) {
+        console.log(schedule[i].value === this.state.days[this.state.day]);
+        if (schedule[i].value === this.state.days[this.state.day]) {
           d = schedule[i];
           break;
         } else {
@@ -333,7 +335,7 @@ class EventName extends Component {
                       margin: 5
                     }}
                       onPress={() => {
-                        this.setState({ showDate: false, selectedDate: this.state.changed_date })
+                        this.setState({ showDate: false, selectedDate: this.state.changed_date})
                       }}>
                       <FontAwesomeIcon icon={faCheck} size={35} color={theme ? theme.primary : Color.primary} />
                     </TouchableOpacity>
