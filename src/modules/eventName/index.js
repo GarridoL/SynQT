@@ -212,15 +212,14 @@ class EventName extends Component {
     let stopper = d?.endTime?.hh || 11;
     let stop = d?.endTime?.a ? ` ${d?.endTime?.a}` : stopper > 12 && stopper % 12 ? ' pm' : ' am';
     let temp = [];
-    let hour = (parseInt(d?.startTime?.hh) || date.getHours()) + 1;
-    let minutes = d?.startTime?.mm || date.getMinutes();
     let m = d?.startTime?.a ? ` ${d?.startTime?.a}` : hour > 12 && hour % 12 ? ' pm' : ' am';
+    let hour = ((m === ' pm' ? parseInt(d?.startTime?.hh) + 12 : parseInt(d?.startTime?.hh)) || date.getHours()) + 1;
+    let minutes = d?.startTime?.mm || date.getMinutes();
     while (temp[temp.length - 1]?.twelvef !== `11:${minutes} pm` || temp[temp.length - 1]?.twelvef === `${stopper}:${minutes} ${stop}`) {
       let convertedHour = hour > 12 ? hour % 12 : hour;
       convertedHour = convertedHour.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })
       minutes = minutes.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })
       hour = hour.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })
-      m = hour > 11 && hour !== 0 ? ' pm' : ' am';
       let time = convertedHour + ':' + minutes + m
       let t = {
         twelvef: time,
@@ -232,6 +231,7 @@ class EventName extends Component {
       }
       temp.push(t);
       hour = parseInt(hour) === 23 ? 0 : parseInt(hour) + 1;
+      m = hour > 11 && hour !== 0 ? ' pm' : ' am';
     }
     this.setState({ time: temp });
   }
