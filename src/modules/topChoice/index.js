@@ -23,7 +23,7 @@ class TopChoice extends Component {
       isLoading: false,
       isVisible: false,
       item: null,
-      limit: 5,
+      limit: 10,
       offset: 0
     };
   }
@@ -35,10 +35,10 @@ class TopChoice extends Component {
   }
 
   componentDidMount() {
-    this.retrieve(false)
+    this.retrieve()
   }
 
-  retrieve = (flag) => {
+  retrieve = () => {
     let parameter = {
       condition: [{
         value: this.props.navigation.state?.params?.synqt_id,
@@ -46,22 +46,17 @@ class TopChoice extends Component {
         clause: '='
       }],
       limit: this.state.limit,
-      offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset
+      offset:this.state.offset
     }
     this.setState({ isLoading: true })
     Api.request(Routes.topChoiceRetrieve, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
-        this.setState({
-          data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
-          offset: flag == false ? 1 : (this.state.offset + 1)
-        })
-      } else {
-        this.setState({
-          data: flag == false ? [] : this.state.data,
-          offset: flag == false ? 0 : this.state.offset,
-        })
+        this.setState({ data:response.data })
       }
+    }, error => {
+      console.log('error', error)
+      this.setState({isLoading: true})
     });
   }
 
@@ -77,7 +72,7 @@ class TopChoice extends Component {
         this.setState({ isLoading: false })
         if (response.data !== null) {
           this.setState({ isVisible: false })
-          this.retrieve(false)
+          this.retrieve()
         }
       });
     }
@@ -89,20 +84,6 @@ class TopChoice extends Component {
       <SafeAreaView>
         <ScrollView
           showsVerticalScrollIndicator={false}
-          onScroll={(event) => {
-            let scrollingHeight = event.nativeEvent.layoutMeasurement.height + event.nativeEvent.contentOffset.y
-            let totalHeight = event.nativeEvent.contentSize.height
-            if (event.nativeEvent.contentOffset.y <= 0) {
-              if (this.state.isLoading == false) {
-                // this.retrieve(false)
-              }
-            }
-            if (Math.round(scrollingHeight) >= Math.round(totalHeight)) {
-              if (this.state.isLoading === false) {
-                this.retrieve(true)
-              }
-            }
-          }}
         >
           <View style={{
             marginTop: 20,
@@ -140,7 +121,7 @@ class TopChoice extends Component {
             }
           </View>
         </ScrollView>
-        {this.state.data.length === 0 && (<Empty refresh={true} onRefresh={() => this.retrieve(false)} />)}
+        {this.state.data.length === 0 && (<Empty refresh={true} onRefresh={() => this.retrieve()} />)}
       </SafeAreaView>
     )
   }

@@ -56,8 +56,9 @@ class Cards extends React.Component {
   }
 
   componentDidMount() {
-    this.retrieveTopChoices()
     this.props.setTopChoices([])
+    this.retrieveTopChoices()
+    this.retrieve();
   }
 
   retrieve = () => {
@@ -95,13 +96,11 @@ class Cards extends React.Component {
       limit: 5,
       offset: 0
     }
-    console.log(parameter, Routes.topChoiceRetrieve, '---');
     Api.request(Routes.topChoiceRetrieve, parameter, response => {
-      this.retrieve();
-      this.setState({ finishLoad: true })
       let temp = []
-      response.data.length > 0 && response.data.map(item => {
+      response.data.length > 0 && response.data.map((item, index) => {
         item.members.length > 0 && item.members.map(i => {
+          console.log(i.account_id, this.props.state.user.id, index);
           if (i.account_id == this.props.state.user.id) {
             temp.push(item.merchant.id)
           }
@@ -184,11 +183,11 @@ class Cards extends React.Component {
     this.explosion && this.explosion.start();
   };
 
-  addToTopChoice = (status) => {
+  addToTopChoice = (status, id) => {
     const { topChoices } = this.props.state;
-    let id = this.state.data[this.state.index].id;
+    console.log(this.props.state.topChoices, 'top choices');
     console.log(id, 'id');
-    if (topChoices.includes(this.state.data[this.state.index].id)) {
+    if (topChoices.includes(id)) {
       Alert.alert(
         "",
         "Cannot choose the same restaurant twice.",
@@ -290,7 +289,7 @@ class Cards extends React.Component {
           }}
           onSwiped={() => {console.log('hi');}}
           onSwipedLeft={() => {this.swipeHandler()}}
-          onSwipedRight={() => {this.addToTopChoice('like'); this.swipeHandler()}}
+          onSwipedRight={() => {this.addToTopChoice('like', this.state.data[this.state.index].id); this.swipeHandler()}}
           disableBottomSwipe={true}
           disableTopSwipe={true}
         >
@@ -417,7 +416,7 @@ class Cards extends React.Component {
                       zIndex: 200
                     }}
                       onPress={() => {
-                        this.addToTopChoice('super-like');
+                        this.addToTopChoice('super-like', this.state.data[this.state.index].id);
                         this.swiper.swipeLeft();
                       }}>
                       <FontAwesomeIcon
@@ -524,7 +523,7 @@ class Cards extends React.Component {
           marginBottom: 50
         }}>
         {this.props.bottomFloatButton === true > 0 && (
-          <FLoatingButton onClose={() => { this.swiper.swipeRight(); }} onClick={() => { this.addToTopChoice('like'); this.swiper.swipeLeft(); }}></FLoatingButton>
+          <FLoatingButton onClose={() => { this.swiper.swipeRight(); }} onClick={() => { this.addToTopChoice('like', this.state.data[this.state.index].id); this.swiper.swipeLeft(); }}></FLoatingButton>
         )}
         </View>
       </View>
