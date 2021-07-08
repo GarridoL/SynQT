@@ -16,34 +16,11 @@ const width = Math.round(Dimensions.get('window').width);
 class HeaderOptions extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      finishLoad: false
-    }
   }
 
   back = () => {
     this.props.navigationProps.pop();
   };
-
-  componentDidMount() {
-    this.retrieveTopChoices();
-  }
-
-  retrieveTopChoices = () => {
-    let parameter = {
-      condition: [{
-        value: this.props.navigationProps?.state?.params?.data?.payload,
-        column: 'synqt_id',
-        clause: '='
-      }],
-      limit: 5,
-      offset: 0
-    }
-    Api.request(Routes.topChoiceRetrieve, parameter, response => {
-      console.log(response, '-----------');
-      this.setState({ finishLoad: true })
-    });
-  }
 
   redirect = (route) => {
     this.props.navigationProps.navigate(route, {
@@ -73,7 +50,7 @@ class HeaderOptions extends Component {
             </View>
           )}
         <View style={{ flex: 1, flexDirection: 'row', position: 'absolute', right: 50 }}>
-          <TouchableOpacity disabled={!this.state.finishLoad} onPress={() => {
+          <TouchableOpacity onPress={() => {
             if (status !== 'completed') {
               this.redirect('topChoiceStack')
             }
@@ -86,7 +63,7 @@ class HeaderOptions extends Component {
                 style={BasicStyles.iconStyle} />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity disabled={!this.state.finishLoad} onPress={() => status !== 'completed' ?
+          <TouchableOpacity onPress={() => status !== 'completed' ?
             this.redirect('menuStack') : console.log(status)}>
             <View style={{ borderWidth: 2, borderRadius: 20, height: 30, width: 30, borderColor: Color.primary, justifyContent: 'center', alignItems: 'center', marginLeft: 5 }}>
               <Image source={require('assets/logo.png')} style={{
@@ -95,7 +72,7 @@ class HeaderOptions extends Component {
               }} />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity disabled={!this.state.finishLoad} onPress={() => {
+          <TouchableOpacity onPress={() => {
             setShowSettings(!this.props.state.showSettings)
           }}>
             <View>
