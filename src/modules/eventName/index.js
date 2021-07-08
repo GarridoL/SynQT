@@ -210,16 +210,17 @@ class EventName extends Component {
     }
     let date = new Date();
     let stopper = d?.endTime?.hh || 11;
-    let stop = d?.startTime?.a ? ` ${d?.startTime?.a}` : stopper > 12 && stopper % 12 ? ' pm' : ' am';
+    let stop = d?.endTime?.a ? ` ${d?.endTime?.a}` : stopper > 12 && stopper % 12 ? ' pm' : ' am';
     let temp = [];
-    let hour = parseInt(d?.startTime?.hh) || date.getHours() + 1;
+    let hour = (parseInt(d?.startTime?.hh) || date.getHours()) + 1;
     let minutes = d?.startTime?.mm || date.getMinutes();
     let m = d?.startTime?.a ? ` ${d?.startTime?.a}` : hour > 12 && hour % 12 ? ' pm' : ' am';
     while(temp[temp.length - 1]?.twelvef !== `11:${minutes} pm` || temp[temp.length - 1]?.twelvef === `${stopper}:${minutes} ${stop}`) {
-      let convertedHour = hour % 12;
+      let convertedHour = hour > 12 ? hour % 12 : hour;
       convertedHour = convertedHour.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})
       minutes = minutes.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})
       hour = hour.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})
+      m = hour > 11 && hour !== 0 ? ' pm' : ' am';
       let time = convertedHour + ':' + minutes + m
       let t = {
         twelvef: time,
@@ -230,7 +231,6 @@ class EventName extends Component {
         break;
       }
       temp.push(t);
-      m = hour % 12 ? ' pm' : ' am';
       hour = parseInt(hour) === 23 ? 0 : parseInt(hour) + 1;
     }
     this.setState({time: temp});
@@ -252,13 +252,13 @@ class EventName extends Component {
               source={{ uri: Config.BACKEND_URL + data?.merchant.logo }}>
               <View style={{
                 width: width,
-                height: 110,
+                height: 130,
                 position: 'absolute',
                 bottom: 0,
                 left: 0,
                 opacity: .3,
                 backgroundColor: 'white',
-                justifyContent: 'center'
+                justifyContent: 'center',
               }}>
               </View>
               <View style={{
