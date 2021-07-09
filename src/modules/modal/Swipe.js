@@ -27,7 +27,7 @@ class Swipe extends Component {
           }}>
           </View>
           <View style={{
-            marginBottom: 300
+            marginBottom: 157
           }}>
             <Swiper
               fromHistory={this.props.fromHistory}

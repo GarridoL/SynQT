@@ -58,7 +58,6 @@ class Cards extends React.Component {
   componentDidMount() {
     this.props.setTopChoices([])
     this.retrieveTopChoices()
-    this.retrieve();
   }
 
   retrieve = () => {
@@ -97,10 +96,10 @@ class Cards extends React.Component {
       offset: 0
     }
     Api.request(Routes.topChoiceRetrieve, parameter, response => {
+      this.retrieve();
       let temp = []
       response.data.length > 0 && response.data.map((item, index) => {
         item.members.length > 0 && item.members.map(i => {
-          console.log(i.account_id, this.props.state.user.id, index);
           if (i.account_id == this.props.state.user.id) {
             temp.push(item.merchant.id)
           }
@@ -206,9 +205,7 @@ class Cards extends React.Component {
         status: status,
         synqt_id: this.props.navigation.state.params?.synqt_id && this.props.navigation.state.params?.synqt_id
       }
-      this.setState({isLoading1: true});
       Api.request(Routes.topChoiceCreate, parameter, response => {
-        this.setState({isLoading1: false});
         if (response.data !== null) {
           let top = topChoices;
           top.push(id);

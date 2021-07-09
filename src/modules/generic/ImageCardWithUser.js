@@ -73,7 +73,7 @@ class ImageCardWithUser extends Component {
                 borderBottomRightRadius: BasicStyles.standardBorderRadius
               }}>
                 <View style={{
-                  width: '50%'
+                  width: '47%'
                 }}>
                   <Text style={{
                     fontWeight: 'bold',
@@ -86,14 +86,14 @@ class ImageCardWithUser extends Component {
                     color: 'gray',
                     marginBottom: 10
                   }}
-                    numberOfLines={1}
+                    numberOfLines={2}
                   >{data.address ? this.getAddress(data.address) : 'No address provided.'}</Text>
                 </View>
                 <View style={{
                   zIndex: 10,
                   marginTop: -7,
                   marginLeft: 6,
-                  width: '50%'
+                  width: '54%',
                 }}>
                   <GroupUsers
                   reverse={true}

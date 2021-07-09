@@ -424,7 +424,8 @@ class Cards extends React.Component {
         style={{
           paddingLeft: 20,
           paddingRight: 20,
-          marginTop: -150
+          marginTop: -150,
+          zIndex: 100
         }}
       >
         <View>

@@ -18,7 +18,7 @@ class GroupUsers extends Component{
         width: '100%',
         flexDirection: this.props.reverse ? 'row-reverse' : 'row',
         textAlign: 'justify',
-        flexWrap: 'wrap',
+        flexWrap: this.props.reverse ? 'nowrap' : 'wrap',
         ...this.props.style
       }}>
         {
