@@ -425,7 +425,8 @@ class Cards extends React.Component {
           paddingLeft: 20,
           paddingRight: 20,
           marginTop: -150,
-          zIndex: 100
+          zIndex: 100,
+          marginBottom: 100
         }}
       >
         <View>
@@ -440,7 +441,8 @@ class Cards extends React.Component {
                   <View style={{
                     alignItems: 'center',
                     justifyContent: 'center',
-                    paddingTop: 40
+                    paddingTop: 40,
+                    marginBottom: 10
                   }}>
                     <Text>No available product.</Text>
                   </View>
