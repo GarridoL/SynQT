@@ -91,17 +91,17 @@ class Landing extends Component {
           showsVerticalScrollIndicator={false}>
           <View style={{
             height: height,
-            flex: 1
+            flex: 1,
+            marginBottom: 10
           }}>
             <View style={{
-              height: '50%',
+              height: '53%',
               width: width,
               alignItems: 'center',
               justifyContent: 'center',
               marginTop: 100,
-              padding: 30
             }}>
-              <Image source={require('assets/new2.png')} style={{ width: '100%', height: '100%' }}/>
+              <Image source={require('assets/new2.png')} style={{ width: '90%', height: '90%' }}/>
             </View>
             <View style={{
               width: '100%',

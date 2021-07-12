@@ -130,42 +130,50 @@ class EventName extends Component {
 
   addToReservation = () => {
     if (this.state.selectedTime === null) {
-      return;
-    }
-    Alert.alert(
-      '',
-      'Kindly confirm to continue',
-      [
-        { text: 'Cancel', onPress: () => { return }, style: 'cancel' },
-        {
-          text: 'Confirm', onPress: () => {
-            this.setState({ isLoading: true })
-            let datetime = this.state.selectedDate !== null ? this.state.selectedDate?.date?.toString() : this.state.date?.toString();
-            let forSynqt = datetime;
-            // datetime = datetime?.split('-');
-            // datetime = new Date(datetime.join('/'));
-            // let time = this.state.selectedTime?.fourf?.split(':');
-            // datetime.setHours(time[0], time[1], 0)
-            let params = this.props.navigation.state?.params?.parameter;
-            params['datetime'] = datetime + ' ' + this.state.selectedTime?.fourf;
-            console.log(params, 'test');
-            Api.request(Routes.reservationCreate, params, response => {
-              this.setState({ isLoading: false })
-              if (response.data !== null) {
-                this.synqtUpdate(params?.payload_value, forSynqt);
-                this.props.navigation.navigate('historyStack', { title: 'Upcoming' })
-              }
-            },
-              error => {
+      Alert.alert(
+        "",
+        "Please select time.",
+        [
+          { text: "OK", onPress: () => { return } }
+        ],
+        { cancelable: false }
+      );
+    } else {
+      Alert.alert(
+        '',
+        'Kindly confirm to continue',
+        [
+          { text: 'Cancel', onPress: () => { return }, style: 'cancel' },
+          {
+            text: 'Confirm', onPress: () => {
+              this.setState({ isLoading: true })
+              let datetime = this.state.selectedDate !== null ? this.state.selectedDate?.date?.toString() : this.state.date?.toString();
+              let forSynqt = datetime;
+              // datetime = datetime?.split('-');
+              // datetime = new Date(datetime.join('/'));
+              // let time = this.state.selectedTime?.fourf?.split(':');
+              // datetime.setHours(time[0], time[1], 0)
+              let params = this.props.navigation.state?.params?.parameter;
+              params['datetime'] = datetime + ' ' + this.state.selectedTime?.fourf;
+              console.log(params, 'test');
+              Api.request(Routes.reservationCreate, params, response => {
                 this.setState({ isLoading: false })
-                console.log({ error });
+                if (response.data !== null) {
+                  this.synqtUpdate(params?.payload_value, forSynqt);
+                  this.props.navigation.navigate('historyStack', { title: 'Upcoming' })
+                }
               },
-            );
-          }
-        },
-      ],
-      { cancelable: false }
-    )
+                error => {
+                  this.setState({ isLoading: false })
+                  console.log({ error });
+                },
+              );
+            }
+          },
+        ],
+        { cancelable: false }
+      )
+    }
   }
 
   getAddress = (address) => {
@@ -242,7 +250,7 @@ class EventName extends Component {
     const { data } = this.state;
     return (
       <View>
-        <ScrollView style={{ marginBottom: 50 }} showsVerticalScrollIndicator={false}>
+        <ScrollView style={{ marginBottom: 70 }} showsVerticalScrollIndicator={false}>
           <View style={style.Container}>
             <ImageBackground
               style={{
@@ -460,8 +468,8 @@ class EventName extends Component {
                     margin: 2
                   }}
                     onPress={() => {
-                      if(this.state.selectedTime === item) {
-                        this.setState({selectedTime: null})
+                      if (this.state.selectedTime === item) {
+                        this.setState({ selectedTime: null })
                       } else {
                         this.setState({ selectedTime: item })
                       }
