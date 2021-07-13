@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Style from './Style.js';
-import { View, Image, Text, TouchableOpacity, ScrollView, SafeAreaView, Dimensions } from 'react-native';
+import { View, Image, Text, TouchableOpacity, ScrollView, SafeAreaView, Dimensions, BackHandler } from 'react-native';
 import { Routes, Color, Helper, BasicStyles } from 'common';
 import Pagination from 'components/Pagination/Icons';
 import { Pager, PagerProvider } from '@crowdlinker/react-native-pager';
@@ -31,6 +31,18 @@ class History extends Component {
   componentDidMount() {
     this.setState({ activeIndex: this.props.navigation.state && this.props.navigation.state.params && this.props.navigation.state.params.activeIndex ? this.props.navigation.state.params.activeIndex : 0 })
     this.retrieve(false);
+    this.backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      this.handleBackPress,
+    );
+  }
+
+  componentWillUnmount() {
+    this.backHandler.remove();
+  }
+
+  handleBackPress = () => {
+    this.props.navigations?.navigate('drawerStack');
   }
 
   retrieve = (flag) => {

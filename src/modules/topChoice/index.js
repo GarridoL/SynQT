@@ -51,12 +51,12 @@ class TopChoice extends Component {
     this.setState({ isLoading: true })
     Api.request(Routes.topChoiceRetrieve, parameter, response => {
       this.setState({ isLoading: false })
-      if (response.data.length > 0) {
+      if (response.data?.length > 0) {
         this.setState({ data:response.data })
       }
     }, error => {
       console.log('error', error)
-      this.setState({isLoading: true})
+      this.setState({isLoading: false})
     });
   }
 
