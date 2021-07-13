@@ -58,7 +58,6 @@ class Cards extends React.Component {
   componentDidMount() {
     this.props.setTopChoices([])
     this.retrieveTopChoices()
-    this.retrieve();
   }
 
   retrieve = () => {
@@ -97,10 +96,10 @@ class Cards extends React.Component {
       offset: 0
     }
     Api.request(Routes.topChoiceRetrieve, parameter, response => {
+      this.retrieve();
       let temp = []
       response.data.length > 0 && response.data.map((item, index) => {
         item.members.length > 0 && item.members.map(i => {
-          console.log(i.account_id, this.props.state.user.id, index);
           if (i.account_id == this.props.state.user.id) {
             temp.push(item.merchant.id)
           }
@@ -206,9 +205,7 @@ class Cards extends React.Component {
         status: status,
         synqt_id: this.props.navigation.state.params?.synqt_id && this.props.navigation.state.params?.synqt_id
       }
-      this.setState({isLoading1: true});
       Api.request(Routes.topChoiceCreate, parameter, response => {
-        this.setState({isLoading1: false});
         if (response.data !== null) {
           let top = topChoices;
           top.push(id);
@@ -269,7 +266,7 @@ class Cards extends React.Component {
   change = (option, item, index) => {
     let temp = this.state.data;
     if (option === 'next') {
-      temp[index].index = item.featured_photos.length === item.index + 1 ? item.index : item.index + 1;
+      temp[index].index = item?.featured_photos?.length === item.index + 1 ? item.index : item.index + 1;
     } else {
       temp[index].index = item.index === 0 ? 0 : item.index - 1;
     }
@@ -296,7 +293,7 @@ class Cards extends React.Component {
           {
             data.length > 0 && data.map((el, idx) => {
               return (
-                <Card style={styles.card} key={idx + el.featured_photos[this.state.active]?.url}>
+                <Card style={styles.card} key={idx + el?.featured_photos?.length > 0 ? el?.featured_photos[this.state.active]?.url : idx}>
                   <ImageBackground style={{ resizeMode: 'contain', flex: 1, flexDirection: 'row', height: '88%', width: null, marginTop: this.props.bottomFloatButton === true ? 50 : height * 0.25 }}
                     imageStyle={{
                       flex: 1,
@@ -304,7 +301,7 @@ class Cards extends React.Component {
                       borderRadius: BasicStyles.standardBorderRadius,
                       backgroundColor: 'white'
                     }}
-                    source={el.featured_photos?.length > 0 ? { uri: Config.BACKEND_URL + el.featured_photos[this.state.active]?.url } : require('assets/default.png')}>
+                    source={el?.featured_photos?.length > 0 ? { uri: Config.BACKEND_URL + el?.featured_photos[this.state.active]?.url } : require('assets/default.png')}>
                     <View
                       style={{
                         flexDirection: 'row',
@@ -313,14 +310,14 @@ class Cards extends React.Component {
                         justifyContent: 'center',
                         alignItems: 'center'
                       }}>
-                      {el.featured_photos?.length > 0 && el.featured_photos.map((item, index) => {
+                      {el?.featured_photos?.length > 0 && el?.featured_photos.map((item, index) => {
                         return (
                           <View
                             style={{
                               margin: 1,
                               backgroundColor: this.state.active === index ? 'white' : '#b5b5b5',
                               height: 5,
-                              width: this.getWidth(el.featured_photos),
+                              width: this.getWidth(el?.featured_photos),
                               borderRadius: 10
                             }}
                           ></View>)

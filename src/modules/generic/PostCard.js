@@ -270,7 +270,8 @@ class PostCard extends Component {
                 width: '100%',
                 height: 50
               }}
-                onSubmitEditing={() => this.props.postReply(comments)}
+                value={this.state.reply}
+                onSubmitEditing={() => {this.props.postReply(comments); this.setState({reply: null})}}
                 onChangeText={(value) => this.replyHandler(value)}
                 placeholder={'Type reply here'}
               />

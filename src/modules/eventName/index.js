@@ -26,7 +26,7 @@ class EventName extends Component {
       isLoading: false,
       members: [],
       day: new Date(this.props.navigation?.state?.params?.data?.synqt[0].date).getDay(),
-      days: ['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
       time: [],
       schedule: null,
       selectedTime: null,
@@ -46,7 +46,6 @@ class EventName extends Component {
     if (schedule && schedule !== 'NULL' && typeof (schedule) !== 'object') {
       schedule = JSON.parse(schedule);
     }
-    console.log(parameter, 'hi')
     let date = new Date()
     this.setState({
       schedule: schedule?.schedule,
@@ -54,7 +53,7 @@ class EventName extends Component {
       currentDate: date.setDate(date.getDate()),
       date: this.props.navigation.state?.params?.parameter?.datetime
     })
-    this.setState({displayDate: schedule?.schedule})
+    this.setState({ displayDate: schedule?.schedule })
     this.getTime(schedule?.schedule);
   }
 
@@ -131,42 +130,50 @@ class EventName extends Component {
 
   addToReservation = () => {
     if (this.state.selectedTime === null) {
-      return;
-    }
-    Alert.alert(
-      '',
-      'Kindly confirm to continue',
-      [
-        { text: 'Cancel', onPress: () => { return }, style: 'cancel' },
-        {
-          text: 'Confirm', onPress: () => {
-            this.setState({ isLoading: true })
-            let datetime = this.state.selectedDate !== null ? this.state.selectedDate?.date?.toString() : this.state.date?.toString();
-            let forSynqt = datetime;
-            // datetime = datetime?.split('-');
-            // datetime = new Date(datetime.join('/'));
-            // let time = this.state.selectedTime?.fourf?.split(':');
-            // datetime.setHours(time[0], time[1], 0)
-            let params = this.props.navigation.state?.params?.parameter;
-            params['datetime'] = datetime + ' ' + this.state.selectedTime?.fourf;
-            console.log(params, 'test');
-            Api.request(Routes.reservationCreate, params, response => {
-              this.setState({ isLoading: false })
-              if (response.data !== null) {
-                this.synqtUpdate(params?.payload_value, forSynqt);
-                this.props.navigation.navigate('historyStack', { title: 'Upcoming' })
-              }
-            },
-              error => {
+      Alert.alert(
+        "",
+        "Please select time.",
+        [
+          { text: "OK", onPress: () => { return } }
+        ],
+        { cancelable: false }
+      );
+    } else {
+      Alert.alert(
+        '',
+        'Kindly confirm to continue',
+        [
+          { text: 'Cancel', onPress: () => { return }, style: 'cancel' },
+          {
+            text: 'Confirm', onPress: () => {
+              this.setState({ isLoading: true })
+              let datetime = this.state.selectedDate !== null ? this.state.selectedDate?.date?.toString() : this.state.date?.toString();
+              let forSynqt = datetime;
+              // datetime = datetime?.split('-');
+              // datetime = new Date(datetime.join('/'));
+              // let time = this.state.selectedTime?.fourf?.split(':');
+              // datetime.setHours(time[0], time[1], 0)
+              let params = this.props.navigation.state?.params?.parameter;
+              params['datetime'] = datetime + ' ' + this.state.selectedTime?.fourf;
+              console.log(params, 'test');
+              Api.request(Routes.reservationCreate, params, response => {
                 this.setState({ isLoading: false })
-                console.log({ error });
+                if (response.data !== null) {
+                  this.synqtUpdate(params?.payload_value, forSynqt);
+                  this.props.navigation.navigate('historyStack', { title: 'Upcoming' })
+                }
               },
-            );
-          }
-        },
-      ],
-      { cancelable: false }
-    )
+                error => {
+                  this.setState({ isLoading: false })
+                  console.log({ error });
+                },
+              );
+            }
+          },
+        ],
+        { cancelable: false }
+      )
+    }
   }
 
   getAddress = (address) => {
@@ -243,7 +250,7 @@ class EventName extends Component {
     const { data } = this.state;
     return (
       <View>
-        <ScrollView style={{ marginBottom: 50 }} showsVerticalScrollIndicator={false}>
+        <ScrollView style={{ marginBottom: 70 }} showsVerticalScrollIndicator={false}>
           <View style={style.Container}>
             <ImageBackground
               style={{
@@ -269,7 +276,7 @@ class EventName extends Component {
                 zIndex: 100,
                 padding: 10
               }}>
-                {this.state.showDate === false &&<Text style={{
+                {this.state.showDate === false && <Text style={{
                   fontSize: 11,
                   color: Color.white,
                   textShadowColor: 'black',
@@ -278,69 +285,111 @@ class EventName extends Component {
                   fontWeight: 'bold',
                   marginBottom: 10
                 }}>Note: Click the date to edit.</Text>}
-                {this.state.showDate === false && <Text
-                  onPress={() => {
-                    this.setState({ showDate: true })
-                  }}
-                  numberOfLines={1}
-                  style={{
-                    color: theme ? theme.primary : Color.primary,
-                    fontSize: 20,
-                    color: 'white',
-                    textShadowColor: 'black',
-                    textShadowOffset: { width: 1, height: 1 },
-                    textShadowRadius: 5,
-                    fontWeight: 'bold',
-                  }}
-                >{this.state.changed_date ? this.state.changed_date?.date : data?.synqt[0].date_at_human}</Text>}
-                {this.state.showDate && <View style={{
-                  flexDirection: 'row',
-                  width: '75%',
-                  marginBottom: -15
-                }}>
-                  <DateTimePicker
-                    borderBottomColor={Color.gray}
-                    icon={true}
-                    backgroundColor={Color.containerBackground}
-                    textStyle={{ marginRight: '-7%' }}
-                    borderColor={Color.containerBackground}
-                    type={'date'}
-                    placeholder={'Select Date'}
-                    onFinish={(date) => {
-                      this.setState({
-                        changed_date: date
-                      })
-                    }}
-                    minimumDate={this.state.currentDate}
-                    style={{
-                      marginTop: '-5%'
-                    }} />
+                {this.state.showDate === false &&
                   <View style={{
-                    width: '25%',
-                    flexDirection: 'row'
+                    width: width,
                   }}>
-                    <TouchableOpacity style={{
-                      margin: 5,
-                      height: 50,
-                      justifyContent: 'center',
-                    }}
+                    <Text
                       onPress={() => {
-                        this.setState({ showDate: false })
-                      }}>
-                      <FontAwesomeIcon icon={faTimes} size={40} color={Color.danger} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{
-                      height: 50,
-                      justifyContent: 'center',
-                      margin: 5
-                    }}
+                        this.setState({ showDate: true })
+                      }}
+                      numberOfLines={1}
+                      style={{
+                        fontSize: 20,
+                        color: 'white',
+                        textShadowColor: 'black',
+                        textShadowOffset: { width: 1, height: 1 },
+                        textShadowRadius: 5,
+                        fontWeight: 'bold',
+                      }}
+                    >{this.state.changed_date ? this.state.changed_date?.date : data?.synqt[0].date_at_human}</Text>
+                    {this.state.changed_date && <Text
                       onPress={() => {
-                        this.setState({ showDate: false, selectedDate: this.state.changed_date})
-                      }}>
-                      <FontAwesomeIcon icon={faCheck} size={35} color={theme ? theme.primary : Color.primary} />
-                    </TouchableOpacity>
+                        this.setState({
+                          changed_date: null,
+                          day: new Date(this.props.navigation?.state?.params?.data?.synqt[0].date).getDay()
+                        }, () => {
+                          this.getTime(this.state.displayDate);
+                        })
+                      }}
+                      numberOfLines={1}
+                      style={{
+                        color: Color.danger,
+                        fontSize: 20,
+                        textShadowColor: 'black',
+                        textShadowOffset: { width: 1, height: 1 },
+                        textShadowRadius: 5,
+                        fontWeight: 'bold',
+                        position: 'absolute',
+                        right: 20
+                      }}
+                    >Cancel</Text>}
                   </View>
-                </View>}
+                }
+                {this.state.showDate &&
+                  <View style={{
+                    flexDirection: 'row',
+                    width: '75%',
+                    marginBottom: -15
+                  }}>
+                    <DateTimePicker
+                      borderBottomColor={Color.gray}
+                      icon={true}
+                      backgroundColor={Color.containerBackground}
+                      textStyle={{ marginRight: '-7%' }}
+                      borderColor={Color.containerBackground}
+                      type={'date'}
+                      placeholder={'Select Date'}
+                      onFinish={(date) => {
+                        this.setState({
+                          changed_date: date
+                        })
+                      }}
+                      minimumDate={this.state.currentDate}
+                      style={{
+                        marginTop: '-5%'
+                      }} />
+                    <View style={{
+                      width: '25%',
+                      flexDirection: 'row'
+                    }}>
+                      <TouchableOpacity style={{
+                        margin: 5,
+                        height: 50,
+                        justifyContent: 'center',
+                      }}
+                        onPress={() => {
+                          this.setState({ showDate: false })
+                        }}>
+                        <FontAwesomeIcon icon={faTimes} size={40} color={Color.danger} />
+                      </TouchableOpacity>
+                      <TouchableOpacity style={{
+                        height: 50,
+                        justifyContent: 'center',
+                        margin: 5
+                      }}
+                        onPress={() => {
+                          let date = this.state.changed_date?.date || null;
+                          let converted = '';
+                          if (date !== null) {
+                            let split = date.split('-');
+                            split[1] = parseInt(split[1]).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })
+                            split[2] = parseInt(split[2]).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })
+                            converted = split.join('-');
+                          }
+                          let day = new Date(converted).getDay()
+                          this.setState({
+                            showDate: false,
+                            selectedDate: this.state.changed_date,
+                            day: day
+                          }, () => {
+                            this.getTime(this.state.displayDate);
+                          })
+                        }}>
+                        <FontAwesomeIcon icon={faCheck} size={35} color={theme ? theme.primary : Color.primary} />
+                      </TouchableOpacity>
+                    </View>
+                  </View>}
                 <Text
                   numberOfLines={1}
                   style={{
@@ -419,9 +468,11 @@ class EventName extends Component {
                     margin: 2
                   }}
                     onPress={() => {
-                      this.setState({
-                        selectedTime: item
-                      })
+                      if (this.state.selectedTime === item) {
+                        this.setState({ selectedTime: null })
+                      } else {
+                        this.setState({ selectedTime: item })
+                      }
                     }}>
                     <Text style={{ color: Color.white }}>{item?.twelvef}</Text>
                   </TouchableOpacity>
