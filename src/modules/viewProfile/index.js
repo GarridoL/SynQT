@@ -73,7 +73,6 @@ class ViewProfile extends Component {
       offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset
     }
     this.setState({ isLoading: true })
-    console.log(parameter, Routes.topChoiceRetrieveActivities);
     Api.request(Routes.topChoiceRetrieveActivities, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
@@ -142,7 +141,6 @@ class ViewProfile extends Component {
       account_id: user.id,
       offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
     }
-    console.log(parameter, '---');
     this.setState({ isLoading: true })
     Api.request(Routes.circleRetrieve, parameter, response => {
       this.setState({ isLoading: false })
@@ -408,16 +406,15 @@ class ViewProfile extends Component {
               </TouchableOpacity>
             </View>
             <View style={Style.BottomView}>
-              <Text style={{textAlign: 'center'}}>
               <FontAwesomeIcon
                 icon={faCheckCircle}
                 size={20}
+                style={{ marginRight: 5 }}
                 color={theme ? theme.primary : Color.primary} />
               <Text style={{
                 fontWeight: 'bold',
                 fontSize: 18
               }}>{user?.account?.information?.first_name ? user?.account?.information?.first_name + user?.account?.information?.last_name : user?.account?.username}</Text>
-              </Text>
             </View>
             {user.account.id !== this.props.state.user.id && <View style={{
               width: '100%'
