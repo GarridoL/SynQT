@@ -32,7 +32,6 @@ class Header extends Component {
           flexDirection: 'row',
           alignItems: 'center',
           width: width,
-          marginTop: 25
         }}>
         <TouchableOpacity
           onPress={() => {
@@ -71,7 +70,7 @@ class Header extends Component {
               position: 'absolute',
               paddingLeft: 20,
               paddingRight: 25,
-              backgroundColor: Color.containerBackground
+              backgroundColor: Color.white
             }}>
               <View style={{
                 height: 40,

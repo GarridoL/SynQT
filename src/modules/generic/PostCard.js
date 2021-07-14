@@ -290,9 +290,10 @@ class PostCard extends Component {
         ...BasicStyles.standardWidth,
         borderRadius: BasicStyles.standardBorderRadius,
         borderColor: Color.gray,
-        borderWidth: .3,
+        // borderWidth: .3,
         marginBottom: 20,
-        marginTop: 20
+        marginTop: 20,
+        backgroundColor: Color.white
       }}>
         {this.renderHeader(data, true)}
         {this.renderBody(data)}

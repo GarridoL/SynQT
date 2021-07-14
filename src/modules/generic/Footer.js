@@ -51,7 +51,7 @@ class Footer extends Component {
             position: 'absolute',
             bottom: 0,
             height: 50,
-            backgroundColor: Color.containerBackground
+            backgroundColor: Color.white
           }}>
           {
             layer == 0 && (

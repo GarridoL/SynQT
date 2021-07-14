@@ -82,7 +82,7 @@ const TermsAndConditionsStack = createStackNavigator({
           elevation: 0,
         },
         headerTitleContainerStyle: {
-          backgroundColor: Color.containerBackground,
+          backgroundColor: Color.white,
           justifyContent: 'center',
           alignItems: 'center',
           width: width

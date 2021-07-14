@@ -241,6 +241,7 @@ class ForgotPassword extends Component {
         locations={[0,0.5,1]}
         start={{ x: 2, y: 0 }}
         end={{ x: 1, y: 1 }}
+        style={{height: '100%'}}
         >
         <ScrollView
           style={Style.ScrollView}

@@ -10,7 +10,6 @@ class Swipe extends Component {
   }
 
   render() {
-    console.log(this.props.item, 'iteeem');
     return (
       <Modal
         animationType='fade'
@@ -27,7 +26,8 @@ class Swipe extends Component {
           }}>
           </View>
           <View style={{
-            marginBottom: 157
+            marginBottom: 157,
+            backgroundColor: 'rgba(0,0,0,0.5)'
           }}>
             <Swiper
               fromHistory={this.props.fromHistory}

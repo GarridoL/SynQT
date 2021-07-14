@@ -202,7 +202,7 @@ class HomePage extends Component {
             width: 150,
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: Color.containerBackground
+            backgroundColor: Color.white
           }}>
             <TouchableOpacity
               onPress={() => this.redirect('restaurantStack')}
@@ -229,13 +229,13 @@ class HomePage extends Component {
             marginBottom: 100,
             elevation: 10,
             borderRadius: 25,
-            backgroundColor: Color.containerBackground
+            backgroundColor: Color.white
           }}>
             <TouchableOpacity
               onPress={() => this.redirect('historyStack')}
               style={{
                 ...BasicStyles.standardButton,
-                backgroundColor: Color.containerBackground,
+                backgroundColor: Color.white,
                 borderColor: theme ? theme.primary : Color.primary,
                 borderWidth: 1
               }}>

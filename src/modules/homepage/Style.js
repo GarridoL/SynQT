@@ -7,7 +7,7 @@ export default {
   },
   MainContainer: {
     flex: 1,
-    backgroundColor: Color.white,
+    backgroundColor: Color.containerBackground,
     zIndex: 0
   },
   footerIcon: {

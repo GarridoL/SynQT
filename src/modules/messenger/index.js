@@ -359,7 +359,7 @@ class Groups extends Component {
         <View style={{
           borderBottomColor: Color.primary,
           borderBottomWidth: 1,
-          paddingBottom: 10,
+          padding: 10,
         }}>
           {this.state.connections.length > 0 ? (<Group inviteToSynqt={true} add={false} style={{
             borderColor: Color.primary,

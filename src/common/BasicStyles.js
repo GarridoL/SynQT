@@ -301,10 +301,10 @@ export default {
       alignItems: 'center',
       fontSize: 12,
       width: '100%',
-      backgroundColor: Color.containerBackground
+      backgroundColor: Color.white
     },
     headerTitleContainerStyle: {
-      backgroundColor: Color.containerBackground,
+      backgroundColor: Color.white,
       justifyContent: 'center',
       alignItems: 'center',
       marginLeft: '-10%'
