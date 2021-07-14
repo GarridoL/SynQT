@@ -68,7 +68,7 @@ class History extends Component {
     this.setState({ isLoading: true })
     Api.request(Routes.reservationRetrieve, parameter, response => {
       this.setState({ isLoading: false })
-      if (response.data.length > 0) {
+      if (response.data?.length > 0) {
         console.log(response.data[0]);
         this.setState({
           data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),

@@ -48,7 +48,7 @@ class Header extends Component {
           justifyContent: 'center',
           width: '100%',
           padding: 10,
-          backgroundColor: Color.containerBackground
+          backgroundColor: Color.white
         }}>
 
         <TouchableOpacity

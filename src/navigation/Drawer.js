@@ -74,7 +74,7 @@ const _StackNavigator = createStackNavigator({
   Connections: {
     screen: Connections,
     navigationOptions: ({navigation}) => ({
-      title: 'Connections',
+      title: 'Connectionsss',
       headerRight: <SimlHeader navigation={navigation} />,
       headerLeft: null,
       ...{
@@ -85,7 +85,7 @@ const _StackNavigator = createStackNavigator({
           justifyContent: 'center',
           alignItems: 'center',
           fontSize: 12,
-          backgroundColor: Color.containerBackground,
+          backgroundColor: Color.white,
           width: '100%'
         },
         headerTitleContainerStyle: {
@@ -93,7 +93,7 @@ const _StackNavigator = createStackNavigator({
           justifyContent: 'center',
           alignItems: 'center',
           marginRight: '-15%',
-          backgroundColor: Color.containerBackground
+          backgroundColor: Color.white
         },
         headerTitleStyle: {
           fontWeight: 'bold',
