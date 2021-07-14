@@ -82,6 +82,7 @@ class HomePage extends Component {
 
   render() {
     const { user, theme } = this.props.state;
+    console.log('[USER::]', user);
     return (
       <View style={[Style.MainContainer, {
         flex: 1,
