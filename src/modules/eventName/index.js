@@ -149,10 +149,6 @@ class EventName extends Component {
               this.setState({ isLoading: true })
               let datetime = this.state.selectedDate !== null ? this.state.selectedDate?.date?.toString() : this.state.date?.toString();
               let forSynqt = datetime;
-              // datetime = datetime?.split('-');
-              // datetime = new Date(datetime.join('/'));
-              // let time = this.state.selectedTime?.fourf?.split(':');
-              // datetime.setHours(time[0], time[1], 0)
               let params = this.props.navigation.state?.params?.parameter;
               params['datetime'] = datetime + ' ' + this.state.selectedTime?.fourf;
               console.log(params, 'test');
@@ -208,41 +204,43 @@ class EventName extends Component {
     let length = schedule?.length;
     if (length > 0) {
       for (let i = 0; i < length; i++) {
-        console.log(schedule[i].value === this.state.days[this.state.day]);
+        console.log(schedule[i].value, this.state.days[this.state.day], '---');
         if (schedule[i].value === this.state.days[this.state.day]) {
           d = schedule[i];
-          break;
-        } else {
-          d = schedule[i + 1 === length ? 0 : i + 1];
         }
       }
     }
-    let date = new Date();
-    let stopper = d?.endTime?.hh || 11;
-    let stop = d?.endTime?.a ? ` ${d?.endTime?.a}` : stopper > 12 && stopper % 12 ? ' pm' : ' am';
-    let temp = [];
-    let m = d?.startTime?.a ? ` ${d?.startTime?.a}` : hour > 12 && hour % 12 ? ' pm' : ' am';
-    let hour = ((m === ' pm' ? parseInt(d?.startTime?.hh) + 12 : parseInt(d?.startTime?.hh)) || date.getHours()) + 1;
-    let minutes = d?.startTime?.mm || date.getMinutes();
-    while (temp[temp.length - 1]?.twelvef !== `11:${minutes} pm` || temp[temp.length - 1]?.twelvef === `${stopper}:${minutes} ${stop}`) {
-      let convertedHour = hour > 12 ? hour % 12 : hour;
-      convertedHour = convertedHour.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })
-      minutes = minutes.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })
-      hour = hour.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })
-      let time = convertedHour + ':' + minutes + m
-      let t = {
-        twelvef: time,
-        fourf: hour + ':' + minutes
+    if (d) {
+      let date = new Date();
+      let stopper = d?.endTime?.hh || 11;
+      let stop = d?.endTime?.a ? ` ${d?.endTime?.a}` : stopper > 12 && stopper % 12 ? ' pm' : ' am';
+      let temp = [];
+      let m = d?.startTime?.a ? ` ${d?.startTime?.a}` : hour > 12 && hour % 12 ? ' pm' : ' am';
+      let hour = ((m === ' pm' ? parseInt(d?.startTime?.hh) + 12 : parseInt(d?.startTime?.hh)) || date.getHours()) + 1;
+      let minutes = d?.startTime?.mm || date.getMinutes();
+      while (temp[temp.length - 1]?.twelvef !== `11:${minutes} pm` || temp[temp.length - 1]?.twelvef === `${stopper}:${minutes} ${stop}`) {
+        let convertedHour = hour > 12 ? hour % 12 : hour;
+        convertedHour = convertedHour.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })
+        minutes = minutes.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })
+        hour = hour.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })
+        let time = convertedHour + ':' + minutes + m
+        let t = {
+          twelvef: time,
+          fourf: hour + ':' + minutes
+        }
+        let s = hour > 12 ? hour % 12 : hour;
+        if (s.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false }) === stopper.toString() && m === stop) {
+          break;
+        }
+        temp.push(t);
+        hour = parseInt(hour) === 23 ? 0 : parseInt(hour) + 1;
+        m = hour > 11 && hour !== 0 ? ' pm' : ' am';
       }
-      let s = hour > 12 ? hour % 12 : hour;
-      if (s.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false }) === stopper.toString() && m === stop) {
-        break;
-      }
-      temp.push(t);
-      hour = parseInt(hour) === 23 ? 0 : parseInt(hour) + 1;
-      m = hour > 11 && hour !== 0 ? ' pm' : ' am';
+      this.setState({ time: temp });
+    } else {
+      console.log('No schedule for this date.');
+      this.setState({time: []})
     }
-    this.setState({ time: temp });
   }
 
   render() {
@@ -455,7 +453,7 @@ class EventName extends Component {
               flexDirection: 'row',
               flexWrap: 'wrap'
             }}>
-              {this.state.time.length > 0 && this.state.time.map((item, index) => {
+              {this.state.time.length > 0 ? this.state.time.map((item, index) => {
                 return (
                   <TouchableOpacity style={{
                     width: 70,
@@ -477,7 +475,8 @@ class EventName extends Component {
                     <Text style={{ color: Color.white }}>{item?.twelvef}</Text>
                   </TouchableOpacity>
                 )
-              })}
+              }) : 
+              <Text>Restaurant is closed on this day. Please select another date.</Text>}
             </View>}
             <View style={{
               flexDirection: 'row',

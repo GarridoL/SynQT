@@ -42,7 +42,7 @@ class History extends Component {
   }
 
   handleBackPress = () => {
-    this.props.navigations?.navigate('drawerStack');
+    return true
   }
 
   retrieve = (flag) => {

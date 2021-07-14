@@ -71,11 +71,21 @@ class Cards extends React.Component {
       }
     }, response => {
       this.setState({ isLoading: false })
-      if (response.data.length > 0) {
+      if (response.data?.length > 0) {
         response.data.map((item, index) => {
           item['index'] = 0;
         })
         this.setState({ data: response.data, index: response.data.length - 1, offset: 2 });
+      }
+      if(response.error !== null) {
+        Alert.alert(
+          "Failed to create SYNQT.",
+          "No restaurant found based on your filter!",
+          [
+            { text: "OK", onPress: () => { this.props.navigation?.navigate('drawerStack'); } }
+          ],
+          { cancelable: false }
+        );
       }
     },
       error => {
