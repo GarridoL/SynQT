@@ -87,22 +87,27 @@ class SocialLogin extends Component {
               email: result.email,
               token: token,
             };
+            console.log('FB PARAMS', parameter);
             Api.request(Routes.socialLogin, parameter, response => {
               console.log('RESPONSE', response);
-              if (response.data !== null) {
-                let parameter = {
-                  condition: [
-                    {
-                      value: token,
-                      clause: '=',
-                      column: 'token',
-                    },
-                  ],
-                };
-                Api.request(Routes.accountRetrieve, parameter, userInfo => {
-                  this.props.retrieveUser(userInfo.data[0].id);
-                  login(userInfo.data[0], token);
-                });
+              if(response.data !== null){
+                if (response.data !== null) {
+                  let parameters = {
+                    condition: [
+                      {
+                        value: token,
+                        clause: '=',
+                        column: 'token',
+                      },
+                    ],
+                  };
+                  Api.request(Routes.accountRetrieve, parameters, userInfo => {
+                    this.props.retrieveUser(userInfo.data[0].id);
+                    login(userInfo.data[0], token);
+                  });
+                }
+              }else if(response.error !== null && response.error.length > 0){
+                this.props.setErrorMessage(response.error);
               }
             });
           } else if (this.props.page === 'Register') {
