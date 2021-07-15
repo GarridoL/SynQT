@@ -37,6 +37,7 @@ class Register extends Component {
   }
   
   componentDidMount(){
+    this.setState({error: 0})
   }
 
   redirect = (route) => {
@@ -44,14 +45,14 @@ class Register extends Component {
   }
   
   submit(parameter){
+    parameter.username = parameter.username.replace(/\s/g, '')
     const { username, email, password } = this.state;
-    console.log('[PARAMETER]', parameter);
     if(parameter === null){
       if(this.validate() == false){
         return
       }
       parameter = {
-        username: username,
+        username: username.replace(/\s/g, ''),
         email: email,
         password: password,
         config: null,
@@ -60,6 +61,7 @@ class Register extends Component {
         status: 'ADMIN'
       }
     }
+    console.log('[PARAMETER]', parameter);
     this.setState({isLoading: true})
     Api.request(Routes.accountCreate, parameter, response => {
       console.log('[REGISTER FB]', response);

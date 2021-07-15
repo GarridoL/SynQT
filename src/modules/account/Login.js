@@ -49,6 +49,7 @@ class Login extends Component {
   }
   
   async componentDidMount(){
+    this.setState({error: 0})
     this.getTheme()
     if(config.versionChecker == 'store'){
       // this.setState({isLoading: true})
@@ -521,6 +522,10 @@ class Login extends Component {
               {error == 2 ? (
                 <Text style={Style.messageText}>Username and password didn't match.</Text>
               ) : null}
+
+              {error == 3 ? (
+                <Text style={Style.messageText}>Your Email does not exist</Text>
+              ) : null}
             </View> : null}
             
             <View style={Style.TextContainer}>
@@ -576,7 +581,8 @@ class Login extends Component {
               <SocialLogin
                 page={'Login'} 
                 login={(user, token) => login(user, token)} 
-                retrieveUser={(id)=>this.retrieveUserData(id)} 
+                retrieveUser={(id)=>this.retrieveUserData(id)}
+                setErrorMessage={(error) => this.setState({error: 3})}
                 />
               
               <View style={{
