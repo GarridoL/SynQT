@@ -4,9 +4,8 @@ const width = Math.round(Dimensions.get('window').width);
 const height = Math.round(Dimensions.get('window').height);
 export default {
   Container: {
-    backgroundColor: 'white',
     width: '100%',
-    backgroundColor: 'white',
+    backgroundColor: Color.containerBackground,
     paddingBottom: 15,
     height: height - 70
   },

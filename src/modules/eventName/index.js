@@ -247,7 +247,9 @@ class EventName extends Component {
     const { theme } = this.props.state;
     const { data } = this.state;
     return (
-      <View>
+      <View style={{
+        backgroundColor: Color.containerBackground
+      }}>
         <ScrollView style={{ marginBottom: 70 }} showsVerticalScrollIndicator={false}>
           <View style={style.Container}>
             <ImageBackground
@@ -264,7 +266,7 @@ class EventName extends Component {
                 bottom: 0,
                 left: 0,
                 opacity: .3,
-                backgroundColor: 'white',
+                backgroundColor: Color.containerBackground,
                 justifyContent: 'center',
               }}>
               </View>

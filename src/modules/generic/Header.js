@@ -32,6 +32,7 @@ class Header extends Component {
           flexDirection: 'row',
           alignItems: 'center',
           width: width,
+          elevation: BasicStyles.elevation
         }}>
         <TouchableOpacity
           onPress={() => {
@@ -43,7 +44,8 @@ class Header extends Component {
             borderRadius: 25,
             justifyContent: 'center',
             alignItems: 'center',
-            zIndex: 1000
+            zIndex: 1000,
+            elevation: routeName === 'Status' ? 5 : 0
           }}
         >
             <FontAwesomeIcon
@@ -70,7 +72,8 @@ class Header extends Component {
               position: 'absolute',
               paddingLeft: 20,
               paddingRight: 25,
-              backgroundColor: Color.white
+              backgroundColor: Color.white,
+              elevation: BasicStyles.elevation
             }}>
               <View style={{
                 height: 40,
@@ -121,7 +124,8 @@ class Header extends Component {
             height: 50,
             width: 50,
             position: 'absolute',
-            right: 1
+            right: 1,
+            elevation: BasicStyles.elevation
           }}
         >
             <FontAwesomeIcon

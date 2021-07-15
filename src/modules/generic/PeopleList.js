@@ -74,8 +74,8 @@ class PeopleList extends Component {
                     borderWidth: this.props.add === false ? 1 : 0,
                     borderColor: theme ? theme.secondary : Color.secondary,
                     borderRadius: this.props.size ? this.props.size : 45,
-                    width: this.props.size ? this.props.size : 46,
-                    height: this.props.size ? this.props.size : 46,
+                    width: this.props.size ? this.props.size : 45,
+                    height: this.props.size ? this.props.size : 45,
                   }}
                 />
               </TouchableOpacity>

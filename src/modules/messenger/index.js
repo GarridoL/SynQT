@@ -26,7 +26,9 @@ class Groups extends Component {
       selected: null,
       connections: [],
       limit: 10,
-      offset: 0
+      offset: 0,
+      retrievingMembers: false,
+      isReserved: false
     }
   }
 
@@ -60,8 +62,9 @@ class Groups extends Component {
       offset: 0,
       account_id: user.id
     }
-    console.log(user.id);
+    this.setState({retrievingMembers: true});
     Api.request(Routes.circleRetrieve, parameter, response => {
+      this.setState({retrievingMembers: false});
       if (response.data.length > 0) {
         this.setState({ connections: response.data })
       }
@@ -121,7 +124,41 @@ class Groups extends Component {
     }
   }
 
-  viewMessages = (item) => {
+  alreadyReserved = (item) => {
+    let parameter = {
+      condition: [{
+        value: 'cancelled',
+        column: 'status',
+        clause: '!='
+      }, {
+        value: item.payload,
+        column: 'payload_value',
+        clause: '='
+      }, {
+        value: 'synqt',
+        column: 'payload',
+        clause: '='
+      }],
+      limit: 1,
+      offset: 0,
+      sort: { created_at: 'asc' }
+    }
+    this.setState({ isLoading: true })
+    Api.request(Routes.reservationWeb, parameter, response => {
+      this.setState({
+        isReserved: response.data?.length > 0 ? true : false,
+        isLoading: false
+      })
+    },
+      error => {
+        this.setState({ isLoading: false })
+        console.log({ error });
+      }
+    );
+  }
+
+  viewMessages = async (item) => {
+    await this.alreadyReserved(item);
     this.setState({ isLoading: true });
     const parameter = {
       condition: [{
@@ -137,9 +174,9 @@ class Groups extends Component {
         setCurrentTitle(item.title);
         this.updateLastMessageStatus(item)
         setMessengerGroup(item);
-        console.log(response.data[0].status, parameter);
         setTimeout(() => {
           this.props.navigation.navigate('messagesStack', {
+            isReserved: this.state.isReserved,
             data: item,
             status: response.data[0].status
           });
@@ -356,7 +393,7 @@ class Groups extends Component {
         backgroundColor: Color.containerBackground
       }}>
 
-        <View style={{
+        { this.state.retrievingMembers === false && <View style={{
           borderBottomColor: Color.primary,
           borderBottomWidth: 1,
           padding: 10,
@@ -373,7 +410,7 @@ class Groups extends Component {
               No connections.
             </Text>
           }
-        </View>
+        </View>}
         <ScrollView
           style={{
             backgroundColor: Color.containerBackground,

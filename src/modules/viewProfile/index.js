@@ -414,9 +414,9 @@ class ViewProfile extends Component {
               <Text style={{
                 fontWeight: 'bold',
                 fontSize: 18
-              }}>{user?.account?.information?.first_name ? user?.account?.information?.first_name + user?.account?.information?.last_name : user?.account?.username}</Text>
+              }}>{user?.account?.information?.first_name ? user?.account?.information?.first_name + user?.account?.information?.last_name : user.name ? user.name : user?.account?.username}</Text>
             </View>
-            {user.account.id !== this.props.state.user.id && <View style={{
+            {user?.account?.id?.toString() !== this.props.state.user?.id?.toString() && <View style={{
               width: '100%'
             }}>
               <Text style={{

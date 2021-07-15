@@ -66,6 +66,7 @@ class History extends Component {
       sort: { created_at: 'asc' }
     }
     this.setState({ isLoading: true })
+    console.log(parameter);
     Api.request(Routes.reservationRetrieve, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data?.length > 0) {
@@ -152,7 +153,7 @@ class History extends Component {
                         merchant_id: item.merchant?.id,
                         payload: 'synqt',
                         payload_value: item?.synqt[0]?.id,
-                        details: item?.synqt[0]?.details,
+                        details: true,
                         datetime: item?.synqt[0]?.date,
                         status: 'pending'
                       },
