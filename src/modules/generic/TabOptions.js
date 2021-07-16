@@ -58,12 +58,12 @@ class Tab extends Component {
             <View style={[
               Style.Tab, {
                 borderColor: theme ? theme.primary : Color.primary,
+                elevation: 1.5
               }
             ]}>
               <TouchableOpacity style={[
                 Style.Information, {
                   width: '100%',
-                  elevation: BasicStyles.elevation
                 }]}>
                 <Text style={{ color: Color.primary, fontWeight: 'bold' }}>{this.props.choice[0]}</Text>
               </TouchableOpacity>
