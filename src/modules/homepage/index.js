@@ -109,7 +109,7 @@ class HomePage extends Component {
               locations={[0, 0.5, 1]}
               start={{ x: 1, y: 0 }}
               end={{ x: 1, y: 1 }}
-              style={{ borderRadius: 40 }}
+              style={{ borderRadius: 40, elevation: 10 }}
             >
               <View style={{
                 flexDirection: 'row',
@@ -196,15 +196,17 @@ class HomePage extends Component {
             </LinearGradient>
           </View>
 
-          <View elevation={10} style={{
-            marginTop: '20%',
-            borderRadius: 100,
-            height: 150,
-            width: 150,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: Color.white
-          }}>
+          <View style={{
+              marginTop: '20%',
+              borderRadius: 100,
+              height: 150,
+              width: 150,
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: Color.white
+            }}
+            elevation={5}
+          >
             <TouchableOpacity
               onPress={() => this.redirect('restaurantStack')}
               style={{
@@ -228,7 +230,7 @@ class HomePage extends Component {
             marginRight: '25%',
             marginTop: 50,
             marginBottom: 100,
-            elevation: 10,
+            elevation: BasicStyles.elevation,
             borderRadius: 25,
             backgroundColor: Color.white
           }}>

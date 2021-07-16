@@ -126,6 +126,7 @@ export default {
   synqtUpdate: apiUrl + 'synqts/update',
   reservationCreate: apiUrl + 'reservations/create',
   reservationRetrieve: apiUrl + 'reservations/retrieve',
+  reservationWeb: apiUrl + 'reservations/retrieve_web',
   reservationDelete: apiUrl + 'reservations/delete',
   reservationUpdate: apiUrl + 'reservations/update',
   similarConnectionRetrieve: apiUrl + 'my_circles/profile',

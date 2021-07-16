@@ -3,6 +3,7 @@ import { Dimensions } from 'react-native';
 const width = Math.round(Dimensions.get('window').width);
 const borderRadius = 12
 export default {
+  elevation: 5,
   formControl: {
     height: 50,
     borderColor: Color.lightGray,
@@ -295,7 +296,7 @@ export default {
   drawerHeader1: {
     headerStyle: {
       shadowColor: 'transparent',
-      elevation: 0,
+      elevation: 5,
       borderBottomWidth: 0,
       justifyContent: 'center',
       alignItems: 'center',

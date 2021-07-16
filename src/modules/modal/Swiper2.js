@@ -16,7 +16,7 @@ import MenuCards from 'modules/menu/cards';
 import { Color, BasicStyles } from 'common';
 import Information from 'modules/menu/information';
 import { ScrollView } from 'react-native-gesture-handler';
-import FLoatingButton from 'modules/generic/CircleButton';
+import FloatingButton from 'modules/generic/CircleButton';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCheck, faTimes, faStar } from '@fortawesome/free-solid-svg-icons';
 import Config from 'src/config.js';
@@ -46,7 +46,8 @@ class Cards extends React.Component {
       offset: 0,
       active: 0,
       offset1: 0,
-      limit1: 5
+      limit1: 5,
+      topChoices: []
     }
   }
 
@@ -61,38 +62,12 @@ class Cards extends React.Component {
   }
 
   retrieve = () => {
-    this.setState({ isLoading: true })
-    Api.request(Routes.merchantsRetrieve, {
-      synqt_id: this.props.navigation.state.params?.synqt_id,
-      limit: 5,
-      offset: 0,
-      sort: {
-        name: 'asc'
-      }
-    }, response => {
-      this.setState({ isLoading: false })
-      if (response.data?.length > 0) {
-        response.data.map((item, index) => {
-          item['index'] = 0;
-        })
-        this.setState({ data: response.data, index: response.data.length - 1, offset: 2 });
-      }
-      if(response.error !== null) {
-        Alert.alert(
-          "Failed to create SYNQT.",
-          "No restaurant found based on your filter!",
-          [
-            { text: "OK", onPress: () => { this.props.navigation?.navigate('drawerStack'); } }
-          ],
-          { cancelable: false }
-        );
-      }
-    },
-      error => {
-        this.setState({ isLoading: false })
-        console.log({ error });
-      },
-    );
+    const { data, offset, index } = this.props.navigation?.state?.params;
+    this.setState({
+      data: data,
+      offset: offset,
+      index: index
+    })
   }
 
   retrieveTopChoices = () => {
@@ -194,9 +169,7 @@ class Cards extends React.Component {
 
   addToTopChoice = (status, id) => {
     const { topChoices } = this.props.state;
-    console.log(this.props.state.topChoices, 'top choices');
-    console.log(id, 'id');
-    if (topChoices.includes(id)) {
+    if (topChoices.includes(id) || this.state.topChoices.includes(id)) {
       Alert.alert(
         "",
         "Cannot choose the same restaurant twice.",
@@ -207,13 +180,16 @@ class Cards extends React.Component {
       );
     } else {
       console.log('not on top choice yet!');
+      let temp = this.state.topChoices;
+      temp.push(id);
+      this.setState({topChoices: temp})
       let parameter = {
         account_id: this.props.state.user.id,
         payload: 'merchant_id',
         payload_value: id,
         category: 'restaurant',
         status: status,
-        synqt_id: this.props.navigation.state.params?.synqt_id && this.props.navigation.state.params?.synqt_id
+        synqt_id: this.props.navigation?.state?.params?.synqt_id
       }
       Api.request(Routes.topChoiceCreate, parameter, response => {
         if (response.data !== null) {
@@ -530,7 +506,7 @@ class Cards extends React.Component {
           marginBottom: 50
         }}>
         {this.props.bottomFloatButton === true > 0 && (
-          <FLoatingButton onClose={() => { this.swiper.swipeRight(); }} onClick={() => { this.addToTopChoice('like', this.state.data[this.state.index].id); this.swiper.swipeLeft(); }}></FLoatingButton>
+          <FloatingButton onClose={() => { this.swiper.swipeLeft(); }} onClick={() => { this.addToTopChoice('like', this.state.data[this.state.index].id); this.swiper.swipeRight(); }}></FloatingButton>
         )}
         </View>
       </View>
