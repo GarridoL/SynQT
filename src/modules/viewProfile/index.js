@@ -75,7 +75,7 @@ class ViewProfile extends Component {
     this.setState({ isLoading: true })
     Api.request(Routes.topChoiceRetrieveActivities, parameter, response => {
       this.setState({ isLoading: false })
-      if (response.data.length > 0) {
+      if (response.data?.length > 0) {
         this.setState({
           data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
           offset: flag == false ? 1 : (this.state.offset + 1)
@@ -144,7 +144,7 @@ class ViewProfile extends Component {
     this.setState({ isLoading: true })
     Api.request(Routes.circleRetrieve, parameter, response => {
       this.setState({ isLoading: false })
-      if (response.data.length > 0) {
+      if (response.data?.length > 0) {
         const { user } = this.props.state
         let par = {
           condition: [{
@@ -375,7 +375,9 @@ class ViewProfile extends Component {
         backgroundColor: Color.containerBackground,
         height: height
       }}>
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView style={{
+          marginBottom: 50,
+        }} showsVerticalScrollIndicator={false}>
           <View>
             <View style={Style.TopView}>
               <TouchableOpacity>

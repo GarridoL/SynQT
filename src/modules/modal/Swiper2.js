@@ -141,9 +141,7 @@ class Cards extends React.Component {
       offset: this.state.offset1 > 0 ? (this.state.offset1 * this.state.limit1) : this.state.offset1,
       inventory_type: 'all'
     }
-    this.setState({ isLoading: true })
     Api.request(Routes.productsRetrieve, parameter, response => {
-      this.setState({ isLoading: false })
       if (response.data?.length > 0) {
         this.setState({
           offset1: this.state.offset1 + 1,
