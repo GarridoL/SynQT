@@ -47,6 +47,51 @@ class Restaurants extends Component {
     this.redirect('peopleListStack')
   }
 
+  retrieveMerchants = (id) => {
+    const { setDefaultAddress, setTempMembers, setLocation } = this.props;
+    this.setState({ isLoading: true })
+    Api.request(Routes.merchantsRetrieve, {
+      synqt_id: id,
+      limit: 5,
+      offset: 0,
+      sort: {
+        name: 'asc'
+      }
+    }, response => {
+      this.setState({ isLoading: false })
+      if (response.data?.length > 0) {
+        response.data.map((item, index) => {
+          item['index'] = 0;
+        })
+        setLocation(null);
+        this.setState({ Date: null });
+        this.props.navigation.navigate('menuStack', {
+          synqt_id: id,
+          data: response.data,
+          index: response.data.length - 1,
+          offset: 5,
+          fromRestaurantForm: true
+        })
+        this.sendInvitation(id);
+      }
+      if(response.error !== null) {
+        Alert.alert(
+          "Failed to create SYNQT.",
+          "No restaurant found based on your filter!",
+          [
+            { text: "OK", onPress: () => { return } }
+          ],
+          { cancelable: false }
+        );
+      }
+    },
+      error => {
+        this.setState({ isLoading: false })
+        console.log({ error });
+      },
+    );
+  }
+
   createSynqt = () => {
     const { setDefaultAddress, setLocation, setSelected } = this.props;
     const { user, location, selects } = this.props.state;
@@ -99,9 +144,7 @@ class Restaurants extends Component {
         this.setState({ isLoading: false })
         if (res.data !== null) {
           setDefaultAddress(null);
-          setLocation(null);
           this.createMessengerGroup(res.data, parameter.date)
-          this.setState({ Date: null })
         }
       });
     });
@@ -204,7 +247,7 @@ class Restaurants extends Component {
     Api.request(Routes.messengerGroupCreate, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data !== null) {
-        this.sendInvitation(id);
+        this.retrieveMerchants(id);
       }
     });
   }
@@ -223,7 +266,6 @@ class Restaurants extends Component {
       Api.request(Routes.notificationCreate, parameter, response => {
         this.setState({ isLoading: false })
         if (response.data !== null) {
-          this.props.navigation.navigate('menuStack', { synqt_id: id })
         }
       });
     })
@@ -359,7 +401,8 @@ class Restaurants extends Component {
                 borderRadius: 35,
                 backgroundColor: Color.primary,
                 justifyContent: 'center',
-                alignItems: 'center'
+                alignItems: 'center',
+                elevation: BasicStyles.elevation
               }}>
               <Image source={require('assets/logo.png')} style={{
                 height: 50,

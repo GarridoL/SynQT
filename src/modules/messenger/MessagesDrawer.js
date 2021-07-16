@@ -25,13 +25,14 @@ class HeaderOptions extends Component {
   redirect = (route) => {
     this.props.navigationProps.navigate(route, {
       synqt_id: this.props.navigationProps?.state?.params?.data?.payload,
-      messenger_group_id: this.props.navigationProps?.state?.params?.data
+      messenger_group_id: this.props.navigationProps?.state?.params?.data,
+      fromRestaurantForm: false
     });
   }
 
   _card = () => {
     const { theme } = this.props.state;
-    const { data, status } = this.props.navigationProps.state.params
+    const { data, status, isReserved } = this.props.navigationProps.state.params
     const { setShowSettings } = this.props;
     return (
       <View style={{ width: width }}>
@@ -51,8 +52,10 @@ class HeaderOptions extends Component {
           )}
         <View style={{ flex: 1, flexDirection: 'row', position: 'absolute', right: 50 }}>
           <TouchableOpacity onPress={() => {
-            if (status !== 'completed') {
+            if (status !== 'completed' && isReserved === false) {
               this.redirect('topChoiceStack')
+            } else if(status !== 'completed' && isReserved === true) {
+              Alert.alert('', 'You already have an existing reservation.')
             }
           }}>
             <View style={{ borderWidth: 2, borderRadius: 20, height: 30, width: 30, borderColor: theme ? theme.primary : Color.primary, justifyContent: 'center', alignItems: 'center' }}>
@@ -63,8 +66,8 @@ class HeaderOptions extends Component {
                 style={BasicStyles.iconStyle} />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => status !== 'completed' ?
-            this.redirect('menuStack') : console.log(status)}>
+          <TouchableOpacity onPress={() => status !== 'completed' && isReserved === false ?
+            this.redirect('menuStack') : status !== 'completed' && isReserved === true ? Alert.alert('', 'You already have an existing reservation.') : console.log(isReserved)}>
             <View style={{ borderWidth: 2, borderRadius: 20, height: 30, width: 30, borderColor: Color.primary, justifyContent: 'center', alignItems: 'center', marginLeft: 5 }}>
               <Image source={require('assets/logo.png')} style={{
                 height: 20,
@@ -91,7 +94,10 @@ class HeaderOptions extends Component {
   render() {
     const { theme } = this.props.state;
     return (
-      <View style={{ flexDirection: 'row' }}>
+      <View style={{ 
+          flexDirection: 'row'
+        }}
+      >
         <TouchableOpacity onPress={this.back.bind(this)}
         >
           <FontAwesomeIcon
@@ -130,8 +136,7 @@ const MessagesStack = createStackNavigator({
     screen: Messages,
     navigationOptions: ({ navigation }) => ({
       title: null,
-      headerLeft: <HeaderOptionsConnect navigationProps={navigation} />,
-      ...BasicStyles.drawerHeader
+      headerLeft: <HeaderOptionsConnect navigationProps={navigation} />
     })
   }
 })

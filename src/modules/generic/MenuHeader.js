@@ -39,13 +39,11 @@ class Header extends Component {
       <View style={{
         flex: 1,
         flexDirection: 'row',
-        width: width - 10,
+        width: width,
         position: 'absolute',
-        backgroundColor: Color.containerBackground,
+        backgroundColor: Color.white,
         zIndex: 1000,
-        alignItems: 'center',
-        marginLeft: 5,
-        height: 90
+        alignItems: 'center'
       }}>
         <View style={{ flex: 13, flexDirection: 'column' }}>
           {status === false ? <View>

@@ -14,7 +14,7 @@ import Config from 'src/config.js';
 import _ from 'lodash';
 import Api from 'services/api/index.js';
 import { Spinner, Empty } from 'components';
-
+const height = Math.round(Dimensions.get('window').height);
 class ViewProfile extends Component {
   constructor(props) {
     super(props);
@@ -372,7 +372,8 @@ class ViewProfile extends Component {
     const {theme} = this.props.state;
     return (
       <View style={{
-        backgroundColor: Color.containerBackground
+        backgroundColor: Color.containerBackground,
+        height: height
       }}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View>
@@ -414,9 +415,9 @@ class ViewProfile extends Component {
               <Text style={{
                 fontWeight: 'bold',
                 fontSize: 18
-              }}>{user?.account?.information?.first_name ? user?.account?.information?.first_name + user?.account?.information?.last_name : user?.account?.username}</Text>
+              }}>{user?.account?.information?.first_name ? user?.account?.information?.first_name + user?.account?.information?.last_name : user.name ? user.name : user?.account?.username}</Text>
             </View>
-            {user.account.id !== this.props.state.user.id && <View style={{
+            {user?.account?.id?.toString() !== this.props.state.user?.id?.toString() && <View style={{
               width: '100%'
             }}>
               <Text style={{

@@ -45,7 +45,7 @@ class ImageCardWithUser extends Component {
             <TouchableOpacity
               style={{
                 borderRadius: BasicStyles.standardBorderRadius,
-                elevation: 3,
+                // elevation: 3,
                 width: '100%',
               }}
               onPress={(data) => this.props.onClick(data)}

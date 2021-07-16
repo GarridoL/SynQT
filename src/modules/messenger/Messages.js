@@ -53,7 +53,8 @@ class MessagesV3 extends Component {
       request_id: null,
       members: [],
       isVisible: false,
-      status: null
+      status: null,
+      sending_flag: false
     }
   }
 
@@ -123,6 +124,7 @@ class MessagesV3 extends Component {
       offset: offset * limit,
     }
     Api.request(Routes.messengerMessagesRetrieve, parameter, response => {
+      console.log(parameter, response, '---------');
       this.setState({ isLoading: false, offset: offset + limit });
       if (response.data.length > 0) {
         this.setState({ sender_id: response.data[0].account_id });
@@ -204,7 +206,7 @@ class MessagesV3 extends Component {
   sendNewMessage = () => {
     const { messengerGroup, user, messagesOnGroup } = this.props.state;
     const { updateMessagesOnGroup, updateMessageByCode } = this.props;
-    if(this.state.newMessage === '' || this.state.newMessage === null) {
+    if (this.state.newMessage === '' || this.state.newMessage === null) {
       return
     }
     let use = user;
@@ -225,7 +227,7 @@ class MessagesV3 extends Component {
       sending_flag: false,
       error: null
     }
-    
+
     updateMessagesOnGroup(newMessageTemp);
     this.setState({ newMessage: null })
     Api.request(Routes.messengerMessagesCreate, parameter, response => {
@@ -240,7 +242,9 @@ class MessagesV3 extends Component {
     const { updateMessageByCode } = this.props;
 
     Api.request(Routes.mmCreateWithImageWithoutPayload, parameter, response => {
+      console.log(response, parameter, '------');
       if (response.data != null) {
+        this.setState({ sending_flag: false })
         updateMessageByCode(response.data);
       }
     }, error => {
@@ -286,7 +290,7 @@ class MessagesV3 extends Component {
         formData.append('account_id', user.id);
 
         let parameter = {
-          messenger_group_id: messengerGroup.id,
+          messenger_group_id: this.props.navigation.state.params.data.messenger_group_id,
           message: null,
           account_id: user.id,
           status: 0,
@@ -295,16 +299,19 @@ class MessagesV3 extends Component {
           url: uri,
           code: messagesOnGroup?.messages?.length + 1
         }
+        let use = user;
+        use['profile'] = user.account_profile;
         let newMessageTemp = {
           ...parameter,
-          account: user,
-          created_at_human: null,
+          account: use,
+          created_at_human: moment(new Date()).format('MMMM DD, YYYY hh:mm a'),
           sending_flag: true,
           files: [{
             url: uri
           }],
           error: null
         }
+        this.setState({ sending_flag: true });
         updateMessagesOnGroup(newMessageTemp);
 
         Api.uploadByFetch(Routes.imageUploadUnLink, formData, imageResponse => {
@@ -554,7 +561,7 @@ class MessagesV3 extends Component {
           item.payload == 'image' && (this._image(item))
         }
         {
-          item.sending_flag == true && (
+          this.state.sending_flag == true && messagesOnGroup.messages?.length - 1 === index && (
             <Text style={{
               fontSize: 10,
               color: Color.gray,
@@ -591,7 +598,8 @@ class MessagesV3 extends Component {
     const { theme } = this.props.state;
     return (
       <View style={{
-        flexDirection: 'row'
+        flexDirection: 'row',
+        elevation: BasicStyles.elevation
       }}>
         <TouchableOpacity
           onPress={() => this.handleChoosePhoto()}
@@ -680,7 +688,9 @@ class MessagesV3 extends Component {
     const { data } = this.props.navigation.state.params;
     const { messengerGroup, user, isViewing } = this.props.state;
     return (
-      <SafeAreaView>
+      <SafeAreaView style={{
+        backgroundColor: Color.containerBackground
+      }}>
         {
           // ON DEPOSITS (IF CONVERSATION IS NOT YET AVAILABLE)
           isLock && (
@@ -776,13 +786,13 @@ class MessagesV3 extends Component {
           </View>
         </KeyboardAvoidingView>
         {this.props.state.showSettings &&
-        <Settings
-          groupId={this.props.navigation?.state?.params.data?.messenger_group_id}
-          synqtId={this.props.navigation.state?.params?.data?.payload}
-          title={this.props.navigation?.state?.params.data?.title}
-          navigation={this.props.navigation}
-          status={this.props.navigation?.state.params?.status}
-        ></Settings>}
+          <Settings
+            groupId={this.props.navigation?.state?.params.data?.messenger_group_id}
+            synqtId={this.props.navigation.state?.params?.data?.payload}
+            title={this.props.navigation?.state?.params.data?.title}
+            navigation={this.props.navigation}
+            status={this.props.navigation?.state.params?.status}
+          ></Settings>}
       </SafeAreaView>
     );
   }

@@ -45,7 +45,7 @@ class Register extends Component {
   }
   
   submit(parameter){
-    parameter.username = parameter.username.replace(/\s/g, '')
+    // parameter.username = parameter.username.replace(/\s/g, '')
     const { username, email, password } = this.state;
     if(parameter === null){
       if(this.validate() == false){
@@ -125,6 +125,7 @@ class Register extends Component {
         locations={[0,0.5,1]}
         start={{ x: 2, y: 0 }}
         end={{ x: 1, y: 1 }}
+        style={{ height: '100%'}}
         >
         <ScrollView
           style={Style.ScrollView}

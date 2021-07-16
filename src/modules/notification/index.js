@@ -45,6 +45,7 @@ class Notifications extends Component {
       limit: this.state.limit,
       offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset
     }
+    console.log(parameter, '---');
     this.setState({ isLoading: true })
     Api.request(Routes.notificationsRetrieve, parameter, response => {
       this.setState({ isLoading: false })
@@ -138,7 +139,7 @@ class Notifications extends Component {
                   }}
                   redirectTo={this.props.navigation.state.params && this.props.navigation.state.params.title}
                   onClick={() => {
-                    this.props.navigation.navigate('menuStack', {synqt_id: item.synqt[0].id, id: item.id})
+                    this.props.navigation.navigate('menuStack', {synqt_id: item.synqt[0].id, id: item.id, fromRestaurantForm: false})
                   }}
                   navigation={this.props.navigation}
                 />

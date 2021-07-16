@@ -79,7 +79,7 @@ const TermsAndConditionsStack = createStackNavigator({
       headerRight: <HeaderOptionsConnect navigationProps={navigation} />,
       ...{
         headerStyle: {
-          elevation: 0,
+          elevation: BasicStyles.elevation,
         },
         headerTitleContainerStyle: {
           backgroundColor: Color.white,

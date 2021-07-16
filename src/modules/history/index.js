@@ -53,19 +53,20 @@ class History extends Component {
         column: 'account_id',
         clause: '='
       }, {
-        value: status,
+        value: status === 'pending' ? 'cancelled' : 'completed',
         column: 'status',
-        clause: '='
+        clause: status === 'pending' ? '!=' : '='
       }, {
-        value: '%%',
-        column: 'details',
-        clause: 'like'
+        value: status === 'pending' ? 'completed' : '%%',
+        column: status === 'pending' ? 'status' : 'details',
+        clause: status === 'pending' ? '!=' : 'like'
       }],
       limit: this.state.limit,
       offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
       sort: { created_at: 'asc' }
     }
     this.setState({ isLoading: true })
+    console.log(parameter);
     Api.request(Routes.reservationRetrieve, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data?.length > 0) {
@@ -152,7 +153,7 @@ class History extends Component {
                         merchant_id: item.merchant?.id,
                         payload: 'synqt',
                         payload_value: item?.synqt[0]?.id,
-                        details: item?.synqt[0]?.details,
+                        details: true,
                         datetime: item?.synqt[0]?.date,
                         status: 'pending'
                       },

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Alert } from 'react-native';;
 import { Card, ListItem, Button, Icon } from 'react-native-elements'
-import { Color, Routes } from 'common';
+import { Color, Routes, BasicStyles } from 'common';
 import { Dimensions } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEllipsisH, faUser, faCheckCircle, fasTimesCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
@@ -166,6 +166,7 @@ class CardList extends Component {
                                         justifyContent: 'center',
                                         borderRadius: 25,
                                         marginLeft: 3,
+                                        elevation: BasicStyles.elevation
                                       }}
                                     >
                                       <Text style={{ color: 'white' }}>Confirm</Text>
@@ -180,6 +181,7 @@ class CardList extends Component {
                                         justifyContent: 'center',
                                         borderRadius: 25,
                                         marginLeft: 3,
+                                        elevation: BasicStyles.elevation
                                       }}
                                     >
                                       <Text style={{ color: 'white' }}>Delete</Text>
@@ -193,7 +195,8 @@ class CardList extends Component {
                                     onPress={() => this.deleteConnection(el)}
                                     style={{
                                       ...Style.actionBtn,
-                                      backgroundColor: 'gray'
+                                      backgroundColor: 'gray',
+                                      elevation: BasicStyles.elevation
                                     }}
                                   >
                                     <Text style={{ color: 'white' }}>Cancel</Text>
@@ -291,6 +294,7 @@ class CardList extends Component {
                                       justifyContent: 'center',
                                       borderRadius: 25,
                                       marginLeft: 3,
+                                      elevation: BasicStyles.elevation
                                     }}
                                   >
                                     <Text style={{ color: 'white' }}>Confirm</Text>
@@ -305,6 +309,7 @@ class CardList extends Component {
                                       justifyContent: 'center',
                                       borderRadius: 25,
                                       marginLeft: 3,
+                                      elevation: BasicStyles.elevation
                                     }}
                                   >
                                     <Text style={{ color: 'white' }}>Delete</Text>
@@ -410,7 +415,8 @@ const Style = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 25,
-    marginLeft: 3
+    marginLeft: 3,
+    elevation: BasicStyles.elevation
   },
   button: {
     width: 80,
@@ -419,7 +425,8 @@ const Style = StyleSheet.create({
     borderRadius: 25,
     alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: 50
+    marginLeft: 50,
+    elevation: BasicStyles.elevation
   },
   iconBtn: {
     width: 80,

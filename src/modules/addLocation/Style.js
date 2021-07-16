@@ -1,5 +1,5 @@
 import {StyleSheet, Dimensions} from 'react-native';
-import {Color} from 'common';
+import {Color, BasicStyles} from 'common';
 
 const width = Math.round(Dimensions.get('window').width);
 
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5,
+    elevation: BasicStyles.elevation,
     // flexDirection:'row',
     // flexWrap: 'wrap',
     // alignItems: 'center',
