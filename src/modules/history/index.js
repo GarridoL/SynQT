@@ -53,13 +53,13 @@ class History extends Component {
         column: 'account_id',
         clause: '='
       }, {
-        value: status,
+        value: status === 'pending' ? 'cancelled' : 'completed',
         column: 'status',
-        clause: '='
+        clause: status === 'pending' ? '!=' : '='
       }, {
-        value: '%%',
-        column: 'details',
-        clause: 'like'
+        value: status === 'pending' ? 'completed' : '%%',
+        column: status === 'pending' ? 'status' : 'details',
+        clause: status === 'pending' ? '!=' : 'like'
       }],
       limit: this.state.limit,
       offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
