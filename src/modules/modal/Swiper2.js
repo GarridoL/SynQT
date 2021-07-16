@@ -63,11 +63,44 @@ class Cards extends React.Component {
 
   retrieve = () => {
     const { data, offset, index } = this.props.navigation?.state?.params;
-    this.setState({
-      data: data,
-      offset: offset,
-      index: index
-    })
+    if(this.props.navigation?.state?.params?.fromRestaurantForm) {
+      this.setState({
+        data: data,
+        offset: offset,
+        index: index
+      })
+    } else {
+      this.retrieveMerchants();
+    }
+  }
+
+  retrieveMerchants = () => {
+    this.setState({ isLoading: true })
+    Api.request(Routes.merchantsRetrieve, {
+      synqt_id: this.props.navigation.state.params?.synqt_id,
+      limit: 5,
+      offset: 0,
+      sort: {
+        name: 'asc'
+      }
+    }, response => {
+      this.setState({ isLoading: false })
+      if (response.data?.length > 0) {
+        response.data.map((item, index) => {
+          item['index'] = 0;
+        })
+        this.setState({
+          data: response.data,
+          index: response.data.length - 1,
+          offset: 5
+        })
+      }
+    },
+      error => {
+        this.setState({ isLoading: false })
+        console.log({ error });
+      },
+    );
   }
 
   retrieveTopChoices = () => {
@@ -83,7 +116,7 @@ class Cards extends React.Component {
     Api.request(Routes.topChoiceRetrieve, parameter, response => {
       this.retrieve();
       let temp = []
-      response.data.length > 0 && response.data.map((item, index) => {
+      response.data?.length > 0 && response.data.map((item, index) => {
         item.members.length > 0 && item.members.map(i => {
           if (i.account_id == this.props.state.user.id) {
             temp.push(item.merchant.id)
@@ -111,7 +144,7 @@ class Cards extends React.Component {
     this.setState({ isLoading: true })
     Api.request(Routes.productsRetrieve, parameter, response => {
       this.setState({ isLoading: false })
-      if (response.data.length > 0) {
+      if (response.data?.length > 0) {
         this.setState({
           offset1: this.state.offset1 + 1,
           products: _.uniqBy([...this.state.products, ...response.data], 'id')
@@ -127,12 +160,12 @@ class Cards extends React.Component {
 
   swipeHandler = () => {
     this.setState({
-      index: this.state.index + 1 === this.state.data.length ? 0 : this.state.index + 1,
+      index: this.state.index + 1 === this.state.data?.length ? 0 : this.state.index + 1,
       products: [],
       offset1: 0,
       active: 0
     })
-    if(this.state.data.length  > 5 && this.state.index === this.state.data.length - 3) {
+    if(this.state.data?.length  > 5 && this.state.index === this.state.data?.length - 3) {
       this.retrieveAgain();
     }
   }
@@ -147,7 +180,7 @@ class Cards extends React.Component {
       }
     }
     Api.request(Routes.merchantsRetrieve, parameter, response => {
-      if (response.data.length > 0) {
+      if (response.data?.length > 0) {
         let temp = this.state.data;
         response.data.map((item, index) => {
           item['index'] = 0;
@@ -277,7 +310,7 @@ class Cards extends React.Component {
           disableTopSwipe={true}
         >
           {
-            data.length > 0 && data.map((el, idx) => {
+            data?.length > 0 && data.map((el, idx) => {
               return (
                 <Card style={styles.card} key={idx + el?.featured_photos?.length > 0 ? el?.featured_photos[this.state.active]?.url : idx}>
                   <ImageBackground style={{ resizeMode: 'contain', flex: 1, flexDirection: 'row', height: '88%', width: null, marginTop: this.props.bottomFloatButton === true ? 50 : height * 0.25 }}
@@ -396,7 +429,8 @@ class Cards extends React.Component {
                       borderRadius: 50,
                       justifyContent: 'center',
                       alignItems: 'center',
-                      zIndex: 200
+                      zIndex: 200,
+                      elevation: BasicStyles.elevation
                     }}
                       onPress={() => {
                         this.addToTopChoice('super-like', this.state.data[this.state.index].id);
@@ -460,7 +494,7 @@ class Cards extends React.Component {
             })
           }
         </CardStack>
-        {this.state.data.length > 0 && this.renderMenu()}
+        {this.state.data?.length > 0 && this.renderMenu()}
       </View>
     )
   }
@@ -469,7 +503,10 @@ class Cards extends React.Component {
     const { data } = this.state;
     return (
       <View
-        style={{ marginTop: '76%' }}
+        style={{
+          marginTop: '76%',
+          zIndex: 100
+        }}
       >
         <View style={{ padding: 10, width: width }}>
           <View style={{
@@ -517,7 +554,7 @@ class Cards extends React.Component {
     const { isLoading } = this.state;
     return (
       <View style={{ backgroundColor: Color.containerBackground }}>
-        <Header navigation={this.props.navigation} status={this.state.index === this.state.data.length - 2 ? true : false} {...this.props} goBack={() => { this.swipeHandler() }}></Header>
+        <Header navigation={this.props.navigation} status={this.state.index === this.state.data?.length - 2 ? true : false} {...this.props} goBack={() => { this.swipeHandler() }}></Header>
         <ScrollView style={{
           marginTop: 40,
           height: height,
@@ -557,7 +594,8 @@ const mapStateToProps = state => ({ state: state });
 const mapDispatchToProps = dispatch => {
   const { actions } = require('@redux');
   return {
-    setTopChoices: (topChoices) => dispatch(actions.setTopChoices(topChoices))
+    setTopChoices: (topChoices) => dispatch(actions.setTopChoices(topChoices)),
+    setLocation: (location) => dispatch(actions.setLocation(location)),
   };
 };
 

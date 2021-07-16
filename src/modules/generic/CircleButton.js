@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, TouchableOpacity } from 'react-native'
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCheck, faTimes} from '@fortawesome/free-solid-svg-icons';
-import Color from '../../common/Color';
+import {Color, BasicStyles} from 'common';
 import { connect } from 'react-redux';
 
 class FloatingButton extends Component{
@@ -26,6 +26,7 @@ class FloatingButton extends Component{
             height:80,
             backgroundColor: theme ? theme.secondary : Color.secondary,
             borderRadius:40,
+            elevation: BasicStyles.elevation
           }}
           onPress={() => {
             this.props.onClose();
@@ -48,6 +49,7 @@ class FloatingButton extends Component{
             height:80,
             backgroundColor: theme ? theme.secondary : Color.secondary,
             borderRadius: 40,
+            elevation: BasicStyles.elevation
           }}
           onPress={() => {this.props.onClick()}}
         >

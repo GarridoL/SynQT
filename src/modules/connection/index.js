@@ -222,8 +222,9 @@ class Connections extends Component {
                     onPress={() => this.changeTab(idx)}
                     style={{
                       ...Style.standardButton,
-                      backgroundColor: el.flag == true ? Color.primary : '#BDBDBD',
-                      marginLeft: 5
+                      backgroundColor: el.flag == true ? Color.primary : 'gray',
+                      marginLeft: 5,
+                      elevation: BasicStyles.elevation
                     }}
                   >
                     <Text style={{ color: 'white' }}>{el.name}</Text>
