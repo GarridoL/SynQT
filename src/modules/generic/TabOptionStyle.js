@@ -9,6 +9,7 @@ export default {
     borderWidth: 1,
     height: 50,
     fontSize: 20,
+    borderBottomWidth: 1.12,
     borderColor: Color.primary
   },
   MenuClicked: {

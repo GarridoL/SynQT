@@ -23,26 +23,28 @@ class Tab extends Component {
       <View>
         {
           (this.props.level === 1) && (
-            <View style={[
-              Style.Tab, {
-                borderColor: theme ? theme.primary : Color.primary 
-              }
-            ]}>
+            <View style={[ Style.Tab ]}>
               <TouchableOpacity
                 onPress={() => this.choiceHandler(this.props.choice[0])}
                 style={[
                   this.state.choice == this.props.choice[0] ? Style.MenuClicked : Style.Menu, {
-                    backgroundColor: this.state.choice == this.props.choice[0] ? (theme ? theme.primary : Color.primary) : 'white'
+                    backgroundColor: this.state.choice == this.props.choice[0] ? (theme ? theme.primary : Color.primary) : 'white',
+                    elevation: BasicStyles.elevation
                   }
                 ]}
               >
-                <Text style={this.state.choice == this.props.choice[0] ? { color: 'white' } : { color: Color.primary, fontWeight: 'bold' }}>{this.props.choice[0]}</Text>
+                <Text style={
+                  this.state.choice == this.props.choice[0] ? { color: 'white' } : { color: Color.primary,
+                  fontWeight: 'bold',
+                  elevation: BasicStyles.elevation
+                }}>{this.props.choice[0]}</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => this.choiceHandler(this.props.choice[1])}
                 style={[
                   this.state.choice == this.props.choice[1] ? Style.InformationClicked : Style.Information, {
-                    backgroundColor: this.state.choice == this.props.choice[1] ? (theme ? theme.primary : Color.primary) : 'white'
+                    backgroundColor: this.state.choice == this.props.choice[1] ? (theme ? theme.primary : Color.primary) : 'white',
+                    elevation: BasicStyles.elevation
                   }
                 ]}
               >
@@ -53,8 +55,16 @@ class Tab extends Component {
         }
         {
           (this.props.level === 2) && (
-            <View style={[Style.Tab, { borderColor: theme ? theme.primary : Color.primary }]}>
-              <TouchableOpacity style={[Style.Information, { width: '100%' }]}>
+            <View style={[
+              Style.Tab, {
+                borderColor: theme ? theme.primary : Color.primary,
+              }
+            ]}>
+              <TouchableOpacity style={[
+                Style.Information, {
+                  width: '100%',
+                  elevation: BasicStyles.elevation
+                }]}>
                 <Text style={{ color: Color.primary, fontWeight: 'bold' }}>{this.props.choice[0]}</Text>
               </TouchableOpacity>
             </View>

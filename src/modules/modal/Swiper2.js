@@ -429,7 +429,8 @@ class Cards extends React.Component {
                       borderRadius: 50,
                       justifyContent: 'center',
                       alignItems: 'center',
-                      zIndex: 200
+                      zIndex: 200,
+                      elevation: BasicStyles.elevation
                     }}
                       onPress={() => {
                         this.addToTopChoice('super-like', this.state.data[this.state.index].id);
@@ -502,7 +503,10 @@ class Cards extends React.Component {
     const { data } = this.state;
     return (
       <View
-        style={{ marginTop: '76%' }}
+        style={{
+          marginTop: '76%',
+          zIndex: 100
+        }}
       >
         <View style={{ padding: 10, width: width }}>
           <View style={{
