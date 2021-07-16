@@ -45,7 +45,6 @@ class Register extends Component {
   }
   
   submit(parameter){
-    // parameter.username = parameter.username.replace(/\s/g, '')
     const { username, email, password } = this.state;
     if(parameter === null){
       if(this.validate() == false){
@@ -60,6 +59,8 @@ class Register extends Component {
         referral_code: null,
         status: 'ADMIN'
       }
+    }else{
+      parameter.username = parameter.username.replace(/\s/g, '')
     }
     console.log('[PARAMETER]', parameter);
     this.setState({isLoading: true})
