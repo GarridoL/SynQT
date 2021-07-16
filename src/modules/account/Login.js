@@ -378,10 +378,12 @@ class Login extends Component {
 
   login = () => {
     this.test();
+    console.log('STATE TOKEN', this.state.token);
     const { login } = this.props;
     if(this.state.token != null){
       this.setState({isLoading: true});
       Api.getAuthUser(this.state.token, (response) => {
+        console.log('[AUTH RESPONSE]', response);
         login(response, this.state.token);
         let parameter = {
           condition: [{
@@ -411,12 +413,55 @@ class Login extends Component {
     }
   }
 
+  socialLoginGetAuth(){
+    const { login } = this.props;
+    console.log('Auth');
+    if(this.state.token != null){
+      this.setState({isLoading: true});
+      Api.getSocialAuthUser(this.state.token, response => {
+        console.log('[RESPONSE AUTH]', response.data);
+        if(response.data.length > 0){
+          login(response.data[0], this.state.token);
+          let params = {
+            condition: [{
+              value: response.data[0].id,
+              clause: '=',
+              column: 'id'
+            }]
+          }
+          Api.request(Routes.accountRetrieve, params, userInfo => {
+            console.log('[USER INFO]', userInfo);
+            if(userInfo.data.length > 0){
+              login(userInfo.data[0], this.state.token);
+              this.retrieveUserData(userInfo.data[0].id)
+              this.firebaseNotification()
+            }else{
+              this.setState({isLoading: false});
+              login(null, null)
+            }
+          }, error => {
+            console.log(error, 'login-account retrieve');
+          })
+        }
+      }, error => {
+        console.log(error, 'login-authenticate');
+        this.setState({isResponseError: true})
+      })
+    }
+  }
+
   getData = async () => {
     try {
+      const temp = await AsyncStorage.getItem(Helper.APP_NAME + 'social');
       const token = await AsyncStorage.getItem(Helper.APP_NAME + 'token');
+      console.log('======= get data', token);
       if(token != null) {
-        this.setState({token});
-        this.login();
+        this.setState({token: token});
+        if(temp){
+          this.socialLoginGetAuth()
+        }else{
+          this.login();
+        }
       }
     } catch(e) {
       // error reading value
@@ -583,6 +628,7 @@ class Login extends Component {
                 login={(user, token) => login(user, token)} 
                 retrieveUser={(id)=>this.retrieveUserData(id)}
                 setErrorMessage={(error) => this.setState({error: 3})}
+                showLoader={(show) => this.setState({isLoading: show})}
                 />
               
               <View style={{

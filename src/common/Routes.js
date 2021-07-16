@@ -6,6 +6,7 @@ export default {
   authUser: apiUrl + 'authenticate/user',
   authRefresh: apiUrl + 'authenticate/refresh',
   authInvalidate: apiUrl + 'authenticate/invalidate',
+  socialAuth: apiUrl + 'social/social-user',
   accountRetrieve: apiUrl + 'accounts/retrieve',
   accountUpdate: apiUrl + 'accounts/update',
   socialLogin: apiUrl + 'accounts/social_login',

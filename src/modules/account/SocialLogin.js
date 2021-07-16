@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Style from './Style.js';
 import {connect} from 'react-redux';
 import {View, Image, Text, TouchableHighlight} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {fab} from '@fortawesome/free-brands-svg-icons';
@@ -76,20 +77,23 @@ class SocialLogin extends Component {
     const profileRequest = new GraphRequest(
       '/me',
       {token, parameters: PROFILE_REQUEST_PARAMS},
-      (error, result) => {
+      async (error, result) => {
         if (error) {
           console.log('login info has error: ' + error);
         } else {
           this.setState({userInfo: result});
           console.log('result:', result);
           if (this.props.page === 'Login') {
+            await AsyncStorage.setItem(Helper.APP_NAME + 'social', "true")
             let parameter = {
               email: result.email,
               token: token,
             };
             console.log('FB PARAMS', parameter);
+            this.props.showLoader(true);
             Api.request(Routes.socialLogin, parameter, response => {
               console.log('RESPONSE', response);
+              this.props.showLoader(false);
               if(response.data !== null){
                 if (response.data !== null) {
                   let parameters = {
@@ -183,6 +187,7 @@ class SocialLogin extends Component {
         };
         this.setState({isLoading: true});
         Api.request(Routes.socialLogin, parameter, response => {
+          AsyncStorage.setItem(Helper.APP_NAME + 'social', true)
           this.setState({isLoading: false});
           console.log('RESPONSE', response);
           if (response.data !== null) {
