@@ -69,8 +69,10 @@ class Restaurants extends Component {
           synqt_id: id,
           data: response.data,
           index: response.data.length - 1,
-          offset: 5
+          offset: 5,
+          fromRestaurantForm: true
         })
+        this.sendInvitation(id);
       }
       if(response.error !== null) {
         Alert.alert(
@@ -245,7 +247,7 @@ class Restaurants extends Component {
     Api.request(Routes.messengerGroupCreate, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data !== null) {
-        this.sendInvitation(id);
+        this.retrieveMerchants(id);
       }
     });
   }
@@ -264,7 +266,6 @@ class Restaurants extends Component {
       Api.request(Routes.notificationCreate, parameter, response => {
         this.setState({ isLoading: false })
         if (response.data !== null) {
-          this.retrieveMerchants(id);
         }
       });
     })

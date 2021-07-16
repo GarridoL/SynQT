@@ -25,7 +25,8 @@ class HeaderOptions extends Component {
   redirect = (route) => {
     this.props.navigationProps.navigate(route, {
       synqt_id: this.props.navigationProps?.state?.params?.data?.payload,
-      messenger_group_id: this.props.navigationProps?.state?.params?.data
+      messenger_group_id: this.props.navigationProps?.state?.params?.data,
+      fromRestaurantForm: false
     });
   }
 
