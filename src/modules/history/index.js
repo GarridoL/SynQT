@@ -162,7 +162,7 @@ class History extends Component {
                       messenger_group_id: item.members?.[0].messenger_group_id
                     })
                   } else {
-                    this.setState({item: item})
+                    this.setState({item: item, isVisible: true})
                   }
                 }}
                 navigation={this.props.navigation}
@@ -170,15 +170,15 @@ class History extends Component {
             ))
           }
         </View>
-        {this.state.item !== null && <CardModal
-          item={this.state.item}
+        {<CardModal
+          item={this.state.item && this.state.item}
           history={this.props.navigation.state.params && this.props.navigation.state.params.title && this.props.navigation.state.params.title.toLowerCase() === 'history' ? true : false}
           navigation={this.props.navigation}
-          visible={this.state.item !== null}
+          visible={isVisible}
           fromHistory={true}
           onClose={() => {
             this.setState({
-              item: null
+              isVisible: false
             })
           }} />}
       </ScrollView>

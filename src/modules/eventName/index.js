@@ -101,11 +101,11 @@ class EventName extends Component {
   deleteItem = () => {
     Alert.alert(
       '',
-      'Confirm cancellation',
+      'Are you sure you want to cancel your reservation?',
       [
-        { text: 'Close', onPress: () => { return }, style: 'cancel' },
+        { text: 'No', onPress: () => { return }, style: 'cancel' },
         {
-          text: 'Confirm', onPress: () => {
+          text: 'Yes', onPress: () => {
             let parameter = {
               id: this.props.navigation?.state?.params?.data?.id,
               status: 'cancelled'
@@ -141,11 +141,11 @@ class EventName extends Component {
     } else {
       Alert.alert(
         '',
-        'Kindly confirm to continue',
+        'Are you sure you want to continue?',
         [
-          { text: 'Cancel', onPress: () => { return }, style: 'cancel' },
+          { text: 'No', onPress: () => { return }, style: 'cancel' },
           {
-            text: 'Confirm', onPress: () => {
+            text: 'Yes', onPress: () => {
               this.setState({ isLoading: true })
               let datetime = this.state.selectedDate !== null ? this.state.selectedDate?.date?.toString() : this.state.date?.toString();
               let forSynqt = datetime;
@@ -291,7 +291,9 @@ class EventName extends Component {
                   }}>
                     <Text
                       onPress={() => {
-                        this.setState({ showDate: true })
+                        if(this.props.navigation.state?.params?.buttonTitle !== 'Cancel') {
+                          this.setState({ showDate: true })
+                        }
                       }}
                       numberOfLines={1}
                       style={{
@@ -478,7 +480,7 @@ class EventName extends Component {
                   </TouchableOpacity>
                 )
               }) : 
-              <Text>Restaurant is closed on this day. Please select another date.</Text>}
+              <Text style={{ color: 'red' }}>Restaurant is closed on this day. Please select another date.</Text>}
             </View>}
             <View style={{
               flexDirection: 'row',

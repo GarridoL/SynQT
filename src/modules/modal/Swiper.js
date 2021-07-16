@@ -214,6 +214,7 @@ class Cards extends React.Component {
       velocityThreshold: 0.3,
       directionalOffsetThreshold: 80
     };
+    console.log(data.rating, '---');
     return (
       <GestureRecognizer
         onSwipe={(direction, state) => console.log(direction, 'direction')}
