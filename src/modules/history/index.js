@@ -66,11 +66,9 @@ class History extends Component {
       sort: { created_at: 'asc' }
     }
     this.setState({ isLoading: true })
-    console.log(parameter);
     Api.request(Routes.reservationRetrieve, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data?.length > 0) {
-        console.log(response.data[0]);
         this.setState({
           data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
           offset: flag == false ? 1 : (this.state.offset + 1)

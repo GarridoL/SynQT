@@ -39,7 +39,8 @@ class Cards extends React.Component {
       limit: 5,
       offset: 0,
       featured_photos: [],
-      active: 0
+      active: 0,
+      ratings: null
     }
   }
 
@@ -51,6 +52,7 @@ class Cards extends React.Component {
   componentDidMount() {
     this.retrieve();
     this.retrieveFeaturedPhotos(this.props.item?.merchant?.account_id);
+    this.setState({ratings: this.props.item?.rating})
   }
 
   retrieveFeaturedPhotos = (id) => {
@@ -210,11 +212,11 @@ class Cards extends React.Component {
 
   renderCard = (data) => {
     const { theme } = this.props.state;
+    const { ratings } = this.state;
     const config = {
       velocityThreshold: 0.3,
       directionalOffsetThreshold: 80
     };
-    console.log(data.rating, '---');
     return (
       <GestureRecognizer
         onSwipe={(direction, state) => console.log(direction, 'direction')}
@@ -320,27 +322,27 @@ class Cards extends React.Component {
             <FontAwesomeIcon
               icon={faStar}
               size={30}
-              color={data.rating?.stars >= 1 ? '#FFCC00' : '#ededed'}
+              color={ratings?.stars >= 1 ? '#FFCC00' : '#ededed'}
             />
             <FontAwesomeIcon
               icon={faStar}
               size={30}
-              color={data?.rating?.stars >= 2 ? '#FFCC00' : '#ededed'}
+              color={ratings?.stars >= 2 ? '#FFCC00' : '#ededed'}
             />
             <FontAwesomeIcon
               icon={faStar}
               size={30}
-              color={data?.rating?.stars >= 3 ? '#FFCC00' : '#ededed'}
+              color={ratings?.stars >= 3 ? '#FFCC00' : '#ededed'}
             />
             <FontAwesomeIcon
               icon={faStar}
               size={30}
-              color={data?.rating?.stars >= 4 ? '#FFCC00' : '#ededed'}
+              color={ratings?.stars >= 4 ? '#FFCC00' : '#ededed'}
             />
             <FontAwesomeIcon
               icon={faStar}
               size={30}
-              color={data?.rating?.stars >= 5 ? '#FFCC00' : '#ededed'}
+              color={ratings?.stars >= 5 ? '#FFCC00' : '#ededed'}
             />
           </View>
         </View>
