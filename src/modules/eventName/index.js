@@ -204,6 +204,7 @@ class EventName extends Component {
   }
 
   getTime = (schedule) => {
+    this.setState({selectedTime: null})
     let d = null;
     let length = schedule?.length;
     if (length > 0) {
