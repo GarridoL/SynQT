@@ -43,7 +43,8 @@ class Header extends Component {
         position: 'absolute',
         backgroundColor: Color.white,
         zIndex: 1000,
-        alignItems: 'center'
+        alignItems: 'center',
+        elevation: BasicStyles.elevation
       }}>
         <View style={{ flex: 13, flexDirection: 'column' }}>
           {status === false ? <View>

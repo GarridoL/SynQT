@@ -375,9 +375,7 @@ class ViewProfile extends Component {
         backgroundColor: Color.containerBackground,
         height: height
       }}>
-        <ScrollView style={{
-          marginBottom: 50,
-        }} showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View>
             <View style={Style.TopView}>
               <TouchableOpacity>
@@ -437,7 +435,9 @@ class ViewProfile extends Component {
             {this.props.navigation.state?.params?.level === 1 ? <Tab level={1} choice={['SYNQT ACTIVITIES', 'CONNECTIONS']} onClick={this.choiceHandler}></Tab> :
               <Tab level={2} choice={['CONNECTIONS']} onClick={this.choiceHandler}></Tab>}
           </View>
-          <View>
+          <View style={{
+            marginBottom: 57
+          }}>
             {this.state.choice === 'SYNQT ACTIVITIES' ? (
               this.renderSimlActivity()
             ) :
