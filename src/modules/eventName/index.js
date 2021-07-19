@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, Text, TouchableOpacity, ScrollView, TextInput, CheckBox, Modal, ImageBackground, Alert, Dimensions } from 'react-native';
+import { View, Image, Text, TouchableOpacity, ScrollView, TextInput, CheckBox, Modal, ImageBackground, Alert, Dimensions, Platform } from 'react-native';
 import { Routes, Color, Helper, BasicStyles } from 'common';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faUser, faStar, faClock, faWindowClose, faCheckSquare, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -11,7 +11,9 @@ import Api from 'services/api/index.js';
 import { Spinner } from 'components';
 import Style from '../history/Style';
 import style from './Style';
-import DateTimePicker from 'components/DateTime/index.js'
+import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+// import DateTimePicker from 'components/DateTime/index.js'
 import moment from 'moment';
 
 const width = Math.round(Dimensions.get('window').width)
@@ -32,10 +34,12 @@ class EventName extends Component {
       selectedTime: null,
       currentDate: null,
       changed_date: null,
-      showDate: false,
       date: null,
       selectedDate: null,
-      displayDate: []
+      displayDate: [],
+      showDatePicker: false,
+      dateLabel: null,
+      selected_date: null
     }
   }
 
@@ -51,7 +55,7 @@ class EventName extends Component {
       schedule: schedule?.schedule,
       data: data,
       currentDate: date.setDate(date.getDate()),
-      date: this.props.navigation.state?.params?.parameter?.datetime
+      date: this.props.navigation?.state?.params?.data?.synqt[0].date
     })
     this.setState({ displayDate: schedule?.schedule })
     this.getTime(schedule?.schedule);
@@ -147,11 +151,11 @@ class EventName extends Component {
           {
             text: 'Yes', onPress: () => {
               this.setState({ isLoading: true })
-              let datetime = this.state.selectedDate !== null ? this.state.selectedDate?.date?.toString() : this.state.date?.toString();
+              console.log(this.state.selectedDate, this.state.date, '---');
+              let datetime = this.state.selectedDate !== null ? this.state.selectedDate?.toString() : this.state.date?.toString();
               let forSynqt = datetime;
               let params = this.props.navigation.state?.params?.parameter;
               params['datetime'] = datetime + ' ' + this.state.selectedTime?.fourf;
-              console.log(params, 'test');
               Api.request(Routes.reservationCreate, params, response => {
                 this.setState({ isLoading: false })
                 if (response.data !== null) {
@@ -200,6 +204,7 @@ class EventName extends Component {
   }
 
   getTime = (schedule) => {
+    this.setState({selectedTime: null})
     let d = null;
     let length = schedule?.length;
     if (length > 0) {
@@ -239,8 +244,93 @@ class EventName extends Component {
       this.setState({ time: temp });
     } else {
       console.log('No schedule for this date.');
-      this.setState({time: []})
+      this.setState({ time: [] })
     }
+  }
+
+  _date = () => {
+    const { showDatePicker } = this.state;
+    return (
+      <View>
+        {
+          (showDatePicker && Platform.OS == 'ios') && (this._datePickerIOS())
+        }
+        {
+          (showDatePicker && Platform.OS == 'android') && (this._datePickerAndroid('type'))
+        }
+      </View>
+    );
+  }
+
+  _datePickerIOS = () => {
+    return (
+      <View>
+        <DateTimePickerModal value={new Date()}
+          isVisible={this.state.showDatePicker}
+          mode="date"
+          display="default"
+          date={new Date()}
+          minimumDate={new Date()}
+          onChange={(date) => {
+            this.dateHandler(date);
+          }}
+          onConfirm={(date) => {
+            this.dateHandler(date);
+          }}
+          onCancel={() => {
+            this.setState({
+              showDatePicker: false
+            })
+          }}
+        />
+      </View>
+    );
+  }
+
+  dateHandler = (date) => {
+    this.setState({
+      showDatePicker: false,
+      changed_date: date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+    }, () => {
+      let date = this.state.changed_date || null;
+      let converted = '';
+      if (date !== null) {
+        let split = date.split('-');
+        split[1] = parseInt(split[1]).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })
+        split[2] = parseInt(split[2]).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })
+        converted = split.join('-');
+      }
+      let day = new Date(converted).getDay()
+      this.setState({
+        selectedDate: this.state.changed_date,
+        day: day
+      }, () => {
+        this.getTime(this.state.displayDate);
+      })
+    });
+    console.log(this.state.changed_date, '-----');
+  }
+
+  _datePickerAndroid = (type) => {
+    return (
+      <View>
+        <DateTimePicker value={new Date()}
+          mode={type}
+          display="default"
+          date={new Date()}
+          minimumDate={this.props.minimumDate}
+          onCancel={() => this.setState({
+            showDatePicker: false
+          })}
+          onConfirm={this.setDate}
+          onChange={this.setDate}
+        />
+      </View>
+    );
+  }
+
+  setDate = (event, date) => {
+    this.dateHandler(date);
   }
 
   render() {
@@ -261,7 +351,7 @@ class EventName extends Component {
               source={{ uri: Config.BACKEND_URL + data?.merchant.logo }}>
               <View style={{
                 width: width,
-                height: 130,
+                height: this.props.navigation.state?.params?.buttonTitle !== 'Cancel' ? 130 : 100,
                 position: 'absolute',
                 bottom: 0,
                 left: 0,
@@ -276,7 +366,7 @@ class EventName extends Component {
                 zIndex: 100,
                 padding: 10
               }}>
-                {this.state.showDate === false && <Text style={{
+                {this.props.navigation.state?.params?.buttonTitle !== 'Cancel' &&<Text style={{
                   fontSize: 11,
                   color: Color.white,
                   textShadowColor: 'black',
@@ -285,14 +375,14 @@ class EventName extends Component {
                   fontWeight: 'bold',
                   marginBottom: 10
                 }}>Note: Click the date to edit.</Text>}
-                {this.state.showDate === false &&
                   <View style={{
                     width: width,
+                    marginBottom: 15
                   }}>
                     <Text
                       onPress={() => {
-                        if(this.props.navigation.state?.params?.buttonTitle !== 'Cancel') {
-                          this.setState({ showDate: true })
+                        if (this.props.navigation.state?.params?.buttonTitle !== 'Cancel') {
+                          this.setState({ showDatePicker: true })
                         }
                       }}
                       numberOfLines={1}
@@ -304,11 +394,12 @@ class EventName extends Component {
                         textShadowRadius: 5,
                         fontWeight: 'bold',
                       }}
-                    >{this.state.changed_date ? this.state.changed_date?.date : data?.synqt[0].date_at_human}</Text>
+                    >{this.state.changed_date ? this.state.changed_date : data?.synqt[0].date_at_human}</Text>
                     {this.state.changed_date && <Text
                       onPress={() => {
                         this.setState({
                           changed_date: null,
+                          selectedDate: null,
                           day: new Date(this.props.navigation?.state?.params?.data?.synqt[0].date).getDay()
                         }, () => {
                           this.getTime(this.state.displayDate);
@@ -327,16 +418,16 @@ class EventName extends Component {
                       }}
                     >Cancel</Text>}
                   </View>
-                }
-                {this.state.showDate &&
-                  <View style={{
-                    flexDirection: 'row',
-                    width: '75%',
-                    marginBottom: -15
-                  }}>
-                    <DateTimePicker
+                <View style={{
+                  flexDirection: 'row',
+                  width: '75%',
+                  marginBottom: -15
+                }}>
+                  {this._date()}
+                  {/* <DateTimePicker
                       borderBottomColor={Color.gray}
                       icon={true}
+                      noColor={true}
                       backgroundColor={Color.containerBackground}
                       textStyle={{ marginRight: '-7%' }}
                       borderColor={Color.containerBackground}
@@ -350,8 +441,8 @@ class EventName extends Component {
                       minimumDate={this.state.currentDate}
                       style={{
                         marginTop: '-5%'
-                      }} />
-                    <View style={{
+                      }} /> */}
+                  {/* <View style={{
                       width: '25%',
                       flexDirection: 'row'
                     }}>
@@ -390,8 +481,8 @@ class EventName extends Component {
                         }}>
                         <FontAwesomeIcon icon={faCheck} size={35} color={theme ? theme.primary : Color.primary} />
                       </TouchableOpacity>
-                    </View>
-                  </View>}
+                    </View> */}
+                </View>
                 <Text
                   numberOfLines={1}
                   style={{
@@ -479,8 +570,8 @@ class EventName extends Component {
                     <Text style={{ color: Color.white }}>{item?.twelvef}</Text>
                   </TouchableOpacity>
                 )
-              }) : 
-              <Text style={{ color: 'red' }}>Restaurant is closed on this day. Please select another date.</Text>}
+              }) :
+                <Text style={{ color: 'red' }}>Restaurant is closed on this day. Please select another date.</Text>}
             </View>}
             <View style={{
               flexDirection: 'row',
