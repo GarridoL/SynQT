@@ -27,7 +27,6 @@ export default {
     paddingLeft: 10,
     paddingRight: 10,
     borderWidth: .5,
-    borderColor: Color.primary,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
@@ -40,7 +39,6 @@ export default {
     borderWidth: .5,
     paddingLeft: 10,
     paddingRight: 10,
-    borderColor: Color.primary,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row'

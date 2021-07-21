@@ -475,11 +475,15 @@ class EventName extends Component {
                 }]}>
                   <Text numberOfLines={1} style={{ color: 'white' }}>{data?.distance || '0km'}</Text>
                 </View>
-                <View style={style.Rate}>
+                <View style={[style.Rate, {
+                  borderColor: theme ? theme.primary : Color.primary
+                }]}>
                   <FontAwesomeIcon icon={faStar} color={Color.warning} style={{ marginRight: 2 }} size={15} />
                   <Text numberOfLines={1} style={{ color: theme ? theme.primary : Color.primary }}>{data?.rating ? data?.rating.avg : 0}</Text>
                 </View>
-                <View style={style.StarContainer}>
+                <View style={[style.StarContainer, {
+                  borderColor: theme ? theme.primary : Color.primary
+                }]}>
                   <TouchableOpacity style={style.Star}>
                     <FontAwesomeIcon icon={faStar} color={Color.white} size={15} />
                   </TouchableOpacity>
