@@ -40,7 +40,7 @@ class Restaurants extends Component {
   }
 
   redirect(route) {
-    this.props.navigation.navigate(route, {fromComments: this.props.navigation?.state?.params?.members})
+    this.props.navigation.navigate(route, { fromComments: this.props.navigation?.state?.params?.members })
   }
 
   goesTo = () => {
@@ -74,7 +74,7 @@ class Restaurants extends Component {
         })
         this.sendInvitation(id);
       }
-      if(response.error !== null) {
+      if (response.error !== null) {
         Alert.alert(
           "Failed to create SYNQT.",
           "No restaurant found based on your filter!",
@@ -103,130 +103,149 @@ class Restaurants extends Component {
         'Oopps',
         'Please select your location.',
         [
-          { text: 'Ok' }
+          { text: 'Ok', onPress: () => { return } }
         ],
         { cancelable: false }
       )
       return
     }
-    this.validate()
-    let param = {
-      account_id: user.id,
-      address_type: 'NULL',
-      latitude: this.props.state.location.latitude || 'NULL',
-      longitude: this.props.state.location.longitude || 'NULL',
-      route: this.props.state.location.address || 'NULL',
-      // route: this.props.state.location.route,
-      locality: this.props.state.location.locality || 'NULL',
-      region: this.props.state.location.region || 'NULL',
-      country: this.props.state.location.country || 'NULL',
-    }
-    let detail = {
-      type: 'restaurant',
-      size: this.state.size?.count != null ? this.state.size?.count : this.state.size,
-      price_range: {max: ((this.props.state.range != null && (this.state.valueHigh != this.props.state.range?.high)) ? this.props.state.range.high : this.state.valueHigh), min: ((this.props.state.range != null && (this.state.value != this.props.state.range?.low)) ? this.props.state.range.low : this.state.value)},
-      radius: this.state.val,
-      cuisine: this.state.cuisines?.categories?.length >= 1 ? this.state.cuisines.categories : this.state.noneSelected
-    }
-    this.setState({ isLoading: true })
-    Api.request(Routes.locationCreate, param, response => {
-      setSelected([])
-      let parameter = {
+    if (this.validate()) {
+      let param = {
         account_id: user.id,
-        location_id: response.data,
-        date: this.state.Date?.date,
-        status: 'pending',
-        details: JSON.stringify(detail)
+        address_type: 'NULL',
+        latitude: this.props.state.location?.latitude || 'NULL',
+        longitude: this.props.state.location?.longitude || 'NULL',
+        route: this.props.state.location?.address || 'NULL',
+        // route: this.props.state.location.route,
+        locality: this.props.state.location?.locality || 'NULL',
+        region: this.props.state.location?.region || 'NULL',
+        country: this.props.state.location?.country || 'NULL',
       }
-      console.log(parameter, 'parameter');
+      let detail = {
+        type: 'restaurant',
+        size: this.state.size?.count != null ? this.state.size?.count : this.state.size,
+        price_range: { max: ((this.props.state.range != null && (this.state.valueHigh != this.props.state.range?.high)) ? this.props.state.range.high : this.state.valueHigh), min: ((this.props.state.range != null && (this.state.value != this.props.state.range?.low)) ? this.props.state.range.low : this.state.value) },
+        radius: this.state.val,
+        cuisine: this.state.cuisines?.categories?.length >= 1 ? this.state.cuisines.categories : this.state.noneSelected
+      }
       this.setState({ isLoading: true })
-      Api.request(Routes.synqtCreate, parameter, res => {
-        this.setState({ isLoading: false })
-        if (res.data !== null) {
-          setDefaultAddress(null);
-          this.createMessengerGroup(res.data, parameter.date)
+      Api.request(Routes.locationCreate, param, response => {
+        setSelected([])
+        let parameter = {
+          account_id: user.id,
+          location_id: response.data,
+          date: this.state.Date?.date,
+          status: 'pending',
+          details: JSON.stringify(detail)
         }
+        console.log(parameter, 'parameter');
+        this.setState({ isLoading: true })
+        Api.request(Routes.synqtCreate, parameter, res => {
+          this.setState({ isLoading: false })
+          if (res.data !== null) {
+            setDefaultAddress(null);
+            this.createMessengerGroup(res.data, parameter.date)
+          }
+        });
       });
-    });
+    }
   }
 
   validate() {
+    let count = 0;
     if (this.state.Date == null) {
       Alert.alert(
         'Oopps',
         'Please specify the date.',
         [
-          { text: 'Ok' }
+          { text: 'Ok', onPress: () => { return } }
         ],
         { cancelable: false }
       )
-      return
+      return false
+    } else {
+      count++;
     }
     if (this.state.value == null) {
       Alert.alert(
         'Oopps',
         'Please range the price.',
         [
-          { text: 'Ok' }
+          { text: 'Ok', onPress: () => { return } }
         ],
         { cancelable: false }
       )
-      return
+      return false
+    } else {
+      count++;
     }
     if (this.state.value <= 0) {
       Alert.alert(
         'Oopps',
         'Price must be greater than 0',
         [
-          { text: 'Ok' }
+          { text: 'Ok', onPress: () => { return } }
         ],
         { cancelable: false }
       )
-      return
+      return false
+    } else {
+      count++;
     }
     if (this.state.range <= 0) {
       Alert.alert(
         'Oopps',
         'Range must be greater than 0',
         [
-          { text: 'Ok' }
+          { text: 'Ok', onPress: () => { return } }
         ],
         { cancelable: false }
       )
-      return
+      return false
+    } else {
+      count++;
     }
     if (this.state.size <= 0) {
       Alert.alert(
         'Oopps',
         'Size must be greater than 0',
         [
-          { text: 'Ok' }
+          { text: 'Ok', onPress: () => { return } }
         ],
         { cancelable: false }
       )
-      return
+      return false
+    } else {
+      count++;
     }
     if (this.state.Date == null || this.state.size == null || this.state.value == null || this.state.val == null) {
       Alert.alert(
         'Oopps',
         'Please fill up all of the fields',
         [
-          { text: 'Ok' }
+          { text: 'Ok', onPress: () => { return } }
         ],
         { cancelable: false }
       )
-      return
+      return false
+    } else {
+      count++;
     }
     if (this.props.state.tempMembers.length === 0) {
       Alert.alert(
         'Oopps',
         'Please invite atleast 1 person to your SYNQT. Thank you.',
         [
-          { text: 'Ok' }
+          { text: 'Ok', onPress: () => { return } }
         ],
         { cancelable: false }
       )
-      return
+      return false
+    } else {
+      count++;
+    }
+    if(count == 7) {
+      return true;
     }
   }
 
@@ -355,7 +374,7 @@ class Restaurants extends Component {
                 title={'Cuisines'} />
             </View>
             <Text style={{ color: 'black', marginBottom: 15, marginLeft: 20 }}>Radius</Text>
-            <Text style={{ color: 'black', marginTop: -35, marginBottom: 5, marginLeft: '90%' }}>{this.state.val < 1 ? this.setState({val: 1}) : this.state.val}</Text>
+            <Text style={{ color: 'black', marginTop: -35, marginBottom: 5, marginLeft: '90%' }}>{this.state.val < 1 ? this.setState({ val: 1 }) : this.state.val}</Text>
             <SliderPicker
               callback={position => {
                 this.setState({ val: position })

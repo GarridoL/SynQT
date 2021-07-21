@@ -145,7 +145,12 @@ class Cards extends React.Component {
       status: 'pending'
     }
     this.props.onClose(null);
-    this.props.navigation.navigate('eventNameStack', { parameter: parameter, buttonTitle: 'Make Reservation', data: this.props.item, messenger_group_id: this.props.messengerGroup?.messenger_group_id })
+    this.props.navigation.navigate('eventNameStack', {
+      parameter: parameter,
+      buttonTitle: 'Make Reservation',
+      data: this.props.item,
+      messenger_group_id: this.props.messengerGroup?.messenger_group_id
+    })
   }
 
   getAddress = (address) => {

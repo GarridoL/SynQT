@@ -45,6 +45,25 @@ class History extends Component {
     return true
   }
 
+  redirect = (route, item) => {
+    console.log(this.props.navigation.state?.params, '--params')
+    this.props.navigation.navigate(route, {
+      title: 'Upcoming',
+      buttonTitle: 'Cancel',
+      parameter: {
+        account_id: this.props.state.user?.id,
+        merchant_id: item?.merchant?.id,
+        payload: 'synqt',
+        payload_value: item?.synqt[0]?.id,
+        details: true,
+        datetime: item?.synqt[0]?.date,
+        status: 'pending'
+      },
+      data: item,
+      messenger_group_id: item.members?.[0].messenger_group_id
+    })
+  }
+
   retrieve = (flag) => {
     let status = this.props.navigation.state.params && this.props.navigation.state.params.title && this.props.navigation.state.params.title.toLowerCase() === 'upcoming' ? 'pending' : 'completed'
     let parameter = {
@@ -145,20 +164,7 @@ class History extends Component {
                 redirectTo={this.props.navigation.state.params && this.props.navigation.state.params.title}
                 onClick={() => {
                   if(this.props.navigation.state?.params?.title === 'Upcoming') {
-                    this.props.navigation.navigate('eventNameStack', {
-                      parameter: {
-                        account_id: this.props.state.user?.id,
-                        merchant_id: item.merchant?.id,
-                        payload: 'synqt',
-                        payload_value: item?.synqt[0]?.id,
-                        details: true,
-                        datetime: item?.synqt[0]?.date,
-                        status: 'pending'
-                      },
-                      buttonTitle: this.props.navigation.state?.params?.title === 'Upcoming' ? "Cancel" : 'Make Reservation',
-                      data: item,
-                      messenger_group_id: item.members?.[0].messenger_group_id
-                    })
+                    this.redirect('eventNameStack', item)
                   } else {
                     this.setState({item: item, isVisible: true})
                   }

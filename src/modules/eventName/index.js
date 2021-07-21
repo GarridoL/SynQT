@@ -44,6 +44,7 @@ class EventName extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props.navigation.state?.params, '====button title.====');
     this.retrieveMembers();
     const { data, parameter } = this.props.navigation.state.params;
     let schedule = data?.merchant?.schedule && data?.merchant?.schedule !== 'NULL' ? JSON.parse(data?.merchant?.schedule) : null
@@ -151,7 +152,6 @@ class EventName extends Component {
           {
             text: 'Yes', onPress: () => {
               this.setState({ isLoading: true })
-              console.log(this.state.selectedDate, this.state.date, '---');
               let datetime = this.state.selectedDate !== null ? this.state.selectedDate?.toString() : this.state.date?.toString();
               let forSynqt = datetime;
               let params = this.props.navigation.state?.params?.parameter;
@@ -160,7 +160,7 @@ class EventName extends Component {
                 this.setState({ isLoading: false })
                 if (response.data !== null) {
                   this.synqtUpdate(params?.payload_value, forSynqt);
-                  this.props.navigation.navigate('historyStack', { title: 'Upcoming' })
+                  this.props.navigation.navigate('historyStack', { title: 'Upcoming', buttonTitle: 'Cancel' })
                 }
               },
                 error => {
@@ -351,7 +351,7 @@ class EventName extends Component {
               source={{ uri: Config.BACKEND_URL + data?.merchant.logo }}>
               <View style={{
                 width: width,
-                height: this.props.navigation.state?.params?.buttonTitle !== 'Cancel' ? 130 : 100,
+                height: this.props.navigation.state?.params?.buttonTitle !== 'Cancel' ? 140 : 100,
                 position: 'absolute',
                 bottom: 0,
                 left: 0,
@@ -424,64 +424,6 @@ class EventName extends Component {
                   marginBottom: -15
                 }}>
                   {this._date()}
-                  {/* <DateTimePicker
-                      borderBottomColor={Color.gray}
-                      icon={true}
-                      noColor={true}
-                      backgroundColor={Color.containerBackground}
-                      textStyle={{ marginRight: '-7%' }}
-                      borderColor={Color.containerBackground}
-                      type={'date'}
-                      placeholder={'Select Date'}
-                      onFinish={(date) => {
-                        this.setState({
-                          changed_date: date
-                        })
-                      }}
-                      minimumDate={this.state.currentDate}
-                      style={{
-                        marginTop: '-5%'
-                      }} /> */}
-                  {/* <View style={{
-                      width: '25%',
-                      flexDirection: 'row'
-                    }}>
-                      <TouchableOpacity style={{
-                        margin: 5,
-                        height: 50,
-                        justifyContent: 'center',
-                      }}
-                        onPress={() => {
-                          this.setState({ showDate: false })
-                        }}>
-                        <FontAwesomeIcon icon={faTimes} size={40} color={Color.danger} />
-                      </TouchableOpacity>
-                      <TouchableOpacity style={{
-                        height: 50,
-                        justifyContent: 'center',
-                        margin: 5
-                      }}
-                        onPress={() => {
-                          let date = this.state.changed_date?.date || null;
-                          let converted = '';
-                          if (date !== null) {
-                            let split = date.split('-');
-                            split[1] = parseInt(split[1]).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })
-                            split[2] = parseInt(split[2]).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })
-                            converted = split.join('-');
-                          }
-                          let day = new Date(converted).getDay()
-                          this.setState({
-                            showDate: false,
-                            selectedDate: this.state.changed_date,
-                            day: day
-                          }, () => {
-                            this.getTime(this.state.displayDate);
-                          })
-                        }}>
-                        <FontAwesomeIcon icon={faCheck} size={35} color={theme ? theme.primary : Color.primary} />
-                      </TouchableOpacity>
-                    </View> */}
                 </View>
                 <Text
                   numberOfLines={1}
@@ -497,7 +439,7 @@ class EventName extends Component {
                   {data?.merchant.name}
                 </Text>
                 <Text
-                  numberOfLines={1}
+                  numberOfLines={3}
                   style={{
                     color: Color.gray,
                     marginTop: 5,
@@ -506,6 +448,7 @@ class EventName extends Component {
                     textShadowOffset: { width: 1, height: 1 },
                     textShadowRadius: 5,
                     fontWeight: 'bold',
+                    width: width * .90
                   }}
                 >
                   {data?.merchant.address ? this.getAddress(data?.merchant.address) : 'no address provided'}
@@ -526,14 +469,21 @@ class EventName extends Component {
                 position: 'absolute',
                 right: 10
               }}>
-                <View style={style.Distance}>
+                <View style={[style.Distance, {
+                  backgroundColor: theme ? theme.primary : Color.primary,
+                  borderColor: theme ? theme.primary : Color.primary,
+                }]}>
                   <Text numberOfLines={1} style={{ color: 'white' }}>{data?.distance || '0km'}</Text>
                 </View>
-                <View style={style.Rate}>
+                <View style={[style.Rate, {
+                  borderColor: theme ? theme.primary : Color.primary
+                }]}>
                   <FontAwesomeIcon icon={faStar} color={Color.warning} style={{ marginRight: 2 }} size={15} />
                   <Text numberOfLines={1} style={{ color: theme ? theme.primary : Color.primary }}>{data?.rating ? data?.rating.avg : 0}</Text>
                 </View>
-                <View style={style.StarContainer}>
+                <View style={[style.StarContainer, {
+                  borderColor: theme ? theme.primary : Color.primary
+                }]}>
                   <TouchableOpacity style={style.Star}>
                     <FontAwesomeIcon icon={faStar} color={Color.white} size={15} />
                   </TouchableOpacity>
@@ -590,7 +540,7 @@ class EventName extends Component {
             </View>
           </View>
         </ScrollView>
-        <CustomizedButton backgroundColor={this.props.navigation.state?.params?.buttonTitle === 'Cancel' ? Color.danger : (theme ? theme.primary : Color.primary)} style={{ marginLeft: -20, marginBottom: 10 }} onClick={this.onClick} title={this.props.navigation.state?.params?.buttonTitle}></CustomizedButton>
+        {data?.status !== 'accepted' && <CustomizedButton backgroundColor={this.props.navigation.state?.params?.buttonTitle === 'Cancel' ? Color.danger : (theme ? theme.primary : Color.primary)} style={{ marginLeft: -20, marginBottom: 10 }} onClick={this.onClick} title={this.props.navigation.state?.params?.buttonTitle}></CustomizedButton>}
       </View>
     );
   }

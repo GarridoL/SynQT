@@ -37,7 +37,7 @@ class ViewProfile extends Component {
   }
 
   componentDidMount() {
-    this.setState({similarConnections: 0})
+    this.setState({ similarConnections: 0 })
     this.props.setDeepLinkRoute(null);
     if (this.props.navigation.state?.params?.level === 1) {
       this.retrieveActivity(false);
@@ -95,13 +95,13 @@ class ViewProfile extends Component {
   deleteConnection = (el) => {
     let del = null
     this.state.fromConnections.length > 0 && this.state.fromConnections.map((item, index) => {
-      if(item.account?.id === el.account?.id) {
+      if (item.account?.id === el.account?.id) {
         this.state.fromConnections.splice(index, 1);
         del = item
       }
     })
     this.state.ids.length > 0 && this.state.ids.map((item, index) => {
-      if(item === el.account?.id) {
+      if (item === el.account?.id) {
         this.state.ids.splice(index, 1);
       }
     })
@@ -172,12 +172,12 @@ class ViewProfile extends Component {
               item['shouldBeCancel'] = false;
               res.data.forEach(el => {
                 ids.push(el.account.id)
-                if(el.account.id == item.account.id && el.status === 'pending') {
+                if (el.account.id == item.account.id && el.status === 'pending') {
                   item.shouldBeCancel = true;
                 }
               });
             })
-            this.setState({ids: ids, fromConnections: res.data});
+            this.setState({ ids: ids, fromConnections: res.data });
           }
           this.setState({
             connections: flag == false ? response.data : _.uniqBy([...this.state.connections, ...response.data], 'id'),
@@ -215,7 +215,7 @@ class ViewProfile extends Component {
     Api.request(Routes.circleCreate, parameter, response => {
       this.setState({ isLoading: false })
       this.retrieveConnections(false);
-      if(response.error !== null) {
+      if (response.error !== null) {
         Alert.alert('Error', response.error);
       }
     }, error => {
@@ -238,7 +238,7 @@ class ViewProfile extends Component {
   }
 
   renderConnections() {
-    const {theme} = this.props.state;
+    const { theme } = this.props.state;
     return (
       <View>
         {this.state.connections.length === 0 && (<Empty refresh={true} onRefresh={() => this.retrieveConnections(false)} />)}
@@ -247,9 +247,11 @@ class ViewProfile extends Component {
             return (
               <TouchableOpacity onPress={() => { this.props.navigation.navigate('viewProfileStack', { user: el, level: 1 }) }}>
                 {/* <Card containerStyle={{padding:-5, borderRadius: 20}}> */}
-                <ListItem key={idx}>
+                <ListItem containerStyle={{
+                  backgroundColor: Color.containerBackground
+                }} key={idx}>
                   {el.account?.profile?.url ? <Image
-                    style={[Style.circleImage, {borderColor: theme ? theme.primary : Color.primary}]}
+                    style={[Style.circleImage, { borderColor: theme ? theme.primary : Color.primary }]}
                     source={{ uri: Config.BACKEND_URL + el.account?.profile?.url }}
                   /> :
                     <View style={{
@@ -285,7 +287,7 @@ class ViewProfile extends Component {
                         >
                           <Text style={{ color: 'white' }}>Add</Text>
                         </TouchableOpacity>
-                      : (el.account.id !== this.props.state.user.id && el.shouldBeCancel === true) &&
+                        : (el.account.id !== this.props.state.user.id && el.shouldBeCancel === true) &&
                         <TouchableOpacity
                           onPress={() => this.deleteConnection(el)}
                           style={{
@@ -312,68 +314,66 @@ class ViewProfile extends Component {
   renderSimlActivity() {
     const height = Math.round(Dimensions.get('window').height);
     return (
-      <SafeAreaView>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          onScroll={(event) => {
-            let scrollingHeight = event.nativeEvent.layoutMeasurement.height + event.nativeEvent.contentOffset.y
-            let totalHeight = event.nativeEvent.contentSize.height
-            if (event.nativeEvent.contentOffset.y <= 0) {
-              if (this.state.isLoading == false) {
-                // this.retrieve(false)
-              }
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        onScroll={(event) => {
+          let scrollingHeight = event.nativeEvent.layoutMeasurement.height + event.nativeEvent.contentOffset.y
+          let totalHeight = event.nativeEvent.contentSize.height
+          if (event.nativeEvent.contentOffset.y <= 0) {
+            if (this.state.isLoading == false) {
+              // this.retrieve(false)
             }
-            if (Math.round(scrollingHeight) >= Math.round(totalHeight)) {
-              if (this.state.isLoading === false) {
-                this.retrieve(true)
-              }
+          }
+          if (Math.round(scrollingHeight) >= Math.round(totalHeight)) {
+            if (this.state.isLoading === false) {
+              this.retrieve(true)
             }
-          }}
-        >
-          {this.state.data.length === 0 && (<Empty refresh={true} onRefresh={() => this.retrieveActivity(false)} />)}
-          <View style={{
-            marginTop: 15,
-            flex: 1,
-            padding: 10
-          }}>
-            {
-              this.state.data.length > 0 && this.state.data.map((item, index) => (
-                <ImageCardWithUser
-                  data={{
-                    logo: item.merchant.logo,
-                    address: item.merchant.address || 'No address provided',
-                    name: item.merchant.name,
-                    date: item.synqt[0].date,
-                    superlike: item.total_super_likes || 0,
-                    distance: item.distance || '0km',
-                    users: item.members && item.members.length > 0 ? item.members : [],
-                    details: true,
-                    ratings: item.rating
-                  }}
-                  style={{
-                    marginBottom: 20
-                  }}
-                  redirectTo={this.props.navigation.state.params && this.props.navigation.state.params.title}
-                  onClick={() => {
-                    // this.onClick(item)
-                  }}
-                  navigation={this.props.navigation}
-                />
-              ))
-            }
-          </View>
-        </ScrollView>
-      </SafeAreaView>
+          }
+        }}
+      >
+        {this.state.data.length === 0 && (<Empty refresh={true} onRefresh={() => this.retrieveActivity(false)} />)}
+        <View style={{
+          marginTop: 15,
+          flex: 1,
+          padding: 10
+        }}>
+          {
+            this.state.data.length > 0 && this.state.data.map((item, index) => (
+              <ImageCardWithUser
+                data={{
+                  logo: item.merchant.logo,
+                  address: item.merchant.address || 'No address provided',
+                  name: item.merchant.name,
+                  date: item.synqt[0].date,
+                  superlike: item.total_super_likes || 0,
+                  distance: item.distance || '0km',
+                  users: item.members && item.members.length > 0 ? item.members : [],
+                  details: true,
+                  ratings: item.rating
+                }}
+                style={{
+                  marginBottom: 20
+                }}
+                redirectTo={this.props.navigation.state.params && this.props.navigation.state.params.title}
+                onClick={() => {
+                  // this.onClick(item)
+                }}
+                navigation={this.props.navigation}
+              />
+            ))
+          }
+        </View>
+      </ScrollView>
     )
   }
 
   render() {
     let user = this.props.navigation.state?.params?.user
-    const {theme} = this.props.state;
+    const { theme } = this.props.state;
     return (
       <View style={{
         backgroundColor: Color.containerBackground,
-        height: height
+        height: '100%'
       }}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View>
@@ -436,7 +436,7 @@ class ViewProfile extends Component {
               <Tab level={2} choice={['CONNECTIONS']} onClick={this.choiceHandler}></Tab>}
           </View>
           <View style={{
-            marginBottom: 57
+            marginBottom: 100,
           }}>
             {this.state.choice === 'SYNQT ACTIVITIES' ? (
               this.renderSimlActivity()
