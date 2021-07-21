@@ -63,6 +63,15 @@ class PostCard extends Component {
       if(status === false) {
         this.props.navigation.navigate('restaurantStack', { members: temp })
       } 
+    } else {
+      Alert.alert(
+        '',
+        'Cannot proceed! You have no people on SYNQT yet.',
+        [
+          { text: 'Ok', onPress: () => { return } }
+        ],
+        { cancelable: false }
+      )
     }
   }
 

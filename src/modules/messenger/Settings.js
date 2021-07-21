@@ -62,7 +62,7 @@ class Settings extends Component {
           }
         })
         setAllMessages(temp);
-        this.setState({ visible: false, title: null })
+        this.setState({ visible: false })
       }
     });
   }

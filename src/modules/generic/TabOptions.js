@@ -23,13 +23,18 @@ class Tab extends Component {
       <View>
         {
           (this.props.level === 1) && (
-            <View style={[ Style.Tab ]}>
+            <View style={[
+              Style.Tab,
+              {borderColor: theme ? theme.primary : Color.primary } 
+            ]}>
               <TouchableOpacity
                 onPress={() => this.choiceHandler(this.props.choice[0])}
                 style={[
                   this.state.choice == this.props.choice[0] ? Style.MenuClicked : Style.Menu, {
                     backgroundColor: this.state.choice == this.props.choice[0] ? (theme ? theme.primary : Color.primary) : 'white',
-                    elevation: BasicStyles.elevation
+                    elevation: BasicStyles.elevation,
+                    borderTopLeftRadius: 9,
+                    borderBottomLeftRadius: 9
                   }
                 ]}
               >
@@ -44,7 +49,9 @@ class Tab extends Component {
                 style={[
                   this.state.choice == this.props.choice[1] ? Style.InformationClicked : Style.Information, {
                     backgroundColor: this.state.choice == this.props.choice[1] ? (theme ? theme.primary : Color.primary) : 'white',
-                    elevation: BasicStyles.elevation
+                    elevation: BasicStyles.elevation,
+                    borderTopRightRadius: 10,
+                    borderBottomRightRadius: 10
                   }
                 ]}
               >
@@ -64,6 +71,7 @@ class Tab extends Component {
               <View style={[
                 Style.Information, {
                   width: '100%',
+                  borderRadius: 10
                 }]}>
                 <Text style={{ color: Color.primary, fontWeight: 'bold' }}>{this.props.choice[0]}</Text>
               </View>

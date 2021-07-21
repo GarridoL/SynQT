@@ -10,13 +10,12 @@ export default {
     height: 50,
     fontSize: 20,
     borderBottomWidth: 1.12,
-    borderColor: Color.primary
+    borderRadius: 10
   },
   MenuClicked: {
     width: '50%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Color.primary
   },
   Menu: {
     width: '50%',
@@ -27,14 +26,11 @@ export default {
     width: '50%',
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: Color.primary,
   },
   InformationClicked: {
     width: '50%',
     borderLeftWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: Color.primary,
-    backgroundColor: Color.primary
   },
 }
