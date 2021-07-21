@@ -46,6 +46,7 @@ class History extends Component {
   }
 
   redirect = (route, item) => {
+    console.log(this.props.navigation.state?.params, '--params')
     this.props.navigation.navigate(route, {
       title: 'Upcoming',
       buttonTitle: 'Cancel',
