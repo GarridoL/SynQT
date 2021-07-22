@@ -1,19 +1,26 @@
 import React, { memo } from 'react';
-import {StyleSheet, View} from 'react-native';
+import {View} from 'react-native';
 import { Color } from 'common';
+import {connect} from 'react-redux';
 
-const RailSelected = () => {
+const RailSelected = (props) => {
   return (
-    <View style={styles.root}/>
+    <View style={{
+      height: 4,
+      backgroundColor: props.state.theme ? props.state.theme.primary : Color.primary,
+      borderRadius: 2}}/>
   );
 };
 
-export default memo(RailSelected);
+const mapStateToProps = state => ({state: state});
+const mapDispatchToProps = dispatch => {
+  const {actions} = require('@redux');
+  return {
+    setRange: (range) => dispatch(actions.setRange(range))
+  };
+};
 
-const styles = StyleSheet.create({
-  root: {
-    height: 4,
-    backgroundColor: Color.primary,
-    borderRadius: 2,
-  },
-});
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(memo(RailSelected));

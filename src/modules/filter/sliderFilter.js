@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import Slider from 'rn-range-slider';
 import Thumb from 'modules/sliders/Thumb';
 import Rail from 'modules/sliders/Rail';
@@ -14,11 +14,11 @@ const SliderScreen = (props) => {
   const [high, setHigh] = useState(9000);
   const [min, setMin] = useState(100);
   const [max, setMax] = useState(9000);
-  const renderThumb = useCallback(() => <Thumb/>, []);
-  const renderRail = useCallback(() => <Rail/>, []);
-  const renderRailSelected = useCallback(() => <RailSelected/>, []);
-  const renderLabel = useCallback(value => <Label text={value}/>, []);
-  const renderNotch = useCallback(() => <Not/>, []);
+  const renderThumb = useCallback(() => <Thumb props={props}/>, []);
+  const renderRail = useCallback(() => <Rail props={props}/>, []);
+  const renderRailSelected = useCallback(() => <RailSelected props={props}/>, []);
+  const renderLabel = useCallback(value => <Label text={value} props={props}/>, []);
+  const renderNotch = useCallback(() => <Not props={props}/>, []);
 
   useEffect(() => {
     props.setRange({low, high})

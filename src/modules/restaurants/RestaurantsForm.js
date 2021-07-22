@@ -291,6 +291,7 @@ class Restaurants extends Component {
   }
 
   render() {
+    const { theme } = this.props.state;
     return (
       <View style={{
         flex: 1,
@@ -392,7 +393,7 @@ class Restaurants extends Component {
               labelFontSize={15}
               scaleNumberFontWeight={'300'}
               buttonDimensionsPercentage={6}
-              buttonBorderColor={'#5842D7'}
+              buttonBorderColor={theme ? theme.primary : Color.primary}
               heightPercentage={1}
               widthPercentage={90}
               sliderInnerBackgroundColor={'gray'}
