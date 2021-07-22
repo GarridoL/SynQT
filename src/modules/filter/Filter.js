@@ -164,7 +164,7 @@ class Filter extends Component {
                 flexDirection: 'row',
                 alignItems: 'center',
                 position: 'absolute',
-                bottom: 10
+                bottom: 20
               }}>
                 <Button 
                   style={{

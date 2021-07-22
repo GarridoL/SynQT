@@ -1,23 +1,31 @@
 import React, { memo } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
+import {connect} from 'react-redux';
 
 const THUMB_RADIUS = 12;
 
-const Thumb = () => {
+const Thumb = (props) => {
   return (
-    <View style={styles.root}/>
+    <View style={{
+      width: THUMB_RADIUS * 2,
+      height: THUMB_RADIUS * 2,
+      borderRadius: THUMB_RADIUS,
+      borderWidth: 2,
+      borderColor: props.state.theme ? props.state.theme.primary : Color.primary,
+      backgroundColor: '#ffffff'
+    }}/>
   );
 };
 
-const styles = StyleSheet.create({
-  root: {
-    width: THUMB_RADIUS * 2,
-    height: THUMB_RADIUS * 2,
-    borderRadius: THUMB_RADIUS,
-    borderWidth: 2,
-    borderColor: '#7f7f7f',
-    backgroundColor: '#ffffff',
-  },
-});
+const mapStateToProps = state => ({state: state});
+const mapDispatchToProps = dispatch => {
+  const {actions} = require('@redux');
+  return {
+    setRange: (range) => dispatch(actions.setRange(range))
+  };
+};
 
-export default memo(Thumb);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(memo(Thumb));
