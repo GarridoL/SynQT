@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Platform, Text, Image, TouchableOpacity, Dimensions, Modal, Pressable, TextInput } from 'react-native';
+import { View, Platform, Text, Image, TouchableOpacity, Dimensions, Modal, Pressable, TextInput, Keyboard } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { Color, BasicStyles, Routes } from 'common';
@@ -114,7 +114,7 @@ class Settings extends Component {
                   borderRadius: 25,
                   justifyContent: 'center'
                 }}
-                  onPress={() => { this.updateName() }}
+                  onPress={() => { Keyboard.dismiss(); this.updateName() }}
                 >
                   <Text style={{ color: 'white', fontSize: BasicStyles.standardFontSize }}>Update</Text>
                 </TouchableOpacity>
@@ -127,7 +127,7 @@ class Settings extends Component {
                   borderRadius: 25,
                   justifyContent: 'center'
                 }}
-                  onPress={() => {this.setState({ title: null, visible: false }) }}
+                  onPress={() => {this.setState({ visible: false }) }}
                 >
                   <Text style={{ color: 'white', fontSize: BasicStyles.standardFontSize }}>Cancel</Text>
                 </TouchableOpacity>

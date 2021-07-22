@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, Image, } from 'react-native';
 import Style from './Style.js';
 import Config from 'src/config.js';
+import { BasicStyles, Color } from 'common';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';

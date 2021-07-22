@@ -63,7 +63,7 @@ class EventName extends Component {
   }
 
   onClick = () => {
-    if (this.props.navigation.state?.params?.buttonTitle === 'Cancel') {
+    if (this.props.navigation.state?.params?.buttonTitle === 'Cancel' || this.props.state.route) {
       this.deleteItem();
     } else {
       this.addToReservation();
@@ -160,6 +160,7 @@ class EventName extends Component {
                 this.setState({ isLoading: false })
                 if (response.data !== null) {
                   this.synqtUpdate(params?.payload_value, forSynqt);
+                  this.props.setCurrentRoute('EventName');
                   this.props.navigation.navigate('historyStack', { title: 'Upcoming', buttonTitle: 'Cancel' })
                 }
               },
@@ -217,8 +218,8 @@ class EventName extends Component {
     }
     if (d) {
       let date = new Date();
-      let stopper = d?.endTime?.hh || 11;
-      let stop = d?.endTime?.a ? ` ${d?.endTime?.a}` : stopper > 12 && stopper % 12 ? ' pm' : ' am';
+      let stopper = d?.endTime?.hh || d?.endTime?.hh !== null || d?.endTime?.hh !== '' ? d?.endTime?.hh : 11;
+      let stop = d?.endTime?.a || d?.endTime?.a !== null || d?.endTime?.a !== '' ? ` ${d?.endTime?.a}` : stopper > 12 && stopper % 12 ? ' pm' : ' am';
       let temp = [];
       let m = d?.startTime?.a ? ` ${d?.startTime?.a}` : hour > 12 && hour % 12 ? ' pm' : ' am';
       let hour = ((m === ' pm' ? parseInt(d?.startTime?.hh) + 12 : parseInt(d?.startTime?.hh)) || date.getHours()) + 1;
@@ -351,7 +352,7 @@ class EventName extends Component {
               source={{ uri: Config.BACKEND_URL + data?.merchant.logo }}>
               <View style={{
                 width: width,
-                height: this.props.navigation.state?.params?.buttonTitle !== 'Cancel' ? 140 : 100,
+                height: this.props.navigation.state?.params?.buttonTitle !== 'Cancel' && this.props.state.route === null ? 140 : 100,
                 position: 'absolute',
                 bottom: 0,
                 left: 0,
@@ -366,7 +367,7 @@ class EventName extends Component {
                 zIndex: 100,
                 padding: 10
               }}>
-                {this.props.navigation.state?.params?.buttonTitle !== 'Cancel' &&<Text style={{
+                {this.props.navigation.state?.params?.buttonTitle !== 'Cancel' && this.props.state.route === null && <Text style={{
                   fontSize: 11,
                   color: Color.white,
                   textShadowColor: 'black',
@@ -381,7 +382,7 @@ class EventName extends Component {
                   }}>
                     <Text
                       onPress={() => {
-                        if (this.props.navigation.state?.params?.buttonTitle !== 'Cancel') {
+                        if (this.props.navigation.state?.params?.buttonTitle !== 'Cancel' && this.props.state.route === null) {
                           this.setState({ showDatePicker: true })
                         }
                       }}
@@ -491,7 +492,7 @@ class EventName extends Component {
                 </View>
               </View>
             </View>
-            {this.props.navigation.state?.params?.buttonTitle === 'Make Reservation' && <View style={{
+            {this.props.navigation.state?.params?.buttonTitle === 'Make Reservation' && this.props.state.route === null && <View style={{
               width: '100%',
               marginTop: 25,
               padding: 10,
@@ -540,7 +541,7 @@ class EventName extends Component {
             </View>
           </View>
         </ScrollView>
-        {data?.status !== 'accepted' && <CustomizedButton backgroundColor={this.props.navigation.state?.params?.buttonTitle === 'Cancel' ? Color.danger : (theme ? theme.primary : Color.primary)} style={{ marginLeft: -20, marginBottom: 10 }} onClick={this.onClick} title={this.props.navigation.state?.params?.buttonTitle}></CustomizedButton>}
+        <CustomizedButton backgroundColor={this.props.navigation.state?.params?.buttonTitle === 'Cancel' || this.props.state.route ? Color.danger : (theme ? theme.primary : Color.primary)} style={{ marginLeft: -20, marginBottom: 10 }} onClick={this.onClick} title={this.props.state.route ? 'Cancel' : this.props.navigation.state?.params?.buttonTitle}></CustomizedButton>
       </View>
     );
   }
@@ -552,7 +553,8 @@ const mapDispatchToProps = dispatch => {
   const { actions } = require('@redux');
   return {
     updateUser: (user) => dispatch(actions.updateUser(user)),
-    setDefaultAddress: (defaultAddress) => dispatch(actions.setDefaultAddress(defaultAddress))
+    setDefaultAddress: (defaultAddress) => dispatch(actions.setDefaultAddress(defaultAddress)),
+    setCurrentRoute: (route) => dispatch(actions.setCurrentRoute(route)),
   };
 };
 

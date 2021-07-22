@@ -13,7 +13,8 @@ class HeaderOptions extends Component {
     super(props);
   }
   back = () => {
-    this.props.navigationProps.navigate('drawerStack');
+    this.props.setCurrentRoute(null)
+    this.props.navigationProps.navigate('Homepage');
   };
   render() {
     const { theme } = this.props.state;
@@ -36,7 +37,9 @@ const mapStateToProps = (state) => ({state: state});
 
 const mapDispatchToProps = (dispatch) => {
   const {actions} = require('@redux');
-  return {};
+  return {
+    setCurrentRoute: (route) => dispatch(actions.setCurrentRoute(route)),
+  };
 };
 let HeaderOptionsConnect  = connect(mapStateToProps, mapDispatchToProps)(HeaderOptions);
 
