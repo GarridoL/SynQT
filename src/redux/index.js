@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import Data from 'services/Data';
-import {Helper, Color} from 'common';
+import { Helper, Color } from 'common';
 
 const types = {
   LOGOUT: 'LOGOUT',
@@ -29,94 +29,98 @@ const types = {
   SET_TOP_CHOICES: 'SET_TOP_CHOICES',
   SET_ALL_MESSAGES: 'SET_ALL_MESSAGES',
   SET_DEEP_LINK_ROUTE: 'SET_DEEP_LINK_ROUTE',
-  SET_CURRENT_ACCOUNT: 'SET_CURRENT_ACCOUNT'
+  SET_CURRENT_ACCOUNT: 'SET_CURRENT_ACCOUNT',
+  SET_CURRENT_ROUTE: 'SET_CURRENT_ROUTE'
 };
 
 export const actions = {
   login: (user, token) => {
     console.log('=========TOKEN', user, token);
-    return {type: types.LOGIN, user, token};
+    return { type: types.LOGIN, user, token };
   },
   logout() {
-    return {type: types.LOGOUT};
+    return { type: types.LOGOUT };
   },
   updateUser: user => {
-    return {type: types.UPDATE_USER, user};
+    return { type: types.UPDATE_USER, user };
   },
   setTheme(theme) {
-    return {type: types.SET_THEME, theme};
+    return { type: types.SET_THEME, theme };
   },
   setLayer(layer) {
-    return {type: types.SET_LAYER, layer};
+    return { type: types.SET_LAYER, layer };
   },
-  viewMenu(isViewing){
-    return {type: types.VIEW_MENU, isViewing}
+  viewMenu(isViewing) {
+    return { type: types.VIEW_MENU, isViewing }
   },
   setMessengerGroup(messengerGroup) {
-    return {type: types.SET_MESSENGER_GROUP, messengerGroup};
+    return { type: types.SET_MESSENGER_GROUP, messengerGroup };
   },
   updateMessengerGroup(messengerGroup) {
-    return {type: types.UPDATE_MESSENGER_GROUP, messengerGroup};
+    return { type: types.UPDATE_MESSENGER_GROUP, messengerGroup };
   },
   updateMessagesOnGroupByPayload(messages) {
-    return {type: types.UPDATE_MESSAGES_ON_GROUP_BY_PAYLOAD, messages};
+    return { type: types.UPDATE_MESSAGES_ON_GROUP_BY_PAYLOAD, messages };
   },
   setMessagesOnGroup(messagesOnGroup) {
-    return {type: types.SET_MESSAGES_ON_GROUP, messagesOnGroup};
+    return { type: types.SET_MESSAGES_ON_GROUP, messagesOnGroup };
   },
   updateMessagesOnGroup(message) {
-    return {type: types.UPDATE_MESSAGES_ON_GROUP, message};
+    return { type: types.UPDATE_MESSAGES_ON_GROUP, message };
   },
   updateMessageByCode(message) {
-    return {type: types.UPDATE_MESSAGE_BY_CODE, message};
+    return { type: types.UPDATE_MESSAGE_BY_CODE, message };
   },
   setMessenger(unread, messages) {
-    return {type: types.SET_MESSAGES, unread, messages};
+    return { type: types.SET_MESSAGES, unread, messages };
   },
   setStatusSearch(statusSearch) {
-    return {type: types.SET_STATUS_SEARCH, statusSearch};
+    return { type: types.SET_STATUS_SEARCH, statusSearch };
   },
   setCreateStatus(createStatus) {
-    return {type: types.SET_CREATE_STATUS, createStatus};
+    return { type: types.SET_CREATE_STATUS, createStatus };
   },
   setLocation(location) {
-    return {type: types.SET_LOCATION, location};
+    return { type: types.SET_LOCATION, location };
   },
   setDeviceLocation(deviceLocation) {
-    return {type: types.SET_DEVICE_LOCATION};
+    return { type: types.SET_DEVICE_LOCATION };
   },
   setDefaultAddress(defaultAddress) {
-    return {type: types.SET_DEFAULT_ADDRESS, defaultAddress}
+    return { type: types.SET_DEFAULT_ADDRESS, defaultAddress }
   },
   setTempMembers(tempMembers) {
-    return {type: types.SET_TEMP_MEMBERS, tempMembers}
+    return { type: types.SET_TEMP_MEMBERS, tempMembers }
   },
   setShowSettings(showSettings) {
-    return {type: types.SET_SHOW_SETTINGS, showSettings}
+    return { type: types.SET_SHOW_SETTINGS, showSettings }
   },
   setCurrentTitle(currentTitle) {
-    return {type: types.SET_CURRENT_TITLE, currentTitle}
+    return { type: types.SET_CURRENT_TITLE, currentTitle }
   },
   setSelected(selects) {
-    return {type: types.SET_SELECTED, selects}
+    return { type: types.SET_SELECTED, selects }
   },
   setComments(comments) {
-    return {type: types.SET_COMMENTS, comments}
+    return { type: types.SET_COMMENTS, comments }
   },
   setRange(range) {
-    return {type: types.SET_RANGE, range}
+    return { type: types.SET_RANGE, range }
   },
   setTopChoices(topChoices) {
-    return {type: types.SET_TOP_CHOICES, topChoices}
+    return { type: types.SET_TOP_CHOICES, topChoices }
   },
   setAllMessages(allMessages) {
-    return {type: types.SET_ALL_MESSAGES, allMessages}
+    return { type: types.SET_ALL_MESSAGES, allMessages }
   },
   setDeepLinkRoute(deepLinkRoute) {
-    return {type: types.SET_DEEP_LINK_ROUTE, deepLinkRoute}
+    return { type: types.SET_DEEP_LINK_ROUTE, deepLinkRoute }
   },
   setCurrentAccount(acc) {
-    return {type: types.SET_CURRENT_ACCOUNT, acc}
+    return { type: types.SET_CURRENT_ACCOUNT, acc }
+  },
+  setCurrentRoute(route) {
+    return { type: types.SET_CURRENT_ROUTE, route }
   }
 };
 
@@ -147,7 +151,8 @@ const initialState = {
   topChoices: [],
   allMessages: [],
   deepLinkRoute: null,
-  acc: null
+  acc: null,
+  route: null
 };
 
 storeData = async (key, value) => {
@@ -162,21 +167,22 @@ const reducer = (state = initialState, action) => {
   const { type, user, token } = action;
   const { theme, layer } = action;
   const { isViewing, request, defaultAddress } = action;
-  const {messengerGroup, messagesOnGroup} = action;
-  const {messages, unread, message} = action;
+  const { messengerGroup, messagesOnGroup } = action;
+  const { messages, unread, message } = action;
   const { statusSearch } = action;
   const { createStatus } = action;
-  const {location, size} = action;
-  const {deviceLocation} = action;
-  const {tempMembers, range} = action;
-  const {showSettings} = action;
-  const {currentTitle} = action;
-  const {selects} = action;
-  const {comments} = action;
-  const {topChoices} = action;
-  const {allMessages} = action;
-  const {deepLinkRoute} = action;
-  const {acc} = action;
+  const { location, size } = action;
+  const { deviceLocation } = action;
+  const { tempMembers, range } = action;
+  const { showSettings } = action;
+  const { currentTitle } = action;
+  const { selects } = action;
+  const { comments } = action;
+  const { topChoices } = action;
+  const { allMessages } = action;
+  const { deepLinkRoute } = action;
+  const { acc } = action;
+  const { route } = action;
   switch (type) {
     case types.LOGOUT:
       AsyncStorage.clear();
@@ -185,7 +191,7 @@ const reducer = (state = initialState, action) => {
       storeData('token', token);
       console.log('LOGIN', true);
       Data.setToken(token);
-      return {...state, user, token};
+      return { ...state, user, token };
     case types.UPDATE_USER:
       return {
         ...state,
@@ -200,16 +206,16 @@ const reducer = (state = initialState, action) => {
       storeData('gradient', JSON.stringify(theme.gradient));
       Color.setPrimary(theme.primary);
       Color.setSecondary(theme.secondary);
-      Color.setTertiary(theme.tertiary);  
+      Color.setTertiary(theme.tertiary);
       Color.setFourth(theme.fourth);
       console.log('[THEME::]', theme.primary);
-      if(theme.primary === '#4CCBA6'){
+      if (theme.primary === '#4CCBA6') {
         Color.setGradient(['#8ae6cc', '#2bb58d', '#0ead7f'])
-      }else if (theme.primary === '#FFCC00'){
+      } else if (theme.primary === '#FFCC00') {
         Color.setGradient(['#ffeb96', '#FFCC00', '#ffbb00'])
-      }else if(theme.primary === '#F88BFF'){
+      } else if (theme.primary === '#F88BFF') {
         Color.setGradient(['#eb97f0', '#eb97f0', '#f22bff'])
-      }else{
+      } else {
         Color.setGradient(['#9276E6', '#9276E6', '#5741D7'])
       }
       return {
@@ -318,48 +324,49 @@ const reducer = (state = initialState, action) => {
     case types.SET_DEVICE_LOCATION:
       return {
         ...state,
-        deviceLocation};
-    case types.SET_DEFAULT_ADDRESS: 
+        deviceLocation
+      };
+    case types.SET_DEFAULT_ADDRESS:
       return {
         ...state,
         defaultAddress
       };
-    case types.SET_SIZE: 
+    case types.SET_SIZE:
       return {
         ...state,
         size
       }
-    case types.SET_TEMP_MEMBERS: 
+    case types.SET_TEMP_MEMBERS:
       return {
         ...state,
         tempMembers
       }
-    case types.SET_SHOW_SETTINGS: 
+    case types.SET_SHOW_SETTINGS:
       return {
         ...state,
         showSettings
       }
-    case types.SET_CURRENT_TITLE: 
+    case types.SET_CURRENT_TITLE:
       return {
         ...state,
         currentTitle
       }
-    case types.SET_SELECTED: 
+    case types.SET_SELECTED:
       return {
         ...state,
         selects
       }
-    case types.SET_COMMENTS: 
+    case types.SET_COMMENTS:
       return {
         ...state,
         comments
       }
-    case types.SET_TOP_CHOICES: 
+    case types.SET_TOP_CHOICES:
       return {
         ...state,
         topChoices
       }
-    case types.SET_ALL_MESSAGES: 
+    case types.SET_ALL_MESSAGES:
       return {
         ...state,
         allMessages
@@ -374,8 +381,13 @@ const reducer = (state = initialState, action) => {
         ...state,
         acc
       }
+    case types.SET_CURRENT_ROUTE:
+      return {
+        ...state,
+        route
+      }
     default:
-      return {...state, nav: state.nav};
+      return { ...state, nav: state.nav };
   }
 };
 export default reducer;

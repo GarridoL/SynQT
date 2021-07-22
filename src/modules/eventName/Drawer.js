@@ -13,7 +13,12 @@ class HeaderOptions extends Component {
     super(props);
   }
   back = () => {
-    this.props.navigationProps.pop()
+    if(this.props.state.route !== null) {
+       this.props.navigationProps.navigate('historyStack', { title: 'Upcoming' })
+       this.props.setCurrentRoute(null);
+    } else {
+      this.props.navigationProps.pop()
+    }
   };
   render() {
     const { theme } = this.props.state;
@@ -38,7 +43,9 @@ const mapStateToProps = (state) => ({state: state});
 
 const mapDispatchToProps = (dispatch) => {
   const {actions} = require('@redux');
-  return {};
+  return {
+    setCurrentRoute: (route) => dispatch(actions.setCurrentRoute(route)),
+  };
 };
 let HeaderOptionsConnect  = connect(mapStateToProps, mapDispatchToProps)(HeaderOptions);
 
