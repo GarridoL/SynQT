@@ -46,7 +46,6 @@ class History extends Component {
   }
 
   redirect = (route, item) => {
-    console.log(this.props.navigation.state?.params, '--params')
     this.props.navigation.navigate(route, {
       title: 'Upcoming',
       buttonTitle: 'Cancel',
@@ -194,13 +193,6 @@ class History extends Component {
       <View style={[Style.MainContainer, {
         backgroundColor: Color.containerBackground
       }]}>
-        {/* <View style={[BasicStyles.paginationHolder, { marginTop: 10 }]}>
-          <Pagination
-          activeIndex={activeIndex}
-          onChange={(index) => this.onPageChange(index)}
-          pages={paginationProps}
-          />
-        </View> */}
         <ScrollView>
           <View style={{
             marginTop: 10
@@ -247,21 +239,6 @@ class History extends Component {
             </View>
           </View>
           {this.state.data.length > 0 && this.renderData(this.state.data)}
-          {/* <PagerProvider activeIndex={activeIndex}>
-          {this.state.isLoading ? <Spinner mode="overlay" /> : null}
-          <Pager panProps={{ enabled: false }}>
-            <View style={Style.sliderContainer}>
-              {this.state.data.length > 0 && this.renderData(this.state.data)}
-            </View>
-            <View style={Style.sliderContainer}>
-              {this.state.data.length > 0 && this.renderData(this.state.data)}
-            </View>
-
-            <View style={Style.sliderContainer}>
-              {this.state.data.length > 0 && this.renderData(this.state.data)}
-            </View>
-          </Pager>
-        </PagerProvider> */}
         </ScrollView>
         {this.state.isLoading ? <Spinner mode="overlay" /> : null}
       </View>
