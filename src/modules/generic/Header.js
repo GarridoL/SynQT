@@ -28,22 +28,18 @@ class Header extends Component {
     return (
       <View
         style={{
-          flex: 1,
           flexDirection: 'row',
           alignItems: 'center',
           width: width,
-          elevation: BasicStyles.elevation
+          // elevation: routeName === 'Status' ? BasicStyles.elevation : -2,
+          backgroundColor: Color.white,
+          height: 60
         }}>
         <TouchableOpacity
           onPress={() => {
             this.props.navigation.toggleDrawer()
           }}
           style={{
-            height: 50,
-            width: 50,
-            borderRadius: 25,
-            justifyContent: 'center',
-            alignItems: 'center',
             zIndex: 1000,
             elevation: routeName === 'Status' ? 5 : 0
           }}
@@ -63,8 +59,7 @@ class Header extends Component {
         {
           routeName === 'Status' && (
             <View style={{
-              flex: 1,
-              height: 55,
+              height: 60,
               flexDirection: 'row',
               width: width,
               justifyContent: 'center',
@@ -73,7 +68,7 @@ class Header extends Component {
               paddingLeft: 20,
               paddingRight: 25,
               backgroundColor: Color.white,
-              elevation: BasicStyles.elevation
+              elevation: -2
             }}>
               <View style={{
                 height: 40,
@@ -83,7 +78,6 @@ class Header extends Component {
                 width: '75%',
                 marginLeft: '-10%',
                 justifyContent: 'center',
-                backgroundColor: Color.containerBackground
               }}>
                 <TextInput
                   style={{

@@ -599,7 +599,10 @@ class MessagesV3 extends Component {
     return (
       <View style={{
         flexDirection: 'row',
-        elevation: BasicStyles.elevation
+        elevation: BasicStyles.elevation,
+        height: 60,
+        justifyContent: 'center',
+        alignItems: 'center'
       }}>
         <TouchableOpacity
           onPress={() => this.handleChoosePhoto()}
@@ -689,7 +692,8 @@ class MessagesV3 extends Component {
     const { messengerGroup, user, isViewing } = this.props.state;
     return (
       <SafeAreaView style={{
-        backgroundColor: Color.containerBackground
+        backgroundColor: Color.containerBackground,
+        marginTop: 10
       }}>
         {
           // ON DEPOSITS (IF CONVERSATION IS NOT YET AVAILABLE)

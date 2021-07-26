@@ -72,7 +72,9 @@ class Groups extends Component {
   }
 
   retrieve = (flag) => {
-    this.retrieveConnections();
+    if(!flag) {
+      this.retrieveConnections();
+    }
     const { user } = this.props.state;
     if (user == null) {
       return
@@ -277,7 +279,6 @@ class Groups extends Component {
                     width: 50,
                     height: 50,
                     borderRadius: 50,
-                    borderColor: Color.primary,
                     borderWidth: 3,
                     overflow: "hidden",
                     justifyContent: 'center',
@@ -387,6 +388,7 @@ class Groups extends Component {
 
   render() {
     const { isLoading } = this.state;
+    const {theme} = this.props.state;
     return (
       <View style={{
         flex: 1,

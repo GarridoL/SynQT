@@ -35,7 +35,13 @@ class HeaderOptions extends Component {
     const { data, status, isReserved } = this.props.navigationProps.state.params
     const { setShowSettings } = this.props;
     return (
-      <View style={{ width: width }}>
+      <View style={{
+        width: width,
+        height: 80,
+        justifyContent: 'center',
+        alignItems: 'center',
+        elevation: BasicStyles.elevation
+      }}>
         {
           data != null && (
             <View style={{
@@ -54,7 +60,7 @@ class HeaderOptions extends Component {
           <TouchableOpacity onPress={() => {
             if (status !== 'completed' && isReserved === false) {
               this.redirect('topChoiceStack')
-            } else if(status !== 'completed' && isReserved === true) {
+            } else if (status !== 'completed' && isReserved === true) {
               Alert.alert('', 'You already have an existing reservation.')
             }
           }}>
@@ -94,11 +100,17 @@ class HeaderOptions extends Component {
   render() {
     const { theme } = this.props.state;
     return (
-      <View style={{ 
-          flexDirection: 'row'
-        }}
+      <View style={{
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 60,
+        backgroundColor: Color.white,
+        elevation: BasicStyles.elevation,
+      }}
       >
-        <TouchableOpacity onPress={this.back.bind(this)}
+        <TouchableOpacity style={{
+        }} onPress={this.back.bind(this)}
         >
           <FontAwesomeIcon
             color={theme ? theme.primary : Color.primary}

@@ -63,7 +63,7 @@ class Cards extends React.Component {
 
   retrieve = () => {
     const { data, offset, index } = this.props.navigation?.state?.params;
-    if(this.props.navigation?.state?.params?.fromRestaurantForm) {
+    if (this.props.navigation?.state?.params?.fromRestaurantForm) {
       this.setState({
         data: data,
         offset: offset,
@@ -141,7 +141,9 @@ class Cards extends React.Component {
       offset: this.state.offset1 > 0 ? (this.state.offset1 * this.state.limit1) : this.state.offset1,
       inventory_type: 'all'
     }
+    this.setState({isLoading: true})
     Api.request(Routes.productsRetrieve, parameter, response => {
+      this.setState({isLoading: false})
       if (response.data?.length > 0) {
         this.setState({
           offset1: this.state.offset1 + 1,
@@ -163,7 +165,7 @@ class Cards extends React.Component {
       offset1: 0,
       active: 0
     })
-    if(this.state.data?.length  > 5 && this.state.index === this.state.data?.length - 3) {
+    if (this.state.data?.length > 5 && this.state.index === this.state.data?.length - 3) {
       this.retrieveAgain();
     }
   }
@@ -184,7 +186,7 @@ class Cards extends React.Component {
           item['index'] = 0;
           temp.push(item);
         })
-        this.setState({ data: temp, offset: this.state.offset + this.state.limit});
+        this.setState({ data: temp, offset: this.state.offset + this.state.limit });
       }
     },
       error => {
@@ -213,7 +215,7 @@ class Cards extends React.Component {
       console.log('not on top choice yet!');
       let temp = this.state.topChoices;
       temp.push(id);
-      this.setState({topChoices: temp})
+      this.setState({ topChoices: temp })
       let parameter = {
         account_id: this.props.state.user.id,
         payload: 'merchant_id',
@@ -228,7 +230,7 @@ class Cards extends React.Component {
           top.push(id);
           // this.deleteFromNotification(this.props.id);
           this.props.setTopChoices(top);
-          if(status === 'super-like') {
+          if (status === 'super-like') {
             this.startExplosion();
           }
         }
@@ -293,7 +295,7 @@ class Cards extends React.Component {
   renderCard = (data) => {
     const { theme } = this.props.state;
     return (
-      <View style={{ flex: 1, marginTop: '91%' }}>
+      <View style={{ flex: 1, marginTop: '87%' }}>
         <CardStack
           style={styles.content}
           loop={true}
@@ -301,9 +303,9 @@ class Cards extends React.Component {
           ref={swiper => {
             this.swiper = swiper
           }}
-          onSwiped={() => {console.log('hi');}}
-          onSwipedLeft={() => {this.swipeHandler()}}
-          onSwipedRight={() => {this.addToTopChoice('like', this.state.data[this.state.index].id); this.swipeHandler()}}
+          onSwiped={() => { console.log('hi'); }}
+          onSwipedLeft={() => { this.swipeHandler() }}
+          onSwipedRight={() => { this.addToTopChoice('like', this.state.data[this.state.index].id); this.swipeHandler() }}
           disableBottomSwipe={true}
           disableTopSwipe={true}
         >
@@ -324,8 +326,9 @@ class Cards extends React.Component {
                         flexDirection: 'row',
                         position: 'absolute',
                         padding: 5,
+                        alignItems: 'center',
                         justifyContent: 'center',
-                        alignItems: 'center'
+                        width: '100%'
                       }}>
                       {el?.featured_photos?.length > 0 && el?.featured_photos.map((item, index) => {
                         return (
@@ -334,7 +337,7 @@ class Cards extends React.Component {
                               margin: 1,
                               backgroundColor: this.state.active === index ? 'white' : '#b5b5b5',
                               height: 5,
-                              width: this.getWidth(el?.featured_photos),
+                              width: this.getWidth(el?.featured_photos) - 5,
                               borderRadius: 10
                             }}
                           ></View>)
@@ -503,18 +506,26 @@ class Cards extends React.Component {
       <View
         style={{
           marginTop: '76%',
-          zIndex: 100
+          zIndex: 100,
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
       >
-        <View style={{ padding: 10, width: width }}>
+        <View style={{
+          width: width,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
           <View style={{
             marginTop: 20,
-            textAlign: 'center',
-            justifyContent: 'center'
+            paddingLeft: 15,
+            paddingRight: 15
           }}>
             <Tab level={1} choice={['Menu', 'Information']} onClick={this.choiceHandler}></Tab>
           </View>
-          <View style={this.props.bottomFloatButton === true ? { marginBottom: 200 } : { marginBottom: 0 }}>
+          <View style={{
+            marginBottom: this.props.bottomFloatButton === true ? 200 : 0
+          }}>
             {this.state.choice == 'Menu' ? (
               <View>
                 <MenuCards data={this.state.products.length > 0 && this.state.products} />
@@ -529,20 +540,27 @@ class Cards extends React.Component {
                 )}
               </View>
             ) :
+            <View style={{
+              width: width - 50
+            }}>
               <Information
                 name={this.state.data[this.state.index]?.name || 'No data'}
                 hours={this.state.data[this.state.index]?.schedule}
                 description={this.state.data[this.state.index]?.addition_informations || 'No business information.'}
-              />}
+              />
+            </View>
+            }
           </View>
           {this.state.isLoading ? <Spinner mode="overlay" /> : null}
         </View>
         <View style={{
-          marginBottom: 50
+          marginBottom: 50,
+          width: width,
+          backgroundColor: 'red'
         }}>
-        {this.props.bottomFloatButton === true > 0 && (
-          <FloatingButton onClose={() => { this.swiper.swipeLeft(); }} onClick={() => { this.addToTopChoice('like', this.state.data[this.state.index].id); this.swiper.swipeRight(); }}></FloatingButton>
-        )}
+          {this.props.bottomFloatButton === true > 0 && (
+            <FloatingButton onClose={() => { this.swiper.swipeLeft(); }} onClick={() => { this.addToTopChoice('like', this.state.data[this.state.index].id); this.swiper.swipeRight(); }}></FloatingButton>
+          )}
         </View>
       </View>
     )
@@ -551,34 +569,38 @@ class Cards extends React.Component {
   render() {
     const { isLoading } = this.state;
     return (
-      <View style={{ backgroundColor: Color.containerBackground }}>
+      <View style={{ backgroundColor: Color.containerBackground, padding: 15 }}>
         <Header navigation={this.props.navigation} status={this.state.index === this.state.data?.length - 2 ? true : false} {...this.props} goBack={() => { this.swipeHandler() }}></Header>
-        <ScrollView style={{
-          marginTop: 40,
+        <View style={{
+          borderRadius: 20,
+          marginTop: 55,
           height: height,
-          backgroundColor: Color.containerBackground
-        }} showsVerticalScrollIndicator={false}
-          onScroll={(event) => {
-            let scrollingHeight = event.nativeEvent.layoutMeasurement.height + event.nativeEvent.contentOffset.y
-            let totalHeight = event.nativeEvent.contentSize.height
-            if (event.nativeEvent.contentOffset.y <= 0) {
-              if (isLoading == false) {
-                // this.retrieve(false) 
+          overflow: 'hidden'
+        }}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            onScroll={(event) => {
+              let scrollingHeight = event.nativeEvent.layoutMeasurement.height + event.nativeEvent.contentOffset.y
+              let totalHeight = event.nativeEvent.contentSize.height
+              if (event.nativeEvent.contentOffset.y <= 0) {
+                if (isLoading == false) {
+                  // this.retrieve(false) 
+                }
               }
-            }
-            if (Math.round(scrollingHeight) >= Math.round(totalHeight)) {
-              if (isLoading == false && this.state.choice === 'Menu') {
-                this.retrieveProducts();
+              if (Math.round(scrollingHeight) >= Math.round(totalHeight)) {
+                if (isLoading == false && this.state.choice === 'Menu') {
+                  this.retrieveProducts();
+                }
               }
-            }
-          }}
-        >
-          {this.renderCard(this.state.data)}
-        </ScrollView>
+            }}
+          >
+            {this.renderCard(this.state.data)}
+          </ScrollView>
+        </View>
         {this.state.isLoading1 ? <Spinner mode="overlay" /> : null}
         <ConfettiCannon
           count={200}
-          origin={{x: -10, y: 0}}
+          origin={{ x: -10, y: 0 }}
           autoStart={false}
           ref={ref => (this.explosion = ref)}
         />

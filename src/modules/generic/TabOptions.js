@@ -34,7 +34,8 @@ class Tab extends Component {
                     backgroundColor: this.state.choice == this.props.choice[0] ? (theme ? theme.primary : Color.primary) : 'white',
                     elevation: BasicStyles.elevation,
                     borderTopLeftRadius: 9,
-                    borderBottomLeftRadius: 9
+                    borderBottomLeftRadius: 9,
+                    borderColor: theme ? theme.primary : Color.primary,
                   }
                 ]}
               >
@@ -51,7 +52,8 @@ class Tab extends Component {
                     backgroundColor: this.state.choice == this.props.choice[1] ? (theme ? theme.primary : Color.primary) : 'white',
                     elevation: BasicStyles.elevation,
                     borderTopRightRadius: 10,
-                    borderBottomRightRadius: 10
+                    borderBottomRightRadius: 10,
+                    borderColor: theme ? theme.primary : Color.primary,
                   }
                 ]}
               >
@@ -71,7 +73,8 @@ class Tab extends Component {
               <View style={[
                 Style.Information, {
                   width: '100%',
-                  borderRadius: 10
+                  borderRadius: 10,
+                  borderColor: theme ? theme.primary : Color.primary,
                 }]}>
                 <Text style={{ color: Color.primary, fontWeight: 'bold' }}>{this.props.choice[0]}</Text>
               </View>

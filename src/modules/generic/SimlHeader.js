@@ -48,6 +48,7 @@ class Header extends Component {
           justifyContent: 'center',
           width: '100%',
           padding: 10,
+          height: 60,
           backgroundColor: Color.white
         }}>
 
