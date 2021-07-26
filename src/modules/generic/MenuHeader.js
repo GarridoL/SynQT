@@ -38,6 +38,7 @@ class Header extends Component {
     return (
       <View style={{
         flex: 1,
+        height: 60,
         flexDirection: 'row',
         width: width,
         position: 'absolute',

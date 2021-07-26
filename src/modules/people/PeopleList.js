@@ -85,7 +85,7 @@ class Connections extends Component {
               })
               let temp = []
               response.data.map((i, ind) => {
-                if(id.includes(i?.account?.id) === false) {
+                if (id.includes(i?.account?.id) === false) {
                   temp.push(i);
                 }
               })
@@ -94,7 +94,12 @@ class Connections extends Component {
                 offset: flag == false ? 1 : (this.state.offset + 1)
               })
             }
-          })
+          },
+            error => {
+              this.setState({ isLoading: false })
+              console.log({ error });
+            }
+          );
         } else {
           response.data.map(i => {
             tempMembers.length > 0 && tempMembers.map(item => {
@@ -116,7 +121,12 @@ class Connections extends Component {
           offset: flag == false ? 0 : this.state.offset
         })
       }
-    });
+    },
+      error => {
+        this.setState({ isLoading: false })
+        console.log({ error });
+      }
+    );
   }
 
   addMember = () => {
@@ -136,7 +146,12 @@ class Connections extends Component {
           this.props.setTempMembers([]);
         }
       });
-    })
+    },
+      error => {
+        this.setState({ isLoading: false })
+        console.log({ error });
+      }
+    );
   }
 
   render() {

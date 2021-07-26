@@ -107,7 +107,7 @@ class PostCard extends Component {
               {data.date}
             </Text>
           </View>
-          {data.user.id === this.props.state.user.id && show === true && <TouchableOpacity onPress={() => { this.setState({ options: !this.state.options }) }}>
+          {data?.user?.id === this.props.state.user.id && show === true && <TouchableOpacity onPress={() => { this.setState({ options: !this.state.options }) }}>
             <FontAwesomeIcon icon={faEllipsisH} />
           </TouchableOpacity>}
           {this.state.options === true && show === true && (<TouchableOpacity style={{
@@ -228,6 +228,7 @@ class PostCard extends Component {
 
   renderComments = (comments) => {
     const { user } = this.props.state;
+    console.log(user, '---');
     return (
       <View style={{
         width: '100%',
@@ -299,10 +300,9 @@ class PostCard extends Component {
         ...BasicStyles.standardWidth,
         borderRadius: BasicStyles.standardBorderRadius,
         borderColor: Color.gray,
-        // borderWidth: .3,
+        borderWidth: .3,
         marginBottom: 20,
-        marginTop: 20,
-        backgroundColor: Color.white
+        marginTop: 20
       }}>
         {this.renderHeader(data, true)}
         {this.renderBody(data)}

@@ -50,9 +50,9 @@ class Footer extends Component {
             width: '100%',
             position: 'absolute',
             bottom: 0,
-            height: 50,
+            height: 60,
             backgroundColor: Color.white,
-            elevation: BasicStyles.elevation
+            elevation: 0
           }}>
           {
             layer == 0 && (

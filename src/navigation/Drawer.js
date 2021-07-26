@@ -81,6 +81,7 @@ const _StackNavigator = createStackNavigator({
         headerStyle: {
           shadowColor: 'transparent',
           elevation: 0,
+          height: 60,
           borderBottomWidth: 0,
           justifyContent: 'center',
           alignItems: 'center',

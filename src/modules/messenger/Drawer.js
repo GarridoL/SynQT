@@ -40,7 +40,8 @@ const MainMessageStack = createStackNavigator({
       headerLeft: <HeaderOptionsConnect navigationProps={navigation} />,
       headerStyle: {
         elevation: BasicStyles.elevation,
-        backgroundColor: Color.white
+        backgroundColor: Color.white,
+        height: 60
       },
       headerTitleContainerStyle: {
         justifyContent: 'center',

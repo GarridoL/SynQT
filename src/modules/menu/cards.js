@@ -17,7 +17,13 @@ class Cards extends Component {
     return (
       this.props.data && this.props.data.map((u, i) => {
         return (
-          <View style={Style.Container}>
+          <View style={{
+            padding: 22,
+            flexDirection: 'row',
+            overflow: 'hidden',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
             {u.images?.length > 0 ? (
               <Image
                 style={Style.Image}
@@ -35,7 +41,7 @@ class Cards extends Component {
               )}
             <View style={Style.Text}>
               <Text style={Style.Title} adjustsFontSizeToFit numberOfLines={1}>{u.title}</Text>
-              <Text style={{color: theme ? theme.primary : Color.primary}} numberOfLines={1} adjustsFontSizeToFit>{u.price?.length > 0 ? u.price[0].currency + ' ' + u.price[0].price : 'No specific price.'}</Text>
+              <Text style={{ color: theme ? theme.primary : Color.primary }} numberOfLines={1} adjustsFontSizeToFit>{u.price?.length > 0 ? u.price[0].currency + ' ' + u.price[0].price : 'No specific price.'}</Text>
               <Text style={Style.Description} numberOfLines={3}>{u.description}</Text>
             </View>
           </View>
