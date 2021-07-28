@@ -230,9 +230,12 @@ class History extends Component {
                 fontWeight: 'bold',
                 color: Color.primary,
                 marginBottom: 10,
+                textAlign: 'center',
                 fontSize: BasicStyles.standardTitleFontSize
               }}>{this.props.navigation.state?.params?.title === 'Upcoming' ? "Here's what's coming!" : "Here's your previous activities!"}</Text>
-              <Text>{this.props.navigation.state?.params?.title === 'Upcoming' ? "You have upcoming restaurant reservations from your SYNQT! Click the photo and see where to go." : "You have the following completed SYNQT actvities! Click the photo and see where you’ve gone."}</Text>
+              <Text style={{
+                textAlign: 'center'
+              }}>{this.props.navigation.state?.params?.title === 'Upcoming' ? "You have upcoming restaurant reservations from your SYNQT! Click the photo and see where to go." : "You have the following completed SYNQT actvities! Click the photo and see where you’ve gone."}</Text>
             </View>
           </View>
           {this.state.data.length > 0 && this.renderData(this.state.data)}

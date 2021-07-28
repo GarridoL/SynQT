@@ -205,7 +205,7 @@ class HomePage extends Component {
               alignItems: 'center',
               backgroundColor: Color.white
             }}
-            elevation={5}
+            elevation={1}
           >
             <TouchableOpacity
               onPress={() => this.redirect('restaurantStack')}
@@ -233,7 +233,8 @@ class HomePage extends Component {
             elevation: BasicStyles.elevation,
             borderRadius: 25,
             backgroundColor: Color.white
-          }}>
+          }}
+          elevation={1}>
             <TouchableOpacity
               onPress={() => this.redirect('historyStack')}
               style={{

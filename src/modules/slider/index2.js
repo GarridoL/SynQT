@@ -214,7 +214,7 @@ class Slider2 extends Component {
               <Text style={{ color: 'white', marginRight: 10, marginTop: 2 }}>Terms and Conditions</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => { this.navigateToScreen('Privacy') }} style={{ flexDirection: 'row-reverse', paddingTop: 5 }}>
+          <TouchableOpacity onPress={() => { this.navigateToScreen('Privacy') }} style={{ flexDirection: 'row-reverse', paddingTop: 10 }}>
 
             <View style={styles.inActiveDrawer}>
               <FontAwesomeIcon style={{
@@ -224,7 +224,7 @@ class Slider2 extends Component {
               <Text style={{ color: 'white', marginRight: 10, marginTop: 2 }}>Privacy Policy</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => { this.logoutAction() }} style={{ flexDirection: 'row-reverse', paddingTop: 5 }}>
+          <TouchableOpacity onPress={() => { this.logoutAction() }} style={{ flexDirection: 'row-reverse', paddingTop: 10 }}>
             <FontAwesomeIcon style={[styles.navItemStyle, { color: 'white', marginRight: 10 }]} icon={faSignOutAlt} size={BasicStyles.iconSize}></FontAwesomeIcon>
             <Text style={{ color: Color.white, marginRight: 10 }}>Logout</Text>
           </TouchableOpacity>
