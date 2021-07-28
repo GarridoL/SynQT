@@ -145,8 +145,8 @@ class HomePage extends Component {
                 >
                   <TouchableOpacity
                     style={{
-                      height: 120,
-                      width: 120,
+                      height: 121,
+                      width: 121,
                       borderRadius: 100,
                       borderColor: Color.white,
                       borderWidth: user?.account_profile && user?.account_profile.url ? 0 : 2
