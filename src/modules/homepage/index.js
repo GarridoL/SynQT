@@ -95,12 +95,12 @@ class HomePage extends Component {
           }}
         >
           <View style={{
-            height: '27%',
+            height: '25%',
             justifyContent: 'center',
             width: '90%',
             marginLeft: 'auto',
             marginRight: 'auto',
-            marginTop: '20%',
+            marginTop: '10%',
             padding: 10,
             alignItems: 'center'
           }}>
@@ -109,7 +109,10 @@ class HomePage extends Component {
               locations={[0, 0.5, 1]}
               start={{ x: 1, y: 0 }}
               end={{ x: 1, y: 1 }}
-              style={{ borderRadius: 40, elevation: 10 }}
+              style={{
+                borderRadius: 40,
+                elevation: 10
+              }}
             >
               <View style={{
                 flexDirection: 'row',
@@ -131,7 +134,7 @@ class HomePage extends Component {
                     color: Color.white,
                     textAlign: 'center',
                     fontSize: 23
-                  }}>HI GUYS! WHERE SHALL WE GO?</Text>
+                  }}>Hi guys! Where shall we go?</Text>
                 </View>
                 <View style={{
                   justifyContent: 'center',

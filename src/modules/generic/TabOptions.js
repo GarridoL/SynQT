@@ -67,7 +67,6 @@ class Tab extends Component {
             <View style={[
               Style.Tab, {
                 borderColor: theme ? theme.primary : Color.primary,
-                elevation: 1
               }
             ]}>
               <View style={[
