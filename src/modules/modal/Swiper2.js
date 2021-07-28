@@ -570,7 +570,7 @@ class Cards extends React.Component {
     const { isLoading } = this.state;
     return (
       <View style={{ backgroundColor: Color.containerBackground, padding: 15 }}>
-        <Header navigation={this.props.navigation} status={this.state.index === this.state.data?.length - 2 ? true : false} {...this.props} goBack={() => { this.swipeHandler() }}></Header>
+        <Header navigation={this.props.navigation} status={this.state.index === this.state.data?.length - 2 ? true : false} {...this.props} goBack={() => { this.swiper.swipeLeft(); }}></Header>
         <View style={{
           borderRadius: 20,
           marginTop: 55,
