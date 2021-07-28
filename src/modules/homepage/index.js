@@ -82,25 +82,20 @@ class HomePage extends Component {
 
   render() {
     const { user, theme } = this.props.state;
-    console.log('[USER::]', user);
     return (
       <View style={[Style.MainContainer, {
         flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: height
       }]}>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}
-        >
           <View style={{
             height: '20%',
             justifyContent: 'center',
             width: '90%',
             marginLeft: 'auto',
             marginRight: 'auto',
-            marginTop: '10%',
+            marginTop: '8%',
             padding: 10,
             alignItems: 'center'
           }}>
@@ -253,8 +248,6 @@ class HomePage extends Component {
               }}>Upcoming</Text>
             </TouchableOpacity>
           </View>
-        </ScrollView>
-
         <Footer layer={0} {...this.props} />
       </View>
     );
