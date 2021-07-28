@@ -79,7 +79,12 @@ class Settings extends Component {
           }}
         >{this.state.isLoading ? <Spinner mode="full" /> : null}
           <View style={styles.centeredView}>
-            <View style={styles.modalView}>
+            <View style={[
+              styles.modalView, {
+                borderWidth: .3,
+                borderColor: Color.gray
+              }
+            ]}>
               <View style={{ alignItems: 'center' }}>
                 <Text style={{
                   fontWeight: 'bold',

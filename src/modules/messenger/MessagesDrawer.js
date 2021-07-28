@@ -106,7 +106,8 @@ class HeaderOptions extends Component {
         alignItems: 'center',
         height: 60,
         backgroundColor: Color.white,
-        elevation: BasicStyles.elevation,
+        borderBottomWidth: .3,
+        borderColor: Color.gray,
       }}
       >
         <TouchableOpacity style={{
