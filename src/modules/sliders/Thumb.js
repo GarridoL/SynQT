@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import { View } from 'react-native';
 import {connect} from 'react-redux';
+import {Color} from 'common';
 
 const THUMB_RADIUS = 12;
 
