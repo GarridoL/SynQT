@@ -95,7 +95,7 @@ class HomePage extends Component {
           }}
         >
           <View style={{
-            height: '25%',
+            height: '20%',
             justifyContent: 'center',
             width: '90%',
             marginLeft: 'auto',
@@ -111,7 +111,8 @@ class HomePage extends Component {
               end={{ x: 1, y: 1 }}
               style={{
                 borderRadius: 40,
-                elevation: 10
+                elevation: 10,
+                height: 180
               }}
             >
               <View style={{
@@ -125,11 +126,12 @@ class HomePage extends Component {
                   justifyContent: 'center',
                   alignItems: 'center'
                 }}>
-                  <Text adjustsFontSizeToFit style={{
+                  <Text style={{
                     color: Color.white,
                     textAlign: 'center'
-                  }}>{user?.account_information?.first_name ? user?.account_information?.first_name + '  ' + user?.account_information?.last_name : user?.username}</Text>
-                  <Text adjustsFontSizeToFit style={{
+                  }}
+                  numberOfLines={4}>{user?.account_information?.first_name ? user?.account_information?.first_name + '  ' + user?.account_information?.last_name : user?.username}</Text>
+                  <Text style={{
                     fontWeight: 'bold',
                     color: Color.white,
                     textAlign: 'center',
@@ -139,7 +141,7 @@ class HomePage extends Component {
                 <View style={{
                   justifyContent: 'center',
                   alignItems: 'center',
-                  height: 200,
+                  height: 180,
                   width: '50%'
                 }}
                 >
@@ -202,8 +204,8 @@ class HomePage extends Component {
           <View style={{
               marginTop: '20%',
               borderRadius: 100,
-              height: 150,
-              width: 150,
+              height: 130,
+              width: 130,
               justifyContent: 'center',
               alignItems: 'center',
               backgroundColor: Color.white
@@ -221,7 +223,7 @@ class HomePage extends Component {
                 justifyContent: 'center',
                 alignItems: 'center'
               }}>
-              <FontAwesomeIcon icon={faUtensils} size={60} color={theme ? theme.primary : Color.primary} />
+              <FontAwesomeIcon icon={faUtensils} size={50} color={theme ? theme.primary : Color.primary} />
             </TouchableOpacity>
           </View>
 
@@ -231,7 +233,7 @@ class HomePage extends Component {
             width: '50%',
             marginLeft: '25%',
             marginRight: '25%',
-            marginTop: 50,
+            marginTop: '15%',
             marginBottom: 100,
             elevation: BasicStyles.elevation,
             borderRadius: 25,

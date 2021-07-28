@@ -189,6 +189,7 @@ class History extends Component {
   }
   render() {
     const { isVisible } = this.state;
+    const {theme} = this.props.state;
     return (
       <View style={[Style.MainContainer, {
         backgroundColor: Color.containerBackground
@@ -208,15 +209,11 @@ class History extends Component {
                   width: 120,
                   borderRadius: 70,
                   borderWidth: 1,
-                  borderColor: Color.gray,
+                  borderColor: theme ? theme.primary : Color.primary,
                   justifyContent: 'center',
                   alignItems: 'center',
                   backgroundColor: 'white',
-                  elevation: 3,
-                  shadowColor: Color.primary,
-                  shadowOffset: { width: 0, height: 3 },
-                  shadowOpacity: 0.5,
-                  shadowRadius: 5,
+                  elevation: 1,
                   marginBottom: 10
                 }}>
                 <FontAwesomeIcon icon={faUtensils} size={60} color={Color.primary} />
