@@ -183,7 +183,7 @@ class Slider2 extends Component {
                     styles.navSectionStyle, {
                       flexDirection: 'row-reverse',
                       width: '200%',
-                      paddingBottom: 10
+                      paddingBottom: 5
                     }
                   ]}
                     key={index}
@@ -204,7 +204,7 @@ class Slider2 extends Component {
           </View>
         </View>
         <View style={[styles.navSectionStyle, { borderBottomWidth: 0, flex: 1, position: 'absolute', bottom: 15, borderTopWidth: 1, width: width, borderColor: 'white', paddingRight: 10 }]}>
-          <TouchableOpacity onPress={() => { this.navigateToScreen('TermsAndConditions') }} style={{ flexDirection: 'row-reverse', paddingTop: 20 }}>
+          <TouchableOpacity onPress={() => { this.navigateToScreen('TermsAndConditions') }} style={{ flexDirection: 'row-reverse', paddingTop: 5 }}>
 
             <View style={styles.inActiveDrawer}>
               <FontAwesomeIcon style={{
@@ -214,7 +214,7 @@ class Slider2 extends Component {
               <Text style={{ color: 'white', marginRight: 10, marginTop: 2 }}>Terms and Conditions</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => { this.navigateToScreen('Privacy') }} style={{ flexDirection: 'row-reverse', paddingTop: 20 }}>
+          <TouchableOpacity onPress={() => { this.navigateToScreen('Privacy') }} style={{ flexDirection: 'row-reverse', paddingTop: 10 }}>
 
             <View style={styles.inActiveDrawer}>
               <FontAwesomeIcon style={{
@@ -224,7 +224,7 @@ class Slider2 extends Component {
               <Text style={{ color: 'white', marginRight: 10, marginTop: 2 }}>Privacy Policy</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => { this.logoutAction() }} style={{ flexDirection: 'row-reverse', paddingTop: 20 }}>
+          <TouchableOpacity onPress={() => { this.logoutAction() }} style={{ flexDirection: 'row-reverse', paddingTop: 10 }}>
             <FontAwesomeIcon style={[styles.navItemStyle, { color: 'white', marginRight: 10 }]} icon={faSignOutAlt} size={BasicStyles.iconSize}></FontAwesomeIcon>
             <Text style={{ color: Color.white, marginRight: 10 }}>Logout</Text>
           </TouchableOpacity>

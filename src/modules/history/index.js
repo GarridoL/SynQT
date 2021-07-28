@@ -189,6 +189,7 @@ class History extends Component {
   }
   render() {
     const { isVisible } = this.state;
+    const {theme} = this.props.state;
     return (
       <View style={[Style.MainContainer, {
         backgroundColor: Color.containerBackground
@@ -208,15 +209,11 @@ class History extends Component {
                   width: 120,
                   borderRadius: 70,
                   borderWidth: 1,
-                  borderColor: Color.gray,
+                  borderColor: theme ? theme.primary : Color.primary,
                   justifyContent: 'center',
                   alignItems: 'center',
                   backgroundColor: 'white',
-                  elevation: 3,
-                  shadowColor: Color.primary,
-                  shadowOffset: { width: 0, height: 3 },
-                  shadowOpacity: 0.5,
-                  shadowRadius: 5,
+                  elevation: 1,
                   marginBottom: 10
                 }}>
                 <FontAwesomeIcon icon={faUtensils} size={60} color={Color.primary} />
@@ -233,9 +230,12 @@ class History extends Component {
                 fontWeight: 'bold',
                 color: Color.primary,
                 marginBottom: 10,
+                textAlign: 'center',
                 fontSize: BasicStyles.standardTitleFontSize
               }}>{this.props.navigation.state?.params?.title === 'Upcoming' ? "Here's what's coming!" : "Here's your previous activities!"}</Text>
-              <Text>{this.props.navigation.state?.params?.title === 'Upcoming' ? "You have upcoming restaurant reservations from your SYNQT! Click the photo and see where to go." : "You have the following completed SYNQT actvities! Click the photo and see where you’ve gone."}</Text>
+              <Text style={{
+                textAlign: 'center'
+              }}>{this.props.navigation.state?.params?.title === 'Upcoming' ? "You have upcoming restaurant reservations from your SYNQT! Click the photo and see where to go." : "You have the following completed SYNQT actvities! Click the photo and see where you’ve gone."}</Text>
             </View>
           </View>
           {this.state.data.length > 0 && this.renderData(this.state.data)}

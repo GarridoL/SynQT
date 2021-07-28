@@ -31,7 +31,6 @@ class Header extends Component {
           flexDirection: 'row',
           alignItems: 'center',
           width: width,
-          // elevation: routeName === 'Status' ? BasicStyles.elevation : -2,
           backgroundColor: Color.white,
           height: 60
         }}>

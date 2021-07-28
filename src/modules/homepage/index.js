@@ -82,25 +82,20 @@ class HomePage extends Component {
 
   render() {
     const { user, theme } = this.props.state;
-    console.log('[USER::]', user);
     return (
       <View style={[Style.MainContainer, {
         flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: height
       }]}>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}
-        >
           <View style={{
-            height: '27%',
+            height: '20%',
             justifyContent: 'center',
             width: '90%',
             marginLeft: 'auto',
             marginRight: 'auto',
-            marginTop: '20%',
+            marginTop: '8%',
             padding: 10,
             alignItems: 'center'
           }}>
@@ -109,7 +104,11 @@ class HomePage extends Component {
               locations={[0, 0.5, 1]}
               start={{ x: 1, y: 0 }}
               end={{ x: 1, y: 1 }}
-              style={{ borderRadius: 40, elevation: 10 }}
+              style={{
+                borderRadius: 40,
+                elevation: 10,
+                height: 180
+              }}
             >
               <View style={{
                 flexDirection: 'row',
@@ -122,28 +121,29 @@ class HomePage extends Component {
                   justifyContent: 'center',
                   alignItems: 'center'
                 }}>
-                  <Text adjustsFontSizeToFit style={{
+                  <Text style={{
                     color: Color.white,
                     textAlign: 'center'
-                  }}>{user?.account_information?.first_name ? user?.account_information?.first_name + '  ' + user?.account_information?.last_name : user?.username}</Text>
-                  <Text adjustsFontSizeToFit style={{
+                  }}
+                  numberOfLines={4}>{user?.account_information?.first_name ? user?.account_information?.first_name + '  ' + user?.account_information?.last_name : user?.username}</Text>
+                  <Text style={{
                     fontWeight: 'bold',
                     color: Color.white,
                     textAlign: 'center',
                     fontSize: 23
-                  }}>HI GUYS! WHERE SHALL WE GO?</Text>
+                  }}>Hi guys! Where shall we go?</Text>
                 </View>
                 <View style={{
                   justifyContent: 'center',
                   alignItems: 'center',
-                  height: 200,
+                  height: 180,
                   width: '50%'
                 }}
                 >
                   <TouchableOpacity
                     style={{
-                      height: 120,
-                      width: 120,
+                      height: 121,
+                      width: 121,
                       borderRadius: 100,
                       borderColor: Color.white,
                       borderWidth: user?.account_profile && user?.account_profile.url ? 0 : 2
@@ -199,13 +199,13 @@ class HomePage extends Component {
           <View style={{
               marginTop: '20%',
               borderRadius: 100,
-              height: 150,
-              width: 150,
+              height: 130,
+              width: 130,
               justifyContent: 'center',
               alignItems: 'center',
               backgroundColor: Color.white
             }}
-            elevation={5}
+            elevation={1}
           >
             <TouchableOpacity
               onPress={() => this.redirect('restaurantStack')}
@@ -218,7 +218,7 @@ class HomePage extends Component {
                 justifyContent: 'center',
                 alignItems: 'center'
               }}>
-              <FontAwesomeIcon icon={faUtensils} size={60} color={theme ? theme.primary : Color.primary} />
+              <FontAwesomeIcon icon={faUtensils} size={50} color={theme ? theme.primary : Color.primary} />
             </TouchableOpacity>
           </View>
 
@@ -228,12 +228,13 @@ class HomePage extends Component {
             width: '50%',
             marginLeft: '25%',
             marginRight: '25%',
-            marginTop: 50,
+            marginTop: '15%',
             marginBottom: 100,
             elevation: BasicStyles.elevation,
             borderRadius: 25,
             backgroundColor: Color.white
-          }}>
+          }}
+          elevation={1}>
             <TouchableOpacity
               onPress={() => this.redirect('historyStack')}
               style={{
@@ -248,8 +249,6 @@ class HomePage extends Component {
               }}>Upcoming</Text>
             </TouchableOpacity>
           </View>
-        </ScrollView>
-
         <Footer layer={0} {...this.props} />
       </View>
     );

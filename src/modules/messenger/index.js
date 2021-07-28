@@ -62,9 +62,9 @@ class Groups extends Component {
       offset: 0,
       account_id: user.id
     }
-    this.setState({retrievingMembers: true});
+    this.setState({ retrievingMembers: true });
     Api.request(Routes.circleRetrieve, parameter, response => {
-      this.setState({retrievingMembers: false});
+      this.setState({ retrievingMembers: false });
       if (response.data.length > 0) {
         this.setState({ connections: response.data })
       }
@@ -72,7 +72,7 @@ class Groups extends Component {
   }
 
   retrieve = (flag) => {
-    if(!flag) {
+    if (!flag) {
       this.retrieveConnections();
     }
     const { user } = this.props.state;
@@ -364,6 +364,12 @@ class Groups extends Component {
         backgroundColor: Color.containerBackground
       }}>
         {
+          this.props.state.allMessages.length > 0 && user != null && <Text style={{
+            fontWeight: 'bold',
+            padding: 10
+          }}>{this.props.state.allMessages.length > 1 ? 'Conversations' : 'Conversation'}</Text>
+        }
+        {
           this.props.state.allMessages.length > 0 && user != null && (
             <FlatList
               data={this.props.state.allMessages}
@@ -388,18 +394,28 @@ class Groups extends Component {
 
   render() {
     const { isLoading } = this.state;
-    const {theme} = this.props.state;
+    const { theme } = this.props.state;
     return (
       <View style={{
         flex: 1,
         backgroundColor: Color.containerBackground
       }}>
 
-        { this.state.retrievingMembers === false && <View style={{
+        {this.state.retrievingMembers === false && <View style={{
           borderBottomColor: Color.primary,
           borderBottomWidth: 1,
           padding: 10,
         }}>
+          <View style={{
+            marginBottom: 5,
+            flexDirection: 'row'
+          }}>
+            <Text style={{
+            fontWeight: 'bold',
+            marginRight: 10
+          }}>{this.state.connections?.length > 1 ? 'Connections' : 'Connection'}</Text>
+          <Text>({this.state.connections?.length})</Text>
+          </View>
           {this.state.connections.length > 0 ? (<Group inviteToSynqt={true} add={false} style={{
             borderColor: Color.primary,
             borderWidth: 2
