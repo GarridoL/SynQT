@@ -23,7 +23,7 @@ export default {
     float: 'right'
   },
   Title: {
-    fontWeight: 'bold',
+    fontFamily: 'Poppins-SemiBold',
   },
   Price: {
     color: '#5842D7'

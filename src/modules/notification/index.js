@@ -45,7 +45,6 @@ class Notifications extends Component {
       limit: this.state.limit,
       offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset
     }
-    console.log(parameter, '---');
     this.setState({ isLoading: true })
     Api.request(Routes.notificationsRetrieve, parameter, response => {
       this.setState({ isLoading: false })
@@ -108,7 +107,7 @@ class Notifications extends Component {
             <Text style={{
               textAlign: 'center',
               paddingTop: 20,
-              fontWeight: 'bold',
+              fontFamily: 'Poppins-SemiBold',
               color: Color.primary
             }}>
               Exciting plans!

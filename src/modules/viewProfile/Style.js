@@ -29,7 +29,7 @@ export default {
   },
   TextStyle: {
     marginTop: 15,
-    fontWeight: 'bold',
+    fontFamily: 'Poppins-SemiBold',
     fontSize: 15
   },
   circleImage: {
@@ -48,6 +48,6 @@ export default {
     justifyContent: 'center',
     borderRadius: 25,
     position: 'absolute',
-    left: width - 220
+    left: width - 190
   },
 }

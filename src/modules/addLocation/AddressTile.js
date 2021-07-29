@@ -29,7 +29,7 @@ class AddressTile extends Component {
               styles.AddressTypeTextStyle,
               {
                 color: this.props.fontColor,
-                fontWeight: 'bold'
+                fontFamily: 'Poppins-SemiBold',
               },
             ]}>
             {this.props.addressType}

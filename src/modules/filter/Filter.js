@@ -114,7 +114,7 @@ class Filter extends Component {
       }}>
         <Text style={{
           fontSize: BasicStyles.standardFontSize,
-          fontWeight: 'bold',
+          fontFamily: 'Poppins-SemiBold',
           marginLeft: '5%',
           color: theme ? theme.primary : Color.primary
         }}>{this.props.title.toUpperCase()}</Text>

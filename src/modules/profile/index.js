@@ -327,7 +327,7 @@ class Profile extends Component {
                 <FontAwesomeIcon style={{ marginRight: 5 }} icon={faCheckCircle} size={20} color={Color.primary} />
                 <Text style={{
                   textAlign: 'center',
-                  fontWeight: 'bold',
+                  fontFamily: 'Poppins-SemiBold',
                   fontSize: 18
                 }}>{this.state.firstName && this.state.middleName && this.state.lastName && this.state.firstName + ' ' + this.state.lastName}</Text>
               </View>}

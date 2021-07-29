@@ -299,7 +299,7 @@ class Groups extends Component {
               }}>
                 <Text style={{
                   lineHeight: 30,
-                  fontWeight: 'bold'
+                  fontFamily: 'Poppins-SemiBold',
                 }}>{item.title}</Text>
                 {
                   parseInt(item.total_unread_messages) > 0 && Platform.OS == 'android' && (
@@ -340,7 +340,8 @@ class Groups extends Component {
               lineHeight: 30,
               paddingLeft: '25%',
               width: '94%',
-              fontStyle: 'italic'
+              fontFamily: 'Poppins-Italic',
+              fontSize: 12
             }}
               numberOfLines={1}>{item.last_messages ? item.last_messages?.title + ': ' + (item.last_messages?.description || 'Sent a photo.') : 'No message yet.'}</Text>
           </View>
@@ -365,7 +366,7 @@ class Groups extends Component {
       }}>
         {
           this.props.state.allMessages.length > 0 && user != null && <Text style={{
-            fontWeight: 'bold',
+            fontFamily: 'Poppins-SemiBold',
             padding: 10
           }}>{this.props.state.allMessages.length > 1 ? 'Conversations' : 'Conversation'}</Text>
         }
@@ -411,7 +412,7 @@ class Groups extends Component {
             flexDirection: 'row'
           }}>
             <Text style={{
-            fontWeight: 'bold',
+            fontFamily: 'Poppins-SemiBold',
             marginRight: 10
           }}>{this.state.connections?.length > 1 ? 'Connections' : 'Connection'}</Text>
           <Text>({this.state.connections?.length})</Text>

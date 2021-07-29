@@ -121,11 +121,10 @@ class Slider2 extends Component {
           </View>
           {
             user !== null ? (
-              <View style={{ marginTop: '10%', position: 'absolute', right: 0, width: '75%' }}>
+              <View style={{ marginTop: '7%', position: 'absolute', right: 0, width: '75%' }}>
                 <View
                   style={{ flex: 1,
                     flexDirection: 'row',
-                    marginTop: '10%',
                     position: 'absolute',
                     right: 0,
                     justifyContent: 'center',
@@ -133,9 +132,10 @@ class Slider2 extends Component {
                 }}>
                   <Text numberOfLines={1} style={{
                     color: Color.white,
-                    fontWeight: 'bold',
+                    fontFamily: 'Poppins-SemiBold',
                     marginRight: 10,
                     width: '80%',
+                    fontSize: 16,
                     textAlign: 'right'
                   }}>
                     {user?.account_information?.first_name ? user?.account_information.first_name + ' ' + user?.account_information.last_name : user?.username}
@@ -193,9 +193,9 @@ class Slider2 extends Component {
                     <View style={styles.inActiveDrawer}>
                       <FontAwesomeIcon style={{
                         padding: 10,
-                        color: 'white'
+                        color: Color.white
                       }} icon={item.icon} size={BasicStyles.iconSize}></FontAwesomeIcon>
-                      <Text style={{ color: 'white', marginRight: 10, marginTop: 2 }}>{item.title}</Text>
+                      <Text style={styles.BottomText}>{item.title}</Text>
                     </View>
                   </TouchableOpacity>
                 )
@@ -209,9 +209,9 @@ class Slider2 extends Component {
             <View style={styles.inActiveDrawer}>
               <FontAwesomeIcon style={{
                 padding: 10,
-                color: 'white'
+                color: Color.white,
               }} icon={faCopy} size={BasicStyles.iconSize}></FontAwesomeIcon>
-              <Text style={{ color: 'white', marginRight: 10, marginTop: 2 }}>Terms and Conditions</Text>
+              <Text style={styles.BottomText}>Terms and Conditions</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => { this.navigateToScreen('Privacy') }} style={{ flexDirection: 'row-reverse', paddingTop: 10 }}>
@@ -219,14 +219,19 @@ class Slider2 extends Component {
             <View style={styles.inActiveDrawer}>
               <FontAwesomeIcon style={{
                 padding: 10,
-                color: 'white'
+                color: Color.white
               }} icon={faShieldAlt} size={BasicStyles.iconSize}></FontAwesomeIcon>
-              <Text style={{ color: 'white', marginRight: 10, marginTop: 2 }}>Privacy Policy</Text>
+              <Text style={styles.BottomText}>Privacy Policy</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => { this.logoutAction() }} style={{ flexDirection: 'row-reverse', paddingTop: 10 }}>
-            <FontAwesomeIcon style={[styles.navItemStyle, { color: 'white', marginRight: 10 }]} icon={faSignOutAlt} size={BasicStyles.iconSize}></FontAwesomeIcon>
-            <Text style={{ color: Color.white, marginRight: 10 }}>Logout</Text>
+            <FontAwesomeIcon style={[
+              styles.navItemStyle, {
+                color: Color.white,
+                marginRight: 10,
+                fontSize: 16
+              }]} icon={faSignOutAlt} size={BasicStyles.iconSize}></FontAwesomeIcon>
+            <Text style={styles.BottomText}>Logout</Text>
           </TouchableOpacity>
         </View>
       </LinearGradient>

@@ -52,7 +52,7 @@ const MainMessageStack = createStackNavigator({
         width: width - 120
       },
       headerTitleStyle: {
-        fontWeight: 'bold',
+        fontFamily: 'Poppins-SemiBold',
       },  
     }),
   },
