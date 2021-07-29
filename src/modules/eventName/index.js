@@ -373,7 +373,7 @@ class EventName extends Component {
                   textShadowColor: 'black',
                   textShadowOffset: { width: 1, height: 1 },
                   textShadowRadius: 5,
-                  fontWeight: 'bold',
+                  fontFamily: 'Poppins-Bold',
                   marginBottom: 10
                 }}>Note: Click the date to edit.</Text>}
                   <View style={{
@@ -393,7 +393,7 @@ class EventName extends Component {
                         textShadowColor: 'black',
                         textShadowOffset: { width: 1, height: 1 },
                         textShadowRadius: 5,
-                        fontWeight: 'bold',
+                        fontFamily: 'Poppins-Bold',
                       }}
                     >{this.state.changed_date ? this.state.changed_date : data?.synqt[0].date_at_human}</Text>
                     {this.state.changed_date && <Text
@@ -413,7 +413,7 @@ class EventName extends Component {
                         textShadowColor: 'black',
                         textShadowOffset: { width: 1, height: 1 },
                         textShadowRadius: 5,
-                        fontWeight: 'bold',
+                        fontFamily: 'Poppins-Bold',
                         position: 'absolute',
                         right: 20
                       }}
@@ -434,7 +434,7 @@ class EventName extends Component {
                     textShadowColor: 'black',
                     textShadowOffset: { width: 1, height: 1 },
                     textShadowRadius: 5,
-                    fontWeight: 'bold',
+                    fontFamily: 'Poppins-Bold',
                   }}
                 >
                   {data?.merchant.name}
@@ -448,7 +448,7 @@ class EventName extends Component {
                     textShadowColor: 'black',
                     textShadowOffset: { width: 1, height: 1 },
                     textShadowRadius: 5,
-                    fontWeight: 'bold',
+                    fontFamily: 'Poppins-Bold',
                     width: width * .90
                   }}
                 >

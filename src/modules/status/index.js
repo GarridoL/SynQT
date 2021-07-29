@@ -319,7 +319,7 @@ class Status extends Component {
             }}>
               <View style={{ alignItems: 'center' }}>
                 <Text style={{
-                  fontWeight: 'bold',
+                  fontFamily: 'Poppins-Bold',
                   fontSize: BasicStyles.standardTitleFontSize
                 }}>Create Status</Text>
                 <TextInput

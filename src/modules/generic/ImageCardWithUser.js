@@ -76,7 +76,7 @@ class ImageCardWithUser extends Component {
                   width: '47%'
                 }}>
                   <Text style={{
-                    fontWeight: 'bold',
+                    fontFamily: 'Poppins-Bold',
                     fontSize: BasicStyles.standardTitleFontSize,
                     marginTop: -10
                   }}

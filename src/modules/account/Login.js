@@ -639,11 +639,11 @@ class Login extends Component {
                 <Text style={{
                   color: 'white',
                   fontSize: BasicStyles.standardFontSize
-                }}>Dont't have an account?
+                }}>Dont't have an account?&nbsp;&nbsp;
                   <Text
                     style={{
                       textDecorationLine:'underline',
-                      fontWeight:'bold'
+                      fontFamily:'Poppins-Bold'
                     }}
                     onPress={()=> this.props.navigation.navigate('registerStack')}>
                       Sign Up

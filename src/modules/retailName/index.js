@@ -81,13 +81,13 @@ class RetailName extends Component {
             alignItems: 'center',
             marginTop: 20}}>
             <Text style={{ marginTop: 5 }}>ORDER NO:</Text>
-            <Text style={{ fontWeight: 'bold',  }}>1234</Text>
+            <Text style={{ fontFamily: 'Poppins-Bold',}}>1234</Text>
             <Text style={{ marginTop: 15 }}>DATE & TIME:</Text>
-            <Text style={{ fontWeight: 'bold',  }}>Januray 20, 2021 3:30 PM</Text>
-            <Text style={{ marginTop: 15 }}>SHIPPING METHOD:</Text>
-            <Text style={{ fontWeight: 'bold',  }}>Shipping Method 1</Text>
+            <Text style={{ fontFamily: 'Poppins-Bold'}}>Januray 20, 2021 3:30 PM</Text>
+            <Text style={{ fontFamily: 'Poppins-Bold'}}>SHIPPING METHOD:</Text>
+            <Text style={{ fontFamily: 'Poppins-Bold'}}>Shipping Method 1</Text>
             <Text style={{ marginTop: 15 }}>PAYMENT METHOD:</Text>
-            <Text style={{ fontWeight: 'bold', marginBottom: 25 }}>Payment Method 1</Text>
+            <Text style={{ fontFamily: 'Poppins-Bold', marginBottom: 25 }}>Payment Method 1</Text>
           </View>
           <View style={{
             paddingBottom: 10,
@@ -102,7 +102,7 @@ class RetailName extends Component {
               justifyContent: 'center',
               textAlign: 'center',
             }}>
-                <Text style={{ fontWeight: 'bold', marginTop: 10 }}>ORDER DETAILS</Text>
+                <Text style={{ fontFamily: 'Poppins-Bold', marginTop: 10 }}>ORDER DETAILS</Text>
             </View>
             {this.renderOrderDetails()}
           </View>
@@ -127,11 +127,11 @@ class RetailName extends Component {
               }}>P 15.00</Text>
             </View>
             <View style={{ flexDirection: 'row', marginTop: 15 }}>
-              <Text style={{ fontWeight: 'bold' }}>TOTAL</Text>
+              <Text style={{ fontFamily: 'Poppins-Bold' }}>TOTAL</Text>
               <Text style={{
                 position: 'absolute',
                 right: 10,
-                fontWeight: 'bold'
+                fontFamily: 'Poppins-Bold',
               }}>P 6, 000.00</Text>
             </View>
           </View>

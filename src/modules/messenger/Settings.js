@@ -87,7 +87,7 @@ class Settings extends Component {
             ]}>
               <View style={{ alignItems: 'center' }}>
                 <Text style={{
-                  fontWeight: 'bold',
+                 fontFamily: 'Poppins-Bold',
                   fontSize: BasicStyles.standardTitleFontSize
                 }}>Edit Group Name</Text>
                 <TextInput
@@ -164,7 +164,7 @@ class Settings extends Component {
         <ScrollView style={{marginBottom: 100}}>
           <View style={{ alignItems: 'center', marginBottom: 50, marginTop: 10 }}>
             <View style={{ borderBottomWidth: 2, marginBottom: 10, borderBottomColor: 'gray', width: 70 }}></View>
-            <Text style={{ fontWeight: 'bold' }}>More settings</Text>
+            <Text style={{ fontFamily: 'Poppins-Bold', }}>More settings</Text>
           </View>
           {
             options.map(item => {

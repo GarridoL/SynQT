@@ -109,16 +109,14 @@ class Landing extends Component {
             }}>
               <Text style={{
                 color: 'white',
-                fontStyle: 'italic',
-                fontFamily: 'roboto',
+                fontFamily: 'Poppins-LightItalic',
                 fontSize: 18
               }}>
-                CHOOSING TOGETHER.
+                CHOOSING TOGETHER
               </Text>
               <Text style={{
                 color: 'white',
-                fontStyle: 'italic',
-                fontFamily: 'roboto',
+                fontFamily: 'Poppins-LightItalic',
                 fontSize: 18
               }}>
                 ENJOYING TOGETHER.
@@ -138,11 +136,11 @@ class Landing extends Component {
               <Text style={{
                 color: 'white',
                 fontSize: BasicStyles.standardFontSize + 2
-              }}>Already have an account?
+              }}>Already have an account?&nbsp;&nbsp;
                 <Text
                   style={{
                     textDecorationLine: 'underline',
-                    fontWeight: 'bold',
+                    fontFamily: 'Poppins-Bold',
                     fontSize: BasicStyles.standardFontSize + 2
                   }}
                   onPress={() => this.props.navigation.navigate('loginStack')}>

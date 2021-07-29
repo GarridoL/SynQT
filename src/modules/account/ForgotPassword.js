@@ -256,7 +256,7 @@ class ForgotPassword extends Component {
                       paddingBottom: 10,
                   }}>
                     <Text style={[Style.messageText, {
-                      fontWeight: 'bold'
+                      fontFamily: 'Poppins-Bold',
                     }]}>Oops! </Text>
                     <Text style={Style.messageText}>{errorMessage}</Text>
                   </View>
@@ -289,11 +289,11 @@ class ForgotPassword extends Component {
                   <Text style={{
                     color: 'white',
                     fontSize: BasicStyles.standardFontSize
-                  }}>Already have an account?
+                  }}>Already have an account?&nbsp;&nbsp;
                     <Text
                       style={{
                         textDecorationLine:'underline',
-                        fontWeight:'bold'
+                        fontFamily:'Poppins-Bold'
                       }}
                       onPress={()=> this.props.navigation.navigate('loginStack')}>
                         Sign In

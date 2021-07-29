@@ -32,7 +32,7 @@ export default {
   },
   TextStyle: {
     marginTop: 15,
-    fontWeight: 'bold',
+    fontFamily: 'Poppins-Bold',
     fontSize: 15
   }
 }

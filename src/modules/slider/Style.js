@@ -10,6 +10,12 @@ export default {
     paddingBottom: 5
     // width: 200
   },
+  BottomText: {
+    color: Color.white,
+    marginRight: 10,
+    marginTop: 2,
+    fontSize: 16
+  },
   navSectionStyleNoBorder: {
     paddingTop: 5,
     paddingBottom: 5

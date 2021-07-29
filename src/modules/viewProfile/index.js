@@ -141,6 +141,7 @@ class ViewProfile extends Component {
       account_id: user.id,
       offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
     }
+    console.log(parameter, Routes.circleRetrieve, '--');
     this.setState({ isLoading: true })
     Api.request(Routes.circleRetrieve, parameter, response => {
       this.setState({ isLoading: false })
@@ -273,8 +274,8 @@ class ViewProfile extends Component {
                   <View>
                     <View style={{ flexDirection: 'row', width: '100%' }}>
                       <View style={{ width: '65%' }}>
-                        <Text style={{ fontWeight: 'bold', width: '110%' }} numberOfLines={1}>{el?.account?.information?.first_name ? el?.account?.information?.first_name + ' ' + el?.account?.information?.last_name : el?.account?.username}</Text>
-                        <Text style={{ fontStyle: 'italic' }} numberOfLines={1}>{el?.account?.information?.address || 'No address provided'}</Text>
+                        <Text style={{ fontFamily: 'Poppins-Bold', width: '110%' }} numberOfLines={1}>{el?.account?.information?.first_name ? el?.account?.information?.first_name + ' ' + el?.account?.information?.last_name : el?.account?.username}</Text>
+                        <Text style={{ fontFamily: 'Poppins-Italic' }} numberOfLines={1}>{el?.account?.information?.address || 'No address provided'}</Text>
                         {el.account?.id !== this.props.state.user.id && <Text style={{ color: 'gray', fontSize: 10 }} numberOfLines={1}>{el.similar_connections} similar connection(s)</Text>}
                       </View>
                       {this.state.ids.length > 0 && this.state.ids.includes(el.account?.id) === false && el.account.id !== this.props.state.user.id ?
@@ -413,7 +414,7 @@ class ViewProfile extends Component {
                 style={{ marginRight: 5 }}
                 color={theme ? theme.primary : Color.primary} />
               <Text style={{
-                fontWeight: 'bold',
+                fontFamily: 'Poppins-Bold',
                 fontSize: 18
               }}>{user?.account?.information?.first_name ? user?.account?.information?.first_name + user?.account?.information?.last_name : user.name ? user.name : user?.account?.username}</Text>
             </View>

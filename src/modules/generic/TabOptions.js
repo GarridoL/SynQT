@@ -41,7 +41,7 @@ class Tab extends Component {
               >
                 <Text style={
                   this.state.choice == this.props.choice[0] ? { color: 'white' } : { color: Color.primary,
-                  fontWeight: 'bold',
+                  fontFamily: 'Poppins-Bold',
                   elevation: BasicStyles.elevation
                 }}>{this.props.choice[0]}</Text>
               </TouchableOpacity>
@@ -57,7 +57,7 @@ class Tab extends Component {
                   }
                 ]}
               >
-                <Text style={this.state.choice == this.props.choice[1] ? { color: 'white'} : { color: Color.primary, fontWeight: 'bold' }}>{this.props.choice[1]}</Text>
+                <Text style={this.state.choice == this.props.choice[1] ? { color: 'white'} : { color: Color.primary, fontFamily: 'Poppins-Bold', }}>{this.props.choice[1]}</Text>
               </TouchableOpacity>
             </View>
           )
@@ -75,7 +75,7 @@ class Tab extends Component {
                   borderRadius: 10,
                   borderColor: theme ? theme.primary : Color.primary,
                 }]}>
-                <Text style={{ color: Color.primary, fontWeight: 'bold' }}>{this.props.choice[0]}</Text>
+                <Text style={{ color: Color.primary, fontFamily: 'Poppins-Bold', }}>{this.props.choice[0]}</Text>
               </View>
             </View>
           )

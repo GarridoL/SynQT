@@ -18,7 +18,7 @@ export default  class Header extends Component{
             paddingTop: 50,
             paddingBottom: 20,
             color:'white',
-            fontWeight:'bold',
+            fontFamily:'Poppins-Bold',
             fontSize: 20
           }}>{this.props.params}</Text>
         </View>

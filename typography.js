@@ -13,6 +13,6 @@ export const typography = () => {
 
 const styles = StyleSheet.create({
   defaultText: {
-    fontFamily: 'sans-serif-light',
+    fontFamily: 'Poppins-Light',
   }
 });

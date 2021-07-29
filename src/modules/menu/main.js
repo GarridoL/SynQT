@@ -25,7 +25,7 @@ class Main extends Component{
             <Active></Active>
           </View>
           <View style={{position: 'absolute', bottom: 20}}>
-            <Text style={{color: 'white', left: 10, fontSize: 20, fontWeight: 'bold'}}>Italian Restaurant</Text>
+            <Text style={{color: 'white', left: 10, fontSize: 20, fontFamily: 'Poppins-Bold',}}>Italian Restaurant</Text>
             <Text style={{color: 'white', left: 10}}>Cebu City, Philippines</Text>
           </View>
           <TouchableOpacity

@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   ThemeTitleContainer: {},
   ThemeTitleTextStyle: {
     fontSize: 15,
-    fontWeight: 'bold',
+    fontFamily: 'Poppins-Bold',
   },
   ThemeColorsContainer: {},
   ThemeColorsTextStyle: {

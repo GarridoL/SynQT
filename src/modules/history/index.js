@@ -227,7 +227,7 @@ class History extends Component {
               alignItems: 'center',
             }}>
               <Text style={{
-                fontWeight: 'bold',
+                fontFamily: 'Poppins-Bold',
                 color: Color.primary,
                 marginBottom: 10,
                 textAlign: 'center',
