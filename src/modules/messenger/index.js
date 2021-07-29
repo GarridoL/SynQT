@@ -340,7 +340,8 @@ class Groups extends Component {
               lineHeight: 30,
               paddingLeft: '25%',
               width: '94%',
-              fontFamily: 'Poppins-Italic'
+              fontFamily: 'Poppins-Italic',
+              fontSize: 12
             }}
               numberOfLines={1}>{item.last_messages ? item.last_messages?.title + ': ' + (item.last_messages?.description || 'Sent a photo.') : 'No message yet.'}</Text>
           </View>
