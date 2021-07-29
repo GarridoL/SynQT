@@ -299,7 +299,7 @@ class Groups extends Component {
               }}>
                 <Text style={{
                   lineHeight: 30,
-                  fontFamily: 'Poppins-Bold',
+                  fontFamily: 'Poppins-SemiBold',
                 }}>{item.title}</Text>
                 {
                   parseInt(item.total_unread_messages) > 0 && Platform.OS == 'android' && (
@@ -365,7 +365,7 @@ class Groups extends Component {
       }}>
         {
           this.props.state.allMessages.length > 0 && user != null && <Text style={{
-            fontFamily: 'Poppins-Bold',
+            fontFamily: 'Poppins-SemiBold',
             padding: 10
           }}>{this.props.state.allMessages.length > 1 ? 'Conversations' : 'Conversation'}</Text>
         }
@@ -411,7 +411,7 @@ class Groups extends Component {
             flexDirection: 'row'
           }}>
             <Text style={{
-            fontFamily: 'Poppins-Bold',
+            fontFamily: 'Poppins-SemiBold',
             marginRight: 10
           }}>{this.state.connections?.length > 1 ? 'Connections' : 'Connection'}</Text>
           <Text>({this.state.connections?.length})</Text>

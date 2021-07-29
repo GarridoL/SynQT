@@ -149,7 +149,7 @@ class CardList extends Component {
                         <View>
                           <View style={{ flexDirection: 'row' }}>
                             <View style={{ width: '70%' }}>
-                              <Text style={{ fontFamily: 'Poppins-Bold' }} numberOfLines={1}>{el.account?.information?.first_name ? el.account?.information?.first_name + ' ' + el.account?.information?.last_name : el.account?.username}</Text>
+                              <Text style={{ fontFamily: 'Poppins-SemiBold' }} numberOfLines={1}>{el.account?.information?.first_name ? el.account?.information?.first_name + ' ' + el.account?.information?.last_name : el.account?.username}</Text>
                               <Text style={{ fontFamily: 'Poppins-Italic' }}>{el.account?.information?.address || 'No address provided'}</Text>
                               <Text style={{ color: 'gray', fontSize: 10, marginBottom: 5 }}>{el.similar_connections ? el.similar_connections : 0} similar connection(s)</Text>
                               {
@@ -277,7 +277,7 @@ class CardList extends Component {
                       <View>
                         <View style={{ flexDirection: 'row' }}>
                           <View style={{ width: '70%' }}>
-                            <Text style={{ fontFamily: 'Poppins-Bold', }} numberOfLines={1}>{el.account?.information?.first_name ? el.account?.information?.first_name + ' ' + el.account?.information?.last_name : el.account?.username}</Text>
+                            <Text style={{ fontFamily: 'Poppins-SemiBold', }} numberOfLines={1}>{el.account?.information?.first_name ? el.account?.information?.first_name + ' ' + el.account?.information?.last_name : el.account?.username}</Text>
                             <Text style={{ fontFamily: 'Poppins-Italic' }}>{el.account?.information?.address || 'No address provided'}</Text>
                             <Text style={{ color: 'gray', fontSize: 10, marginBottom: 5 }}>{el.similar_connections ? el.similar_connections : 0} similar connection(s)</Text>
                             {

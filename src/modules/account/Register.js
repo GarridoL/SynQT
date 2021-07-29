@@ -140,7 +140,7 @@ class Register extends Component {
                     padding: 30
                 }}>
                   <Text style={[Style.messageText, {
-                    fontFamily: 'Poppins-Bold',
+                    fontFamily: 'Poppins-SemiBold',
                   }]}>Oops! </Text>
                   <Text style={Style.messageText}>{errorMessage}</Text>
                 </View>
@@ -233,7 +233,7 @@ class Register extends Component {
                   <Text
                     style={{
                       textDecorationLine:'underline',
-                      fontFamily:'Poppins-Bold'
+                      fontFamily:'Poppins-SemiBold'
                     }}
                     onPress={()=> this.props.navigation.navigate('loginStack')}>
                       Sign In

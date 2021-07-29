@@ -243,7 +243,7 @@ class Connections extends Component {
                   </TouchableOpacity>
                 }
                 <View style={{ paddingLeft: 30, borderBottomWidth: this.state.pending.length > 0 ? 0.3 : 0, padding: this.state.pending.length === 0 ? 10 : 20, borderColor: Color.gray }}>
-                  <Text style={{ fontFamily: 'Poppins-Bold', }}>Connections you may know</Text>
+                  <Text style={{ fontFamily: 'Poppins-SemiBold', }}>Connections you may know</Text>
                 </View>
 
                 <View>

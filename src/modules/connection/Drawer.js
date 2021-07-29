@@ -88,7 +88,7 @@ const TermsAndConditionsStack = createStackNavigator({
           width: width
         },
         headerTitleStyle: {
-          fontFamily: 'Poppins-Bold',
+          fontFamily: 'Poppins-SemiBold',
         },
       }
     }),

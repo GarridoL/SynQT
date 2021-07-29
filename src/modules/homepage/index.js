@@ -127,7 +127,7 @@ class HomePage extends Component {
                   }}
                   numberOfLines={4}>{user?.account_information?.first_name ? user?.account_information?.first_name + '  ' + user?.account_information?.last_name : user?.username}</Text>
                   <Text style={{
-                    fontFamily: 'Poppins-Bold',
+                    fontFamily: 'Poppins-SemiBold',
                     color: Color.white,
                     textAlign: 'center',
                     fontSize: 23
@@ -245,7 +245,7 @@ class HomePage extends Component {
               }}>
               <Text style={{
                 color: theme ? theme.primary : Color.primary,
-                fontFamily: 'Poppins-Bold'
+                fontFamily: 'Poppins-SemiBold'
               }}>Upcoming</Text>
             </TouchableOpacity>
           </View>

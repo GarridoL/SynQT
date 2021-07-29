@@ -181,7 +181,7 @@ export default {
       paddingRight: 64
     },
     headerTitleStyle: {
-      fontFamily: 'Poppins-Bold',
+      fontFamily: 'Poppins-SemiBold',
     },
   },
   headerDrawerStyleStandard: {
@@ -198,7 +198,7 @@ export default {
       paddingRight: 64
     },
     headerTitleStyle: {
-      fontFamily: 'Poppins-Bold',
+      fontFamily: 'Poppins-SemiBold',
     },
   },
   standardDivider: {
@@ -312,7 +312,7 @@ export default {
       marginLeft: '-10%'
     },
     headerTitleStyle: {
-      fontFamily: 'Poppins-Bold',
+      fontFamily: 'Poppins-SemiBold',
     },
   },
 }

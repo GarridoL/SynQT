@@ -97,7 +97,7 @@ const _StackNavigator = createStackNavigator({
           marginRight: '-15%',
         },
         headerTitleStyle: {
-          fontFamily: 'Poppins-Bold',
+          fontFamily: 'Poppins-SemiBold',
         },  
       }
     }),

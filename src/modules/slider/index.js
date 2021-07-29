@@ -132,7 +132,7 @@ class Slider extends Component {
             }]}>
               <Text style={[styles.navItemStyle, {
                 color: Color.danger,
-                fontFamily: 'Poppins-Bold',
+                fontFamily: 'Poppins-SemiBold',
               }]} onPress={() => this.logoutAction()}>
                 Logout
               </Text>

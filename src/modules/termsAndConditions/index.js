@@ -64,12 +64,12 @@ const styles = StyleSheet.create({
   SectionTitleContainer: {},
   SectionTitleTextStyle: {
     fontSize: BasicStyles.standardTitleFontSize,
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Poppins-SemiBold',
     marginTop: 10
   },
   SectionTwoTitleTextStyle: {
     fontSize: BasicStyles.standardTitleFontSize,
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Poppins-SemiBold',
   },
   SectionDescriptionContainer: {},
   SectionDescriptionTextStyle: {

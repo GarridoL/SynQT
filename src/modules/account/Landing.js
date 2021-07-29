@@ -140,7 +140,7 @@ class Landing extends Component {
                 <Text
                   style={{
                     textDecorationLine: 'underline',
-                    fontFamily: 'Poppins-Bold',
+                    fontFamily: 'Poppins-SemiBold',
                     fontSize: BasicStyles.standardFontSize + 2
                   }}
                   onPress={() => this.props.navigation.navigate('loginStack')}>

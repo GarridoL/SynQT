@@ -132,7 +132,7 @@ class Slider2 extends Component {
                 }}>
                   <Text numberOfLines={1} style={{
                     color: Color.white,
-                    fontFamily: 'Poppins-Bold',
+                    fontFamily: 'Poppins-SemiBold',
                     marginRight: 10,
                     width: '80%',
                     fontSize: 16,

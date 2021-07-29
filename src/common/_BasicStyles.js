@@ -192,7 +192,7 @@ export default {
       paddingRight: Platform.OS == 'ios' ? 0 : 64,
     },
     headerTitleStyle: {
-      fontFamily: 'Poppins-Bold',
+      fontFamily: 'Poppins-SemiBold',
     },
   },
 
@@ -213,7 +213,7 @@ export default {
       paddingRight: Platform.OS == 'ios' ? 0 : 64,
     },
     headerTitleStyle: {
-      fontFamily: 'Poppins-Bold',
+      fontFamily: 'Poppins-SemiBold',
       marginLeft: '40%'
     },
   },
@@ -231,7 +231,7 @@ export default {
       alignItems: 'center'
     },
     headerTitleStyle: {
-      fontFamily: 'Poppins-Bold',
+      fontFamily: 'Poppins-SemiBold',
     },
   },
   standardShadow: {

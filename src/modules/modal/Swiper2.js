@@ -380,7 +380,7 @@ class Cards extends React.Component {
                         textShadowColor: 'black',
                         textShadowOffset: { width: 1, height: 1 },
                         textShadowRadius: 1,
-                        fontFamily: 'Poppins-Bold',
+                        fontFamily: 'Poppins-SemiBold',
                         width: '50%'
                       }}>{el.name || 'No data'}</Text>
                       <Text style={{
@@ -388,7 +388,7 @@ class Cards extends React.Component {
                         textShadowColor: 'black',
                         textShadowOffset: { width: 1, height: 1 },
                         textShadowRadius: 1,
-                        fontFamily: 'Poppins-Bold',
+                        fontFamily: 'Poppins-SemiBold',
                         width: '50%'
                       }}>{el.address ? this.getAddress(el.address) : 'No address provided'}</Text>
                     </View>

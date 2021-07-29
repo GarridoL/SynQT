@@ -309,7 +309,7 @@ class Cards extends React.Component {
             <Text style={{
               fontSize: BasicStyles.standardTitleFontSize,
               color: 'white',
-              fontFamily: 'Poppins-Bold',
+              fontFamily: 'Poppins-SemiBold',
               textShadowColor: 'black',
               textShadowOffset: { width: 1, height: 1 },
               textShadowRadius: 1,

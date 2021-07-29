@@ -211,7 +211,7 @@ class AddLocation extends Component {
                 [
                   Style.modalText,
                   {
-                    fontFamily: 'Poppins-Bold',
+                    fontFamily: 'Poppins-SemiBold',
                     marginTop: 0
                   }
                 ]
@@ -235,7 +235,7 @@ class AddLocation extends Component {
               <Text style={
                 [
                   {
-                    fontFamily: 'Poppins-Bold',
+                    fontFamily: 'Poppins-SemiBold',
                     textAlign: 'left'
                   },
                   Style.modalText

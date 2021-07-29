@@ -107,7 +107,7 @@ class Notifications extends Component {
             <Text style={{
               textAlign: 'center',
               paddingTop: 20,
-              fontFamily: 'Poppins-Bold',
+              fontFamily: 'Poppins-SemiBold',
               color: Color.primary
             }}>
               Exciting plans!

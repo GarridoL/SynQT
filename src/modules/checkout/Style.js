@@ -13,7 +13,7 @@ export default {
     marginTop: Platform.OS == 'ios' ? 30 : 0
   },
   TextInput: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Poppins-SemiBold',
     marginBottom: 5
   },
   formControl: {

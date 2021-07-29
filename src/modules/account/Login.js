@@ -643,7 +643,7 @@ class Login extends Component {
                   <Text
                     style={{
                       textDecorationLine:'underline',
-                      fontFamily:'Poppins-Bold'
+                      fontFamily:'Poppins-SemiBold'
                     }}
                     onPress={()=> this.props.navigation.navigate('registerStack')}>
                       Sign Up

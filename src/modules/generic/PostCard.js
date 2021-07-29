@@ -99,7 +99,7 @@ class PostCard extends Component {
           <View>
             <Text style={{
               fontSize: BasicStyles.standardTitleFontSize,
-              fontFamily: 'Poppins-Bold',
+              fontFamily: 'Poppins-SemiBold',
             }}>{data?.user?.username}</Text>
             <Text style={{
               fontSize: BasicStyles.standardFontSize
