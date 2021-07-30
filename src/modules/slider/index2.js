@@ -100,9 +100,16 @@ class Slider2 extends Component {
         locations={[0, 0.5, 1]}
         start={{ x: 1, y: 0 }}
         end={{ x: 1, y: 1 }}
-        style={{ height: '100%', paddingRight: 10, width: width }}
+        style={{
+          height: '100%',
+          paddingRight: 10,
+          width: width
+        }}
       >
-        <View style={{ flexDirection: 'row', height: '100%' }}>
+        <View style={{
+          flexDirection: 'row',
+          height: '100%'
+        }}>
           <View
             style={{
               backgroundColor: Color.containerBackground,
@@ -113,7 +120,10 @@ class Slider2 extends Component {
               zIndex: 999,
               elevation: 50
             }}>
-            <View style={{ marginTop: '40%', marginLeft: 10 }}>
+            <View style={{
+              marginTop: '40%',
+              marginLeft: 10
+            }}>
               <TouchableOpacity onPress={() => this.props.navigation.toggleDrawer()}>
                 <FontAwesomeIcon color={Color.primary} icon={faTimes} size={BasicStyles.iconSize}></FontAwesomeIcon>
               </TouchableOpacity>

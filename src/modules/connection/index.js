@@ -195,9 +195,6 @@ class Connections extends Component {
         backgroundColor: Color.containerBackground
       }}>
         <ScrollView
-        style={{
-          marginBottom: 50
-        }}
           showsVerticalScrollIndicator={false}
           onScroll={(event) => {
             let scrollingHeight = event.nativeEvent.layoutMeasurement.height + event.nativeEvent.contentOffset.y
@@ -214,63 +211,79 @@ class Connections extends Component {
             }
           }}
         >
-          <View style={{ flex: 1, flexDirection: 'row', borderBottomWidth: this.state.pending.length > 0 ? 0.3 : 0, paddingBottom: this.state.pending.length === 0 ? 0 : 20, borderColor: Color.gray, marginTop: '7%' }}>
+          <View style={{
+            marginBottom: 50,
+            padding: 10
+          }}>
+            <View style={{
+              flex: 1,
+              flexDirection: 'row',
+              borderBottomWidth: this.state.pending.length > 0 ? 0.3 : 0,
+              paddingBottom: this.state.pending.length === 0 ? 0 : 20,
+              borderColor: Color.gray
+            }}>
+              {
+                navs.map((el, idx) => {
+                  return (
+                    <TouchableOpacity
+                      onPress={() => this.changeTab(idx)}
+                      style={{
+                        ...Style.standardButton,
+                        backgroundColor: el.flag == true ? Color.primary : 'gray',
+                        marginLeft: 5,
+                        elevation: BasicStyles.elevation
+                      }}
+                    >
+                      <Text style={{ color: 'white' }}>{el.name}</Text>
+                    </TouchableOpacity>
+                  )
+                })
+              }
+            </View>
             {
-              navs.map((el, idx) => {
-                return (
-                  <TouchableOpacity
-                    onPress={() => this.changeTab(idx)}
-                    style={{
-                      ...Style.standardButton,
-                      backgroundColor: el.flag == true ? Color.primary : 'gray',
-                      marginLeft: 5,
-                      elevation: BasicStyles.elevation
-                    }}
-                  >
-                    <Text style={{ color: 'white' }}>{el.name}</Text>
-                  </TouchableOpacity>
-                )
-              })
+              this.state.currActive == 0 ? (
+                <View>
+                  <CardList delete={(id) => { this.removeConnection(id) }} loading={this.loading} update={(update, el) => { this.updateData(update, el) }} level={2} retrieve={() => { this.refresh() }} status={'pending'} navigation={this.props.navigation} data={this.state.pending.length > 0 && this.state.pending} hasAction={true} actionType={'text'}></CardList>
+                  {this.state.pending.length === this.state.limit &&
+                    <TouchableOpacity onPress={() => { this.retrieveSuggestions(true) }}>
+                      <Text style={{ color: 'gray', paddingTop: 5, paddingLeft: 15 }}>See All</Text>
+                    </TouchableOpacity>
+                  }
+                  <View style={{ paddingLeft: 30, borderBottomWidth: this.state.pending.length > 0 ? 0.3 : 0, padding: this.state.pending.length === 0 ? 10 : 20, borderColor: Color.gray }}>
+                    <Text style={{ fontFamily: 'Poppins-SemiBold', }}>Connections you may know</Text>
+                  </View>
+
+                  <View>
+                    <CardList delete={(id) => { this.removeConnection(id) }} loading={this.loading} level={2} invite={false} retrieve={() => { this.refresh() }} navigation={this.props.navigation} data={this.state.suggestions.length > 0 && this.state.suggestions} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
+                    {this.state.suggestions.length == 0 && (<Empty refresh={true} onRefresh={() => this.refresh()} />)}
+                  </View>
+
+                </View>
+              ) : (
+                <View>
+                  <View style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: '5%'
+                  }}>
+                    <View style={Style.TextContainer}>
+                      <TextInput
+                        style={BasicStyles.formControl}
+                        onChangeText={(search) => this.setState({ search: search })}
+                        value={this.state.search}
+                        placeholder={'Search'}
+                      />
+                    </View>
+                    <View>
+                      <CardList delete={(id) => { this.removeConnection(id) }} update={(update, el) => { this.updateData(update, el) }} loading={this.loading} level={2} search={this.state.search} retrieve={() => { this.refresh() }} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
+                    </View>
+                  </View>
+                  {this.state.connections.length == 0 && (<Empty refresh={true} onRefresh={() => this.retrieveConnections(false)} />)}
+                </View>
+              )
             }
           </View>
-          {
-            this.state.currActive == 0 ? (
-              <View>
-                <CardList delete={(id) => { this.removeConnection(id) }} loading={this.loading} update={(update, el) => { this.updateData(update, el) }} level={2} retrieve={() => { this.refresh() }} status={'pending'} navigation={this.props.navigation} data={this.state.pending.length > 0 && this.state.pending} hasAction={true} actionType={'text'}></CardList>
-                {this.state.pending.length === this.state.limit &&
-                  <TouchableOpacity onPress={() => { this.retrieveSuggestions(true) }}>
-                    <Text style={{ color: 'gray', paddingTop: 5, paddingLeft: 15 }}>See All</Text>
-                  </TouchableOpacity>
-                }
-                <View style={{ paddingLeft: 30, borderBottomWidth: this.state.pending.length > 0 ? 0.3 : 0, padding: this.state.pending.length === 0 ? 10 : 20, borderColor: Color.gray }}>
-                  <Text style={{ fontFamily: 'Poppins-SemiBold', }}>Connections you may know</Text>
-                </View>
-
-                <View>
-                  <CardList delete={(id) => { this.removeConnection(id) }} loading={this.loading} level={2} invite={false} retrieve={() => { this.refresh() }} navigation={this.props.navigation} data={this.state.suggestions.length > 0 && this.state.suggestions} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
-                  {this.state.suggestions.length == 0 && (<Empty refresh={true} onRefresh={() => this.refresh()} />)}
-                </View>
-
-              </View>
-            ) : (
-              <View>
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: '5%' }}>
-                  <View style={Style.TextContainer}>
-                    <TextInput
-                      style={BasicStyles.formControl}
-                      onChangeText={(search) => this.setState({ search: search })}
-                      value={this.state.search}
-                      placeholder={'Search'}
-                    />
-                  </View>
-                  <View>
-                    <CardList delete={(id) => { this.removeConnection(id) }} update={(update, el) => { this.updateData(update, el) }} loading={this.loading} level={2} search={this.state.search} retrieve={() => { this.refresh() }} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
-                  </View>
-                </View>
-                {this.state.connections.length == 0 && (<Empty refresh={true} onRefresh={() => this.retrieveConnections(false)} />)}
-              </View>
-            )
-          }
         </ScrollView>
         {this.state.isLoading ? <Spinner mode="overlay" /> : null}
         <Footer layer={1} {...this.props} />

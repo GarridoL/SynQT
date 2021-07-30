@@ -6,15 +6,13 @@ export default {
   TextInput: {
     marginTop: 15,
     width: '95%',
-    height: 55,
+    height: 50,
     borderColor: Color.gray,
-    borderBottomWidth: 1,
-    borderTopWidth: 1,
-    borderRightWidth: 1,
-    borderLeftWidth: 1,
+    borderWidth: .5,
     borderRadius: 50,
     padding: 10,
-    color: 'black'
+    color: 'black',
+    backgroundColor: Color.white
   },
   TopView: {
     justifyContent: 'center',

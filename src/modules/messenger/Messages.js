@@ -460,7 +460,6 @@ class MessagesV3 extends Component {
   }
 
   _headerRight = (item) => {
-    console.log(item, '----item');
     return (
       <View style={{
         flexDirection: 'row',
@@ -693,8 +692,7 @@ class MessagesV3 extends Component {
     const { messengerGroup, user, isViewing } = this.props.state;
     return (
       <SafeAreaView style={{
-        backgroundColor: Color.containerBackground,
-        marginTop: 10
+        backgroundColor: Color.containerBackground
       }}>
         {
           // ON DEPOSITS (IF CONVERSATION IS NOT YET AVAILABLE)

@@ -117,7 +117,7 @@ export default {
   textWhite: {
     color: Color.white
   },
-  iconSize: 24,
+  iconSize: 28,
   headerBackIconSize: 30,
   iconStyle: {
     color: Color.primary,
@@ -168,14 +168,14 @@ export default {
   headerDrawerStyle: {
     headerStyle: {
       elevation: 0,
-      backgroundColor: Color.white,
+      backgroundColor: Color.containerBackground,
       height: 60,
       justifyContent: 'center',
       alignItems: 'center',
       fontSize: 18
     },
     headerTitleContainerStyle: {
-      backgroundColor: Color.white,
+      backgroundColor: Color.containerBackground,
       justifyContent: 'center',
       alignItems: 'center',
       paddingRight: 64
@@ -302,11 +302,11 @@ export default {
       alignItems: 'center',
       fontSize: 12,
       width: '100%',
-      backgroundColor: Color.white,
+      backgroundColor: Color.containerBackground,
       height: 60
     },
     headerTitleContainerStyle: {
-      backgroundColor: Color.white,
+      backgroundColor: Color.containerBackground,
       justifyContent: 'center',
       alignItems: 'center',
       marginLeft: '-10%'

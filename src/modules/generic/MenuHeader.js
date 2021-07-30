@@ -69,7 +69,7 @@ class Header extends Component {
                   style={[
                     BasicStyles.iconStyle,
                     {
-                      color: Color.primary,
+                      color: Color.gray,
                     },
                   ]}
                 />
@@ -93,7 +93,7 @@ class Header extends Component {
                   style={[
                     BasicStyles.iconStyle,
                     {
-                      color: Color.primary,
+                      color: Color.gray,
                     },
                   ]}
                 />
@@ -121,7 +121,7 @@ class Header extends Component {
                   style={[
                     BasicStyles.iconStyle,
                     {
-                      color: Color.primary,
+                      color: Color.gray,
                     },
                   ]}
                 />
@@ -147,7 +147,7 @@ class Header extends Component {
                   style={[
                     BasicStyles.iconStyle,
                     {
-                      color: Color.primary,
+                      color: Color.gray,
                     },
                   ]}
                 />

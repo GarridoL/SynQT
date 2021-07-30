@@ -31,7 +31,7 @@ class Tab extends Component {
                 onPress={() => this.choiceHandler(this.props.choice[0])}
                 style={[
                   this.state.choice == this.props.choice[0] ? Style.MenuClicked : Style.Menu, {
-                    backgroundColor: this.state.choice == this.props.choice[0] ? (theme ? theme.primary : Color.primary) : 'white',
+                    backgroundColor: this.state.choice == this.props.choice[0] ? (theme ? theme.primary : Color.primary) : Color.white,
                     elevation: BasicStyles.elevation,
                     borderTopLeftRadius: 9,
                     borderBottomLeftRadius: 9,
@@ -49,7 +49,7 @@ class Tab extends Component {
                 onPress={() => this.choiceHandler(this.props.choice[1])}
                 style={[
                   this.state.choice == this.props.choice[1] ? Style.InformationClicked : Style.Information, {
-                    backgroundColor: this.state.choice == this.props.choice[1] ? (theme ? theme.primary : Color.primary) : 'white',
+                    backgroundColor: this.state.choice == this.props.choice[1] ? (theme ? theme.primary : Color.primary) : Color.white,
                     elevation: BasicStyles.elevation,
                     borderTopRightRadius: 10,
                     borderBottomRightRadius: 10,
@@ -57,26 +57,21 @@ class Tab extends Component {
                   }
                 ]}
               >
-                <Text style={this.state.choice == this.props.choice[1] ? { color: 'white'} : { color: Color.primary, fontFamily: 'Poppins-SemiBold', }}>{this.props.choice[1]}</Text>
+                <Text style={
+                  this.state.choice == this.props.choice[1] ? { color: 'white'} : { color: Color.primary, fontFamily: 'Poppins-SemiBold'}
+                }>{this.props.choice[1]}</Text>
               </TouchableOpacity>
             </View>
           )
         }
         {
           (this.props.level === 2) && (
-            <View style={[
-              Style.Tab, {
-                borderColor: theme ? theme.primary : Color.primary,
-              }
-            ]}>
-              <View style={[
-                Style.Information, {
-                  width: '100%',
-                  borderRadius: 10,
-                  borderColor: theme ? theme.primary : Color.primary,
-                }]}>
-                <Text style={{ color: Color.primary, fontFamily: 'Poppins-SemiBold', }}>{this.props.choice[0]}</Text>
-              </View>
+            <View style={{
+              width: '100%',
+              flexDirection: 'row',
+              borderTopWidth: .3,
+              borderColor: Color.gray
+            }}>
             </View>
           )
         }
