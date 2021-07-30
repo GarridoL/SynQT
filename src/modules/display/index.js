@@ -91,7 +91,6 @@ class Display extends Component {
     return (
       <View style={{
         flex: 1,
-        marginTop: 25,
         backgroundColor: Color.containerBackground
       }}>
         <ScrollView
@@ -102,7 +101,6 @@ class Display extends Component {
           >
           <View
           style={{
-            height: height + 25,
             flex: 1
           }}
 

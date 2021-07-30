@@ -37,10 +37,9 @@ class HeaderOptions extends Component {
     return (
       <View style={{
         width: width,
-        height: 80,
+        height: 60,
         justifyContent: 'center',
-        alignItems: 'center',
-        elevation: BasicStyles.elevation
+        alignItems: 'center'
       }}>
         {
           data != null && (
@@ -56,7 +55,12 @@ class HeaderOptions extends Component {
               }}>{this.props.state.currentTitle}</Text>
             </View>
           )}
-        <View style={{ flex: 1, flexDirection: 'row', position: 'absolute', right: 50 }}>
+        <View style={{
+          flex: 1,
+          flexDirection: 'row',
+          position: 'absolute',
+          right: 50
+        }}>
           <TouchableOpacity onPress={() => {
             if (status !== 'completed' && isReserved === false) {
               this.redirect('topChoiceStack')
@@ -64,7 +68,15 @@ class HeaderOptions extends Component {
               Alert.alert('', 'You already have an existing reservation.')
             }
           }}>
-            <View style={{ borderWidth: 2, borderRadius: 20, height: 30, width: 30, borderColor: theme ? theme.primary : Color.primary, justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{
+              borderWidth: 2,
+              borderRadius: 20,
+              height: 30,
+              width: 30,
+              borderColor: theme ? theme.primary : Color.primary,
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
               <FontAwesomeIcon
                 color={Color.warning}
                 icon={faStar}
@@ -74,7 +86,16 @@ class HeaderOptions extends Component {
           </TouchableOpacity>
           <TouchableOpacity onPress={() => status !== 'completed' && isReserved === false ?
             this.redirect('menuStack') : status !== 'completed' && isReserved === true ? Alert.alert('', 'You already have an existing reservation.') : console.log(isReserved)}>
-            <View style={{ borderWidth: 2, borderRadius: 20, height: 30, width: 30, borderColor: Color.primary, justifyContent: 'center', alignItems: 'center', marginLeft: 5 }}>
+            <View style={{
+              borderWidth: 2,
+              borderRadius: 20,
+              height: 30,
+              width: 30,
+              borderColor: Color.primary,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginLeft: 5
+            }}>
               <Image source={require('assets/logo.png')} style={{
                 height: 20,
                 width: 20
@@ -104,10 +125,7 @@ class HeaderOptions extends Component {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        height: 60,
-        backgroundColor: Color.white,
-        borderBottomWidth: .3,
-        borderColor: Color.gray,
+        backgroundColor: Color.containerBackground
       }}
       >
         <TouchableOpacity style={{

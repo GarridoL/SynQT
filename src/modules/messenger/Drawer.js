@@ -41,7 +41,7 @@ const MainMessageStack = createStackNavigator({
       headerStyle: {
         elevation: 0,
         backgroundColor: Color.white,
-        borderBottomWidth: .3,
+        // borderBottomWidth: .3,
         borderColor: Color.gray,
         height: 60
       },

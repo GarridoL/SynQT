@@ -388,7 +388,7 @@ class EventName extends Component {
                       }}
                       numberOfLines={1}
                       style={{
-                        fontSize: 20,
+                        fontSize: 16,
                         color: 'white',
                         textShadowColor: 'black',
                         textShadowOffset: { width: 1, height: 1 },
@@ -409,7 +409,7 @@ class EventName extends Component {
                       numberOfLines={1}
                       style={{
                         color: Color.danger,
-                        fontSize: 20,
+                        fontSize: 15,
                         textShadowColor: 'black',
                         textShadowOffset: { width: 1, height: 1 },
                         textShadowRadius: 5,
@@ -429,7 +429,7 @@ class EventName extends Component {
                 <Text
                   numberOfLines={1}
                   style={{
-                    fontSize: 20,
+                    fontSize: 16,
                     color: 'white',
                     textShadowColor: 'black',
                     textShadowOffset: { width: 1, height: 1 },

@@ -51,7 +51,7 @@ class Footer extends Component {
             position: 'absolute',
             bottom: 0,
             height: 60,
-            backgroundColor: Color.white,
+            backgroundColor: Color.containerBackground,
             elevation: 0
           }}>
           {
@@ -70,7 +70,7 @@ class Footer extends Component {
                     style={[
                       BasicStyles.iconStyle,
                       {
-                        color: theme ? theme.primary : Color.primary,
+                        color: Color.gray,
                       },
                     ]}
                   />
@@ -95,7 +95,7 @@ class Footer extends Component {
                     style={[
                       BasicStyles.iconStyle,
                       {
-                        color: theme ? theme.primary : Color.primary,
+                        color: Color.gray,
                       },
                     ]}
                   />
@@ -131,7 +131,7 @@ class Footer extends Component {
                 style={[
                   BasicStyles.iconStyle,
                   {
-                    color: theme ? theme.primary : Color.primary,
+                    color: Color.gray ,
                   },
                 ]}
               />
