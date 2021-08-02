@@ -358,7 +358,7 @@ class Groups extends Component {
 
   _flatList = () => {
     const { selected } = this.state;
-    const { user } = this.props.state;
+    const { user, theme } = this.props.state;
     return (
       <View style={{
         width: '100%',
@@ -367,7 +367,8 @@ class Groups extends Component {
         {
           this.props.state.allMessages.length > 0 && user != null && <Text style={{
             fontFamily: 'Poppins-SemiBold',
-            padding: 10
+            padding: 10,
+            color: theme ? theme.primary : Color.primary
           }}>{this.props.state.allMessages.length > 1 ? 'Conversations' : 'Conversation'}</Text>
         }
         {
@@ -413,9 +414,10 @@ class Groups extends Component {
           }}>
             <Text style={{
             fontFamily: 'Poppins-SemiBold',
-            marginRight: 10
+            marginRight: 10,
+            color: theme ? theme.primary : Color.primary
           }}>{this.state.connections?.length > 1 ? 'Connections' : 'Connection'}</Text>
-          <Text>({this.state.connections?.length})</Text>
+          <Text style={{color: theme ? theme.primary : Color.primary}}>({this.state.connections?.length})</Text>
           </View>
           {this.state.connections.length > 0 ? (<Group inviteToSynqt={true} add={false} style={{
             borderColor: Color.primary,

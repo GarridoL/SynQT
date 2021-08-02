@@ -71,7 +71,7 @@ class CardList extends Component {
     Api.request(Routes.circleUpdate, parameter, response => {
       this.props.loading(false);
       this.props.retrieve();
-      if(response.data !== null && status === 'accepted') {
+      if (response.data !== null && status === 'accepted') {
         this.props.update('confirm', item)
       }
     }, error => {
@@ -111,7 +111,7 @@ class CardList extends Component {
   render() {
     const { theme } = this.props.state;
     return (
-      <View style={{backgroundColor: Color.containerBackground}}>
+      <View style={{ backgroundColor: Color.containerBackground }}>
         {
           this.props.data.length > 0 && this.props.data.map((el, idx) => {
             return (
@@ -119,7 +119,14 @@ class CardList extends Component {
                 {this.props.search ?
                   <View>
                     {this.props.search && (this.props.search !== null || this.props.search !== '') && (((el.account?.information?.first_name + ' ' + el.account?.information?.last_name).toLowerCase()).includes(this.props.search.toLowerCase()) || (el.account?.username).toLowerCase().includes(this.props.search.toLowerCase())) && <TouchableOpacity onPress={() => { this.props.navigation.navigate('viewProfileStack', { user: el, level: this.props.level }) }}>
-                      <ListItem key={idx} style={{ width: width }}>
+                      <View key={idx} style={{
+                        flexDirection: 'row',
+                        height: 75,
+                        marginLeft: 20,
+                        marginRight: 20,
+                        marginTop: 10,
+                        marginBottom: 10
+                      }}>
                         {el.account?.profile?.url ? <Image
                           style={{
                             width: 75,
@@ -140,146 +147,19 @@ class CardList extends Component {
                             overflow: "hidden",
                             justifyContent: 'center',
                             alignItems: 'center',
-                            paddingBottom: 8
                           }}><FontAwesomeIcon
                               icon={faUser}
                               size={53}
                               color={theme ? theme.primary : Color.primary}
                             /></View>}
-                        <View>
-                          <View style={{ flexDirection: 'row' }}>
-                            <View style={{ width: '70%' }}>
-                              <Text style={{ fontFamily: 'Poppins-SemiBold' }} numberOfLines={1}>{el.account?.information?.first_name ? el.account?.information?.first_name + ' ' + el.account?.information?.last_name : el.account?.username}</Text>
-                              <Text style={{ fontFamily: 'Poppins-Italic' }}>{el.account?.information?.address || 'No address provided'}</Text>
-                              <Text style={{ color: 'gray', fontSize: 10, marginBottom: 5 }}>{el.similar_connections ? el.similar_connections : 0} similar connection(s)</Text>
-                              {
-                                this.props.hasAction && this.props.state.user.id != el.account_id && (
-                                  <View style={{ flexDirection: 'row' }}>
-                                    <TouchableOpacity
-                                      onPress={() => this.updateStatus(el, 'accepted')}
-                                      style={{
-                                        height: 30,
-                                        backgroundColor: theme ? theme.primary : Color.primary,
-                                        width: '37%',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        borderRadius: 25,
-                                        marginLeft: 3,
-                                        elevation: BasicStyles.elevation
-                                      }}
-                                    >
-                                      <Text style={{ color: 'white' }}>Confirm</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                      onPress={() => this.updateStatus(el, 'declined')}
-                                      style={{
-                                        height: 30,
-                                        backgroundColor: 'gray',
-                                        width: '37%',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        borderRadius: 25,
-                                        marginLeft: 3,
-                                        elevation: BasicStyles.elevation
-                                      }}
-                                    >
-                                      <Text style={{ color: 'white' }}>Delete</Text>
-                                    </TouchableOpacity>
-                                  </View>
-                                )
-                              }
-                              {this.props.hasAction === true && this.props.state.user.id == el.account_id &&
-                                (
-                                  <TouchableOpacity
-                                    onPress={() => this.deleteConnection(el)}
-                                    style={{
-                                      ...Style.actionBtn,
-                                      backgroundColor: 'gray',
-                                      elevation: BasicStyles.elevation
-                                    }}
-                                  >
-                                    <Text style={{ color: 'white' }}>Cancel</Text>
-                                  </TouchableOpacity>
-                                )
-                              }
-                            </View>
-                            {el.added && el.added === true || this.props.data.length === this.props.state.tempMembers.length ?
-                              <View style={{
-                                position: 'absolute',
-                                left: (width - 200),
-                                flexDirection: 'row'
-                              }}>
-                                <TouchableOpacity onPress={() => { this.remove(el.account?.id) }}>
-                                  <Text style={{ color: Color.danger }}>Remove</Text>
-                                </TouchableOpacity>
-                              </View>
-                              :
-                              <View style={{
-                                position: 'absolute',
-                                left: (width - 270),
-                              }}>
-                                {
-                                  this.props.actionType == 'text' ? (
-                                    <Text style={{ marginLeft: 10 }}>{el.lastLogin}</Text>
-                                  ) : (
-                                    <TouchableOpacity
-                                      onPress={() => this.props.invite ? this.storePeople(el) : this.props.actionContent == 'icon' || el.is_added === true ? this.deleteConnection(el) : this.sendRequest(el)}
-                                      style={[Style.button, { backgroundColor: this.props.actionContent == 'icon' || el.is_added === true ? 'gray' : Color.primary }]}
-                                    >
-                                      {
-                                        this.props.actionContent == 'icon' ? (
-                                          <Text style={{ color: 'white' }}>Remove</Text>
-                                        ) : (
-                                          <Text style={{ color: 'white' }}>{el.is_added ? 'Cancel' : 'Add'}</Text>
-                                        )
-                                      }
-                                    </TouchableOpacity>
-                                  )
-                                }
-                              </View>
-                            }
-                          </View>
-                        </View>
-                      </ListItem>
-                      {/* </Card> */}
-                    </TouchableOpacity>}</View> :
-                  <TouchableOpacity
-                    onPress={() => { this.props.navigation.navigate('viewProfileStack', { user: el, level: this.props.level }) }}
-                    style={{backgroundColor: Color.containerBackground}}
-                  >
-                    <ListItem key={idx} style={{ width: width }} containerStyle={{backgroundColor: Color.containerBackground}}>
-                      {el.account?.profile?.url ? <Image
-                        style={{
-                          width: 75,
-                          height: 75,
-                          borderRadius: 50,
-                          borderColor: theme ? theme.primary : Color.primary,
-                          borderWidth: 3,
-                          overflow: "hidden",
-                        }}
-                        source={{ uri: Config.BACKEND_URL + el.account?.profile?.url }}
-                      /> :
                         <View style={{
-                          width: 75,
-                          height: 75,
-                          borderRadius: 50,
-                          borderColor: theme ? theme.primary : Color.primary,
-                          borderWidth: 3,
-                          overflow: "hidden",
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          paddingBottom: 8
-                        }}><FontAwesomeIcon
-                            icon={faUser}
-                            size={53}
-                            color={theme ? theme.primary : Color.primary}
-                          /></View>}
-                      <View>
-                        <View style={{ flexDirection: 'row' }}>
+                          flexDirection: 'row',
+                          marginLeft: 10
+                        }}>
                           <View style={{ width: '70%' }}>
-                            <Text style={{ fontFamily: 'Poppins-SemiBold', }} numberOfLines={1}>{el.account?.information?.first_name ? el.account?.information?.first_name + ' ' + el.account?.information?.last_name : el.account?.username}</Text>
+                            <Text style={{ fontFamily: 'Poppins-SemiBold' }} numberOfLines={1}>{el.account?.information?.first_name ? el.account?.information?.first_name + ' ' + el.account?.information?.last_name : el.account?.username}</Text>
                             <Text style={{ fontFamily: 'Poppins-Italic' }}>{el.account?.information?.address || 'No address provided'}</Text>
-                            <Text style={{ color: 'gray', fontSize: 10, marginBottom: 5 }}>{el.similar_connections ? el.similar_connections : 0} similar connection(s)</Text>
+                            <Text style={{ color: 'gray', fontSize: 10 }}>{el.similar_connections ? el.similar_connections : 0} similar connection(s)</Text>
                             {
                               this.props.hasAction && this.props.state.user.id != el.account_id && (
                                 <View style={{ flexDirection: 'row' }}>
@@ -288,7 +168,7 @@ class CardList extends Component {
                                     style={{
                                       height: 30,
                                       backgroundColor: theme ? theme.primary : Color.primary,
-                                      width: '37%',
+                                      width: '40%',
                                       alignItems: 'center',
                                       justifyContent: 'center',
                                       borderRadius: 25,
@@ -303,7 +183,7 @@ class CardList extends Component {
                                     style={{
                                       height: 30,
                                       backgroundColor: 'gray',
-                                      width: '37%',
+                                      width: '40%',
                                       alignItems: 'center',
                                       justifyContent: 'center',
                                       borderRadius: 25,
@@ -322,7 +202,8 @@ class CardList extends Component {
                                   onPress={() => this.deleteConnection(el)}
                                   style={{
                                     ...Style.actionBtn,
-                                    backgroundColor: 'gray'
+                                    backgroundColor: 'gray',
+                                    elevation: BasicStyles.elevation
                                   }}
                                 >
                                   <Text style={{ color: 'white' }}>Cancel</Text>
@@ -348,33 +229,166 @@ class CardList extends Component {
                               {
                                 this.props.actionType == 'text' ? (
                                   <Text style={{ marginLeft: 10 }}>{el.lastLogin}</Text>
-                                ) :
-                                  <View>
-                                    {el.is_added === false && this.props.actionContent !== 'icon' && <TouchableOpacity
-                                      onPress={() => this.props.invite ? this.storePeople(el) : this.props.actionContent == 'icon' || el.is_added === true ? this.deleteConnection(el) : this.sendRequest(el)}
-                                      style={[Style.button, { backgroundColor: this.props.actionContent == 'icon' || el.is_added === true ? 'gray' : theme ? theme.primary : Color.primary }]}
-                                    >
-                                      <Text style={{ color: 'white' }}>{el.is_added ? 'Cancel' : 'Add'}</Text>
-                                    </TouchableOpacity>}
-                                    {this.props.actionContent === 'icon' && <TouchableOpacity
-                                      onPress={() => this.deleteConnection(el)}
-                                      style={[Style.button, { backgroundColor: this.props.actionContent == 'icon' || el.is_added === true ? 'gray' : theme ? theme.primary : Color.primary }]}
-                                    >
-                                      <Text style={{ color: 'white' }}>Remove</Text>
-                                    </TouchableOpacity>}
-                                    {this.props.invite === true && <TouchableOpacity
-                                      onPress={() => this.storePeople(el)}
-                                      style={[Style.button, { backgroundColor: this.props.actionContent == 'icon' || el.is_added === true ? 'gray' : theme ? theme.primary : Color.primary }]}
-                                    >
-                                      <Text style={{ color: 'white' }}>Add</Text>
-                                    </TouchableOpacity>}
-                                  </View>
+                                ) : (
+                                  <TouchableOpacity
+                                    onPress={() => this.props.invite ? this.storePeople(el) : this.props.actionContent == 'icon' || el.is_added === true ? this.deleteConnection(el) : this.sendRequest(el)}
+                                    style={[Style.button, { backgroundColor: this.props.actionContent == 'icon' || el.is_added === true ? 'gray' : Color.primary }]}
+                                  >
+                                    {
+                                      this.props.actionContent == 'icon' ? (
+                                        <Text style={{ color: 'white' }}>Remove</Text>
+                                      ) : (
+                                        <Text style={{ color: 'white' }}>{el.is_added ? 'Cancel' : 'Add'}</Text>
+                                      )
+                                    }
+                                  </TouchableOpacity>
+                                )
                               }
                             </View>
                           }
                         </View>
                       </View>
-                    </ListItem>
+                      {/* </Card> */}
+                    </TouchableOpacity>}</View> :
+                  <TouchableOpacity
+                    onPress={() => { this.props.navigation.navigate('viewProfileStack', { user: el, level: this.props.level }) }}
+                    style={{ backgroundColor: Color.containerBackground }}
+                  >
+                    <View key={idx} style={{
+                      flexDirection: 'row',
+                      height: 75,
+                      marginLeft: 20,
+                      marginRight: 20,
+                      marginTop: 10,
+                      marginBottom: 10
+                    }}>
+                      {el.account?.profile?.url ? <Image
+                        style={{
+                          width: 75,
+                          height: 75,
+                          borderRadius: 50,
+                          borderColor: theme ? theme.primary : Color.primary,
+                          borderWidth: 3,
+                          overflow: "hidden",
+                        }}
+                        source={{ uri: Config.BACKEND_URL + el.account?.profile?.url }}
+                      /> :
+                        <View style={{
+                          width: 75,
+                          height: 75,
+                          borderRadius: 50,
+                          borderColor: theme ? theme.primary : Color.primary,
+                          borderWidth: 3,
+                          overflow: "hidden",
+                          justifyContent: 'center',
+                          alignItems: 'center'
+                        }}><FontAwesomeIcon
+                            icon={faUser}
+                            size={53}
+                            color={theme ? theme.primary : Color.primary}
+                          /></View>}
+                      <View style={{
+                        flexDirection: 'row',
+                        marginLeft: 10
+                      }}>
+                        <View style={{ width: '70%' }}>
+                          <Text style={{ fontFamily: 'Poppins-SemiBold', }} numberOfLines={1}>{el.account?.information?.first_name ? el.account?.information?.first_name + ' ' + el.account?.information?.last_name : el.account?.username}</Text>
+                          <Text style={{ fontFamily: 'Poppins-Italic' }}>{el.account?.information?.address || 'No address provided'}</Text>
+                          <Text style={{ color: 'gray', fontSize: 10 }}>{el.similar_connections ? el.similar_connections : 0} similar connection(s)</Text>
+                          {
+                            this.props.hasAction && this.props.state.user.id != el.account_id && (
+                              <View style={{ flexDirection: 'row' }}>
+                                <TouchableOpacity
+                                  onPress={() => this.updateStatus(el, 'accepted')}
+                                  style={{
+                                    height: 30,
+                                    backgroundColor: theme ? theme.primary : Color.primary,
+                                    width: '40%',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    borderRadius: 25,
+                                    marginLeft: 3,
+                                    elevation: BasicStyles.elevation
+                                  }}
+                                >
+                                  <Text style={{ color: 'white' }}>Confirm</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                  onPress={() => this.updateStatus(el, 'declined')}
+                                  style={{
+                                    height: 30,
+                                    backgroundColor: 'gray',
+                                    width: '40%',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    borderRadius: 25,
+                                    marginLeft: 3,
+                                    elevation: BasicStyles.elevation
+                                  }}
+                                >
+                                  <Text style={{ color: 'white' }}>Delete</Text>
+                                </TouchableOpacity>
+                              </View>
+                            )
+                          }
+                          {this.props.hasAction === true && this.props.state.user.id == el.account_id &&
+                            (
+                              <TouchableOpacity
+                                onPress={() => this.deleteConnection(el)}
+                                style={{
+                                  ...Style.actionBtn,
+                                  backgroundColor: 'gray'
+                                }}
+                              >
+                                <Text style={{ color: 'white' }}>Cancel</Text>
+                              </TouchableOpacity>
+                            )
+                          }
+                        </View>
+                        {el.added && el.added === true || this.props.data.length === this.props.state.tempMembers.length ?
+                          <View style={{
+                            position: 'absolute',
+                            left: (width - 200),
+                            flexDirection: 'row'
+                          }}>
+                            <TouchableOpacity onPress={() => { this.remove(el.account?.id) }}>
+                              <Text style={{ color: Color.danger }}>Remove</Text>
+                            </TouchableOpacity>
+                          </View>
+                          :
+                          <View style={{
+                            position: 'absolute',
+                            left: (width - 270),
+                          }}>
+                            {
+                              this.props.actionType == 'text' ? (
+                                <Text style={{ marginLeft: 10 }}>{el.lastLogin}</Text>
+                              ) :
+                                <View>
+                                  {el.is_added === false && this.props.actionContent !== 'icon' && <TouchableOpacity
+                                    onPress={() => this.props.invite ? this.storePeople(el) : this.props.actionContent == 'icon' || el.is_added === true ? this.deleteConnection(el) : this.sendRequest(el)}
+                                    style={[Style.button, { backgroundColor: this.props.actionContent == 'icon' || el.is_added === true ? 'gray' : theme ? theme.primary : Color.primary }]}
+                                  >
+                                    <Text style={{ color: 'white' }}>{el.is_added ? 'Cancel' : 'Add'}</Text>
+                                  </TouchableOpacity>}
+                                  {this.props.actionContent === 'icon' && <TouchableOpacity
+                                    onPress={() => this.deleteConnection(el)}
+                                    style={[Style.button, { backgroundColor: this.props.actionContent == 'icon' || el.is_added === true ? 'gray' : theme ? theme.primary : Color.primary }]}
+                                  >
+                                    <Text style={{ color: 'white' }}>Remove</Text>
+                                  </TouchableOpacity>}
+                                  {this.props.invite === true && <TouchableOpacity
+                                    onPress={() => this.storePeople(el)}
+                                    style={[Style.button, { backgroundColor: this.props.actionContent == 'icon' || el.is_added === true ? 'gray' : theme ? theme.primary : Color.primary }]}
+                                  >
+                                    <Text style={{ color: 'white' }}>Add</Text>
+                                  </TouchableOpacity>}
+                                </View>
+                            }
+                          </View>
+                        }
+                      </View>
+                    </View>
                     {/* </Card> */}
                   </TouchableOpacity>}
               </View>
@@ -424,7 +438,7 @@ const Style = StyleSheet.create({
     borderRadius: 25,
     alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: 50,
+    marginLeft: 70,
     elevation: BasicStyles.elevation
   },
   iconBtn: {
