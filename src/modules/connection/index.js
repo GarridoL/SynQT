@@ -212,15 +212,13 @@ class Connections extends Component {
           }}
         >
           <View style={{
-            marginBottom: 50,
-            padding: 10
+            marginBottom: 50
           }}>
             <View style={{
               flex: 1,
               flexDirection: 'row',
-              borderBottomWidth: this.state.pending.length > 0 ? 0.3 : 0,
-              paddingBottom: this.state.pending.length === 0 ? 0 : 20,
-              borderColor: Color.gray
+              paddingBottom: this.state.pending.length === 0 ? 0 : 10,
+              padding: 10
             }}>
               {
                 navs.map((el, idx) => {
@@ -249,7 +247,7 @@ class Connections extends Component {
                       <Text style={{ color: 'gray', paddingTop: 5, paddingLeft: 15 }}>See All</Text>
                     </TouchableOpacity>
                   }
-                  <View style={{ paddingLeft: 30, borderBottomWidth: this.state.pending.length > 0 ? 0.3 : 0, padding: this.state.pending.length === 0 ? 10 : 20, borderColor: Color.gray }}>
+                  <View style={{ paddingLeft: 30, paddingTop: 20, borderColor: Color.gray }}>
                     <Text style={{ fontFamily: 'Poppins-SemiBold', }}>Connections you may know</Text>
                   </View>
 
@@ -265,7 +263,7 @@ class Connections extends Component {
                     flex: 1,
                     justifyContent: 'center',
                     alignItems: 'center',
-                    marginTop: '5%'
+                    marginTop: 20
                   }}>
                     <View style={Style.TextContainer}>
                       <TextInput

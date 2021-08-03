@@ -83,57 +83,59 @@ class HomePage extends Component {
   render() {
     const { user, theme } = this.props.state;
     return (
-      <View style={[Style.MainContainer, {
-        flex: 1,
-        alignItems: 'center',
-        height: height
-      }]}>
-        <View style={{
-          justifyContent: 'center',
-          width: '90%',
-          marginRight: '5%',
-          marginLeft: '5%',
-          alignItems: 'center'
-        }}>
-          <View style={{
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}>
+      <View>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={[Style.MainContainer, {
+            flex: 1,
+            alignItems: 'center',
+            height: height
+          }]}>
             <View style={{
               justifyContent: 'center',
-              alignItems: 'center',
-              width: '100%',
-            }}
-            >
-              <View
-                style={{
-                  height: 150,
-                  width: 150,
-                  borderRadius: 100,
-                  borderColor: theme ? theme.primary : Color.primary,
-                  borderWidth: 2
+              width: '90%',
+              marginRight: '5%',
+              marginLeft: '5%',
+              alignItems: 'center'
+            }}>
+              <View style={{
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}>
+                <View style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: '100%',
                 }}
-              >
-                {
-                  user?.account_profile && user?.account_profile.url ? (
-                    <Image
-                      source={user && user.account_profile && user.account_profile.url ? { uri: Config.BACKEND_URL + user.account_profile.url } : require('assets/logo.png')}
-                      style={[BasicStyles.profileImageSize, {
-                        height: '100%',
-                        width: '100%',
-                        borderRadius: 100,
-                        borderColor: Color.white,
-                        borderWidth: 3
-                      }]} />
-                  ) : <FontAwesomeIcon
-                    icon={faUserCircle}
-                    size={137}
+                >
+                  <View
                     style={{
-                      color: Color.white
+                      height: 150,
+                      width: 150,
+                      borderRadius: 100,
+                      borderColor: theme ? theme.primary : Color.primary,
+                      borderWidth: 2
                     }}
-                  />
-                }
-                {/* <View style={{
+                  >
+                    {
+                      user?.account_profile && user?.account_profile.url ? (
+                        <Image
+                          source={user && user.account_profile && user.account_profile.url ? { uri: Config.BACKEND_URL + user.account_profile.url } : require('assets/logo.png')}
+                          style={[BasicStyles.profileImageSize, {
+                            height: '100%',
+                            width: '100%',
+                            borderRadius: 100,
+                            borderColor: Color.white,
+                            borderWidth: 3
+                          }]} />
+                      ) : <FontAwesomeIcon
+                        icon={faUserCircle}
+                        size={146}
+                        style={{
+                          color: theme ? theme.primary : Color.primary
+                        }}
+                      />
+                    }
+                    {/* <View style={{
                   height: 35,
                   width: 35,
                   borderRadius: 100,
@@ -162,142 +164,143 @@ class HomePage extends Component {
                     />
                   </View>
                 </View> */}
+                  </View>
+                </View>
+                <View style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: '100%',
+                  marginTop: 20
+                }}>
+                  <View style={{
+                    flexDirection: 'row',
+                  }}>
+                    <FontAwesomeIcon
+                      icon={faCheckCircle}
+                      size={20}
+                      style={{ marginRight: 5 }}
+                      color={Color.gray} />
+                    <Text style={{
+                      fontSize: 18,
+                      fontFamily: 'Poppins-Bold'
+                    }}
+                      numberOfLines={1}>{user?.account_information?.first_name ? user?.account_information?.first_name + '  ' + user?.account_information?.last_name : user?.username}
+                    </Text>
+                  </View>
+                  <TouchableOpacity style={{
+                    padding: 5,
+                    paddingRight: 10,
+                    paddingLeft: 10,
+                    borderRadius: 20,
+                    backgroundColor: Color.lightGray
+                  }}
+                    onPress={() => this.props.navigation.push('profileStack')}
+                  >
+                    <Text style={{
+                      textAlign: 'center',
+                      fontSize: 12
+                    }}
+                      numberOfLines={4}>complete my profile</Text>
+                  </TouchableOpacity>
+                  <Text
+                    numberOfLines={1}
+                    style={{
+                      fontFamily: 'Poppins-SemiBold',
+                      textAlign: 'center',
+                      fontSize: 24,
+                      marginTop: 20
+                    }} adjustsFontSizeToFit>Hi guys! Where shall we go?</Text>
+                </View>
               </View>
             </View>
+
             <View style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: '100%',
-              marginTop: 20
+              width: '80%',
+              marginTop: 20,
+              borderRadius: 25
             }}>
               <View style={{
-                flexDirection: 'row',
-              }}>
-                <FontAwesomeIcon
-                  icon={faCheckCircle}
-                  size={20}
-                  style={{ marginRight: 5 }}
-                  color={Color.gray} />
-                <Text style={{
-                  fontSize: 18,
-                  fontFamily: 'Poppins-Bold'
-                }}
-                  numberOfLines={1}>{user?.account_information?.first_name ? user?.account_information?.first_name + '  ' + user?.account_information?.last_name : user?.username}
-                </Text>
-              </View>
-              <TouchableOpacity style={{
-                padding: 5,
-                paddingRight: 10,
-                paddingLeft: 10,
+                height: 130,
+                borderColor: Color.gray,
+                borderWidth: 1,
                 borderRadius: 20,
-                backgroundColor: Color.lightGray
-              }}
-                onPress={() => this.props.navigation.push('profileStack')}
-              >
+                alignItems: 'center'
+              }}>
+                <View style={{
+                  borderRadius: 100,
+                  height: 40,
+                  width: 40,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: Color.primary,
+                  position: 'absolute',
+                  top: -20
+                }}>
+                  <FontAwesomeIcon icon={faCalendar} size={13} color={Color.white} />
+                </View>
                 <Text style={{
+                  marginTop: 20,
                   textAlign: 'center',
-                  fontSize: 12
+                  padding: 5
                 }}
-                  numberOfLines={4}>complete my profile</Text>
-              </TouchableOpacity>
-              <Text
-                numberOfLines={1}
+                  adjustsFontSizeToFit
+                  numberOfLines={2}
+                >See your upcoming reservations from different SYNQTs.</Text>
+              </View>
+
+              <LinearGradient
+                colors={['#FFE1B2', '#EAA467', '#EAA467']}
                 style={{
-                  fontFamily: 'Poppins-SemiBold',
-                  textAlign: 'center',
-                  fontSize: 24,
-                  marginTop: 20
-                }} adjustsFontSizeToFit>Hi guys! Where shall we go?</Text>
+                  height: 50,
+                  width: '100%',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderBottomLeftRadius: 20,
+                  borderBottomRightRadius: 20,
+                  position: 'absolute',
+                  bottom: 0
+                }}
+                onPress={() => this.redirect('historyStack')}
+              >
+                <TouchableOpacity
+                  onPress={() => this.redirect('historyStack')}
+                  style={{
+                    height: 50,
+                    width: '100%',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Text style={{
+                    color: Color.white,
+                    fontFamily: 'Poppins-SemiBold'
+                  }}>Upcoming</Text>
+                </TouchableOpacity>
+              </LinearGradient>
             </View>
-          </View>
-        </View>
 
-        <View style={{
-          width: '80%',
-          marginTop: 20,
-          borderRadius: 25
-        }}>
-          <View style={{
-            height: 130,
-            borderColor: Color.gray,
-            borderWidth: 1,
-            borderRadius: 20,
-            alignItems: 'center'
-          }}>
             <View style={{
-              borderRadius: 100,
-              height: 40,
-              width: 40,
               justifyContent: 'center',
               alignItems: 'center',
-              backgroundColor: Color.primary,
-              position: 'absolute',
-              top: -20
+              marginTop: 40
             }}>
-              <FontAwesomeIcon icon={faCalendar} size={13} color={theme ? theme.primary : Color.white} />
+              <TouchableOpacity
+                onPress={() => this.redirect('restaurantStack')}
+                style={{
+                  borderRadius: 100,
+                  height: 70,
+                  width: 70,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: Color.primary,
+                  marginBottom: 5
+                }}>
+                <FontAwesomeIcon icon={faUtensils} size={30} color={Color.white} />
+              </TouchableOpacity>
+              <Text style={{ color: Color.gray }}>Create SYNQT</Text>
             </View>
-            <Text style={{
-              marginTop: 20,
-              textAlign: 'center',
-              padding: 5
-            }}
-              adjustsFontSizeToFit
-              numberOfLines={2}
-            >See your upcoming reservations from different SYNQTs.</Text>
           </View>
-
-          <LinearGradient
-            colors={['#FFE1B2', '#EAA467', '#EAA467']}
-            style={{
-              height: 50,
-              width: '100%',
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderBottomLeftRadius: 20,
-              borderBottomRightRadius: 20,
-              position: 'absolute',
-              bottom: 0
-            }}
-            onPress={() => this.redirect('historyStack')}
-          >
-            <TouchableOpacity
-              onPress={() => this.redirect('historyStack')}
-              style={{
-                height: 50,
-                width: '100%',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <Text style={{
-                color: Color.white,
-                fontFamily: 'Poppins-SemiBold'
-              }}>Upcoming</Text>
-            </TouchableOpacity>
-          </LinearGradient>
-        </View>
-
-        <View style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginTop: 40
-        }}>
-          <TouchableOpacity
-            onPress={() => this.redirect('restaurantStack')}
-            style={{
-              borderRadius: 100,
-              height: 70,
-              width: 70,
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: Color.primary,
-              marginBottom: 5
-            }}>
-            <FontAwesomeIcon icon={faUtensils} size={30} color={theme ? theme.primary : Color.white} />
-          </TouchableOpacity>
-          <Text style={{ color: Color.gray }}>Create SYNQT</Text>
-        </View>
-
+        </ScrollView>
         <Footer layer={0} {...this.props} />
       </View>
     );
