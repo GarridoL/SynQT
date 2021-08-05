@@ -38,6 +38,7 @@ class ImageCardWithUser extends Component {
     return (
       <View style={{
         width: '100%',
+        marginTop: 10,
         ...this.props.style
       }}>
         {
@@ -45,12 +46,19 @@ class ImageCardWithUser extends Component {
             <TouchableOpacity
               style={{
                 borderRadius: BasicStyles.standardBorderRadius,
-                // elevation: 3,
                 width: '100%',
               }}
               onPress={(data) => this.props.onClick(data)}
             >
-              <View>
+              <View style={{
+                borderLeftWidth: 1,
+                borderTopWidth: 1,
+                borderRightWidth: 1,
+                borderColor: Color.lightGray,
+                borderTopLeftRadius: 20,
+                borderTopRightRadius: 20,
+                height: height / 3.5,
+              }}>
                 <Image
                   source={data.logo ? { uri: Config.BACKEND_URL + data.logo } : data.details === false ? this.state.background[this.random()] : require('assets/synqt.png')}
                   style={{
@@ -58,7 +66,6 @@ class ImageCardWithUser extends Component {
                     height: height / 3.5,
                     borderTopLeftRadius: BasicStyles.standardBorderRadius,
                     borderTopRightRadius: BasicStyles.standardBorderRadius,
-                    marginTop: 5
                   }} />
               </View>
               <View style={{
