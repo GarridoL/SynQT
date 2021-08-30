@@ -91,13 +91,13 @@ class Checkout extends Component {
               marginTop: 40}}>
               <Text style={{ color: Color.primary }}>Thank you! Your order has been received.</Text>
               <Text style={{ marginTop: 20 }}>ORDER NO:</Text>
-              <Text style={{ fontWeight: 'bold',  }}>1234</Text>
+              <Text style={{ fontFamily: 'Poppins-SemiBold',}}>1234</Text>
               <Text style={{ marginTop: 15 }}>DATE & TIME:</Text>
-              <Text style={{ fontWeight: 'bold',  }}>Januray 20, 2021 3:30 PM</Text>
+              <Text style={{ fontFamily: 'Poppins-SemiBold',}}>Januray 20, 2021 3:30 PM</Text>
               <Text style={{ marginTop: 15 }}>SHIPPING METHOD:</Text>
-              <Text style={{ fontWeight: 'bold',  }}>Shipping Method 1</Text>
+              <Text style={{ fontFamily: 'Poppins-SemiBold',}}>Shipping Method 1</Text>
               <Text style={{ marginTop: 15 }}>PAYMENT METHOD:</Text>
-              <Text style={{ fontWeight: 'bold', marginBottom: 25 }}>Payment Method 1</Text>
+              <Text style={{ fontFamily: 'Poppins-SemiBold', marginBottom: 25 }}>Payment Method 1</Text>
             </View>
             <View style={{
               paddingBottom: 10,
@@ -112,7 +112,7 @@ class Checkout extends Component {
                 justifyContent: 'center',
                 textAlign: 'center',
               }}>
-                  <Text style={{ fontWeight: 'bold', marginTop: 10 }}>ORDER DETAILS</Text>
+                  <Text style={{ fontFamily: 'Poppins-SemiBold', marginTop: 10 }}>ORDER DETAILS</Text>
               </View>
               {this.renderOrderDetails()}
             </View>
@@ -137,11 +137,11 @@ class Checkout extends Component {
                 }}>P 6, 000.00</Text>
               </View>
               <View style={{ flexDirection: 'row', marginTop: 15 }}>
-                <Text style={{ fontWeight: 'bold' }}>TOTAL</Text>
+                <Text style={{ fontFamily: 'Poppins-SemiBold',}}>TOTAL</Text>
                 <Text style={{
                   position: 'absolute',
                   right: 10,
-                  fontWeight: 'bold'
+                  fontFamily: 'Poppins-SemiBold',
                 }}>P 6, 000.00</Text>
               </View>
             </View>
@@ -209,7 +209,7 @@ class Checkout extends Component {
               alignItems: 'center',
               marginTop: 15
             }}>
-              <Text style={{ fontWeight: 'bold' }}>BILLING DETAILS</Text>
+              <Text style={{ fontFamily: 'Poppins-SemiBold', }}>BILLING DETAILS</Text>
             </View>
             <View style={{
               marginTop: 25,
@@ -259,19 +259,19 @@ class Checkout extends Component {
               alignItems: 'center',
               marginTop: 15
             }}>
-              <Text style={{ fontWeight: 'bold' }}>SHIPPING DETAILS</Text>
+              <Text style={{ fontFamily: 'Poppins-SemiBold', }}>SHIPPING DETAILS</Text>
             </View>
             <View style={{ flexDirection: 'row', marginTop: 20 }}>
               <CheckBox />
               <Text style={{
-                fontWeight: 'bold',
+                fontFamily: 'Poppins-SemiBold',
                 marginTop: 5
               }}>Ship to a different address?</Text>
             </View>
           </View>
 
           <View style={{ padding: 15 }}>
-            <Text style={{ fontWeight: 'bold', marginBottom: 20 }}>Order notes</Text>
+            <Text style={{ fontFamily: 'Poppins-SemiBold', marginBottom: 20 }}>Order notes</Text>
             <View style={{
               width: '100%',
               height: 160,
@@ -286,7 +286,7 @@ class Checkout extends Component {
               alignItems: 'center',
               marginTop: 15
             }}>
-              <Text style={{ fontWeight: 'bold' }}>YOUR ORDER</Text>
+              <Text style={{ fontFamily: 'Poppins-SemiBold', }}>YOUR ORDER</Text>
             </View>
             {this.renderOrderDetails()}
           </View>
@@ -334,11 +334,11 @@ class Checkout extends Component {
               </View>
             </View>
             <View style={{ flexDirection: 'row', marginTop: 15 }}>
-              <Text style={{ fontWeight: 'bold' }}>TOTAL</Text>
+              <Text style={{ fontFamily: 'Poppins-SemiBold',}}>TOTAL</Text>
               <Text style={{
                 position: 'absolute',
                 right: 10,
-                fontWeight: 'bold'
+                fontFamily: 'Poppins-SemiBold',
               }}>P 6, 000.00</Text>
             </View>
           </View>
@@ -348,7 +348,7 @@ class Checkout extends Component {
               alignItems: 'center',
               marginBottom: 25
             }}>
-              <Text style={{ fontWeight: 'bold' }}>PAYMENT METHOD</Text>
+              <Text style={{ fontFamily: 'Poppins-SemiBold', }}>PAYMENT METHOD</Text>
             </View>
             <RadioForm
               radio_props={[

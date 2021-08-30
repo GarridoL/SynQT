@@ -145,7 +145,7 @@ class Swiper extends Component{
                   imageStyle={{flex: 1, height: null, width: null, resizeMode: 'cover', borderRadius: 20}}
                   source={item.uri}>
                   <View style={{position: 'absolute', bottom: 20}}>
-                    <Text style={{color: 'white', left: 10, fontSize: 20, fontWeight: 'bold'}}>{item.title}</Text>
+                    <Text style={{color: 'white', left: 10, fontSize: 20, fontFamily: 'Poppins-SemiBold',}}>{item.title}</Text>
                     <Text style={{color: 'white', left: 10}}>{item.location}</Text>
                   </View>
                   <TouchableOpacity
@@ -223,7 +223,7 @@ class Swiper extends Component{
                   imageStyle={{flex: 1, height: null, width: null, resizeMode: 'cover', borderRadius: 20}}
                   source={item.uri} >
                   <View style={{position: 'absolute', bottom: 20}}>
-                    <Text style={{color: 'white', left: 10, fontSize: 20, fontWeight: 'bold'}}>{item.title}</Text>
+                    <Text style={{color: 'white', left: 10, fontSize: 20, fontFamily: 'Poppins-SemiBold',}}>{item.title}</Text>
                     <Text style={{color: 'white', left: 10}}>{item.location}</Text>
                   </View>
                   <TouchableOpacity

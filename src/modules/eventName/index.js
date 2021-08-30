@@ -373,7 +373,7 @@ class EventName extends Component {
                   textShadowColor: 'black',
                   textShadowOffset: { width: 1, height: 1 },
                   textShadowRadius: 5,
-                  fontWeight: 'bold',
+                  fontFamily: 'Poppins-SemiBold',
                   marginBottom: 10
                 }}>Note: Click the date to edit.</Text>}
                   <View style={{
@@ -388,12 +388,12 @@ class EventName extends Component {
                       }}
                       numberOfLines={1}
                       style={{
-                        fontSize: 20,
+                        fontSize: 16,
                         color: 'white',
                         textShadowColor: 'black',
                         textShadowOffset: { width: 1, height: 1 },
                         textShadowRadius: 5,
-                        fontWeight: 'bold',
+                        fontFamily: 'Poppins-SemiBold',
                       }}
                     >{this.state.changed_date ? this.state.changed_date : data?.synqt[0].date_at_human}</Text>
                     {this.state.changed_date && <Text
@@ -409,11 +409,11 @@ class EventName extends Component {
                       numberOfLines={1}
                       style={{
                         color: Color.danger,
-                        fontSize: 20,
+                        fontSize: 15,
                         textShadowColor: 'black',
                         textShadowOffset: { width: 1, height: 1 },
                         textShadowRadius: 5,
-                        fontWeight: 'bold',
+                        fontFamily: 'Poppins-SemiBold',
                         position: 'absolute',
                         right: 20
                       }}
@@ -429,12 +429,12 @@ class EventName extends Component {
                 <Text
                   numberOfLines={1}
                   style={{
-                    fontSize: 20,
+                    fontSize: 16,
                     color: 'white',
                     textShadowColor: 'black',
                     textShadowOffset: { width: 1, height: 1 },
                     textShadowRadius: 5,
-                    fontWeight: 'bold',
+                    fontFamily: 'Poppins-SemiBold',
                   }}
                 >
                   {data?.merchant.name}
@@ -448,7 +448,7 @@ class EventName extends Component {
                     textShadowColor: 'black',
                     textShadowOffset: { width: 1, height: 1 },
                     textShadowRadius: 5,
-                    fontWeight: 'bold',
+                    fontFamily: 'Poppins-SemiBold',
                     width: width * .90
                   }}
                 >

@@ -28,24 +28,16 @@ class Header extends Component {
     return (
       <View
         style={{
-          flex: 1,
           flexDirection: 'row',
           alignItems: 'center',
           width: width,
-          elevation: BasicStyles.elevation
+          backgroundColor: Color.containerBackground,
+          height: 60,
+          padding: 5
         }}>
         <TouchableOpacity
           onPress={() => {
             this.props.navigation.toggleDrawer()
-          }}
-          style={{
-            height: 50,
-            width: 50,
-            borderRadius: 25,
-            justifyContent: 'center',
-            alignItems: 'center',
-            zIndex: 1000,
-            elevation: routeName === 'Status' ? 5 : 0
           }}
         >
             <FontAwesomeIcon
@@ -54,7 +46,7 @@ class Header extends Component {
               style={[
                 BasicStyles.iconStyle,
                 {
-                  color: Color.primary
+                  color: Color.gray
                 },
               ]}
             />
@@ -63,8 +55,7 @@ class Header extends Component {
         {
           routeName === 'Status' && (
             <View style={{
-              flex: 1,
-              height: 55,
+              height: 60,
               flexDirection: 'row',
               width: width,
               justifyContent: 'center',
@@ -72,18 +63,17 @@ class Header extends Component {
               position: 'absolute',
               paddingLeft: 20,
               paddingRight: 25,
-              backgroundColor: Color.white,
-              elevation: BasicStyles.elevation
+              backgroundColor: Color.containerBackground,
+              elevation: -2
             }}>
               <View style={{
                 height: 40,
                 borderColor: Color.white,
                 borderWidth: 1,
                 borderRadius: 25,
-                width: '75%',
-                marginLeft: '-10%',
+                width: '70%',
+                marginLeft: '-12%',
                 justifyContent: 'center',
-                backgroundColor: Color.containerBackground
               }}>
                 <TextInput
                   style={{
@@ -92,7 +82,7 @@ class Header extends Component {
                     borderWidth: .3,
                     borderRadius: 20,
                     borderColor: Color.gray,
-                    backgroundColor: Color.containerBackground
+                    backgroundColor: Color.white
                   }}
                   onSubmitEditing={() => { this.props.setStatusSearch(this.state.search) }}
                   onChangeText={text => this.searchHandler(text)}
@@ -110,7 +100,7 @@ class Header extends Component {
                   <FontAwesomeIcon
                     icon={faEdit}
                     size={BasicStyles.iconSize}
-                    color={Color.primary} />
+                    color={Color.gray} />
               </TouchableOpacity>
             </View>
           )
@@ -134,7 +124,7 @@ class Header extends Component {
               style={[
                 BasicStyles.iconStyle,
                 {
-                  color: Color.primary,
+                  color: Color.gray,
                 },
               ]}
             />

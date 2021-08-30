@@ -138,7 +138,6 @@ class Restaurants extends Component {
           status: 'pending',
           details: JSON.stringify(detail)
         }
-        console.log(parameter, 'parameter');
         this.setState({ isLoading: true })
         Api.request(Routes.synqtCreate, parameter, res => {
           this.setState({ isLoading: false })

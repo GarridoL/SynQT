@@ -81,6 +81,7 @@ const _StackNavigator = createStackNavigator({
         headerStyle: {
           shadowColor: 'transparent',
           elevation: 0,
+          height: 60,
           borderBottomWidth: 0,
           justifyContent: 'center',
           alignItems: 'center',
@@ -96,7 +97,7 @@ const _StackNavigator = createStackNavigator({
           marginRight: '-15%',
         },
         headerTitleStyle: {
-          fontWeight: 'bold',
+          fontFamily: 'Poppins-SemiBold',
         },  
       }
     }),

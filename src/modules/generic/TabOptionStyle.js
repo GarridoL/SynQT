@@ -7,7 +7,7 @@ export default {
     width: '100%',
     flexDirection: 'row',
     borderWidth: 1,
-    height: 50,
+    height: 49,
     fontSize: 20,
     borderBottomWidth: 1.12,
     borderRadius: 10

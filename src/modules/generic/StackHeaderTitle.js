@@ -26,7 +26,7 @@ class StackHeaderTitle extends Component {
           style={{
             color: Color.containerBackground,
             marginLeft: 7,
-            fontWeight: 'bold',
+            fontFamily: 'Poppins-SemiBold',
             fontSize: 20
           }}>
           {this.props.title}

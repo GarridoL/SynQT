@@ -3,7 +3,7 @@ import { Dimensions } from 'react-native';
 const width = Math.round(Dimensions.get('window').width);
 const borderRadius = 12
 export default {
-  elevation: 5,
+  elevation: 0,
   formControl: {
     height: 50,
     borderColor: Color.lightGray,
@@ -117,7 +117,7 @@ export default {
   textWhite: {
     color: Color.white
   },
-  iconSize: 24,
+  iconSize: 28,
   headerBackIconSize: 30,
   iconStyle: {
     color: Color.primary,
@@ -167,26 +167,26 @@ export default {
   standardBorderRadius: borderRadius,
   headerDrawerStyle: {
     headerStyle: {
-      elevation: 10,
-      backgroundColor: Color.white,
+      elevation: 0,
+      backgroundColor: Color.containerBackground,
       height: 60,
       justifyContent: 'center',
       alignItems: 'center',
       fontSize: 18
     },
     headerTitleContainerStyle: {
-      backgroundColor: Color.white,
+      backgroundColor: Color.containerBackground,
       justifyContent: 'center',
       alignItems: 'center',
       paddingRight: 64
     },
     headerTitleStyle: {
-      fontWeight: 'bold',
+      fontFamily: 'Poppins-SemiBold',
     },
   },
   headerDrawerStyleStandard: {
     headerStyle: {
-      elevation: 10,
+      elevation: 0,
       backgroundColor: Color.white,
       justifyContent: 'center',
       alignItems: 'center',
@@ -198,7 +198,7 @@ export default {
       paddingRight: 64
     },
     headerTitleStyle: {
-      fontWeight: 'bold',
+      fontFamily: 'Poppins-SemiBold',
     },
   },
   standardDivider: {
@@ -296,22 +296,23 @@ export default {
   drawerHeader1: {
     headerStyle: {
       shadowColor: 'transparent',
-      elevation: 5,
+      elevation: 0,
       borderBottomWidth: 0,
       justifyContent: 'center',
       alignItems: 'center',
       fontSize: 12,
       width: '100%',
-      backgroundColor: Color.white
+      backgroundColor: Color.containerBackground,
+      height: 60
     },
     headerTitleContainerStyle: {
-      backgroundColor: Color.white,
+      backgroundColor: Color.containerBackground,
       justifyContent: 'center',
       alignItems: 'center',
       marginLeft: '-10%'
     },
     headerTitleStyle: {
-      fontWeight: 'bold',
+      fontFamily: 'Poppins-SemiBold',
     },
   },
 }

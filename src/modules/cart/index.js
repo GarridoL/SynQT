@@ -92,7 +92,7 @@ class Carts extends Component {
                 marginRight: 30,
                 marginLeft: 30
               }} />
-              <Text style={{fontWeight: 'bold'}}>{item.title}</Text>
+              <Text style={{fontFamily: 'Poppins-SemiBold',}}>{item.title}</Text>
               <View style={{position: 'absolute', top: 20, left: 150}}>
                 <Text style={{
                   fontSize: 12
@@ -111,7 +111,7 @@ class Carts extends Component {
                     <TouchableOpacity
                       onPress={() => {this.subtractQuantity(index)}}>
                       <Text style={{
-                        fontWeight: 'bold'
+                        fontFamily: 'Poppins-SemiBold',
                       }}>-</Text>
                     </TouchableOpacity>
                   </View>
@@ -122,7 +122,7 @@ class Carts extends Component {
                     <TouchableOpacity
                       onPress={() => {this.addQuantity(index)}}>
                       <Text style={{
-                        fontWeight: 'bold'
+                        fontFamily: 'Poppins-SemiBold',
                       }}>+</Text>
                     </TouchableOpacity>
                   </View>
@@ -180,11 +180,11 @@ class Carts extends Component {
             <Text>Calculate Shipping</Text>
           </View>
           <View style={{flexDirection: 'row'}}>
-            <Text style={{fontWeight: 'bold'}}>TOTAL</Text>
+            <Text style={{fontFamily: 'Poppins-SemiBold'}}>TOTAL</Text>
             <Text style={{
               position: 'absolute',
               right: 10,
-              fontWeight: 'bold'
+              fontFamily: 'Poppins-SemiBold',
             }}>P 6, 000.00</Text>
           </View>
         </View>

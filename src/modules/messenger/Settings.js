@@ -79,10 +79,15 @@ class Settings extends Component {
           }}
         >{this.state.isLoading ? <Spinner mode="full" /> : null}
           <View style={styles.centeredView}>
-            <View style={styles.modalView}>
+            <View style={[
+              styles.modalView, {
+                borderWidth: .3,
+                borderColor: Color.gray
+              }
+            ]}>
               <View style={{ alignItems: 'center' }}>
                 <Text style={{
-                  fontWeight: 'bold',
+                 fontFamily: 'Poppins-SemiBold',
                   fontSize: BasicStyles.standardTitleFontSize
                 }}>Edit Group Name</Text>
                 <TextInput
@@ -159,7 +164,7 @@ class Settings extends Component {
         <ScrollView style={{marginBottom: 100}}>
           <View style={{ alignItems: 'center', marginBottom: 50, marginTop: 10 }}>
             <View style={{ borderBottomWidth: 2, marginBottom: 10, borderBottomColor: 'gray', width: 70 }}></View>
-            <Text style={{ fontWeight: 'bold' }}>More settings</Text>
+            <Text style={{ fontFamily: 'Poppins-SemiBold', }}>More settings</Text>
           </View>
           {
             options.map(item => {

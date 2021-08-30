@@ -30,7 +30,8 @@ const types = {
   SET_ALL_MESSAGES: 'SET_ALL_MESSAGES',
   SET_DEEP_LINK_ROUTE: 'SET_DEEP_LINK_ROUTE',
   SET_CURRENT_ACCOUNT: 'SET_CURRENT_ACCOUNT',
-  SET_CURRENT_ROUTE: 'SET_CURRENT_ROUTE'
+  SET_CURRENT_ROUTE: 'SET_CURRENT_ROUTE',
+  SET_PEOPLE_IN_SYNQT: 'SET_PEOPLE_IN_SYNQT'
 };
 
 export const actions = {
@@ -121,6 +122,9 @@ export const actions = {
   },
   setCurrentRoute(route) {
     return { type: types.SET_CURRENT_ROUTE, route }
+  },
+  setPeopleInSynqt(peopleInSynqt) {
+    return { type: types.SET_PEOPLE_IN_SYNQT, peopleInSynqt}
   }
 };
 
@@ -152,7 +156,8 @@ const initialState = {
   allMessages: [],
   deepLinkRoute: null,
   acc: null,
-  route: null
+  route: null,
+  peopleInSynqt: []
 };
 
 storeData = async (key, value) => {
@@ -183,6 +188,7 @@ const reducer = (state = initialState, action) => {
   const { deepLinkRoute } = action;
   const { acc } = action;
   const { route } = action;
+  const { peopleInSynqt } = action;
   switch (type) {
     case types.LOGOUT:
       AsyncStorage.clear();
@@ -385,6 +391,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         route
+      }
+    case types.SET_PEOPLE_IN_SYNQT:
+      return {
+        ...state,
+        peopleInSynqt
       }
     default:
       return { ...state, nav: state.nav };

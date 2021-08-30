@@ -19,14 +19,16 @@ class Information extends Component {
       console.log(e)
     }
     return (
-      <View style={{ paddingTop: 22 }}>
-        <Text style={{ fontWeight: 'bold' }}>{this.props.name}</Text>
+      <View style={{
+        paddingTop: 22
+      }}>
+        <Text style={{ fontFamily: 'Poppins-SemiBold', }}>{this.props.name}</Text>
         <Text>{information}</Text>
-        <Text style={{ fontWeight: 'bold', marginTop: 20 }}>RESTAURANT HOURS</Text>
+        <Text style={{ fontFamily: 'Poppins-SemiBold', marginTop: 20 }}>RESTAURANT HOURS</Text>
         { schedule && schedule !== 'NULL' && schedule?.schedule?.length > 0 && schedule?.schedule?.map((item, index) => {
           return (
             <View>
-              <Text>{item.value} {item.startTime ? item.startTime?.hh + ':' + item.startTime?.mm + ' ' + item.startTime?.a : ''} {item.startTime ? '-' : ''} {item.endTime ? item.endTime?.hh + ':' + item.endTime?.mm + ' ' + item.endTime?.a : ''}</Text>
+              <Text>{item.value} { item.startTime?.hh ? item.startTime?.hh + ':' + item.startTime?.mm + ' ' + item.startTime?.a : ''} {item.startTime?.hh ? '-' : ''} {item.endTime?.hh ? item.endTime?.hh + ':' + item.endTime?.mm + ' ' + item.endTime?.a : ''}</Text>
             </View>
           )
         })}

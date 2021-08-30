@@ -62,9 +62,9 @@ class Groups extends Component {
       offset: 0,
       account_id: user.id
     }
-    this.setState({retrievingMembers: true});
+    this.setState({ retrievingMembers: true });
     Api.request(Routes.circleRetrieve, parameter, response => {
-      this.setState({retrievingMembers: false});
+      this.setState({ retrievingMembers: false });
       if (response.data.length > 0) {
         this.setState({ connections: response.data })
       }
@@ -72,7 +72,9 @@ class Groups extends Component {
   }
 
   retrieve = (flag) => {
-    this.retrieveConnections();
+    if (!flag) {
+      this.retrieveConnections();
+    }
     const { user } = this.props.state;
     if (user == null) {
       return
@@ -277,7 +279,6 @@ class Groups extends Component {
                     width: 50,
                     height: 50,
                     borderRadius: 50,
-                    borderColor: Color.primary,
                     borderWidth: 3,
                     overflow: "hidden",
                     justifyContent: 'center',
@@ -298,7 +299,7 @@ class Groups extends Component {
               }}>
                 <Text style={{
                   lineHeight: 30,
-                  fontWeight: 'bold'
+                  fontFamily: 'Poppins-SemiBold',
                 }}>{item.title}</Text>
                 {
                   parseInt(item.total_unread_messages) > 0 && Platform.OS == 'android' && (
@@ -339,7 +340,8 @@ class Groups extends Component {
               lineHeight: 30,
               paddingLeft: '25%',
               width: '94%',
-              fontStyle: 'italic'
+              fontFamily: 'Poppins-Italic',
+              fontSize: 12
             }}
               numberOfLines={1}>{item.last_messages ? item.last_messages?.title + ': ' + (item.last_messages?.description || 'Sent a photo.') : 'No message yet.'}</Text>
           </View>
@@ -356,12 +358,19 @@ class Groups extends Component {
 
   _flatList = () => {
     const { selected } = this.state;
-    const { user } = this.props.state;
+    const { user, theme } = this.props.state;
     return (
       <View style={{
         width: '100%',
         backgroundColor: Color.containerBackground
       }}>
+        {
+          this.props.state.allMessages.length > 0 && user != null && <Text style={{
+            fontFamily: 'Poppins-SemiBold',
+            padding: 10,
+            color: theme ? theme.primary : Color.primary
+          }}>{this.props.state.allMessages.length > 1 ? 'Conversations' : 'Conversation'}</Text>
+        }
         {
           this.props.state.allMessages.length > 0 && user != null && (
             <FlatList
@@ -387,17 +396,29 @@ class Groups extends Component {
 
   render() {
     const { isLoading } = this.state;
+    const { theme } = this.props.state;
     return (
       <View style={{
         flex: 1,
         backgroundColor: Color.containerBackground
       }}>
 
-        { this.state.retrievingMembers === false && <View style={{
+        {this.state.retrievingMembers === false && <View style={{
           borderBottomColor: Color.primary,
           borderBottomWidth: 1,
           padding: 10,
         }}>
+          <View style={{
+            marginBottom: 5,
+            flexDirection: 'row'
+          }}>
+            <Text style={{
+            fontFamily: 'Poppins-SemiBold',
+            marginRight: 10,
+            color: theme ? theme.primary : Color.primary
+          }}>{this.state.connections?.length > 1 ? 'Connections' : 'Connection'}</Text>
+          <Text style={{color: theme ? theme.primary : Color.primary}}>({this.state.connections?.length})</Text>
+          </View>
           {this.state.connections.length > 0 ? (<Group inviteToSynqt={true} add={false} style={{
             borderColor: Color.primary,
             borderWidth: 2

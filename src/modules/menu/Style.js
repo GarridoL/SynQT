@@ -4,10 +4,11 @@ const width = Math.round(Dimensions.get('window').width)
 const height = Math.round(Dimensions.get('window').height)
 export default {
   Container: {
-    width: '100%',
     paddingTop: 22,
     flexDirection: 'row',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   Image: {
     width: '45%',
@@ -22,7 +23,7 @@ export default {
     float: 'right'
   },
   Title: {
-    fontWeight: 'bold',
+    fontFamily: 'Poppins-SemiBold',
   },
   Price: {
     color: '#5842D7'

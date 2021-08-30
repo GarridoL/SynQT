@@ -99,7 +99,7 @@ class PostCard extends Component {
           <View>
             <Text style={{
               fontSize: BasicStyles.standardTitleFontSize,
-              fontWeight: 'bold'
+              fontFamily: 'Poppins-SemiBold',
             }}>{data?.user?.username}</Text>
             <Text style={{
               fontSize: BasicStyles.standardFontSize
@@ -107,7 +107,7 @@ class PostCard extends Component {
               {data.date}
             </Text>
           </View>
-          {data.user.id === this.props.state.user.id && show === true && <TouchableOpacity onPress={() => { this.setState({ options: !this.state.options }) }}>
+          {data?.user?.id === this.props.state.user.id && show === true && <TouchableOpacity onPress={() => { this.setState({ options: !this.state.options }) }}>
             <FontAwesomeIcon icon={faEllipsisH} />
           </TouchableOpacity>}
           {this.state.options === true && show === true && (<TouchableOpacity style={{
@@ -163,8 +163,8 @@ class PostCard extends Component {
           alignItems: 'center',
           justifyContent: 'center',
           borderRadius: 20,
-          borderColor: data.liked === 'true' ? Color.primary : Color.lightGray,
-          borderWidth: 1,
+          borderColor: data.liked === 'true' ? Color.primary : Color.gray,
+          borderWidth: .3,
           height: 35,
           marginRight: 5,
           backgroundColor: data.liked === 'true' ? Color.primary : Color.white
@@ -185,8 +185,8 @@ class PostCard extends Component {
           alignItems: 'center',
           justifyContent: 'center',
           borderRadius: 20,
-          borderColor: data.joined === 'true' ? Color.primary : Color.lightGray,
-          borderWidth: 1,
+          borderColor: data.joined === 'true' ? Color.primary : Color.gray,
+          borderWidth: .3,
           height: 35,
           marginRight: 5,
           backgroundColor: data.joined === 'true' ? Color.primary : Color.white
@@ -227,13 +227,14 @@ class PostCard extends Component {
 
 
   renderComments = (comments) => {
-    const { user } = this.props.state;
+    const { user, theme } = this.props.state;
+    console.log(user, '---');
     return (
       <View style={{
         width: '100%',
         alignItems: 'center',
-        borderTopColor: Color.lightGray,
-        borderTopWidth: 1
+        borderTopColor: Color.gray,
+        borderTopWidth: .3
       }}>
         {
           comments && comments.map((item, index) => (
@@ -271,7 +272,7 @@ class PostCard extends Component {
                   icon={faUserCircle}
                   size={30}
                   style={{
-                    color: Color.white
+                    color: theme ? theme.primary : Color.primary
                   }}
                 />
               }
@@ -299,9 +300,9 @@ class PostCard extends Component {
         ...BasicStyles.standardWidth,
         borderRadius: BasicStyles.standardBorderRadius,
         borderColor: Color.gray,
-        // borderWidth: .3,
-        marginBottom: 20,
-        marginTop: 20,
+        borderWidth: .3,
+        marginBottom: 10,
+        marginTop: 10,
         backgroundColor: Color.white
       }}>
         {this.renderHeader(data, true)}

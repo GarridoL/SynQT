@@ -28,7 +28,7 @@ class Connections extends Component {
   componentDidMount() {
     if (this.props.navigation?.state?.params?.fromComments) {
       this.setState({ data: this.props.navigation?.state?.params?.fromComments })
-    } else {
+    } else if(this.props.state.peopleInSynqt?.length === 0) {
       this.retrieve(false);
     }
   }
@@ -85,16 +85,21 @@ class Connections extends Component {
               })
               let temp = []
               response.data.map((i, ind) => {
-                if(id.includes(i?.account?.id) === false) {
+                if (id.includes(i?.account?.id) === false) {
                   temp.push(i);
                 }
               })
+              this.props.setPeopleInSynqt(flag == false ? temp : _.uniqBy([...this.props.state.peopleInSynqt, ...temp], 'id'));
               this.setState({
-                data: flag == false ? temp : _.uniqBy([...this.state.data, ...temp], 'id'),
                 offset: flag == false ? 1 : (this.state.offset + 1)
               })
             }
-          })
+          },
+            error => {
+              this.setState({ isLoading: false })
+              console.log({ error });
+            }
+          );
         } else {
           response.data.map(i => {
             tempMembers.length > 0 && tempMembers.map(item => {
@@ -105,18 +110,23 @@ class Connections extends Component {
               }
             })
           })
+          this.props.setPeopleInSynqt(flag == false ? response.data : _.uniqBy([...this.props.state.peopleInSynqt, ...response.data], 'id'))
           this.setState({
-            data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
             offset: flag == false ? 1 : (this.state.offset + 1)
           })
         }
       } else {
+        this.props.setPeopleInSynqt(flag == false ? [] : this.props.state.peopleInSynqt)
         this.setState({
-          data: flag == false ? [] : this.state.data,
           offset: flag == false ? 0 : this.state.offset
         })
       }
-    });
+    },
+      error => {
+        this.setState({ isLoading: false })
+        console.log({ error });
+      }
+    );
   }
 
   addMember = () => {
@@ -136,7 +146,12 @@ class Connections extends Component {
           this.props.setTempMembers([]);
         }
       });
-    })
+    },
+      error => {
+        this.setState({ isLoading: false })
+        console.log({ error });
+      }
+    );
   }
 
   render() {
@@ -167,8 +182,8 @@ class Connections extends Component {
                 placeholderTextColor={'#d1d1d1'}
               />
             </View>
-            {this.state.data.length > 0 && (<View>
-              <CardList loading={() => { this.loading }} search={this.state.search} navigation={this.props.navigation} data={this.state.data} invite={true} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
+            {this.props.state.peopleInSynqt?.length > 0 && (<View>
+              <CardList loading={() => { this.loading }} search={this.state.search} navigation={this.props.navigation} data={this.props.state.peopleInSynqt} invite={true} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
             </View>)}
           </View>
         </ScrollView>
@@ -193,7 +208,8 @@ const mapDispatchToProps = dispatch => {
   const { actions } = require('@redux');
   return {
     viewMenu: (isViewing) => dispatch(actions.viewMenu(isViewing)),
-    setTempMembers: (tempMembers) => dispatch(actions.setTempMembers(tempMembers))
+    setTempMembers: (tempMembers) => dispatch(actions.setTempMembers(tempMembers)),
+    setPeopleInSynqt: (peopleInSynqt) => dispatch(actions.setPeopleInSynqt(peopleInSynqt))
   };
 };
 export default connect(
