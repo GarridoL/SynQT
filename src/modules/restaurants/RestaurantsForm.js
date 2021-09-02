@@ -344,10 +344,7 @@ class Restaurants extends Component {
                   })
                 }}
                 minimumDate={this.state.currentDate}
-                style={{
-                  marginTop: '-5%',
-                  backgroundColor: Color.containerBackground
-                }} />
+                />
             </View>
             <View style={{ marginBottom: '23%' }}>
               <NumberInput

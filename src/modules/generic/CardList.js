@@ -260,7 +260,7 @@ class CardList extends Component {
                       marginLeft: 20,
                       marginRight: 20,
                       marginTop: 10,
-                      marginBottom: 10
+                      marginBottom: 20
                     }}>
                       {el.account?.profile?.url ? <Image
                         style={{
