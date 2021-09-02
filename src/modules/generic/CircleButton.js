@@ -22,7 +22,8 @@ class FloatingButton extends Component{
         width: '100%',
         marginBottom: 50,
         alignItems:'center',
-        justifyContent:'center'
+        justifyContent:'center',
+        zIndex: 100
         
       }}>
         <View style={{

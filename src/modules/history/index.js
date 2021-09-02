@@ -30,7 +30,9 @@ class History extends Component {
 
   componentDidMount() {
     this.setState({ activeIndex: this.props.navigation.state && this.props.navigation.state.params && this.props.navigation.state.params.activeIndex ? this.props.navigation.state.params.activeIndex : 0 })
-    this.retrieve(false);
+    this.focusListener = this.props.navigation.addListener('didFocus', () => {
+      this.retrieve(false);
+    })
     this.backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
       this.handleBackPress,
