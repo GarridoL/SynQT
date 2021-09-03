@@ -223,6 +223,7 @@ class EventName extends Component {
       let temp = [];
       let m = d?.startTime?.a ? ` ${d?.startTime?.a}` : hour > 12 && hour % 12 ? ' pm' : ' am';
       let hour = ((m === ' pm' ? parseInt(d?.startTime?.hh) + 12 : parseInt(d?.startTime?.hh)) || date.getHours()) + 1;
+      console.log(hour, stopper, '-----');
       let minutes = d?.startTime?.mm || date.getMinutes();
       while (temp[temp.length - 1]?.twelvef !== `11:${minutes} pm` || temp[temp.length - 1]?.twelvef === `${stopper}:${minutes} ${stop}`) {
         let convertedHour = hour > 12 ? hour % 12 : hour;
