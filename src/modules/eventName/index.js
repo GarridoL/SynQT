@@ -235,7 +235,7 @@ class EventName extends Component {
           fourf: hour + ':' + minutes
         }
         let s = hour > 12 ? hour % 12 : hour;
-        if (s.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false }) === stopper.toString() && m === stop) {
+        if (s.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false }) === stopper?.toString() && m === stop) {
           break;
         }
         temp.push(t);
