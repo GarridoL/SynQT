@@ -63,6 +63,7 @@ class Restaurants extends Component {
         response.data.map((item, index) => {
           item['index'] = 0;
         })
+        this.props.setPeopleInSynqt([]);
         setLocation(null);
         this.setState({ Date: null });
         this.props.navigation.navigate('menuStack', {
