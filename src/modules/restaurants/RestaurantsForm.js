@@ -29,9 +29,10 @@ class Restaurants extends Component {
     }
   }
   componentDidMount() {
-    const { setDefaultAddress, setTempMembers, setLocation } = this.props;
+    const { setDefaultAddress, setTempMembers, setLocation, setPeopleInSynqt } = this.props;
     setDefaultAddress(null);
     setLocation(null);
+    setPeopleInSynqt([]);
     setTempMembers(this.props.navigation?.state?.params?.members ? this.props.navigation?.state?.params?.members : []);
     let date = new Date()
     this.setState({
