@@ -444,6 +444,7 @@ const mapDispatchToProps = dispatch => {
     setTempMembers: (tempMembers) => dispatch(actions.setTempMembers(tempMembers)),
     setLocation: (location) => dispatch(actions.setLocation(location)),
     setSelected: (selects) => dispatch(actions.setSelected(selects)),
+    setPeopleInSynqt: (peopleInSynqt) => dispatch(actions.setPeopleInSynqt(peopleInSynqt))
   };
 };
 
