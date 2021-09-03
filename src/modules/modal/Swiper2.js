@@ -558,7 +558,7 @@ class Cards extends React.Component {
           width: width
         }}>
           {this.props.bottomFloatButton === true > 0 && (
-            <FloatingButton onClose={() => { this.swiper.swipeLeft(); }} onClick={() => { this.addToTopChoice('like', this.state.data[this.state.index].id); this.swiper.swipeRight(); }}></FloatingButton>
+            <FloatingButton onClose={() => { this.swiper.swipeLeft(); }} onClick={() => { this.swiper.swipeRight(); }}></FloatingButton>
           )}
         </View>
       </View>
