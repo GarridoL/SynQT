@@ -21,7 +21,6 @@ class Button extends Component{
         width: '100%',
         alignItems:'center',
         justifyContent:'center',
-        backgroundColor: Color.containerBackground,
         ...this.props.style
       }}>
         <TouchableOpacity

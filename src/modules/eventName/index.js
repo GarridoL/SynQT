@@ -205,7 +205,7 @@ class EventName extends Component {
   }
 
   getTime = (schedule) => {
-    this.setState({selectedTime: null})
+    this.setState({ selectedTime: null })
     let d = null;
     let length = schedule?.length;
     if (length > 0) {
@@ -341,7 +341,7 @@ class EventName extends Component {
       <View style={{
         backgroundColor: Color.containerBackground
       }}>
-        <ScrollView style={{ marginBottom: 70 }} showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={style.Container}>
             <ImageBackground
               style={{
@@ -350,111 +350,6 @@ class EventName extends Component {
               }}
               imageStyle={{ flex: 1, height: null, width: null, resizeMode: 'cover' }}
               source={{ uri: Config.BACKEND_URL + data?.merchant.logo }}>
-              <View style={{
-                width: width,
-                height: this.props.navigation.state?.params?.buttonTitle !== 'Cancel' && this.props.state.route === null ? 140 : 100,
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                opacity: .3,
-                backgroundColor: Color.containerBackground,
-                justifyContent: 'center',
-              }}>
-              </View>
-              <View style={{
-                position: 'absolute',
-                bottom: 4,
-                zIndex: 100,
-                padding: 10
-              }}>
-                {this.props.navigation.state?.params?.buttonTitle !== 'Cancel' && this.props.state.route === null && <Text style={{
-                  fontSize: 11,
-                  color: Color.white,
-                  textShadowColor: 'black',
-                  textShadowOffset: { width: 1, height: 1 },
-                  textShadowRadius: 5,
-                  fontFamily: 'Poppins-SemiBold',
-                  marginBottom: 10
-                }}>Note: Click the date to edit.</Text>}
-                  <View style={{
-                    width: width,
-                    marginBottom: 15
-                  }}>
-                    <Text
-                      onPress={() => {
-                        if (this.props.navigation.state?.params?.buttonTitle !== 'Cancel' && this.props.state.route === null) {
-                          this.setState({ showDatePicker: true })
-                        }
-                      }}
-                      numberOfLines={1}
-                      style={{
-                        fontSize: 16,
-                        color: 'white',
-                        textShadowColor: 'black',
-                        textShadowOffset: { width: 1, height: 1 },
-                        textShadowRadius: 5,
-                        fontFamily: 'Poppins-SemiBold',
-                      }}
-                    >{this.state.changed_date ? this.state.changed_date : data?.synqt[0].date_at_human}</Text>
-                    {this.state.changed_date && <Text
-                      onPress={() => {
-                        this.setState({
-                          changed_date: null,
-                          selectedDate: null,
-                          day: new Date(this.props.navigation?.state?.params?.data?.synqt[0].date).getDay()
-                        }, () => {
-                          this.getTime(this.state.displayDate);
-                        })
-                      }}
-                      numberOfLines={1}
-                      style={{
-                        color: Color.danger,
-                        fontSize: 15,
-                        textShadowColor: 'black',
-                        textShadowOffset: { width: 1, height: 1 },
-                        textShadowRadius: 5,
-                        fontFamily: 'Poppins-SemiBold',
-                        position: 'absolute',
-                        right: 20
-                      }}
-                    >Cancel</Text>}
-                  </View>
-                <View style={{
-                  flexDirection: 'row',
-                  width: '75%',
-                  marginBottom: -15
-                }}>
-                  {this._date()}
-                </View>
-                <Text
-                  numberOfLines={1}
-                  style={{
-                    fontSize: 16,
-                    color: 'white',
-                    textShadowColor: 'black',
-                    textShadowOffset: { width: 1, height: 1 },
-                    textShadowRadius: 5,
-                    fontFamily: 'Poppins-SemiBold',
-                  }}
-                >
-                  {data?.merchant.name}
-                </Text>
-                <Text
-                  numberOfLines={3}
-                  style={{
-                    color: Color.gray,
-                    marginTop: 5,
-                    color: 'white',
-                    textShadowColor: 'black',
-                    textShadowOffset: { width: 1, height: 1 },
-                    textShadowRadius: 5,
-                    fontFamily: 'Poppins-SemiBold',
-                    width: width * .90
-                  }}
-                >
-                  {data?.merchant.address ? this.getAddress(data?.merchant.address) : 'no address provided'}
-                </Text>
-              </View>
             </ImageBackground>
             <View style={{
               flexDirection: 'row',
@@ -492,9 +387,94 @@ class EventName extends Component {
                 </View>
               </View>
             </View>
+            <View style={{
+              zIndex: 100,
+              padding: 10
+            }}>
+              {this.props.navigation.state?.params?.buttonTitle !== 'Cancel' && this.props.state.route === null && <Text style={{
+                fontSize: 11,
+                fontFamily: 'Poppins-SemiBold',
+                marginBottom: 10
+              }}>Note: Click the date to edit.</Text>}
+              <View style={{
+                width: width,
+                marginBottom: 15
+              }}>
+                <Text
+                  onPress={() => {
+                    if (this.props.navigation.state?.params?.buttonTitle !== 'Cancel' && this.props.state.route === null) {
+                      this.setState({ showDatePicker: true })
+                    }
+                  }}
+                  numberOfLines={1}
+                  style={{
+                    fontSize: 16,
+                  }}
+                >{this.state.changed_date ? this.state.changed_date : data?.synqt[0].date_at_human}</Text>
+                {this.state.changed_date && <Text
+                  onPress={() => {
+                    this.setState({
+                      changed_date: null,
+                      selectedDate: null,
+                      day: new Date(this.props.navigation?.state?.params?.data?.synqt[0].date).getDay()
+                    }, () => {
+                      this.getTime(this.state.displayDate);
+                    })
+                  }}
+                  numberOfLines={1}
+                  style={{
+                    color: Color.danger,
+                    fontSize: 15,
+                    position: 'absolute',
+                    right: 20
+                  }}
+                >Cancel</Text>}
+              </View>
+              <View style={{
+                flexDirection: 'row',
+                width: '75%',
+                marginBottom: -15
+              }}>
+                {this._date()}
+              </View>
+              <Text
+                numberOfLines={1}
+                style={{
+                  fontSize: 16,
+                }}
+              >
+                {data?.merchant.name}
+              </Text>
+              <Text
+                numberOfLines={3}
+                style={{
+                  fontSize: 16,
+                  width: width * .90
+                }}
+              >
+                {data?.merchant.address ? this.getAddress(data?.merchant.address) : 'no address provided'}
+              </Text>
+            </View>
+            <View style={{
+              flexDirection: 'row',
+              width: '100%',
+              paddingBottom: 10,
+              paddingRight: 10,
+              paddingLeft: 10
+            }}>
+              <Group
+                reverse={false}
+                navigation={this.props.navigation}
+                size={45}
+                data={this.state.members.length > 0 ? this.state.members : []}
+                style={{
+                  height: '100%'
+                }}
+              />
+            </View>
             {this.props.navigation.state?.params?.buttonTitle === 'Make Reservation' && this.props.state.route === null && <View style={{
               width: '100%',
-              marginTop: 25,
+              marginBottom: 100,
               padding: 10,
               flexDirection: 'row',
               flexWrap: 'wrap'
@@ -524,21 +504,6 @@ class EventName extends Component {
               }) :
                 <Text style={{ color: 'red' }}>Restaurant is closed on this day. Please select another date.</Text>}
             </View>}
-            <View style={{
-              flexDirection: 'row',
-              width: '100%',
-              padding: 10
-            }}>
-              <Group
-                reverse={false}
-                navigation={this.props.navigation}
-                size={45}
-                data={this.state.members.length > 0 ? this.state.members : []}
-                style={{
-                  height: '100%'
-                }}
-              />
-            </View>
           </View>
         </ScrollView>
         <CustomizedButton backgroundColor={this.props.navigation.state?.params?.buttonTitle === 'Cancel' || this.props.state.route ? Color.danger : (theme ? theme.primary : Color.primary)} style={{ marginLeft: -20, marginBottom: 10 }} onClick={this.onClick} title={this.props.state.route ? 'Cancel' : this.props.navigation.state?.params?.buttonTitle}></CustomizedButton>
