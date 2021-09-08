@@ -228,6 +228,18 @@ class MessagesV3 extends Component {
       error: null
     }
 
+    let lastMessage = {
+      created_at_human: newMessageTemp.created_at_human,
+      description: this.state.newMessage,
+      title: this.props.state?.user?.username
+    }
+
+    this.props.state?.allMessages?.length > 0 && this.props.state?.allMessages.map((item, index) => {
+      if(this.props.state?.messengerGroup?.id == item.id) {
+        item['last_messages'] = lastMessage;
+      }
+    })
+
     updateMessagesOnGroup(newMessageTemp);
     this.setState({ newMessage: null })
     Api.request(Routes.messengerMessagesCreate, parameter, response => {
