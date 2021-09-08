@@ -6,7 +6,7 @@ export default {
   Container: {
     width: '100%',
     backgroundColor: Color.containerBackground,
-    paddingBottom: 15,
+    marginBottom: 160,
     height: height - 70
   },
   Distance: {
