@@ -132,8 +132,8 @@ android {
         applicationId "com.synqt"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 36
-        versionName "3.6"
+        versionCode 37
+        versionName "3.7"
         missingDimensionStrategy 'react-native-camera', 'general'
         multiDexEnabled true
     }
@@ -198,7 +198,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth'
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
     implementation 'com.google.firebase:firebase-core:16.0.0'
-    implementation 'com.facebook.android:facebook-android-sdk:[5,6)' // login facebook
+    implementation 'com.facebook.android:facebook-android-sdk:5.15.3' // login facebook
     implementation 'com.google.firebase:firebase-core:17.2.1'
     implementation 'com.google.firebase:firebase-messaging:20.0.0'
     implementation 'com.google.android.gms:play-services-tagmanager:17.0.0'

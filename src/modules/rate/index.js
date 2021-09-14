@@ -185,11 +185,11 @@ class Rate extends Component {
             </Text>
             <View style={{
               flexDirection: 'row',
-              padding: 10
+              paddingTop: 10,
+              paddingRight: 10
             }}>
               <FontAwesomeIcon icon={faMapMarkerAlt} size={13} style={{ 
                 marginTop: 3,
-                marginRight: 7,
               }} />
               <Text>
                 {data?.address ? this.getAddress(data.address) : 'No address provided'}
@@ -225,17 +225,9 @@ class Rate extends Component {
           </View>
         </View>
         <View style={{
-          height: 50,
           width: width,
-          borderTopWidth: 1,
-          borderBottomWidth: 1,
-          borderColor: Color.gray
-        }}>
-        </View>
-        <View style={{
           alignItems: 'center',
-          justifyContent: 'center',
-          marginTop: 30
+          marginTop: 50
         }}>
           <Text>How would you rate the service of our restaurant?</Text>
           <View style={{ flexDirection: 'row', padding: 30 }}>
@@ -286,7 +278,9 @@ class Rate extends Component {
       }}>
         {this.state.isLoading ? <Spinner mode="overlay" /> : null}
         <ScrollView style={{ height: height - 50 }}>
-          <View>
+          <View style={{
+             marginBottom: 50
+          }}>
             {this.props.navigation?.state.params?.status === 'completed' && this.state.data !== null && this.renderRateView()}
             {this.props.navigation?.state.params?.status !== 'completed' && this.state.isLoading === false && <Text>Complete reservation first to rate the merchant.</Text>}
           </View>
