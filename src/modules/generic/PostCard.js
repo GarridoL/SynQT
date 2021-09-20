@@ -228,7 +228,6 @@ class PostCard extends Component {
 
   renderComments = (comments) => {
     const { user, theme } = this.props.state;
-    console.log(user, '---');
     return (
       <View style={{
         width: '100%',
