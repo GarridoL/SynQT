@@ -173,6 +173,7 @@ class Status extends Component {
     Api.request(Routes.commentsCreate, parameter, response => {
       this.setState({ isLoading: false });
       if (response.data !== null) {
+        data['id'] = response.data;
         this.props.setComments([data, ...this.props.state.comments])
         this.props.setCreateStatus(false)
         this.setState({ status: null })
