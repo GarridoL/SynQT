@@ -36,6 +36,9 @@ class Header extends Component {
           padding: 5
         }}>
         <TouchableOpacity
+          style={{
+            zIndex: 100
+          }}
           onPress={() => {
             this.props.navigation.toggleDrawer()
           }}
@@ -77,7 +80,7 @@ class Header extends Component {
               }}>
                 <TextInput
                   style={{
-                    height: 45,
+                    height: 40,
                     width: '100%',
                     borderWidth: .3,
                     borderRadius: 20,
