@@ -13,24 +13,16 @@ export default {
     borderRadius: 10
   },
   MenuClicked: {
-    width: '50%',
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: '50%'
   },
   Menu: {
-    width: '50%',
-    justifyContent: 'center',
-    alignItems: 'center'
+    width: '50%'
   },
   Information: {
-    width: '50%',
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: '50%'
   },
   InformationClicked: {
     width: '50%',
-    borderLeftWidth: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    borderLeftWidth: 1
   },
 }
