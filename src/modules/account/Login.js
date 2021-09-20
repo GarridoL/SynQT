@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
-import { View , TextInput , Image, TouchableHighlight, Text, ScrollView, Platform} from 'react-native';
+import { View, TextInput, Image, TouchableHighlight, Text, ScrollView, Platform} from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import Style from './Style.js';
 import { Spinner } from 'components';
@@ -623,13 +623,15 @@ class Login extends Component {
                 }}>Or sign in with</Text>
               </View>
 
-              <SocialLogin
+              { Platform.OS === 'android' &&
+                <SocialLogin
                 page={'Login'} 
                 login={(user, token) => login(user, token)} 
                 retrieveUser={(id)=>this.retrieveUserData(id)}
                 setErrorMessage={(error) => this.setState({error: 3})}
                 showLoader={(show) => this.setState({isLoading: show})}
                 />
+              }
               
               <View style={{
                 width: '100%',
