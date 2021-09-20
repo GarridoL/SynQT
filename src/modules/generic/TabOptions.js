@@ -32,17 +32,17 @@ class Tab extends Component {
                 style={[
                   this.state.choice == this.props.choice[0] ? Style.MenuClicked : Style.Menu, {
                     backgroundColor: this.state.choice == this.props.choice[0] ? (theme ? theme.primary : Color.primary) : Color.white,
-                    elevation: BasicStyles.elevation,
                     borderTopLeftRadius: 9,
                     borderBottomLeftRadius: 9,
                     borderColor: theme ? theme.primary : Color.primary,
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }
                 ]}
               >
                 <Text style={
                   this.state.choice == this.props.choice[0] ? { color: 'white' } : { color: Color.primary,
-                  fontFamily: 'Poppins-SemiBold',
-                  elevation: BasicStyles.elevation
+                  fontFamily: 'Poppins-SemiBold'
                 }}>{this.props.choice[0]}</Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -50,10 +50,11 @@ class Tab extends Component {
                 style={[
                   this.state.choice == this.props.choice[1] ? Style.InformationClicked : Style.Information, {
                     backgroundColor: this.state.choice == this.props.choice[1] ? (theme ? theme.primary : Color.primary) : Color.white,
-                    elevation: BasicStyles.elevation,
                     borderTopRightRadius: 10,
                     borderBottomRightRadius: 10,
                     borderColor: theme ? theme.primary : Color.primary,
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }
                 ]}
               >
