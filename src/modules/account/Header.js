@@ -12,7 +12,8 @@ export default  class Header extends Component{
         <View style={{
           alignItems:'flex-start',
           justifyContent:'flex-start',
-          marginLeft: 30
+          alignItems: this.props.params === 'Request to Reset Password' ? 'center' : 'flex-start',
+          marginLeft: this.props.params === 'Request to Reset Password' ? 0 : 30
         }}>
           <Text style={{
             paddingTop: 50,
