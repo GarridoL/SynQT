@@ -25,20 +25,17 @@ class HomePage extends Component {
      * will be executed after going back to this component 
     */
 
-    let deepLinkRoute = this.props.state.deepLinkRoute
-    console.log('TESTING::::::::: ', deepLinkRoute)
+    const { deepLinkRoute } = this.props.state;
     if (deepLinkRoute !== null && deepLinkRoute !== '') {
-      console.log('DEEP LINK ROUTE:')
-      const route = deepLinkRoute.replace(/.*?:\/\//g, '');
-      const routeName = route.split('/')[0];
       let parameter = {
         condition: [{
-          value: route.split('/')[2],
+          value: deepLinkRoute[0],
           clause: '=',
           column: 'id'
         }]
       }
       this.setState({ isLoading: true })
+      console.log(Routes.accountRetrieve,parameter, '---------------------');
       Api.request(Routes.accountRetrieve, parameter, response => {
         this.setState({ isLoading: false })
         if (response.data.length > 0) {
@@ -53,7 +50,7 @@ class HomePage extends Component {
                 profile: {
                   url: response.data[0].account_profile?.url
                 },
-                id: route.split('/')[2]
+                id: deepLinkRoute[0]
               }
             },
             level: 2
