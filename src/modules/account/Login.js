@@ -645,7 +645,8 @@ class Login extends Component {
                   <Text
                     style={{
                       textDecorationLine:'underline',
-                      fontFamily:'Poppins-SemiBold'
+                      fontFamily:'Poppins-SemiBold',
+                      fontSize: BasicStyles.standardFontSize + 2
                     }}
                     onPress={()=> this.props.navigation.navigate('registerStack')}>
                       Sign Up
