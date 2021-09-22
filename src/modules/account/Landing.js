@@ -49,7 +49,7 @@ class Landing extends Component {
       const routeName = route.split('/')[0];
       if (routeName === 'wearesynqt' && route.split('/')[1] === 'profile') {
         // navigate('orderPlacedStack')
-        console.log('DEEP LINK ROUTE IS SET::::')
+        console.log('DEEP LINK ROUTE IS SET::::--------------')
         const {setDeepLinkRoute} = this.props;
         setDeepLinkRoute(url);
       };
