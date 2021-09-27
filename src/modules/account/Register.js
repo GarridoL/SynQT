@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
-import { View , TextInput , Image, TouchableHighlight, Text, ScrollView} from 'react-native';
+import { View , Platform , Image, TouchableHighlight, Text, ScrollView} from 'react-native';
 import Style from './Style.js';
 import { Spinner } from 'components';
 import Api from 'services/api/index.js';
@@ -218,9 +218,10 @@ class Register extends Component {
                 }}>Or sign up with</Text>
               </View>
 
+              { Platform.OS === 'android' &&
               <SocialLogin page={'Register'}
                 socialRegister={(parameter) => this.submit(parameter)}/>
-              
+              }
               <View style={{
                 width: '100%',
                 alignItems: 'center',
@@ -233,7 +234,8 @@ class Register extends Component {
                   <Text
                     style={{
                       textDecorationLine:'underline',
-                      fontFamily:'Poppins-SemiBold'
+                      fontFamily:'Poppins-SemiBold',
+                      fontSize: BasicStyles.standardFontSize + 2
                     }}
                     onPress={()=> this.props.navigation.navigate('loginStack')}>
                       Sign In

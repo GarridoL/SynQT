@@ -2,7 +2,7 @@
 //  File.swift
 //  SynQT
 //
-//  Created by Increment Technologies on 6/9/21.
+//  Created by Kennette Canales on 8/29/21.
 //
 
 import Foundation

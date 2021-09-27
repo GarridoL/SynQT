@@ -623,7 +623,7 @@ class Login extends Component {
                 }}>Or sign in with</Text>
               </View>
 
-              { Platform.OS === 'android' &&
+              {/* { Platform.OS === 'android' && */}
                 <SocialLogin
                 page={'Login'} 
                 login={(user, token) => login(user, token)} 
@@ -631,7 +631,7 @@ class Login extends Component {
                 setErrorMessage={(error) => this.setState({error: 3})}
                 showLoader={(show) => this.setState({isLoading: show})}
                 />
-              }
+              {/* } */}
               
               <View style={{
                 width: '100%',
@@ -645,7 +645,8 @@ class Login extends Component {
                   <Text
                     style={{
                       textDecorationLine:'underline',
-                      fontFamily:'Poppins-SemiBold'
+                      fontFamily:'Poppins-SemiBold',
+                      fontSize: BasicStyles.standardFontSize + 2
                     }}
                     onPress={()=> this.props.navigation.navigate('registerStack')}>
                       Sign Up

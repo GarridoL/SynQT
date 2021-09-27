@@ -9,9 +9,10 @@ import { Helper, BasicStyles, Color } from 'common';
 import Config from 'src/config.js';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCopy, faSignOutAlt, faTimes, faUserCircle, faShieldAlt } from '@fortawesome/free-solid-svg-icons';
-import LinearGradient from 'react-native-linear-gradient'
+import LinearGradient from 'react-native-linear-gradient';
 import { Dimensions } from 'react-native';
-import { GoogleSignin, statusCodes } from '@react-native-community/google-signin'
+import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
+import dynamicLinks from '@react-native-firebase/dynamic-links';
 const width = Math.round(Dimensions.get('window').width);
 const height = Math.round(Dimensions.get('window').height);
 
@@ -51,9 +52,18 @@ class Slider2 extends Component {
     if (user == null) {
       return
     }
+    const link = await dynamicLinks().buildLink({
+      link: `https://wearesynqt/profile/${user?.id}-${user?.code}`,
+      domainUriPrefix: 'https://synqt.page.link/visit_profile',
+      // optional setup which updates Firebase analytics campaign
+      // "banner". This also needs setting up before hand
+      // analytics: {
+      //   campaign: 'banner',
+      // },
+    });
     try {
       const result = await Share.share({
-        message: `https://wearesynqt/profile/${user?.id}/${user?.code}`
+        message: link
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {

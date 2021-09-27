@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Style from './Style.js';
-import { connect } from 'react-redux';
-import { View, Image, Text, TouchableHighlight } from 'react-native';
+import {connect} from 'react-redux';
+import {View, Image, Text, TouchableHighlight} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { fab } from '@fortawesome/free-brands-svg-icons';
-import { faComments, faReply } from '@fortawesome/free-solid-svg-icons';
-import { Routes, Color, Helper, BasicStyles } from 'common';
+import {library} from '@fortawesome/fontawesome-svg-core';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {fab} from '@fortawesome/free-brands-svg-icons';
+import {faComments, faReply} from '@fortawesome/free-solid-svg-icons';
+import {Routes, Color, Helper, BasicStyles} from 'common';
 import Api from 'services/api/index.js';
-import { Spinner } from 'components';
+import {Spinner} from 'components';
 import auth from '@react-native-firebase/auth';
 import {
   LoginButton,
@@ -18,7 +18,13 @@ import {
   LoginManager,
   GraphRequestManager,
 } from 'react-native-fbsdk';
-import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
+import appleAuth, {
+  AppleAuthCredentialState,
+  AppleAuthRequestOperation,
+  AppleAuthRequestScope
+} from '@invertase/react-native-apple-authentication';
+import {GoogleSignin, statusCodes} from '@react-native-community/google-signin';
+import { Platform } from 'react-native';
 GoogleSignin.configure();
 library.add(fab);
 class SocialLogin extends Component {
@@ -67,7 +73,7 @@ class SocialLogin extends Component {
 
   //login with facebook process
   getInfoFromToken = token => {
-    const { login } = this.props;
+    const {login} = this.props;
     const PROFILE_REQUEST_PARAMS = {
       fields: {
         string: 'id, name,  first_name, last_name, email',
@@ -76,15 +82,15 @@ class SocialLogin extends Component {
 
     const profileRequest = new GraphRequest(
       '/me',
-      { token, parameters: PROFILE_REQUEST_PARAMS },
+      {token, parameters: PROFILE_REQUEST_PARAMS},
       async (error, result) => {
         if (error) {
           console.log('login info has error: ' + error);
         } else {
-          this.setState({ userInfo: result });
+          this.setState({userInfo: result});
           console.log('result:', result);
           if (this.props.page === 'Login') {
-            await AsyncStorage.setItem(Helper.APP_NAME + 'social', "true")
+            await AsyncStorage.setItem(Helper.APP_NAME + 'social', 'true');
             let parameter = {
               email: result.email,
               token: token,
@@ -160,7 +166,7 @@ class SocialLogin extends Component {
   // Login with GOOGLE process
   signIn = async () => {
     try {
-      const { accessToken, idToken } = await GoogleSignin.signIn();
+      const {accessToken, idToken} = await GoogleSignin.signIn();
       const googleCredential = auth.GoogleAuthProvider.credential(
         idToken,
         accessToken,
@@ -175,20 +181,20 @@ class SocialLogin extends Component {
   };
 
   getGoogleUser = async () => {
-    const { login } = this.props;
+    const {login} = this.props;
     let user = await GoogleSignin.getCurrentUser();
     console.log('=========', user);
-    this.setState({ googleInfo: user });
+    this.setState({googleInfo: user});
     if (this.props.page === 'Login') {
       try {
         let parameter = {
           email: user.user.email,
           token: user.idToken,
         };
-        this.setState({ isLoading: true });
+        this.setState({isLoading: true});
         Api.request(Routes.socialLogin, parameter, response => {
-          AsyncStorage.setItem(Helper.APP_NAME + 'social', true)
-          this.setState({ isLoading: false });
+          AsyncStorage.setItem(Helper.APP_NAME + 'social', true);
+          this.setState({isLoading: false});
           console.log('RESPONSE', response);
           if (response.data !== null) {
             let parameter = {
@@ -227,6 +233,66 @@ class SocialLogin extends Component {
 
   // ==========END=======================================
 
+  //login with apple
+  handleAppleLogin = () => {
+    console.log('=======', appleAuth.Operation);
+    appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.LOGIN,
+      requestedScopes: [
+        appleAuth.Scope.EMAIL,
+        appleAuth.Scope.FULL_NAME
+      ],
+    }).then(appleResponse => {
+      if(this.props.page === 'Login'){
+        try {
+          let parameter = {
+            email: appleResponse.email,
+            token: appleResponse.identityToken
+          };
+          this.setState({isLoading: true});
+          Api.request(Routes.socialLogin, parameter, response => {
+            AsyncStorage.setItem(Helper.APP_NAME + 'social', true);
+            this.setState({isLoading: false});
+            console.log('RESPONSE', response);
+            if (response.data !== null) {
+              let parameter = {
+                condition: [
+                  {
+                    value: appleResponse.identityToken,
+                    clause: '=',
+                    column: 'token',
+                  },
+                ],
+              };
+              Api.request(Routes.accountRetrieve, parameter, userInfo => {
+                console.log('INFO::', userInfo.data[0]);
+                this.props.retrieveUser(userInfo.data[0].id);
+                login(userInfo.data[0], appleResponse.identityToken);
+              });
+            }
+          });
+        } catch (e) {
+          console.log('[ERROR REQUEST]', e);
+        }
+      }else if(this.props.page === 'Register'){
+        let parameter = {
+          username: appleResponse.fullName.givenName,
+          email: appleResponse.email,
+          token: appleResponse.identityToken,
+          password: '',
+          config: null,
+          account_type: 'USER',
+          referral_code: null,
+          status: 'ADMIN',
+        };
+        this.props.socialRegister(parameter);
+      }
+      console.log('===========', response);
+    }).catch(e => {
+      console.log('========', e);
+    })
+  }
+
   render() {
     return (
       <View
@@ -235,8 +301,6 @@ class SocialLogin extends Component {
           {
             flex: 1,
             flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center'
           },
         ]}>
         {/* <View style={Style.TextContainer}> */}
@@ -249,7 +313,7 @@ class SocialLogin extends Component {
             alignItems: 'center',
             justifyContent: 'center',
             marginRight: 30,
-            borderRadius: 50
+            borderRadius: 50,
           }}
           onPress={() => this.loginWithFacebook()}>
           <FontAwesomeIcon
@@ -266,7 +330,7 @@ class SocialLogin extends Component {
             marginBottom: 20,
             alignItems: 'center',
             justifyContent: 'center',
-            borderRadius: 50
+            borderRadius: 50,
           }}
           onPress={() => this.signIn()}>
           <FontAwesomeIcon
@@ -275,6 +339,28 @@ class SocialLogin extends Component {
             icon={['fab', 'google-plus-g']}
           />
         </TouchableHighlight>
+        {
+          Platform.OS === 'ios' && (
+            <TouchableHighlight
+              style={{
+                backgroundColor: 'white',
+                width: 50,
+                height: 50,
+                marginBottom: 20,
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: 50,
+                marginLeft: 25,
+              }}
+              onPress={() => this.handleAppleLogin()}>
+              <FontAwesomeIcon
+                size={30}
+                color={Color.primary}
+                icon={['fab', 'apple']}
+              />
+            </TouchableHighlight>
+          )
+        }
         {/* <TouchableHighlight style={[BasicStyles.btnRound, { backgroundColor: 'white', width: 50 }]}>
           <FontAwesomeIcon size={30} color={Color.primary} icon={['fab', 'twitter']} />
         </TouchableHighlight> */}
@@ -285,10 +371,10 @@ class SocialLogin extends Component {
   }
 }
 
-const mapStateToProps = state => ({ state: state });
+const mapStateToProps = state => ({state: state});
 
 const mapDispatchToProps = dispatch => {
-  const { actions } = require('@redux');
+  const {actions} = require('@redux');
   return {
     login: (user, token) => dispatch(actions.login(user, token)),
   };

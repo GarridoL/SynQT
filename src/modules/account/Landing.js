@@ -6,7 +6,8 @@ import { View, Image, Text, TouchableHighlight, ScrollView, Linking } from 'reac
 import { Routes, Color, Helper, BasicStyles } from 'common';
 import LinearGradient from 'react-native-linear-gradient'
 import { Dimensions } from 'react-native';
-import Button from '../generic/Button.js'
+import Button from '../generic/Button.js';
+import dynamicLinks from '@react-native-firebase/dynamic-links';
 const width = Math.round(Dimensions.get('window').width);
 const height = Math.round(Dimensions.get('window').height);
 class Landing extends Component {
@@ -20,7 +21,6 @@ class Landing extends Component {
      * will be executed after going back to this component 
     */
     Linking.getInitialURL().then(url => {
-      console.log(`from initial url ${url}, call navigate`)
       this.navigate(url);
     });
     Linking.addEventListener('url', this.handleOpenURL);
@@ -43,16 +43,16 @@ class Landing extends Component {
   }
 
   navigate = (url) => { // E
-    const { navigate } = this.props.navigation;
-    if(url !== null){
-      const route = url.replace(/.*?:\/\//g, '');
-      const routeName = route.split('/')[0];
-      if (routeName === 'wearesynqt' && route.split('/')[1] === 'profile') {
-        // navigate('orderPlacedStack')
-        console.log('DEEP LINK ROUTE IS SET::::')
-        const {setDeepLinkRoute} = this.props;
-        setDeepLinkRoute(url);
-      };
+    if(url) {
+      let parameter = url?.split('?')[1];
+      const routeName = parameter?.split('%2F');
+      const params = routeName[routeName?.length - 1]?.split('-');
+      dynamicLinks().getInitialLink().then(link => {
+        if (link.url === 'https://wearesynqt/profile') {
+          const { setDeepLinkRoute } = this.props;
+          setDeepLinkRoute(params);
+        }
+      });
     }
   }
 
@@ -85,7 +85,7 @@ class Landing extends Component {
         colors={theme && theme.gradient !== undefined && theme.gradient !== null ? theme.gradient : Color.gradient}
         // colors={[theme ? theme.primary : Color.primary, theme ? theme.primary : Color.secondary, Color.primary]}
         locations={[0, 0.5, 1]} start={{ x: 2, y: 0 }} end={{ x: 1, y: 1 }}
-        style={{height: '100%'}}
+        style={{ height: '100%' }}
       >
         <ScrollView
           showsVerticalScrollIndicator={false}>
@@ -101,7 +101,7 @@ class Landing extends Component {
               justifyContent: 'center',
               marginTop: 100,
             }}>
-              <Image source={require('assets/new2.png')} style={{ width: '90%', height: '90%' }}/>
+              <Image source={require('assets/new2.png')} style={{ width: '90%', height: '90%' }} />
             </View>
             <View style={{
               width: '100%',
