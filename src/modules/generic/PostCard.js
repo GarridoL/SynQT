@@ -283,6 +283,7 @@ class PostCard extends Component {
                 onSubmitEditing={() => {this.props.postReply(comments); this.setState({reply: null})}}
                 onChangeText={(value) => this.replyHandler(value)}
                 placeholder={'Type reply here'}
+                placeholderTextColor={'#adadad'}
               />
             </View>
           )
