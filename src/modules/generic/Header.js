@@ -91,7 +91,7 @@ class Header extends Component {
                   onChangeText={text => this.searchHandler(text)}
                   value={this.state.search}
                   placeholder='Search...'
-                  placeholderTextColor={'#d1d1d1'}
+                  placeholderTextColor={'#adadad'}
                 />
               </View>
               <TouchableOpacity style={{
