@@ -29,6 +29,8 @@ import Style from 'modules/messenger/Style.js'
 import Group from 'modules/generic/PeopleList.js'
 import Settings from './Settings';
 import moment from 'moment';
+import { fcmService } from 'services/broadcasting/FCMService';
+import { localNotificationService } from 'services/broadcasting/LocalNotificationService';
 const DeviceHeight = Math.round(Dimensions.get('window').height);
 const DeviceWidth = Math.round(Dimensions.get('window').width);
 
@@ -81,6 +83,58 @@ class MessagesV3 extends Component {
     }
   }
 
+  broadcasting(data){
+    fcmService.registerAppWithFCM()
+    fcmService.register(this.onRegister, this.onNotification, this.onOpenNotification)
+    localNotificationService.configure(this.onOpenNotification, Helper.APP_NAME)
+    fcmService.subscribeTopic(data)
+    return () => {
+      console.log("[App] unRegister")
+      fcmService.unRegister()
+      localNotificationService.unRegister()
+    }
+  }
+
+  onRegister = (token) => {
+    console.log("[App] onRegister", token)
+  }
+
+  onOpenNotification = (notify) => {
+    // console.log("[App] onOpenNotification", notify)
+  }
+
+  onNotification = (notify) => {
+    const { user } = this.props.state;
+    // console.log("[App] onNotification", notify)
+    let data = null
+    if(user == null || !notify.data){
+      return
+    }
+    data = notify.data
+    let topic = data.topic.split('-')
+    switch(topic[0].toLowerCase()){
+      case 'messagegroup': {
+          const { messengerGroup } = this.props.state;
+          let members = JSON.parse(data.members)
+          console.log('members', members)
+          if(messengerGroup == null && members.indexOf(user.id) > -1){
+            console.log('[messengerGroup] on empty', data)
+            const { setUnReadMessages } = this.props;
+            setUnReadMessages(data)
+            return
+          }
+          if(parseInt(data.messenger_group_id) === messengerGroup.id && members.indexOf(user.id) > -1){
+            if(parseInt(data.account_id) != user.id){
+              const { updateMessagesOnGroup } = this.props;
+              updateMessagesOnGroup(data); 
+            }
+            return
+          }
+        }
+      break
+    }
+  }
+
   retrieveMembers = () => {
     const { offset, limit } = this.state;
     this.setState({ isLoading: true });
@@ -124,8 +178,8 @@ class MessagesV3 extends Component {
       offset: offset * limit,
     }
     Api.request(Routes.messengerMessagesRetrieve, parameter, response => {
-      console.log(parameter, response, '---------');
       this.setState({ isLoading: false, offset: offset + limit });
+      this.broadcasting(this.props.navigation.state.params.data.messenger_group_id);
       if (response.data.length > 0) {
         this.setState({ sender_id: response.data[0].account_id });
         this.setState({ request_id: response.data[0].id });
@@ -239,7 +293,6 @@ class MessagesV3 extends Component {
         item['last_messages'] = lastMessage;
       }
     })
-
     updateMessagesOnGroup(newMessageTemp);
     this.setState({ newMessage: null })
     Api.request(Routes.messengerMessagesCreate, parameter, response => {
@@ -254,7 +307,6 @@ class MessagesV3 extends Component {
     const { updateMessageByCode } = this.props;
 
     Api.request(Routes.mmCreateWithImageWithoutPayload, parameter, response => {
-      console.log(response, parameter, '------');
       if (response.data != null) {
         this.setState({ sending_flag: false })
         updateMessageByCode(response.data);
