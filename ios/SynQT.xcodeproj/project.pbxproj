@@ -11,8 +11,10 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		576ACF2D2A8540CE93400E33 /* libRNGoogleSignin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87605CA647BD4CBEB678C8C0 /* libRNGoogleSignin.a */; };
 		63136E9F2E9C16A50E39DAB2 /* libPods-SynQT-SynQTTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 971F75B7C99A6A5CA41B8878 /* libPods-SynQT-SynQTTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		B00C286627058B93003BB18A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B00C286527058B93003BB18A /* GoogleService-Info.plist */; };
 		B01ED65926DB906B0020CA3D /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01ED65826DB906B0020CA3D /* File.swift */; };
 		CFDD7FC958EB738881C50BD0 /* libPods-SynQT.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D080189E2B3738E3EDAED34 /* libPods-SynQT.a */; };
 /* End PBXBuildFile section */
@@ -24,6 +26,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
 			remoteInfo = SynQT;
+		};
+		B01B93262706B18B009EFFDE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA323500768045C1B85DA911 /* RNGoogleSignin.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9FD355121D3E4A2900D06170;
+			remoteInfo = RNGoogleSignin;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -42,13 +51,17 @@
 		6A03C7B230D46BE5B4D7C12C /* Pods-SynQT.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SynQT.debug.xcconfig"; path = "Target Support Files/Pods-SynQT/Pods-SynQT.debug.xcconfig"; sourceTree = "<group>"; };
 		6B82D9E204F0AF3B08575D2F /* Pods-SynQT-SynQTTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SynQT-SynQTTests.debug.xcconfig"; path = "Target Support Files/Pods-SynQT-SynQTTests/Pods-SynQT-SynQTTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = SynQT/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		87605CA647BD4CBEB678C8C0 /* libRNGoogleSignin.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGoogleSignin.a; sourceTree = "<group>"; };
 		971F75B7C99A6A5CA41B8878 /* libPods-SynQT-SynQTTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SynQT-SynQTTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B00C286527058B93003BB18A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B01B932B2706B33F009EFFDE /* google-signin */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "google-signin"; path = "../node_modules/@react-native-community/google-signin"; sourceTree = "<group>"; };
 		B01ED65726DB906A0020CA3D /* SynQT-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SynQT-Bridging-Header.h"; sourceTree = "<group>"; };
 		B01ED65826DB906B0020CA3D /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		B0AD02DE26FB2F400047C3DA /* SynQT.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = SynQT.entitlements; path = SynQT/SynQT.entitlements; sourceTree = "<group>"; };
 		B0ECC00B26DC7025005020C0 /* SynQT.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SynQT.entitlements; sourceTree = "<group>"; };
 		BB04EBBFED2D52D4CBAAEB30 /* Pods-SynQT.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SynQT.release.xcconfig"; path = "Target Support Files/Pods-SynQT/Pods-SynQT.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		FA323500768045C1B85DA911 /* RNGoogleSignin.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNGoogleSignin.xcodeproj; path = "../node_modules/@react-native-community/google-signin/ios/RNGoogleSignin.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +78,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CFDD7FC958EB738881C50BD0 /* libPods-SynQT.a in Frameworks */,
+				576ACF2D2A8540CE93400E33 /* libRNGoogleSignin.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,6 +105,7 @@
 		13B07FAE1A68108700A75B9A /* SynQT */ = {
 			isa = PBXGroup;
 			children = (
+				B00C286527058B93003BB18A /* GoogleService-Info.plist */,
 				B0AD02DE26FB2F400047C3DA /* SynQT.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -129,6 +144,8 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				B01B932B2706B33F009EFFDE /* google-signin */,
+				FA323500768045C1B85DA911 /* RNGoogleSignin.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -142,6 +159,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				42CEEA4B9756DF722261B4B1 /* Pods */,
+				B01B93222706B18B009EFFDE /* Recovered References */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -153,6 +171,22 @@
 			children = (
 				13B07F961A680F5B00A75B9A /* SynQT.app */,
 				00E356EE1AD99517003FC87E /* SynQTTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B01B93222706B18B009EFFDE /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				87605CA647BD4CBEB678C8C0 /* libRNGoogleSignin.a */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		B01B93232706B18B009EFFDE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B01B93272706B18B009EFFDE /* libRNGoogleSignin.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -232,6 +266,12 @@
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = B01B93232706B18B009EFFDE /* Products */;
+					ProjectRef = FA323500768045C1B85DA911 /* RNGoogleSignin.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* SynQT */,
@@ -239,6 +279,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		B01B93272706B18B009EFFDE /* libRNGoogleSignin.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNGoogleSignin.a;
+			remoteRef = B01B93262706B18B009EFFDE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		00E356EC1AD99517003FC87E /* Resources */ = {
@@ -254,6 +304,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				B00C286627058B93003BB18A /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -460,12 +511,20 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/@react-native-community/google-signin/ios/RNGoogleSignin",
+				);
 				INFOPLIST_FILE = SynQTTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -485,12 +544,20 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/@react-native-community/google-signin/ios/RNGoogleSignin",
+				);
 				INFOPLIST_FILE = SynQTTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -510,15 +577,19 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = SynQT/SynQT.entitlements;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = QZW8TLN78F;
 				ENABLE_BITCODE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/@react-native-community/google-signin/ios/RNGoogleSignin",
+				);
 				INFOPLIST_FILE = SynQT/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.7;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -540,14 +611,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = SynQT/SynQT.entitlements;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = QZW8TLN78F;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/@react-native-community/google-signin/ios/RNGoogleSignin",
+				);
 				INFOPLIST_FILE = SynQT/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.7;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
