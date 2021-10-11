@@ -2,6 +2,8 @@
 #
 .DS_Store
 
+synqt_src
+
 # Xcode
 #
 build/
