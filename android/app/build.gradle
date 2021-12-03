@@ -132,8 +132,8 @@ android {
         applicationId "com.synqt"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 38
-        versionName "3.8"
+        versionCode 40
+        versionName "4.0"
         missingDimensionStrategy 'react-native-camera', 'general'
         multiDexEnabled true
     }
